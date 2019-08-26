@@ -142,16 +142,16 @@ ReadA:
 		          ; add instructions here to do something when button IS pressed (1)
 
 	; sprite 1
-	LDA $0200       ; load sprite X position
+	LDA $0200       ; load sprite Y-1 position
 	CLC             ; make sure the carry flag is clear
 	ADC #$04        ; A = A + 1
-	STA $0200       ; save sprite X position
+	STA $0200       ; save sprite Y-1 position
 	
 	; sprite 2
-	LDA $0204       ; load sprite X position
+	LDA $0204       ; load sprite Y-1 position
 	CLC             ; make sure the carry flag is clear
 	ADC #$04        ; A = A + 1
-	STA $0204       ; save sprite X position
+	STA $0204       ; save sprite Y-1 position
 ReadADone:        ; handling this button is done
   
 
@@ -162,16 +162,16 @@ ReadB:
 		          ; add instructions here to do something when button IS pressed (1)
 	
 	; sprite 1
-	LDA $0200       ; load sprite X position
+	LDA $0200       ; load sprite Y-1 position
 	SEC             ; make sure carry flag is set
 	SBC #$04        ; A = A - 1
-	STA $0200       ; save sprite X position
+	STA $0200       ; save sprite Y-1 position
 	
 	; sprite 2
-	LDA $02044       ; load sprite X position
+	LDA $0204       ; load sprite 2 Y-1 position
 	SEC             ; make sure carry flag is set
 	SBC #$04        ; A = A - 1
-	STA $0204       ; save sprite X position
+	STA $0204       ; save sprite 2 Y-1 position
 	
 ReadBDone:        ; handling this button is done
 
