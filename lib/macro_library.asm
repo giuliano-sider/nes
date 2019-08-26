@@ -103,3 +103,85 @@ _i = 0
         DEY
         BNE @CopyLoop
 .ENDM
+
+; Stores 8 IsButtonPressed flags in the byte stored at result_addr, where the bits are:
+; 7 6 5      4     3  2    1    0
+; A B Select Start Up Down Left Right
+.MACRO PollJoypad_1 result_addr
+    ; strobe joypad 1 to begin the read process
+    LDA #1
+    STA JOYPAD_1
+    LDA #0
+    STA JOYPAD_1
+    STA result_addr ; result = 0
+
+    LDA JOYPAD_1 ; read A
+    LSR A
+    ROL result_addr
+    LDA JOYPAD_1 ; read B
+    LSR A
+    ROL result_addr
+    LDA JOYPAD_1 ; read Select
+    LSR A
+    ROL result_addr
+    LDA JOYPAD_1 ; read Start
+    LSR A
+    ROL result_addr
+    LDA JOYPAD_1 ; read Up
+    LSR A
+    ROL result_addr
+    LDA JOYPAD_1 ; read Down
+    LSR A
+    ROL result_addr
+    LDA JOYPAD_1 ; read Left
+    LSR A
+    ROL result_addr
+    LDA JOYPAD_1 ; read Right
+    LSR A
+    ROL result_addr
+.ENDM
+
+.MACRO HandleControllerInput joypad_keypress_flags, A_handler, B_handler, Select_handler, Start_handler, Up_handler, Down_handler, Left_handler, Right_handler
+
+    @Check_A:
+        LDA #JOYPAD_A_PRESSED
+        BIT joypad_keypress_flags
+        BEQ @Check_B
+        JSR A_handler
+    @Check_B:
+        LDA #JOYPAD_B_PRESSED
+        BIT joypad_keypress_flags
+        BEQ @Check_Select
+        JSR B_handler
+    @Check_Select:
+        LDA #JOYPAD_SELECT_PRESSED
+        BIT joypad_keypress_flags
+        BEQ @Check_Start
+        JSR Select_handler
+    @Check_Start:
+        LDA #JOYPAD_START_PRESSED
+        BIT joypad_keypress_flags
+        BEQ @Check_Up
+        JSR Start_handler
+    @Check_Up:
+        LDA #JOYPAD_UP_PRESSED
+        BIT joypad_keypress_flags
+        BEQ @Check_Down
+        JSR Up_handler
+    @Check_Down:
+        LDA #JOYPAD_DOWN_PRESSED
+        BIT joypad_keypress_flags
+        BEQ @Check_Left
+        JSR Down_handler
+    @Check_Left:
+        LDA #JOYPAD_LEFT_PRESSED
+        BIT joypad_keypress_flags
+        BEQ @Check_Right
+        JSR Left_handler
+    @Check_Right:
+        LDA #JOYPAD_RIGHT_PRESSED
+        BIT joypad_keypress_flags
+        BEQ @DoneChecking
+        JSR Right_handler
+    @DoneChecking:
+.ENDM
