@@ -43,18 +43,36 @@ MIRRORING = %0001 ;%0000 = horizontal, %0001 = vertical, %1000 = four-screen
    .base $10000-(PRG_COUNT*$4000)
 
 Reset:
+  jmp Start_Beep
+Stop_Beep:
+  lda #%00000000  ;enable Sq1, Sq2 and Tri channels
+  sta $4015
+  jmp Done
+Start_Beep:
+  lda #%00000001  ;enable Sq1, Sq2 and Tri channels
+  sta $4015
+  lda #%00011000  ;Duty 00, Allow Length Counter, Volume 8 (half volume)
+  sta $4000
+  lda #$C9        ;$0C9 is a C# in NTSC mode
+  sta $4002       ;low 8 bits of period
+  lda #$20
+  sta $4003       ;high 3 bits of period
+  ldy #$00
+Tick:
+  ldx #$00
+Resume_Beep:
+  inx
+  cpx #$ff
+  bne Resume_Beep
+Increment_Y:
+  iny
+  cpy #$55
+  bne Tick
+  jmp Stop_Beep
+Done:
 
-   ;NOTE: initialization code goes here
-lda #%00000001
-sta $4015 ;enable square 1
 
-lda #%10111111 ;Duty 10, Volume F
-sta $4000
 
-lda #$C9    ;0C9 is a C# in NTSC mode
-sta $4002
-lda #$00
-sta $4003
 
 NMI:
 
