@@ -5,6 +5,8 @@
 PRG_COUNT = 1 ;1 = 16KB, 2 = 32KB
 MIRRORING = %0001 ;%0000 = horizontal, %0001 = vertical, %1000 = four-screen
 
+DAMAGE = 1
+
 ;----------------------------------------------------------------
 ; variables
 ;----------------------------------------------------------------
@@ -14,7 +16,8 @@ MIRRORING = %0001 ;%0000 = horizontal, %0001 = vertical, %1000 = four-screen
    ;NOTE: declare variables using the DSB and DSW directives, like this:
 
    buttons .dsb 0
-   ;MyVariable1 .dsb 3
+   health .dsb 1, 3 ; health starts with 3
+   ;MyVariable1 .dsb
 
    .ende
 
@@ -72,7 +75,7 @@ clrmem:
 	STA $0300, x
 	INX
 	BNE clrmem
-   
+
 vblankwait2:      ; Second wait for vblank, PPU is ready after this
 	BIT $2002
 	BPL vblankwait2
@@ -105,11 +108,11 @@ LoadSpritesLoop:
 	LDA sprites, x        ; load data from address (sprites +  x)
 	STA $0200, x          ; store into RAM address ($0200 + x)
 	INX                   ; X = X + 1
-	CPX #$114              ; Compare X to hex $114, decimal 276 
+	CPX #$114              ; Compare X to hex $114, decimal 276
 	BNE LoadSpritesLoop   ; Branch to LoadSpritesLoop if compare was Not Equal to zero
 		                ; if compare was equal to 32, keep going down
-		      
-		      
+
+
 
 	LDA #%10000000   ; enable NMI, sprites from Pattern Table 1
 	STA $2000
@@ -134,7 +137,7 @@ LatchController:
 	STA $4016       ; tell both the controllers to latch buttons
 
 
-ReadKeys: 
+ReadKeys:
 	JSR ReadController
 
 GameEngine:
@@ -142,7 +145,7 @@ GameEngine:
 EngineTitle:
 	; to be written
 EngineGameOver:
-	; to be written 
+	; to be written
 
 EnginePlay:
 HandleButtons:
@@ -164,10 +167,10 @@ HandleButtons:
 
 	CMP #$10				; START button was pressed
 	;BEQ StartPressed
-	
+
 	CMP #$20				; SELECT button was pressed
 	;BEQ SelectPressed
-	
+
 	CMP #$40				; B button was pressed
 	;BEQ BPressed
 
@@ -176,10 +179,10 @@ HandleButtons:
 
 HandleButtonsDone:
 
-  
+
 	RTI             	; return from interrupt
- 
-;;;;;;;;;;;;;;  
+
+;;;;;;;;;;;;;;
 
 
 ReadController:
@@ -273,8 +276,61 @@ BPressed:
 	; to be implemented
 APressed:
 	; to be implemented
-  
-  
+
+
+  ;;;;;;;;;;;;;;;;;;; Beep Engine ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Start_Beep:
+  PHP
+  PHA
+
+  LDA #%00000001  ;enable Sq1, Sq2 and Tri channels
+  STA $4015
+  LDA #%00011000  ;Duty 00, Allow Length Counter, Volume 8 (half volume)
+  STA $4000
+  LDA #$C9        ;$0C9 is a C# in NTSC mode
+  STA $4002       ;low 8 bits of period
+  LDA #$20
+  STA $4003       ;high 3 bits of period
+  LDY #$00
+Start_Tick:
+  LDX #$00
+Resume_Tick:
+  INX
+  CPX #$ff
+  BNE Resume_Tick
+Increment_Y:
+  INY
+  CPY #$10
+  BNE Start_Tick
+Stop_Beep:
+  LDA #%00000000  ;enable Sq1, Sq2 and Tri channels
+  STA $4015
+  JMP Done_Beep
+Done_Beep:
+  PLA
+  PLP
+  RTS
+;;;;;;;;;;;;;;;;;;; End Beep Engine ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;; Health Point Engine ;;;;;;;;;;;;;;;;;;;;;;;;
+Create_Damage:
+  PHP
+  PHA
+
+  SEC         ; clear carry
+  LDA health
+  SBC DAMAGE
+
+  CMP #$00
+  BEQ Start_Beep
+  STA health
+
+  PLA
+  PLP
+  RTS
+;;; End of Health Point Engine ;;;;;;;;;;;;;;;;;;;;
+
+
 	;.bank 1
 	.org $E000
 palette:
@@ -291,20 +347,20 @@ sprites:
 	.db $74, $11, $00, $78   ;sprite 5
 	.db $74, $12, $00, $80   ;sprite 6
 
-	
-	
+
+
 
 	.org $FFFA     ;first of the three vectors starts here
-	.dw NMI        ;when an NMI happens (once per frame if enabled) the 
+	.dw NMI        ;when an NMI happens (once per frame if enabled) the
 		           ;processor will jump to the label NMI:
 	.dw Reset      ;when the processor first turns on or is reset, it will jump
 		           ;to the label RESET:
 	.dw 0          ;external interrupt IRQ is not used in this tutorial
-  
-  
-;;;;;;;;;;;;;;  
-  
-  
+
+
+;;;;;;;;;;;;;;
+
+
 	;.bank 2
 	;.org $0000
 	.incbin "cockroachGame.chr"   ;includes 8KB graphics file from SMB1

@@ -129,6 +129,10 @@ MIN_Y_COORD = 10
 MAX_X_COORD = 240
 MAX_Y_COORD = 230
 
+; Health Variables
+START_HEALTH = 3
+DAMAGE_POINT = 1
+
 ; ------------------------------------------------------------------------------
 
 
@@ -399,6 +403,11 @@ Done_Beep:
     PLP
     RTS
 ;;;;;;;;;;;;;;;;;;; End Beep Engine ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;; Health Point Engine ;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;; End of Health Point Engine ;;;;;;;;;;;;;;;;;;;;
 
 NMI:
 
