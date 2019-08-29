@@ -185,3 +185,109 @@ _i = 0
         JSR Right_handler
     @DoneChecking:
 .ENDM
+
+; initializes the stack pointer to an immediate value given by stack_value.
+; clobbers X.
+.MACRO SetUpStack stack_value
+    LDX #(stack_value)
+    TXS
+.ENDM
+
+.MACRO DisableIrq
+    SEI
+.ENDM
+
+.MACRO ClearDecimalMode
+    CLD
+.ENDM
+
+; Wait for the PPU to stabilize after reset by waiting for 2 Vblank periods,
+; which is done by polling the Vblank flag in PPUSTATUS.
+; NOTE: according to https://wiki.nesdev.com/w/index.php/PPU_power_up_state
+; polling the PPUSTATUS in this Reset scenario is safe, and might only
+; delay bootup by a few frames.
+.MACRO WaitForPpuToStabilizeAfterReset
+    BIT PPUSTATUS ; For safety, read PPUSTATUS to clear the Vblank flag
+
+    ; First wait for Vblank to make sure PPU is ready.
+    @VBlankWait1:        ; do ...
+        BIT PPUSTATUS 
+        BPL @VBlankWait1 ; ... while (PPUSTATUS.IsVblank == false)
+
+    ; Second wait for Vblank; PPU should be ready after this.
+    @VBlankWait2:        ; do ...
+        BIT PPUSTATUS
+        BPL @VBlankWait2 ; ... while (PPUSTATUS.IsVblank == false)
+.ENDM
+
+.MACRO SaveRegisters
+    PHP
+    PHA
+    TXA
+    PHA
+    PYA
+    PHA
+.ENDM
+
+.MACRO RestoreRegisters
+    PLA
+    TAY
+    PLA
+    TAX
+    PLA
+    PLP
+.ENDM
+
+; transfers contents of the entire page of RAM at addr to OAM.
+; clobbers A.
+.MACRO TransferPageToOamSpriteMemory addr
+    LDA #0
+    STA OAMADDR
+    LDA #>(addr) ; transfer contents of page to OAM
+    STA OAMDMA ; begin transfer to OAM
+.ENDM
+
+; subtracts 2 unsigned integers with saturation at min_allowed_value.
+; result = max(a - b, min_allowed_value)
+; A is clobbered and the result is stored there.
+; Carry = 0 if and only if there is saturation at min_allowed_value.
+.MACRO Uint8_SubtractWithSaturation a, b, min_allowed_value
+    LDA a
+    SEC
+    SBC b
+    BCC @Saturated ; if a < b, result = min_allowed_value
+    CMP min_allowed_value
+    BCS @Done ; if a - b < min_allowed_value, result = min_allowed_value
+@Saturated:
+    LDA min_allowed_value
+@Done:
+
+.ENDM
+
+; adds 2 unsigned integers with saturation at max_allowed_value.
+; result = min(a + b, max_allowed_value)
+; A is clobbered and the result is stored there.
+; Carry = 1 if and only if there is saturation at max_allowed_value.
+.MACRO Uint8_AddWithSaturation a, b, max_allowed_value
+    LDA a
+    CLC
+    ADC b
+    BCS @Saturated ; if a + b > 255, result = max_allowed_value
+    CMP max_allowed_value
+    BCC @Done ; if a + b > max_allowed_value, result = max_allowed_value
+@Saturated:
+    LDA max_allowed_value
+@Done:
+
+.ENDM
+
+; stores the 2 bytes of an address value, addr, 
+; at the memory location given by where_to_store.
+; clobbers A.
+.MACRO StoreAddress where_to_store, addr
+    LDA #(<addr)
+    STA where_to_store + 0
+    LDA #(>addr)
+    STA where_to_store + 1
+.ENDM
+
