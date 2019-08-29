@@ -135,13 +135,13 @@ MAX_Y_COORD = 230
 ; ------------------------------------------------------------------------------
 ; iNES header
 ; ------------------------------------------------------------------------------
-    .INESPRG NUM_PRG_ROM_BANKS 
+    .INESPRG NUM_PRG_ROM_BANKS
 
     .INESCHR NUM_CHR_ROM_BANKS
 
     .INESMAP NROM_MAPPER
 
-    .INESMIR VERTICAL_MIRRORING 
+    .INESMIR VERTICAL_MIRRORING
 ; ------------------------------------------------------------------------------
 
 
@@ -150,7 +150,7 @@ MAX_Y_COORD = 230
 ;----------------------------------------------------------------
 
 ; Zero-page workspace variables
-.ENUM $0000 
+.ENUM $0000
 
     ; TODO: Declare variables:
 
@@ -159,18 +159,18 @@ MAX_Y_COORD = 230
     ; global variables
 
     joypad_1_keypress_flags: ; written by the NMI polling code
-        .DSB 1 
+        .DSB 1
 
 .ENDE
 
 ; Stack page
-.ENUM $0100 
-    ; TODO: (optionally) Declare variables for background tile attributes to be copied to 
+.ENUM $0100
+    ; TODO: (optionally) Declare variables for background tile attributes to be copied to
     ; the nametable/attribute table during Vblank using "pop slide".
 .ENDE
 
 ; OAM DMA transfer page: sprite attributes to be copied to OAM during Vblank.
-.ENUM $0200 
+.ENUM $0200
     ; y - 1, tile index, sprite flags, x - 1
     main_character_sprite_y:
         .DSB 1
@@ -210,7 +210,7 @@ Reset:
     STX PPUCTRL ; disable Vblank NMI
     STX PPUMASK ; disable PPU rendering
     STX DMC_0 ; disable DMC IRQs
-    
+
     LDX #APU_FRAME_IRQ_DISABLE
     STX APU_FRAME_COUNTER
 
@@ -225,7 +225,7 @@ Reset:
 
     ; First wait for Vblank to make sure PPU is ready.
     @VBlankWait1:        ; do ...
-        BIT PPUSTATUS 
+        BIT PPUSTATUS
         BPL @VBlankWait1 ; ... while (PPUSTATUS.IsVblank == false)
 
     ; Second wait for Vblank; PPU should be ready after this.
@@ -234,13 +234,13 @@ Reset:
         BPL @VBlankWait2 ; ... while (PPUSTATUS.IsVblank == false)
 
     ; fill palette
-    
-    PpuMemcpy BACKGROUND_PALETTE_0, PlainBackgroundPalette, 4
-    PpuMemcpy SPRITE_PALETTE_0, MainCharacterRegularPalette, 4    
 
-    ; Load background tile in nametables 
+    PpuMemcpy BACKGROUND_PALETTE_0, PlainBackgroundPalette, 4
+    PpuMemcpy SPRITE_PALETTE_0, MainCharacterRegularPalette, 4
+
+    ; Load background tile in nametables
     ; and plain background palette in attribute tables
-    
+
     PpuMemset NAMETABLE_0 + 0*256, PLAIN_BACKGROUND_TILE, 256
     PpuMemset NAMETABLE_0 + 1*256, PLAIN_BACKGROUND_TILE, 256
     PpuMemset NAMETABLE_0 + 2*256, PLAIN_BACKGROUND_TILE, 256
@@ -248,7 +248,7 @@ Reset:
     PpuMemset ATTRIBUTE_TABLE_0, PLAIN_BACKGROUND_PALETTE, 64
 
     ; fill OAM DMA transfer page and transfer to OAM
-    
+
     Memset main_character_sprite_y, MAIN_CHARACTER_Y_0 - 1, 1
     Memset main_character_sprite_tile, MAIN_CHARACTER_TILE, 1
     Memset main_character_sprite_attributes, MAIN_CHARACTER_REGULAR_PALETTE, 1
@@ -270,7 +270,7 @@ Reset:
     STA PPUMASK
 
 Main:
-    
+
     ; TODO: consider updating Sprite OAM here based on input polled from NMI.
 
 WaitForFrameNMI:
@@ -319,6 +319,7 @@ Handle_Down_keypress:
     JMP @Done
 @HitBorder: ; from this border ye shall not pass
     SBC #MAIN_CHARACTER_DELTA_Y
+    JSR Start_Beep
 @Done:
     STA main_character_sprite_y
     PLA
@@ -365,6 +366,40 @@ Handle_Right_keypress:
     PLP
     RTS
 
+;;;;;;;;;;;;;;;;;;; Beep Engine ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Start_Beep:
+    PHP
+    PHA
+
+    LDA #%00000001  ;enable Sq1, Sq2 and Tri channels
+    STA $4015
+    LDA #%00011000  ;Duty 00, Allow Length Counter, Volume 8 (half volume)
+    STA $4000
+    LDA #$C9        ;$0C9 is a C# in NTSC mode
+    STA $4002       ;low 8 bits of period
+    LDA #$20
+    STA $4003       ;high 3 bits of period
+    LDY #$00
+Start_Tick:
+    LDX #$00
+Resume_Tick:
+    INX
+    CPX #$ff
+    BNE Resume_Tick
+Increment_Y:
+    INY
+    CPY #$10
+    BNE Start_Tick
+Stop_Beep:
+    LDA #%00000000  ;enable Sq1, Sq2 and Tri channels
+    STA $4015
+    JMP Done_Beep
+Done_Beep:
+    PLA
+    PLP
+    RTS
+;;;;;;;;;;;;;;;;;;; End Beep Engine ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 NMI:
 
     ; TODO: NMI code goes here.
@@ -410,7 +445,7 @@ InitialBackgroundPalettes:
 
 InitialSpritePalettes:
     MainCharacterRegularPalette:
-        ;                     eyes,    nose/neck,  mouth      
+        ;                     eyes,    nose/neck,  mouth
         .DB BACKGROUND_COLOR, NES_RED, NES_YELLOW, NES_GREEN
 
     .DSB 4, BACKGROUND_COLOR ; unused
