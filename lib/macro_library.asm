@@ -253,7 +253,8 @@ _i = 0
 ; subtracts 2 unsigned integers with saturation at min_allowed_value.
 ; result = max(a - b, min_allowed_value)
 ; A is clobbered and the result is stored there.
-; Carry = 0 if and only if there is saturation at min_allowed_value.
+; Carry = 0 if and only if there is saturation (the subtraction actually goes under the minimum) at min_allowed_value.
+; arguments can be memory locations or immediate values.
 .MACRO Uint8_SubtractWithSaturation a, b, min_allowed_value
     LDA a
     SEC
@@ -267,25 +268,69 @@ _i = 0
 
 .ENDM
 
+; subtracts an unsigned integers from the accumulator with saturation at min_allowed_value.
+; result = max(A - b, min_allowed_value)
+; A is clobbered and the result is stored there.
+; Carry = 0 if and only if there is saturation (the subtraction actually goes under the minimum)  at min_allowed_value.
+; arguments can be memory locations or immediate values.
+.MACRO Uint8_SubtractFromAccumulatorWithSaturation b, min_allowed_value
+    SEC
+    SBC b
+    BCC @Saturated ; if A < b, result = min_allowed_value
+    CMP min_allowed_value
+    BCS @Done ; if A - b < min_allowed_value, result = min_allowed_value
+@Saturated:
+    LDA min_allowed_value
+@Done:
+
+.ENDM
+
 ; adds 2 unsigned integers with saturation at max_allowed_value.
 ; result = min(a + b, max_allowed_value)
 ; A is clobbered and the result is stored there.
-; Carry = 1 if and only if there is saturation at max_allowed_value.
+; Carry = 1 if and only if there is saturation (the sum actually goes above the maximum) at max_allowed_value.
+; arguments can be memory locations or immediate values.
 .MACRO Uint8_AddWithSaturation a, b, max_allowed_value
     LDA a
     CLC
     ADC b
     BCS @Saturated ; if a + b > 255, result = max_allowed_value
     CMP max_allowed_value
-    BCC @Done ; if a + b > max_allowed_value, result = max_allowed_value
+    BCC @Done ; if a + b >= max_allowed_value, result = max_allowed_value
+    BEQ @EqualIsntConsideredSaturation
 @Saturated:
     LDA max_allowed_value
+    JMP @Done
+@EqualIsntConsideredSaturation:
+    CLC
+@Done:
+
+.ENDM
+
+; adds an unsigned integer to the accumulator with saturation at max_allowed_value.
+; result = min(A + b, max_allowed_value)
+; A is clobbered and the result is stored there.
+; Carry = 1 if and only if there is saturation (the sum actually goes above the maximum)  at max_allowed_value.
+; arguments can be memory locations or immediate values.
+.MACRO Uint8_AddToAccumulatorWithSaturation b, max_allowed_value
+    CLC
+    ADC b
+    BCS @Saturated ; if A + b > 255, result = max_allowed_value
+    CMP max_allowed_value
+    BCC @Done ; if A + b >= max_allowed_value, result = max_allowed_value
+    BEQ @EqualIsntConsideredSaturation
+@Saturated:
+    LDA max_allowed_value
+    JMP @Done
+@EqualIsntConsideredSaturation:
+    CLC
 @Done:
 
 .ENDM
 
 ; stores the 2 bytes of an address value, addr, 
 ; at the memory location given by where_to_store.
+; the low byte is stored at offset 0, and the high byte at offset 1.
 ; clobbers A.
 .MACRO StoreAddress where_to_store, addr
     LDA #(<addr)
@@ -294,3 +339,8 @@ _i = 0
     STA where_to_store + 1
 .ENDM
 
+.MACRO NegateAccumulator
+    EOR $FF
+    SEC
+    ADC #0
+.ENDM
