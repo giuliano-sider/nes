@@ -186,7 +186,7 @@ ENDING_PAGE_OF_FLYING_OBJECT_SPAWN_SEQUENCE = >(STATIC_FLYING_OBJECT_DATA_ADDR +
 
 
 ; upper left corner of lifebar
-; TODO: verify strange behavior: the larger the initial column, the 
+; TODO: verify strange behavior: the larger the initial column, the
 ; more garbage is printed on the right side of the screen.
 LIFEBAR_X_COORD = 16
 LIFEBAR_Y_COORD = 16
@@ -200,13 +200,13 @@ LIFEBAR_NAMETABLE_ADDR = (NAMETABLE_0 + $20 * (LIFEBAR_Y_COORD / 8) + (LIFEBAR_X
 ; ------------------------------------------------------------------------------
 ; iNES header
 ; ------------------------------------------------------------------------------
-    .INESPRG NUM_PRG_ROM_BANKS 
+    .INESPRG NUM_PRG_ROM_BANKS
 
     .INESCHR NUM_CHR_ROM_BANKS
 
     .INESMAP NROM_MAPPER
 
-    .INESMIR VERTICAL_MIRRORING 
+    .INESMIR VERTICAL_MIRRORING
 ; ------------------------------------------------------------------------------
 
 
@@ -215,7 +215,7 @@ LIFEBAR_NAMETABLE_ADDR = (NAMETABLE_0 + $20 * (LIFEBAR_Y_COORD / 8) + (LIFEBAR_X
 ;----------------------------------------------------------------
 
 ; Zero-page workspace variables
-.ENUM $0000 
+.ENUM $0000
 
     ; workspace/scratch variables and static frames
 
@@ -254,7 +254,7 @@ LIFEBAR_NAMETABLE_ADDR = (NAMETABLE_0 + $20 * (LIFEBAR_Y_COORD / 8) + (LIFEBAR_X
     joypad_1_keypress_flags:
         .DSB 1
 
-    ; cleared after reset and after UpdateGameState finishes its work. 
+    ; cleared after reset and after UpdateGameState finishes its work.
     ; Main waits for NMI frame handler to set it again.
     time_to_update_game_state:
         .DSB 1
@@ -262,7 +262,7 @@ LIFEBAR_NAMETABLE_ADDR = (NAMETABLE_0 + $20 * (LIFEBAR_Y_COORD / 8) + (LIFEBAR_X
     ; cleared after NMI frame handler finishes its work.
     ; NMI will not run again until Main finishes its work by setting it.
     time_to_render:
-        .DSB 1 
+        .DSB 1
 
     ; game model variables
 
@@ -298,7 +298,7 @@ LIFEBAR_NAMETABLE_ADDR = (NAMETABLE_0 + $20 * (LIFEBAR_Y_COORD / 8) + (LIFEBAR_X
 .ENDE
 
 ; Stack page
-.ENUM $0100 
+.ENUM $0100
 
 .ENDE
 
@@ -313,7 +313,7 @@ OAM_DMA_TransferPage:
     flying_object_sprite_attributes:
         ; y - 1, tile index, sprite attribute flags, x - 1
         .DSB (NUM_POWERUP_TILES*MAX_POWERUPS_ON_SCREEN + NUM_METEOR_TILES*MAX_METEORS_ON_SCREEN) * 4
-    
+
     .IF $ >= $0300
         .ERROR "sprite attributes must fit on page 2 for DMA transfer to OAM"
     .ENDIF
@@ -346,7 +346,7 @@ Reset:
     STX PPUCTRL ; disable Vblank NMI
     STX PPUMASK ; disable PPU rendering
     STX DMC_0 ; disable DMC IRQs
-    
+
     LDX #APU_FRAME_IRQ_DISABLE
     STX APU_FRAME_COUNTER
 
@@ -361,9 +361,9 @@ Reset:
     ; fill all the palettes
     PpuMemcpy BACKGROUND_PALETTE_0, InitialPaletteData, 32
 
-    ; Load background tile in nametables 
+    ; Load background tile in nametables
     ; and plain background palette in attribute tables
-    
+
     PpuMemset NAMETABLE_0 + 0*256, PLAIN_BACKGROUND_PATTERN_TABLE_INDEX, 256
     PpuMemset NAMETABLE_0 + 1*256, PLAIN_BACKGROUND_PATTERN_TABLE_INDEX, 256
     PpuMemset NAMETABLE_0 + 2*256, PLAIN_BACKGROUND_PATTERN_TABLE_INDEX, 256
@@ -371,7 +371,7 @@ Reset:
     PpuMemset ATTRIBUTE_TABLE_0, PLAIN_BACKGROUND_PALETTE_INDEX, 64
 
     ; fill OAM DMA transfer page with invisible sprites for now and transfer to OAM.
-    
+
     Memset OAM_DMA_TransferPage, $FF, 256
     TransferPageToOamSpriteMemory OAM_DMA_TransferPage
 
@@ -389,7 +389,7 @@ Reset:
     STA time_to_render ; Reset's work is finished: NMI frame renderer may now proceed.
 
 Main:
-    
+
     LDA time_to_update_game_state
     BEQ Main ; while (time_to_update_game_state == false), Main has nothing to do.
 
@@ -397,7 +397,7 @@ Main:
 
     LDA #1
     STA time_to_render ; Main's work is finished: NMI frame renderer may now proceed.
-    
+
     JMP Main
 
 InitGameState:
@@ -640,7 +640,7 @@ CheckCollisions:
     ; BEQ game_over
     RTS
 
-; initializes the "shadow OAM" page based on game state since 
+; initializes the "shadow OAM" page based on game state since
 ; we don't have time for that during Vblank.
 PopulateShadowOAMWithSpriteData:
     SaveRegisters
@@ -702,7 +702,7 @@ PopulateShadowOAMWithSpriteData:
 ; not reentrant.
 WriteSprite:
     SaveRegisters
-    
+
     LDY #0 ; Y is the index into the tile info array
     LDA (WriteSprite_param_tile_info_addr), Y ; load num_tiles_x
     STA WriteSprite_local_var_num_tiles_x
@@ -733,7 +733,7 @@ WriteSprite:
 
     ; write tile in row i, col j of sprite to shadow OAM page
     LDX WriteSprite_non_const_param_write_offset ; X is the index into the shadow OAM page
-    
+
     LDA WriteSprite_local_var_y
     SEC
     SBC #1
@@ -750,7 +750,7 @@ WriteSprite:
     INX
 
     LDA WriteSprite_local_var_x
-    SEC 
+    SEC
     SBC #1
     STA OAM_DMA_TransferPage, X ; write x - 1 to shadow OAM
     INX
@@ -789,7 +789,7 @@ Handle_Start_keypress:
 Handle_Up_keypress:
     SaveRegisters
 
-    Uint8_SubtractWithSaturation main_character_y, #(MAIN_CHARACTER_DELTA_Y), #(MAIN_CHARACTER_MIN_Y)
+    Uint8_SubtractWithSaturation main_character_y, #(MAIN_CHARACTER_DELTA_Y), #(MAIN_CHARACTER_MIN_Y), Start_Beep
     STA main_character_y
 
     RestoreRegisters
@@ -798,7 +798,7 @@ Handle_Up_keypress:
 Handle_Down_keypress:
     SaveRegisters
 
-    Uint8_AddWithSaturation main_character_y, #(MAIN_CHARACTER_DELTA_Y), #(MAIN_CHARACTER_MAX_Y)
+    Uint8_AddWithSaturation main_character_y, #(MAIN_CHARACTER_DELTA_Y), #(MAIN_CHARACTER_MAX_Y), Start_Beep
     STA main_character_y
 
     RestoreRegisters
@@ -807,7 +807,7 @@ Handle_Down_keypress:
 Handle_Left_keypress:
     SaveRegisters
 
-    Uint8_SubtractWithSaturation main_character_x, #(MAIN_CHARACTER_DELTA_X), #(MAIN_CHARACTER_MIN_X)
+    Uint8_SubtractWithSaturation main_character_x, #(MAIN_CHARACTER_DELTA_X), #(MAIN_CHARACTER_MIN_X), Start_Beep
     STA main_character_x
 
     RestoreRegisters
@@ -816,7 +816,7 @@ Handle_Left_keypress:
 Handle_Right_keypress:
     SaveRegisters
 
-    Uint8_AddWithSaturation main_character_x, #(MAIN_CHARACTER_DELTA_X), #(MAIN_CHARACTER_MAX_X)
+    Uint8_AddWithSaturation main_character_x, #(MAIN_CHARACTER_DELTA_X), #(MAIN_CHARACTER_MAX_X), Start_Beep
     STA main_character_x
 
     RestoreRegisters
@@ -854,6 +854,39 @@ RenderLifeBar:
     RestoreRegisters
     RTS
 
+    ;;;;;;;;;;;;;;;;;;; Beep Engine ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Start_Beep:
+    PHP
+    PHA
+
+    LDA #%00000001  ;enable Sq1, Sq2 and Tri channels
+    STA $4015
+    LDA #%00011000  ;Duty 00, Allow Length Counter, Volume 8 (half volume)
+    STA $4000
+    LDA #$C9        ;$0C9 is a C# in NTSC mode
+    STA $4002       ;low 8 bits of period
+    LDA #$20
+    STA $4003       ;high 3 bits of period
+    LDY #$00
+Start_Tick:
+    LDX #$00
+Resume_Tick:
+    INX
+    CPX #$ff
+    BNE Resume_Tick
+Increment_Y:
+    INY
+    CPY #$10
+    BNE Start_Tick
+Stop_Beep:
+    LDA #%00000000  ;enable Sq1, Sq2 and Tri channels
+    STA $4015
+    JMP Done_Beep
+Done_Beep:
+    PLA
+    PLP
+    RTS
+
 NMI:
     SaveRegisters
 
@@ -875,7 +908,7 @@ NMI:
     PollJoypad_1 joypad_1_keypress_flags
 
     LDA #1
-    STA time_to_update_game_state 
+    STA time_to_update_game_state
 
 @Done:
     RestoreRegisters
@@ -920,7 +953,7 @@ NUM_MAIN_CHARACTER_Y_TILES = 2
 MAIN_CHARACTER_Y_LENGTH = (NUM_MAIN_CHARACTER_Y_TILES * 8)
 NUM_MAIN_CHARACTER_TILES = NUM_MAIN_CHARACTER_X_TILES * NUM_MAIN_CHARACTER_Y_TILES
 MainCharacterTileInfo:
-MainCharacterSpriteDimensions: 
+MainCharacterSpriteDimensions:
     .DB NUM_MAIN_CHARACTER_X_TILES, NUM_MAIN_CHARACTER_Y_TILES
 MainCharacterTileIndices:
     .DB $00, $01, $02
