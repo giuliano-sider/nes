@@ -321,7 +321,22 @@ OAM_DMA_TransferPage:
 
 ; Rest of RAM: [$0300, $0800)
 .ENUM $0300
-
+    CheckCollision_local_var_l1_x:
+        .DSB 1
+    CheckCollision_local_var_l1_y:
+        .DSB 1
+    CheckCollision_local_var_r1_x:
+        .DSB 1
+    CheckCollision_local_var_r1_y:
+        .DSB 1
+    CheckCollision_local_var_l2_x:
+        .DSB 1
+    CheckCollision_local_var_l2_y:
+        .DSB 1
+    CheckCollision_local_var_r2_x:
+        .DSB 1
+    CheckCollision_local_var_r2_y:
+        .DSB 1
 .ENDE
 
 ;----------------------------------------------------------------
@@ -630,7 +645,7 @@ SpawnFlyingObject:
     RTS
 
 
-CheckCollisions:
+;CheckCollisions:
     ;LDA #MAIN_CHARACTER_X_LENGTH
     ;CLC
     ;ADC main_character_x
@@ -638,7 +653,148 @@ CheckCollisions:
     ;SBC check_meteor_x
     ; CMP $0
     ; BEQ game_over
+;    RTS
+
+
+CheckCollisions:
+    SaveRegisters
+
+    LDX #0 ; X is the offset into the flying objects array
+@ForEachFlyingObjectOnScreen:
+    CPX #(SIZEOF_FLYING_OBJECTS_ON_SCREEN)
+    BEQ @Done_Trampolin
+
+    LDA flying_objects_on_screen + 4, X ; load type
+    CMP #(NONE)
+    BEQ @CheckNextObject_Trampolin
+
+    CMP #(IS_METEOR)
+    BEQ @HandleMeteor
+
+; handle powerup
+
+    LDA main_character_x
+    STA CheckCollision_local_var_l1_x
+    CLC
+    ADC #(MAIN_CHARACTER_X_LENGTH)
+    STA CheckCollision_local_var_r1_x
+
+    LDA main_character_y
+    STA CheckCollision_local_var_l1_y
+    CLC
+    ADC #(MAIN_CHARACTER_Y_LENGTH)
+    STA CheckCollision_local_var_r1_y
+    
+    LDA flying_objects_on_screen + 0, X ; load x
+    STA CheckCollision_local_var_l2_x
+    CLC
+    ADC #(POWERUP_X_LENGTH)
+    STA CheckCollision_local_var_r2_x
+
+    LDA flying_objects_on_screen + 1, X ; load y
+    STA CheckCollision_local_var_l2_y
+    CLC
+    ADC #(POWERUP_Y_LENGTH)
+    STA CheckCollision_local_var_r2_y
+
+    LDA CheckCollision_local_var_r2_x
+    CMP CheckCollision_local_var_l1_x
+    BCC @CheckNextObject_Trampolin ; no collision
+
+    LDA CheckCollision_local_var_r1_x
+    CMP CheckCollision_local_var_l2_x
+    BCC @CheckNextObject_Trampolin ; no collision
+
+    LDA CheckCollision_local_var_r2_y
+    CMP CheckCollision_local_var_l1_y
+    BCC @CheckNextObject_Trampolin ; no collision
+
+    LDA CheckCollision_local_var_r1_y
+    CMP CheckCollision_local_var_l2_y
+    BCC @CheckNextObject_Trampolin ; no collision
+
+    ; powerup collision
+    LDA #(NONE)
+    STA flying_objects_on_screen + 4, X ; destroy the object by setting it to NONE
+    DEC num_powerups_on_screen
+    DEC num_flying_objects_on_screen
+    Uint8_AddWithSaturation main_character_life, #1, #(MAIN_CHARACTER_MAX_LIFE), NopCallback
+    STA main_character_life
+
+    JMP @CheckNextObject
+
+@Done_Trampolin:
+    JMP @Done
+@CheckNextObject_Trampolin:
+    JMP @CheckNextObject
+
+
+@HandleMeteor:
+    
+    LDA main_character_x
+    STA CheckCollision_local_var_l1_x
+    CLC
+    ADC #(MAIN_CHARACTER_X_LENGTH)
+    STA CheckCollision_local_var_r1_x
+
+    LDA main_character_y
+    STA CheckCollision_local_var_l1_y
+    CLC
+    ADC #(MAIN_CHARACTER_Y_LENGTH)
+    STA CheckCollision_local_var_r1_y
+    
+    LDA flying_objects_on_screen + 0, X ; load x
+    STA CheckCollision_local_var_l2_x
+    CLC
+    ADC #(METEOR_X_LENGTH)
+    STA CheckCollision_local_var_r2_x
+
+    LDA flying_objects_on_screen + 1, X ; load y
+    STA CheckCollision_local_var_l2_y
+    CLC
+    ADC #(METEOR_Y_LENGTH)
+    STA CheckCollision_local_var_r2_y
+
+    LDA CheckCollision_local_var_r2_x
+    CMP CheckCollision_local_var_l1_x
+    BCC @CheckNextObject ; no collision
+
+    LDA CheckCollision_local_var_r1_x
+    CMP CheckCollision_local_var_l2_x
+    BCC @CheckNextObject ; no collision
+
+    LDA CheckCollision_local_var_r2_y
+    CMP CheckCollision_local_var_l1_y
+    BCC @CheckNextObject ; no collision
+
+    LDA CheckCollision_local_var_r1_y
+    CMP CheckCollision_local_var_l2_y
+    BCC @CheckNextObject ; no collision
+
+    ; meteor collision
+    LDA #(NONE)
+    STA flying_objects_on_screen + 4, X ; destroy the object by setting it to NONE
+    DEC num_meteors_on_screen
+    DEC num_flying_objects_on_screen
+    Uint8_SubtractWithSaturation main_character_life, #1, #1, GameOver
+    STA main_character_life
+
+@CheckNextObject:
+    TXA
+    CLC
+    ADC #(SIZEOF_FLYING_OBJECT)
+    TAX
+    JMP @ForEachFlyingObjectOnScreen
+
+@Done:
+    RestoreRegisters
     RTS
+
+NopCallback:
+    RTS
+
+GameOver:
+    JMP Reset
 
 ; initializes the "shadow OAM" page based on game state since
 ; we don't have time for that during Vblank.
@@ -656,6 +812,8 @@ PopulateShadowOAMWithSpriteData:
     LDA #0
     STA WriteSprite_non_const_param_write_offset
     JSR WriteSprite ; WriteSprite(main_character_x, main_character_y, MainCharacterTileInfo, &write_offset)
+
+    ; JSR RenderLifeBarAsSprites
 
     ; loop over all the flying objects on screen and write them to shadow OAM
     LDX #0 ; X is the offset into the flying objects array
@@ -822,6 +980,54 @@ Handle_Right_keypress:
     RestoreRegisters
     RTS
 
+RenderLifeBarAsSprites:
+    SaveRegisters
+
+    LDX #0
+    LDY #(LIFEBAR_X_COORD)
+
+    LDA #(REMAINING_LIFEBAR_PATTERN_TABLE_INDEX)
+@RenderRemainingLifeBarTile:
+    CPX main_character_life
+    BEQ @RenderDepletedLifeBarTile
+    
+    TYA
+    STA WriteSprite_param_x
+    LDA #(LIFEBAR_Y_COORD)
+    STA WriteSprite_param_y
+    StoreAddress WriteSprite_param_tile_info_addr, RemainingLifebarTileInfo
+    JSR WriteSprite
+
+    INX
+    TYA
+    CLC
+    ADC #8
+    TAY
+    JMP @RenderRemainingLifeBarTile
+
+    LDA #(DEPLETED_LIFEBAR_PATTERN_TABLE_INDEX)
+@RenderDepletedLifeBarTile:
+    CPX #(MAIN_CHARACTER_MAX_LIFE)
+    BEQ @Done
+    
+    TYA
+    STA WriteSprite_param_x
+    LDA #(LIFEBAR_Y_COORD)
+    STA WriteSprite_param_y
+    StoreAddress WriteSprite_param_tile_info_addr, DepletedLifebarTileInfo
+    JSR WriteSprite
+
+    INX
+    TYA
+    CLC
+    ADC #8
+    TAY
+    JMP @RenderDepletedLifeBarTile
+
+@Done:
+    RestoreRegisters
+    RTS
+
 ; sets background tiles related to the life bar
 RenderLifeBar:
     SaveRegisters
@@ -900,7 +1106,7 @@ NMI:
 
     TransferPageToOamSpriteMemory OAM_DMA_TransferPage
 
-    JSR RenderLifeBar
+    ; JSR RenderLifeBar
 
     ; the code up to here must execute during the Vblank period
 
@@ -984,14 +1190,24 @@ PowerupSpriteDimensions:
 PowerupTileIndices:
     .DB REMAINING_LIFEBAR_PATTERN_TABLE_INDEX
 
-; background pattern table indices
-
-PLAIN_BACKGROUND_PATTERN_TABLE_INDEX = $FF
 
 REMAINING_LIFEBAR_PATTERN_TABLE_INDEX = $33
 
 DEPLETED_LIFEBAR_PATTERN_TABLE_INDEX = $45
 
+RemainingLifebarTileInfo:
+    .DB 1
+    .DB 1
+    .DB REMAINING_LIFEBAR_PATTERN_TABLE_INDEX
+
+DepletedLifebarTileInfo:
+    .DB 1
+    .DB 1
+    .DB DEPLETED_LIFEBAR_PATTERN_TABLE_INDEX
+
+; background pattern table indices
+
+PLAIN_BACKGROUND_PATTERN_TABLE_INDEX = $FF
 
 .ORG STATIC_FLYING_OBJECT_DATA_ADDR
 FlyingObjectData:
