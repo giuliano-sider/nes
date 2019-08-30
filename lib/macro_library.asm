@@ -27,6 +27,7 @@ _i = 0
     .IF (byte_count) < 1 || (byte_count) > 256
         .ERROR "PpuMemcpy: byte_count should be in the [1, 256] range"
     .ENDIF
+    LDA PPUSTATUS ; read PPU status to reset the high/low latch
     LDA #>(dest_addr) ; PPUADDR takes most significant byte first
     STA PPUADDR
     LDA #<(dest_addr)
@@ -49,6 +50,7 @@ _i = 0
     .IF (byte_count) < 1 || (byte_count) > 256
         .ERROR "PpuMemset: byte_count should be in the [1, 256] range"
     .ENDIF
+    LDA PPUSTATUS ; read PPU status to reset the high/low latch
     LDA #>(dest_addr) ; PPUADDR takes most significant byte first
     STA PPUADDR
     LDA #<(dest_addr)

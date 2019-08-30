@@ -175,8 +175,10 @@ NONE = $FF
 
 
 ; upper left corner of lifebar
-LIFEBAR_X_COORD = 16
-LIFEBAR_Y_COORD = 16
+; TODO: verify strange behavior: the larger the initial column, the 
+; more garbage is printed on the right side of the screen.
+LIFEBAR_X_COORD = 0
+LIFEBAR_Y_COORD = 0
 
 LIFEBAR_NAMETABLE_ADDR = (NAMETABLE_0 + $20 * (LIFEBAR_Y_COORD / 8) + (LIFEBAR_X_COORD / 8))
 
@@ -497,7 +499,7 @@ PopulateShadowOAMWithSpriteData:
 WriteSprite:
     SaveRegisters
     
-    LDY #0
+    LDY #0 ; Y is the index into the tile info array
     LDA (WriteSprite_param_tile_info_addr), Y ; load num_tiles_x
     STA WriteSprite_local_var_num_tiles_x
     INY
@@ -510,8 +512,7 @@ WriteSprite:
     STA WriteSprite_local_var_j ; j = 0
 
     LDA WriteSprite_param_y
-    STA WriteSprite_local_var_y
-    DEC WriteSprite_local_var_y ; y coordinate of first row of tiles
+    STA WriteSprite_local_var_y ; y coordinate of first row of tiles
 
 @ForEachTileRow: ; while (i < num_tiles_y)
     LDA WriteSprite_local_var_i
@@ -519,32 +520,36 @@ WriteSprite:
     BEQ @Done
 
     LDA WriteSprite_param_x
-    STA WriteSprite_local_var_x
-    DEC WriteSprite_local_var_x ; x coordinate of first tile in row
+    STA WriteSprite_local_var_x ; x coordinate of first tile in row
 @ForEachTile: ; while (j < num_tiles_x)
     LDA WriteSprite_local_var_j
     CMP WriteSprite_local_var_num_tiles_x
     BEQ @NextTileRow
 
     ; write tile in row i, col j of sprite to shadow OAM page
-    LDX WriteSprite_non_const_param_write_offset
+    LDX WriteSprite_non_const_param_write_offset ; X is the index into the shadow OAM page
+    
     LDA WriteSprite_local_var_y
     SEC
     SBC #1
-    STA OAM_DMA_TransferPage, X
+    STA OAM_DMA_TransferPage, X ; write y - 1 to shadow OAM
     INX
+
     LDA (WriteSprite_param_tile_info_addr), Y
     INY
-    STA OAM_DMA_TransferPage, X
+    STA OAM_DMA_TransferPage, X ; write tile index to shadow OAM
     INX
+
     LDA #(PLAIN_SPRITE_PALETTE_INDEX) ; Attributes: no flip, in foreground
-    STA OAM_DMA_TransferPage, X
+    STA OAM_DMA_TransferPage, X ; write tile attributes to shadow OAM
     INX
+
     LDA WriteSprite_local_var_x
     SEC 
     SBC #1
-    STA OAM_DMA_TransferPage, X
+    STA OAM_DMA_TransferPage, X ; write x - 1 to shadow OAM
     INX
+
     STX WriteSprite_non_const_param_write_offset
 
     LDA #8 ; pixels per tile
@@ -552,6 +557,7 @@ WriteSprite:
     STA WriteSprite_local_var_x ; next x coordinate of tile
     INC WriteSprite_local_var_j
     JMP @ForEachTile
+
 @NextTileRow:
     LDA #8 ; pixels per tile
     ADC WriteSprite_local_var_y
@@ -612,6 +618,8 @@ Handle_Right_keypress:
 ; sets background tiles related to the life bar
 RenderLifeBar:
     SaveRegisters
+
+    LDA PPUSTATUS ; read PPU status to reset the high/low latch
 
     LDA #>LIFEBAR_NAMETABLE_ADDR
     STA PPUADDR
