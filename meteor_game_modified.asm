@@ -38,6 +38,7 @@ NROM_MAPPER = 0
 PPUCTRL = $2000
 ENABLE_VBLANK_NMI = %10000000
 USE_PATTERN_TABLE_1_FOR_SPRITES = %00001000
+USE_PATTERN_TABLE_1_FOR_BACKGROUND = %00010000
 
 PPUMASK = $2001
 ENABLE_SPRITE_RENDERING = %00010000
@@ -361,10 +362,12 @@ Reset:
     ; begin rendering by setting the registers
 
     LDA PPUSTATUS ; clear Vblank flag
-    LDA #(ENABLE_VBLANK_NMI)
+    LDA #(ENABLE_VBLANK_NMI | USE_PATTERN_TABLE_1_FOR_BACKGROUND)
     STA PPUCTRL
     LDA #(ENABLE_SPRITE_RENDERING | ENABLE_BACKGROUND_RENDERING)
     STA PPUMASK
+    LDA #0
+    STA PPUSCROLL ; no scrolling
 
     LDA #1
     STA time_to_render ; Reset's work is finished: NMI frame renderer may now proceed.
@@ -429,7 +432,7 @@ UpdateGameState:
     RTS
 
 UpdateFlyingObjects:
-
+    
     RTS
 
 CheckCollisions:
@@ -509,7 +512,6 @@ WriteSprite:
 
     LDA #0
     STA WriteSprite_local_var_i ; i = 0
-    STA WriteSprite_local_var_j ; j = 0
 
     LDA WriteSprite_param_y
     STA WriteSprite_local_var_y ; y coordinate of first row of tiles
@@ -519,6 +521,8 @@ WriteSprite:
     CMP WriteSprite_local_var_num_tiles_y
     BEQ @Done
 
+    LDA #0
+    STA WriteSprite_local_var_j ; j = 0
     LDA WriteSprite_param_x
     STA WriteSprite_local_var_x ; x coordinate of first tile in row
 @ForEachTile: ; while (j < num_tiles_x)
@@ -553,6 +557,7 @@ WriteSprite:
     STX WriteSprite_non_const_param_write_offset
 
     LDA #8 ; pixels per tile
+    CLC
     ADC WriteSprite_local_var_x
     STA WriteSprite_local_var_x ; next x coordinate of tile
     INC WriteSprite_local_var_j
@@ -560,6 +565,7 @@ WriteSprite:
 
 @NextTileRow:
     LDA #8 ; pixels per tile
+    CLC
     ADC WriteSprite_local_var_y
     STA WriteSprite_local_var_y ; next y coordinate of tile
     INC WriteSprite_local_var_i
@@ -780,6 +786,6 @@ FlyingObjectData:
 CHR_ROM:
 
 ; generated using https://erikonarheim.com/NES-Sprite-Editor/
-    .INCBIN "cockroachGame.chr"
+    .INCBIN "cockroachGame_separateTilesAndBackground.chr"
 
 ;----------------------------------------------------------------

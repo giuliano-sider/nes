@@ -243,6 +243,7 @@ _i = 0
 ; transfers contents of the entire page of RAM at addr to OAM.
 ; clobbers A.
 .MACRO TransferPageToOamSpriteMemory addr
+    LDA PPUSTATUS
     LDA #0
     STA OAMADDR
     LDA #>(addr) ; transfer contents of page to OAM
