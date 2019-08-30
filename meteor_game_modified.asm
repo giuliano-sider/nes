@@ -432,11 +432,27 @@ UpdateGameState:
     RTS
 
 UpdateFlyingObjects:
-    
+    LDA #$1
+    STA num_meteors_on_screen
+    STA num_flying_objects_on_screen
+    LDA #$70
+    LDX #$0
+    STA flying_objects_on_screen, X ; Flying.x <- x position
+    LDX #$1
+    STA flying_objects_on_screen, X ; Flying.y <- y position
+    LDA #IS_METEOR ;meteor type
+    LDX #$4 ; type
+    STA flying_objects_on_screen, X ; Flying.type <- meteor
     RTS
 
 CheckCollisions:
-
+    ;LDA #MAIN_CHARACTER_X_LENGTH
+    ;CLC
+    ;ADC main_character_x
+    ;SEC
+    ;SBC check_meteor_x
+    ; CMP $0
+    ; BEQ game_over
     RTS
 
 ; initializes the "shadow OAM" page based on game state since 
@@ -786,6 +802,6 @@ FlyingObjectData:
 CHR_ROM:
 
 ; generated using https://erikonarheim.com/NES-Sprite-Editor/
-    .INCBIN "cockroachGame_separateTilesAndBackground.chr"
+    .INCBIN "cockroachGame.chr"
 
 ;----------------------------------------------------------------
