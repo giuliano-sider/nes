@@ -227,7 +227,7 @@ _i = 0
     PHA
     TXA
     PHA
-    PYA
+    TYA
     PHA
 .ENDM
 

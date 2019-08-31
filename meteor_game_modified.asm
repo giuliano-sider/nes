@@ -1,5 +1,5 @@
 ; This is a simple game burned to an NROM-256 NES cartridge game using asm6f
-; syntax. TODO: what does it do.
+; syntax: Cockroach Apocalypse
 
 ; Note that the file iNES output file size for this NROM-256 cartridge is
 ; 16 + 16384*NUM_PRG_ROM_BANKS + 8192*NUM_CHR_ROM_BANKS
@@ -186,12 +186,12 @@ ENDING_PAGE_OF_FLYING_OBJECT_SPAWN_SEQUENCE = >(STATIC_FLYING_OBJECT_DATA_ADDR +
 
 
 ; upper left corner of lifebar
-; TODO: verify strange behavior: the larger the initial column, the
-; more garbage is printed on the right side of the screen.
-LIFEBAR_X_COORD = 16
-LIFEBAR_Y_COORD = 16
+LIFEBAR_X_COORD = 8
+LIFEBAR_Y_COORD = 8
 
 LIFEBAR_NAMETABLE_ADDR = (NAMETABLE_0 + $20 * (LIFEBAR_Y_COORD / 8) + (LIFEBAR_X_COORD / 8))
+
+INVISIBLE_SPRITE_VALUE = $FF
 
 
 ; ------------------------------------------------------------------------------
@@ -387,7 +387,7 @@ Reset:
 
     ; fill OAM DMA transfer page with invisible sprites for now and transfer to OAM.
 
-    Memset OAM_DMA_TransferPage, $FF, 256
+    Memset OAM_DMA_TransferPage, INVISIBLE_SPRITE_VALUE, 256
     TransferPageToOamSpriteMemory OAM_DMA_TransferPage
 
     ; begin rendering by setting the registers
@@ -398,7 +398,8 @@ Reset:
     LDA #(ENABLE_SPRITE_RENDERING | ENABLE_BACKGROUND_RENDERING)
     STA PPUMASK
     LDA #0
-    STA PPUSCROLL ; no scrolling
+    STA PPUSCROLL ; no scrolling in x
+    STA PPUSCROLL ; no scrolling in y
 
     LDA #1
     STA time_to_render ; Reset's work is finished: NMI frame renderer may now proceed.
@@ -462,19 +463,6 @@ UpdateGameState:
     RestoreRegisters
     RTS
 
-; UpdateFlyingObjects:
-;     LDA #$1
-;     STA num_meteors_on_screen
-;     STA num_flying_objects_on_screen
-;     LDA #$70
-;     LDX #$0
-;     STA flying_objects_on_screen, X ; Flying.x <- x position
-;     LDX #$1
-;     STA flying_objects_on_screen, X ; Flying.y <- y position
-;     LDA #IS_METEOR ;meteor type
-;     LDX #$4 ; type
-;     STA flying_objects_on_screen, X ; Flying.type <- meteor
-;     RTS
 
 ; updates the position of visible meteors and powerups based on velocity.
 ; eliminates out of bounds meteors and powerups.
@@ -645,16 +633,6 @@ SpawnFlyingObject:
     RTS
 
 
-;CheckCollisions:
-    ;LDA #MAIN_CHARACTER_X_LENGTH
-    ;CLC
-    ;ADC main_character_x
-    ;SEC
-    ;SBC check_meteor_x
-    ; CMP $0
-    ; BEQ game_over
-;    RTS
-
 
 CheckCollisions:
     SaveRegisters
@@ -790,6 +768,7 @@ CheckCollisions:
     RestoreRegisters
     RTS
 
+
 NopCallback:
     RTS
 
@@ -818,7 +797,7 @@ PopulateShadowOAMWithSpriteData:
     SaveRegisters
 
     ; fill shadow OAM with invisible sprites
-    Memset OAM_DMA_TransferPage, $FF, 256
+    Memset OAM_DMA_TransferPage, INVISIBLE_SPRITE_VALUE, 256
 
     LDA main_character_x
     STA WriteSprite_param_x
@@ -828,8 +807,6 @@ PopulateShadowOAMWithSpriteData:
     LDA #0
     STA WriteSprite_non_const_param_write_offset
     JSR WriteSprite ; WriteSprite(main_character_x, main_character_y, MainCharacterTileInfo, &write_offset)
-
-    ; JSR RenderLifeBarAsSprites
 
     ; loop over all the flying objects on screen and write them to shadow OAM
     LDX #0 ; X is the offset into the flying objects array
@@ -996,11 +973,13 @@ Handle_Right_keypress:
     RestoreRegisters
     RTS
 
+; renders the life bar as a sequence of sprites. precondition: the correct
+; shadow OAM page offset must have already been set in WriteSprite_non_const_param_write_offset.
 RenderLifeBarAsSprites:
     SaveRegisters
 
-    LDX #0
-    LDY #(LIFEBAR_X_COORD)
+    LDX #0 ; X keeps track of life bar index
+    LDY #(LIFEBAR_X_COORD) ; Y keeps track of X coordinate of life bar tile
 
     LDA #(REMAINING_LIFEBAR_PATTERN_TABLE_INDEX)
 @RenderRemainingLifeBarTile:
@@ -1044,8 +1023,9 @@ RenderLifeBarAsSprites:
     RestoreRegisters
     RTS
 
+; TODO: find out why this doesn't work.
 ; sets background tiles related to the life bar
-RenderLifeBar:
+RenderLifeBarInBackground:
     SaveRegisters
 
     LDA PPUSTATUS ; read PPU status to reset the high/low latch
@@ -1059,11 +1039,12 @@ RenderLifeBar:
     LDA #(REMAINING_LIFEBAR_PATTERN_TABLE_INDEX)
 @RenderRemainingLifeBarTile:
     CPX main_character_life
-    BEQ @RenderDepletedLifeBarTile
+    BEQ @NowRenderDepletedLifeBarTile
     STA PPUDATA
     INX
     JMP @RenderRemainingLifeBarTile
 
+@NowRenderDepletedLifeBarTile:
     LDA #(DEPLETED_LIFEBAR_PATTERN_TABLE_INDEX)
 @RenderDepletedLifeBarTile:
     CPX #(MAIN_CHARACTER_MAX_LIFE)
@@ -1122,7 +1103,12 @@ NMI:
 
     TransferPageToOamSpriteMemory OAM_DMA_TransferPage
 
-    ; JSR RenderLifeBar
+    JSR RenderLifeBarInBackground
+
+    ; TODO: understand why not setting the scroll to zero screws up the background in various ways
+    LDA #0
+    STA PPUSCROLL ; no scroll in x
+    STA PPUSCROLL ; no scroll in y
 
     ; the code up to here must execute during the Vblank period
 
@@ -1212,13 +1198,11 @@ REMAINING_LIFEBAR_PATTERN_TABLE_INDEX = $33
 DEPLETED_LIFEBAR_PATTERN_TABLE_INDEX = $45
 
 RemainingLifebarTileInfo:
-    .DB 1
-    .DB 1
+    .DB 1, 1
     .DB REMAINING_LIFEBAR_PATTERN_TABLE_INDEX
 
 DepletedLifebarTileInfo:
-    .DB 1
-    .DB 1
+    .DB 1, 1
     .DB DEPLETED_LIFEBAR_PATTERN_TABLE_INDEX
 
 ; background pattern table indices
