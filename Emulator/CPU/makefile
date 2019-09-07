@@ -6,15 +6,11 @@ RES=./res
 BIN=./bin
 LOG=./log
 EXT=./ext
-NES=./bin/nesemu
 
 TESTS=$(addprefix ${BIN}/, $(notdir $(patsubst %.s,%,$(sort $(wildcard ${TST}/*.s)))))
 CROSS_AS=${EXT}/asm6/asm6
 
-all: ${BIN} ${LOG} ${NES}
-
-${NES}:
-	${CC} ${CCFLAGS} main.cpp -o ${NES}
+all: ${BIN} ${LOG}
 
 ${BIN}:
 	@mkdir -p ${BIN}
@@ -25,7 +21,7 @@ ${BIN}/%: ${TST}/%.s
 ${LOG}:
 	@mkdir -p ${LOG}
 
-test: ${BIN} ${LOG} ${NES} ${TESTS}
+test: ${BIN} ${LOG} ${TESTS}
 	@{  echo "************************* Tests ******************************"; \
 		test_failed=0; \
 		test_passed=0; \
@@ -33,7 +29,7 @@ test: ${BIN} ${LOG} ${NES} ${TESTS}
 			result="${LOG}/$$(basename $$test).log"; \
 			expected="${RES}/$$(basename $$test).r"; \
 			printf "Running $$test: "; \
-			${NES} $$test > $$result 2>&1; \
+			python3 emulator.py $$test > $$result 2>&1; \
 			errors=`diff -y --suppress-common-lines $$expected $$result | grep '^' | wc -l`; \
 			if [ "$$errors" -eq 0 ]; then \
 				printf "\033[0;32mPASSED\033[0m\n"; \
