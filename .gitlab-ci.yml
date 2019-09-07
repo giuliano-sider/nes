@@ -1,0 +1,13 @@
+image: ubuntu
+
+stages:
+    - assembled-program-tests
+
+assembled-program-tests:
+    stage: assembled-program-tests
+    script:
+        - make test
+    artifacts:
+        paths:
+            # output of each emulator execution of a test program
+            - log/*
