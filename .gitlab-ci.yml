@@ -1,4 +1,4 @@
-image: ubuntu
+image: adnrv/opencv
 
 stages:
     - assembled-program-tests
