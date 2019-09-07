@@ -1,5 +1,1 @@
-| pc = 0x0001 | a = 0x0001  | x = 0x0001 | y = 0x0001 | sp = 0x0ffc | p[NV-BDIZC] = 00001110 |
-Traceback (most recent call last):
-  File "emulator.py", line 1, in <module>
-    import log.py
-ModuleNotFoundError: No module named 'log.py'; 'log' is not a package
+| pc = 0xc000 | a = 0x0000  | x = 0x0000 | y = 0x0000 | sp = 0x0000 | p[NV-BDIZC] = 00010100 |
