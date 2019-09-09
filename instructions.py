@@ -1,13 +1,25 @@
 
+"""Format:
+    OPCODE = <opcode number>
+    def <function that implements the instruction>:
+      <implementation>
+
+    instructions[OPCODE] = <function that implements the instruction>
+"""
+instructions = 256 * [0]
+
 
 
 BRK = 0x00
 def brk(cpu, logger):
+    """In test mode, BRK halts the processor. Normally, BRK generates a software interrupt (IRQ with the Break flag set)."""
     if not cpu.is_test_mode:
         raise NotImplementedError()
     else:
         cpu.set_break()
         logger.printLog(cpu.PC, cpu.A, cpu.X, cpu.Y, cpu.SP, cpu.P)
+
+instructions[BRK] = brk
 
 
 def ora_indirect_x(cpu, logger):
@@ -1027,9 +1039,7 @@ def inc_absolute_x(cpu, logger):
     raise NotImplementedError()
 
 
-instructions = 256 * [0]
 
-instructions[BRK] = brk
 instructions[1] = ora_indirect_x
 instructions[2] = instruction_02
 instructions[3] = instruction_03
