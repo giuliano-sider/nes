@@ -1,7 +1,1035 @@
 
-instruction = []
 
-instructions[0] = brk
+
+BRK = 0x00
+def brk(cpu, logger):
+    if not cpu.is_test_mode:
+        raise NotImplementedError()
+    else:
+        cpu.set_break()
+        logger.printLog(cpu.PC, cpu.A, cpu.X, cpu.Y, cpu.SP, cpu.P)
+
+
+def ora_indirect_x(cpu, logger):
+    # to be implemented OPCODE 01
+    raise NotImplementedError()
+
+def instruction_02(cpu, logger):
+    # to be implemented OPCODE 02
+    raise NotImplementedError()
+
+def instruction_03(cpu, logger):
+    # to be implemented OPCODE 03
+    raise NotImplementedError()
+
+def instruction_04(cpu, logger):
+    # to be implemented OPCODE 04
+    raise NotImplementedError()
+
+def ora_zeropage(cpu, logger):
+    # to be implemented OPCODE 05
+    raise NotImplementedError()
+
+def asl_zeropage(cpu, logger):
+    # to be implemented OPCODE 06
+    raise NotImplementedError()
+
+def instruction_07(cpu, logger):
+    # to be implemented OPCODE 07
+    raise NotImplementedError()
+
+def php(cpu, logger):
+    # to be implemented OPCODE 08
+    raise NotImplementedError()
+
+def ora_immidiate(cpu, logger):
+    # to be implemented OPCODE 09
+    raise NotImplementedError()
+
+def asl_accumulator(cpu, logger):
+    # to be implemented OPCODE 0a
+    raise NotImplementedError()
+
+def instruction_0b(cpu, logger):
+    # to be implemented OPCODE 0b
+    raise NotImplementedError()
+
+def instruction_0c(cpu, logger):
+    # to be implemented OPCODE 0c
+    raise NotImplementedError()
+
+def ora_absolute(cpu, logger):
+    # to be implemented OPCODE 0d
+    raise NotImplementedError()
+
+def asl_absolute(cpu, logger):
+    # to be implemented OPCODE 0e
+    raise NotImplementedError()
+
+def instruction_0f(cpu, logger):
+    # to be implemented OPCODE 0f
+    raise NotImplementedError()
+
+def bpl(cpu, logger):
+    # to be implemented OPCODE 10
+    raise NotImplementedError()
+
+def ora_indirect_y(cpu, logger):
+    # to be implemented OPCODE 11
+    raise NotImplementedError()
+
+def instruction_12(cpu, logger):
+    # to be implemented OPCODE 12
+    raise NotImplementedError()
+
+def instruction_13(cpu, logger):
+    # to be implemented OPCODE 13
+    raise NotImplementedError()
+
+def instruction_14(cpu, logger):
+    # to be implemented OPCODE 14
+    raise NotImplementedError()
+
+def ora_zeropage_x(cpu, logger):
+    # to be implemented OPCODE 15
+    raise NotImplementedError()
+
+def asl_zeropage_x(cpu, logger):
+    # to be implemented OPCODE 16
+    raise NotImplementedError()
+
+def instruction_17(cpu, logger):
+    # to be implemented OPCODE 17
+    raise NotImplementedError()
+
+def clc(cpu, logger):
+    # to be implemented OPCODE 18
+    raise NotImplementedError()
+
+def ora_absolute_y(cpu, logger):
+    # to be implemented OPCODE 19
+    raise NotImplementedError()
+
+def instruction_1a(cpu, logger):
+    # to be implemented OPCODE 1a
+    raise NotImplementedError()
+
+def instruction_1b(cpu, logger):
+    # to be implemented OPCODE 1b
+    raise NotImplementedError()
+
+def instruction_1c(cpu, logger):
+    # to be implemented OPCODE 1c
+    raise NotImplementedError()
+
+def ora_absolute_x(cpu, logger):
+    # to be implemented OPCODE 1d
+    raise NotImplementedError()
+
+def asl_absolute_x(cpu, logger):
+    # to be implemented OPCODE 1e
+    raise NotImplementedError()
+
+def instruction_1f(cpu, logger):
+    # to be implemented OPCODE 1f
+    raise NotImplementedError()
+
+def jsr(cpu, logger):
+    # to be implemented OPCODE 20
+    raise NotImplementedError()
+
+def instruction_21(cpu, logger):
+    # to be implemented OPCODE 21
+    raise NotImplementedError()
+
+def instruction_22(cpu, logger):
+    # to be implemented OPCODE 22
+    raise NotImplementedError()
+
+def instruction_23(cpu, logger):
+    # to be implemented OPCODE 23
+    raise NotImplementedError()
+
+def bit_zeropage(cpu, logger):
+    # to be implemented OPCODE 24
+    raise NotImplementedError()
+
+def instruction_25(cpu, logger):
+    # to be implemented OPCODE 25
+    raise NotImplementedError()
+
+def rol_zeropage(cpu, logger):
+    # to be implemented OPCODE 26
+    raise NotImplementedError()
+
+def instruction_27(cpu, logger):
+    # to be implemented OPCODE 27
+    raise NotImplementedError()
+
+def plp(cpu, logger):
+    # to be implemented OPCODE 28
+    raise NotImplementedError()
+
+def instruction_29(cpu, logger):
+    # to be implemented OPCODE 29
+    raise NotImplementedError()
+
+def rol_accumulator(cpu, logger):
+    # to be implemented OPCODE 2a
+    raise NotImplementedError()
+
+def instruction_2b(cpu, logger):
+    # to be implemented OPCODE 2b
+    raise NotImplementedError()
+
+def bit_absolute(cpu, logger):
+    # to be implemented OPCODE 2c
+    raise NotImplementedError()
+
+def instruction_2d(cpu, logger):
+    # to be implemented OPCODE 2d
+    raise NotImplementedError()
+
+def rol_absolute(cpu, logger):
+    # to be implemented OPCODE 2e
+    raise NotImplementedError()
+
+def instruction_2f(cpu, logger):
+    # to be implemented OPCODE 2f
+    raise NotImplementedError()
+
+def bmi(cpu, logger):
+    # to be implemented OPCODE 30
+    raise NotImplementedError()
+
+def instruction_31(cpu, logger):
+    # to be implemented OPCODE 31
+    raise NotImplementedError()
+
+def instruction_32(cpu, logger):
+    # to be implemented OPCODE 32
+    raise NotImplementedError()
+
+def instruction_33(cpu, logger):
+    # to be implemented OPCODE 33
+    raise NotImplementedError()
+
+def instruction_34(cpu, logger):
+    # to be implemented OPCODE 34
+    raise NotImplementedError()
+
+def instruction_35(cpu, logger):
+    # to be implemented OPCODE 35
+    raise NotImplementedError()
+
+def rol_zeropage_x(cpu, logger):
+    # to be implemented OPCODE 36
+    raise NotImplementedError()
+
+def instruction_37(cpu, logger):
+    # to be implemented OPCODE 37
+    raise NotImplementedError()
+
+def sec(cpu, logger):
+    # to be implemented OPCODE 38
+    raise NotImplementedError()
+
+def instruction_39(cpu, logger):
+    # to be implemented OPCODE 39
+    raise NotImplementedError()
+
+def instruction_3a(cpu, logger):
+    # to be implemented OPCODE 3a
+    raise NotImplementedError()
+
+def instruction_3b(cpu, logger):
+    # to be implemented OPCODE 3b
+    raise NotImplementedError()
+
+def instruction_3c(cpu, logger):
+    # to be implemented OPCODE 3c
+    raise NotImplementedError()
+
+def instruction_3d(cpu, logger):
+    # to be implemented OPCODE 3d
+    raise NotImplementedError()
+
+def rol_absolute_x(cpu, logger):
+    # to be implemented OPCODE 3e
+    raise NotImplementedError()
+
+def instruction_3f(cpu, logger):
+    # to be implemented OPCODE 3f
+    raise NotImplementedError()
+
+def rti(cpu, logger):
+    # to be implemented OPCODE 40
+    raise NotImplementedError()
+
+def eor_indirect_x(cpu, logger):
+    # to be implemented OPCODE 41
+    raise NotImplementedError()
+
+def instruction_42(cpu, logger):
+    # to be implemented OPCODE 42
+    raise NotImplementedError()
+
+def instruction_43(cpu, logger):
+    # to be implemented OPCODE 43
+    raise NotImplementedError()
+
+def instruction_44(cpu, logger):
+    # to be implemented OPCODE 44
+    raise NotImplementedError()
+
+def eor_zeropage(cpu, logger):
+    # to be implemented OPCODE 45
+    raise NotImplementedError()
+
+def lsr_zeropage(cpu, logger):
+    # to be implemented OPCODE 46
+    raise NotImplementedError()
+
+def instruction_47(cpu, logger):
+    # to be implemented OPCODE 47
+    raise NotImplementedError()
+
+def pha(cpu, logger):
+    # to be implemented OPCODE 48
+    raise NotImplementedError()
+
+def eor_immidiate(cpu, logger):
+    # to be implemented OPCODE 49
+    raise NotImplementedError()
+
+def lsr_accumulator(cpu, logger):
+    # to be implemented OPCODE 4a
+    raise NotImplementedError()
+
+def instruction_4b(cpu, logger):
+    # to be implemented OPCODE 4b
+    raise NotImplementedError()
+
+def jmp_absolute(cpu, logger):
+    # to be implemented OPCODE 4c
+    raise NotImplementedError()
+
+def eor_absolute(cpu, logger):
+    # to be implemented OPCODE 4d
+    raise NotImplementedError()
+
+def lsr_absolute(cpu, logger):
+    # to be implemented OPCODE 4e
+    raise NotImplementedError()
+
+def instruction_4f(cpu, logger):
+    # to be implemented OPCODE 4f
+    raise NotImplementedError()
+
+def bvc(cpu, logger):
+    # to be implemented OPCODE 50
+    raise NotImplementedError()
+
+def eor_indirect_y(cpu, logger):
+    # to be implemented OPCODE 51
+    raise NotImplementedError()
+
+def instruction_52(cpu, logger):
+    # to be implemented OPCODE 52
+    raise NotImplementedError()
+
+def instruction_53(cpu, logger):
+    # to be implemented OPCODE 53
+    raise NotImplementedError()
+
+def instruction_54(cpu, logger):
+    # to be implemented OPCODE 54
+    raise NotImplementedError()
+
+def eor_zeropage_x(cpu, logger):
+    # to be implemented OPCODE 55
+    raise NotImplementedError()
+
+def lsr_zeropage_x(cpu, logger):
+    # to be implemented OPCODE 56
+    raise NotImplementedError()
+
+def instruction_57(cpu, logger):
+    # to be implemented OPCODE 57
+    raise NotImplementedError()
+
+def cli(cpu, logger):
+    # to be implemented OPCODE 58
+    raise NotImplementedError()
+
+def eor_absolute_y(cpu, logger):
+    # to be implemented OPCODE 59
+    raise NotImplementedError()
+
+def instruction_5a(cpu, logger):
+    # to be implemented OPCODE 5a
+    raise NotImplementedError()
+
+def instruction_5b(cpu, logger):
+    # to be implemented OPCODE 5b
+    raise NotImplementedError()
+
+def instruction_5c(cpu, logger):
+    # to be implemented OPCODE 5c
+    raise NotImplementedError()
+
+def eor_absolute_x(cpu, logger):
+    # to be implemented OPCODE 5d
+    raise NotImplementedError()
+
+def lsr_absolute_x(cpu, logger):
+    # to be implemented OPCODE 5e
+    raise NotImplementedError()
+
+def instruction_5f(cpu, logger):
+    # to be implemented OPCODE 5f
+    raise NotImplementedError()
+
+def rts(cpu, logger):
+    # to be implemented OPCODE 60
+    raise NotImplementedError()
+
+def add_indirect_x(cpu, logger):
+    # to be implemented OPCODE 61
+    raise NotImplementedError()
+
+def instruction_62(cpu, logger):
+    # to be implemented OPCODE 62
+    raise NotImplementedError()
+
+def instruction_63(cpu, logger):
+    # to be implemented OPCODE 63
+    raise NotImplementedError()
+
+def instruction_64(cpu, logger):
+    # to be implemented OPCODE 64
+    raise NotImplementedError()
+
+def add_zeropage(cpu, logger):
+    # to be implemented OPCODE 65
+    raise NotImplementedError()
+
+def ror_zeropage(cpu, logger):
+    # to be implemented OPCODE 66
+    raise NotImplementedError()
+
+def instruction_67(cpu, logger):
+    # to be implemented OPCODE 67
+    raise NotImplementedError()
+
+def pla(cpu, logger):
+    # to be implemented OPCODE 68
+    raise NotImplementedError()
+
+def add_immidiate(cpu, logger):
+    # to be implemented OPCODE 69
+    raise NotImplementedError()
+
+def ror_accumulator(cpu, logger):
+    # to be implemented OPCODE 6a
+    raise NotImplementedError()
+
+def instruction_6b(cpu, logger):
+    # to be implemented OPCODE 6b
+    raise NotImplementedError()
+
+def jmp_indirect(cpu, logger):
+    # to be implemented OPCODE 6c
+    raise NotImplementedError()
+
+def add_absolute(cpu, logger):
+    # to be implemented OPCODE 6d
+    raise NotImplementedError()
+
+def ror_absolute(cpu, logger):
+    # to be implemented OPCODE 6e
+    raise NotImplementedError()
+
+def instruction_6f(cpu, logger):
+    # to be implemented OPCODE 6f
+    raise NotImplementedError()
+
+def bvs(cpu, logger):
+    # to be implemented OPCODE 70
+    raise NotImplementedError()
+
+def add_indirect_y(cpu, logger):
+    # to be implemented OPCODE 71
+    raise NotImplementedError()
+
+def instruction_72(cpu, logger):
+    # to be implemented OPCODE 72
+    raise NotImplementedError()
+
+def instruction_73(cpu, logger):
+    # to be implemented OPCODE 73
+    raise NotImplementedError()
+
+def instruction_74(cpu, logger):
+    # to be implemented OPCODE 74
+    raise NotImplementedError()
+
+def add_zeropage_x(cpu, logger):
+    # to be implemented OPCODE 75
+    raise NotImplementedError()
+
+def ror_zeropage_x(cpu, logger):
+    # to be implemented OPCODE 76
+    raise NotImplementedError()
+
+def instruction_77(cpu, logger):
+    # to be implemented OPCODE 77
+    raise NotImplementedError()
+
+def sei(cpu, logger):
+    # to be implemented OPCODE 78
+    raise NotImplementedError()
+
+def add_absolute_y(cpu, logger):
+    # to be implemented OPCODE 79
+    raise NotImplementedError()
+
+def instruction_7a(cpu, logger):
+    # to be implemented OPCODE 7a
+    raise NotImplementedError()
+
+def instruction_7b(cpu, logger):
+    # to be implemented OPCODE 7b
+    raise NotImplementedError()
+
+def instruction_7c(cpu, logger):
+    # to be implemented OPCODE 7c
+    raise NotImplementedError()
+
+def add_absolute_x(cpu, logger):
+    # to be implemented OPCODE 7d
+    raise NotImplementedError()
+
+def ror_absolute_x(cpu, logger):
+    # to be implemented OPCODE 7e
+    raise NotImplementedError()
+
+def instruction_7f(cpu, logger):
+    # to be implemented OPCODE 7f
+    raise NotImplementedError()
+
+def instruction_80(cpu, logger):
+    # to be implemented OPCODE 80
+    raise NotImplementedError()
+
+def sta_indirect_x(cpu, logger):
+    # to be implemented OPCODE 81
+    raise NotImplementedError()
+
+def instruction_82(cpu, logger):
+    # to be implemented OPCODE 82
+    raise NotImplementedError()
+
+def instruction_83(cpu, logger):
+    # to be implemented OPCODE 83
+    raise NotImplementedError()
+
+def sty_zeropage(cpu, logger):
+    # to be implemented OPCODE 84
+    raise NotImplementedError()
+
+def sta_zeropage(cpu, logger):
+    # to be implemented OPCODE 85
+    raise NotImplementedError()
+
+def stx_zeropage(cpu, logger):
+    # to be implemented OPCODE 86
+    raise NotImplementedError()
+
+def instruction_87(cpu, logger):
+    # to be implemented OPCODE 87
+    raise NotImplementedError()
+
+def dey(cpu, logger):
+    # to be implemented OPCODE 88
+    raise NotImplementedError()
+
+def instruction_89(cpu, logger):
+    # to be implemented OPCODE 89
+    raise NotImplementedError()
+
+def txa(cpu, logger):
+    # to be implemented OPCODE 8a
+    raise NotImplementedError()
+
+def instruction_8b(cpu, logger):
+    # to be implemented OPCODE 8b
+    raise NotImplementedError()
+
+def sty_absolute(cpu, logger):
+    # to be implemented OPCODE 8c
+    raise NotImplementedError()
+
+def sta_absolute(cpu, logger):
+    # to be implemented OPCODE 8d
+    raise NotImplementedError()
+
+def stx_absolute(cpu, logger):
+    # to be implemented OPCODE 8e
+    raise NotImplementedError()
+
+def instruction_8f(cpu, logger):
+    # to be implemented OPCODE 8f
+    raise NotImplementedError()
+
+def bcc(cpu, logger):
+    # to be implemented OPCODE 90
+    raise NotImplementedError()
+
+def sta_indirect_y(cpu, logger):
+    # to be implemented OPCODE 91
+    raise NotImplementedError()
+
+def instruction_92(cpu, logger):
+    # to be implemented OPCODE 92
+    raise NotImplementedError()
+
+def instruction_93(cpu, logger):
+    # to be implemented OPCODE 93
+    raise NotImplementedError()
+
+def sty_zeropage_x(cpu, logger):
+    # to be implemented OPCODE 94
+    raise NotImplementedError()
+
+def sta_zeropage_x(cpu, logger):
+    # to be implemented OPCODE 95
+    raise NotImplementedError()
+
+def stx_zeropage_x(cpu, logger):
+    # to be implemented OPCODE 96
+    raise NotImplementedError()
+
+def instruction_97(cpu, logger):
+    # to be implemented OPCODE 97
+    raise NotImplementedError()
+
+def instruction_98(cpu, logger):
+    # to be implemented OPCODE 98
+    raise NotImplementedError()
+
+def sta_absolute_y(cpu, logger):
+    # to be implemented OPCODE 99
+    raise NotImplementedError()
+
+def txs(cpu, logger):
+    # to be implemented OPCODE 9a
+    raise NotImplementedError()
+
+def tya(cpu, logger):
+    # to be implemented OPCODE 9b
+    raise NotImplementedError()
+
+def instruction_9c(cpu, logger):
+    # to be implemented OPCODE 9c
+    raise NotImplementedError()
+
+def sta_absolute_x(cpu, logger):
+    # to be implemented OPCODE 9d
+    raise NotImplementedError()
+
+def instruction_9e(cpu, logger):
+    # to be implemented OPCODE 9e
+    raise NotImplementedError()
+
+def instruction_9f(cpu, logger):
+    # to be implemented OPCODE 9f
+    raise NotImplementedError()
+
+def ldy_immidiate(cpu, logger):
+    # to be implemented OPCODE a0
+    raise NotImplementedError()
+
+def lda_indirect_x(cpu, logger):
+    # to be implemented OPCODE a1
+    raise NotImplementedError()
+
+def ldx_immidiate(cpu, logger):
+    # to be implemented OPCODE a2
+    raise NotImplementedError()
+
+def instruction_a3(cpu, logger):
+    # to be implemented OPCODE a3
+    raise NotImplementedError()
+
+def ldy_zeropage(cpu, logger):
+    # to be implemented OPCODE a4
+    raise NotImplementedError()
+
+def lda_zeropage(cpu, logger):
+    # to be implemented OPCODE a5
+    raise NotImplementedError()
+
+def ldx_zeropage(cpu, logger):
+    # to be implemented OPCODE a6
+    raise NotImplementedError()
+
+def instruction_a7(cpu, logger):
+    # to be implemented OPCODE a7
+    raise NotImplementedError()
+
+def tay(cpu, logger):
+    # to be implemented OPCODE a8
+    raise NotImplementedError()
+
+def lda_immidiate(cpu, logger):
+    # to be implemented OPCODE a9
+    raise NotImplementedError()
+
+def tax(cpu, logger):
+    # to be implemented OPCODE aa
+    raise NotImplementedError()
+
+def instruction_ab(cpu, logger):
+    # to be implemented OPCODE ab
+    raise NotImplementedError()
+
+def lda_absolute(cpu, logger):
+    # to be implemented OPCODE ac
+    raise NotImplementedError()
+
+def lda_absolute(cpu, logger):
+    # to be implemented OPCODE ad
+    raise NotImplementedError()
+
+def ldx_absolute(cpu, logger):
+    # to be implemented OPCODE ae
+    raise NotImplementedError()
+
+def instruction_af(cpu, logger):
+    # to be implemented OPCODE af
+    raise NotImplementedError()
+
+def bcs(cpu, logger):
+    # to be implemented OPCODE b0
+    raise NotImplementedError()
+
+def lda_indirect_y(cpu, logger):
+    # to be implemented OPCODE b1
+    raise NotImplementedError()
+
+def instruction_b2(cpu, logger):
+    # to be implemented OPCODE b2
+    raise NotImplementedError()
+
+def instruction_b3(cpu, logger):
+    # to be implemented OPCODE b3
+    raise NotImplementedError()
+
+def ldy_zeropage_x(cpu, logger):
+    # to be implemented OPCODE b4
+    raise NotImplementedError()
+
+def lda_zeropage_x(cpu, logger):
+    # to be implemented OPCODE b5
+    raise NotImplementedError()
+
+def ldx_zeropage_y(cpu, logger):
+    # to be implemented OPCODE b6
+    raise NotImplementedError()
+
+def instruction_b7(cpu, logger):
+    # to be implemented OPCODE b7
+    raise NotImplementedError()
+
+def clv(cpu, logger):
+    # to be implemented OPCODE b8
+    raise NotImplementedError()
+
+def lda_absolute_y(cpu, logger):
+    # to be implemented OPCODE b9
+    raise NotImplementedError()
+
+def tsx(cpu, logger):
+    # to be implemented OPCODE ba
+    raise NotImplementedError()
+
+def instruction_bb(cpu, logger):
+    # to be implemented OPCODE bb
+    raise NotImplementedError()
+
+def ldy_absolute_x(cpu, logger):
+    # to be implemented OPCODE bc
+    raise NotImplementedError()
+
+def lda_absolute_x(cpu, logger):
+    # to be implemented OPCODE bd
+    raise NotImplementedError()
+
+def ldx_absolute_y(cpu, logger):
+    # to be implemented OPCODE be
+    raise NotImplementedError()
+
+def instruction_bf(cpu, logger):
+    # to be implemented OPCODE bf
+    raise NotImplementedError()
+
+def cpy_immidiate(cpu, logger):
+    # to be implemented OPCODE c0
+    raise NotImplementedError()
+
+def cmp_indirect_x(cpu, logger):
+    # to be implemented OPCODE c1
+    raise NotImplementedError()
+
+def instruction_c2(cpu, logger):
+    # to be implemented OPCODE c2
+    raise NotImplementedError()
+
+def instruction_c3(cpu, logger):
+    # to be implemented OPCODE c3
+    raise NotImplementedError()
+
+def cpy_zeropage(cpu, logger):
+    # to be implemented OPCODE c4
+    raise NotImplementedError()
+
+def cmp_zeropage(cpu, logger):
+    # to be implemented OPCODE c5
+    raise NotImplementedError()
+
+def dec_zeropage(cpu, logger):
+    # to be implemented OPCODE c6
+    raise NotImplementedError()
+
+def instruction_c7(cpu, logger):
+    # to be implemented OPCODE c7
+    raise NotImplementedError()
+
+def iny(cpu, logger):
+    # to be implemented OPCODE c8
+    raise NotImplementedError()
+
+def cmp_immidiate(cpu, logger):
+    # to be implemented OPCODE c9
+    raise NotImplementedError()
+
+def dex(cpu, logger):
+    # to be implemented OPCODE ca
+    raise NotImplementedError()
+
+def instruction_cb(cpu, logger):
+    # to be implemented OPCODE cb
+    raise NotImplementedError()
+
+def cpy_absolute(cpu, logger):
+    # to be implemented OPCODE cc
+    raise NotImplementedError()
+
+def cmp_absolute(cpu, logger):
+    # to be implemented OPCODE cd
+    raise NotImplementedError()
+
+def dec_absolute(cpu, logger):
+    # to be implemented OPCODE ce
+    raise NotImplementedError()
+
+def instruction_cf(cpu, logger):
+    # to be implemented OPCODE cf
+    raise NotImplementedError()
+
+def bne(cpu, logger):
+    # to be implemented OPCODE d0
+    raise NotImplementedError()
+
+def cmp_indirect_y(cpu, logger):
+    # to be implemented OPCODE d1
+    raise NotImplementedError()
+
+def instruction_d2(cpu, logger):
+    # to be implemented OPCODE d2
+    raise NotImplementedError()
+
+def instruction_d3(cpu, logger):
+    # to be implemented OPCODE d3
+    raise NotImplementedError()
+
+def instruction_d4(cpu, logger):
+    # to be implemented OPCODE d4
+    raise NotImplementedError()
+
+def cmp_zero_page_x(cpu, logger):
+    # to be implemented OPCODE d5
+    raise NotImplementedError()
+
+def dec_zeropage_x(cpu, logger):
+    # to be implemented OPCODE d6
+    raise NotImplementedError()
+
+def instruction_d7(cpu, logger):
+    # to be implemented OPCODE d7
+    raise NotImplementedError()
+
+def cld(cpu, logger):
+    # to be implemented OPCODE d8
+    raise NotImplementedError()
+
+def cmp_absolute_y(cpu, logger):
+    # to be implemented OPCODE d9
+    raise NotImplementedError()
+
+def instruction_da(cpu, logger):
+    # to be implemented OPCODE da
+    raise NotImplementedError()
+
+def instruction_db(cpu, logger):
+    # to be implemented OPCODE db
+    raise NotImplementedError()
+
+def instruction_dc(cpu, logger):
+    # to be implemented OPCODE dc
+    raise NotImplementedError()
+
+def cmp_absolute_x(cpu, logger):
+    # to be implemented OPCODE dd
+    raise NotImplementedError()
+
+def dec_absolute_x(cpu, logger):
+    # to be implemented OPCODE de
+    raise NotImplementedError()
+
+def instruction_df(cpu, logger):
+    # to be implemented OPCODE df
+    raise NotImplementedError()
+
+def cpx_immidiate(cpu, logger):
+    # to be implemented OPCODE e0
+    raise NotImplementedError()
+
+def sbs_indirect_x(cpu, logger):
+    # to be implemented OPCODE e1
+    raise NotImplementedError()
+
+def instruction_e2(cpu, logger):
+    # to be implemented OPCODE e2
+    raise NotImplementedError()
+
+def instruction_e3(cpu, logger):
+    # to be implemented OPCODE e3
+    raise NotImplementedError()
+
+def cpx_zeropage(cpu, logger):
+    # to be implemented OPCODE e4
+    raise NotImplementedError()
+
+def sbc_zeropage(cpu, logger):
+    # to be implemented OPCODE e5
+    raise NotImplementedError()
+
+def inc_zeropage(cpu, logger):
+    # to be implemented OPCODE e6
+    raise NotImplementedError()
+
+def instruction_e7(cpu, logger):
+    # to be implemented OPCODE e7
+    raise NotImplementedError()
+
+def inx(cpu, logger):
+    # to be implemented OPCODE e8
+    raise NotImplementedError()
+
+def sbc_immidiate(cpu, logger):
+    # to be implemented OPCODE e9
+    raise NotImplementedError()
+
+def nop(cpu, logger):
+    # to be implemented OPCODE ea
+    raise NotImplementedError()
+
+def instruction_eb(cpu, logger):
+    # to be implemented OPCODE eb
+    raise NotImplementedError()
+
+def cpx_absolute(cpu, logger):
+    # to be implemented OPCODE ec
+    raise NotImplementedError()
+
+def sbc_absolute(cpu, logger):
+    # to be implemented OPCODE ed
+    raise NotImplementedError()
+
+def inc_absolute(cpu, logger):
+    # to be implemented OPCODE ee
+    raise NotImplementedError()
+
+def instruction_ef(cpu, logger):
+    # to be implemented OPCODE ef
+    raise NotImplementedError()
+
+def beq(cpu, logger):
+    # to be implemented OPCODE f0
+    raise NotImplementedError()
+
+def sbc_indirect_y(cpu, logger):
+    # to be implemented OPCODE f1
+    raise NotImplementedError()
+
+def instruction_f2(cpu, logger):
+    # to be implemented OPCODE f2
+    raise NotImplementedError()
+
+def instruction_f3(cpu, logger):
+    # to be implemented OPCODE f3
+    raise NotImplementedError()
+
+def instruction_f4(cpu, logger):
+    # to be implemented OPCODE f4
+    raise NotImplementedError()
+
+def sbc_zeropage_x(cpu, logger):
+    # to be implemented OPCODE f5
+    raise NotImplementedError()
+
+def inc_zeropage_x(cpu, logger):
+    # to be implemented OPCODE f6
+    raise NotImplementedError()
+
+def instruction_f7(cpu, logger):
+    # to be implemented OPCODE f7
+    raise NotImplementedError()
+
+def sed(cpu, logger):
+    # to be implemented OPCODE f8
+    raise NotImplementedError()
+
+def sbc_absolute_y(cpu, logger):
+    # to be implemented OPCODE f9
+    raise NotImplementedError()
+
+def instruction_fa(cpu, logger):
+    # to be implemented OPCODE fa
+    raise NotImplementedError()
+
+def instruction_fb(cpu, logger):
+    # to be implemented OPCODE fb
+    raise NotImplementedError()
+
+def instruction_fc(cpu, logger):
+    # to be implemented OPCODE fc
+    raise NotImplementedError()
+
+def sbc_absolute_x(cpu, logger):
+    # to be implemented OPCODE fd
+    raise NotImplementedError()
+
+def inc_absolute_x(cpu, logger):
+    # to be implemented OPCODE fe
+    raise NotImplementedError()
+
+
+instructions = 256 * [0]
+
+instructions[BRK] = brk
 instructions[1] = ora_indirect_x
 instructions[2] = instruction_02
 instructions[3] = instruction_03
@@ -256,780 +1284,3 @@ instructions[251] = instruction_fb
 instructions[252] = instruction_fc
 instructions[253] = sbc_absolute_x
 instructions[254] = inc_absolute_x
-
-
-BRK = 0x00
-
-def brk(cpu, logger):
-    if not cpu.is_test_mode:
-        raise NotImplementedError()
-    else:
-        cpu.set_break()
-        logger.printLog(cpu.PC, cpu.A, cpu.X, cpu.Y, cpu.SP, cpu.P)
-
-handlers = {
-    BRK: brk
-}
-
-def ora_indirect_x(cpu, logger):
-	# to be implemented OPCODE 01
-
-def instruction_02(cpu, logger):
-	# to be implemented OPCODE 02
-
-def instruction_03(cpu, logger):
-	# to be implemented OPCODE 03
-
-def instruction_04(cpu, logger):
-	# to be implemented OPCODE 04
-
-def ora_zeropage(cpu, logger):
-	# to be implemented OPCODE 05
-
-def asl_zeropage(cpu, logger):
-	# to be implemented OPCODE 06
-
-def instruction_07(cpu, logger):
-	# to be implemented OPCODE 07
-
-def php(cpu, logger):
-	# to be implemented OPCODE 08
-
-def ora_immidiate(cpu, logger):
-	# to be implemented OPCODE 09
-
-def asl_accumulator(cpu, logger):
-	# to be implemented OPCODE 0a
-
-def instruction_0b(cpu, logger):
-	# to be implemented OPCODE 0b
-
-def instruction_0c(cpu, logger):
-	# to be implemented OPCODE 0c
-
-def ora_absolute(cpu, logger):
-	# to be implemented OPCODE 0d
-
-def asl_absolute(cpu, logger):
-	# to be implemented OPCODE 0e
-
-def instruction_0f(cpu, logger):
-	# to be implemented OPCODE 0f
-
-def bpl(cpu, logger):
-	# to be implemented OPCODE 10
-
-def ora_indirect_y(cpu, logger):
-	# to be implemented OPCODE 11
-
-def instruction_12(cpu, logger):
-	# to be implemented OPCODE 12
-
-def instruction_13(cpu, logger):
-	# to be implemented OPCODE 13
-
-def instruction_14(cpu, logger):
-	# to be implemented OPCODE 14
-
-def ora_zeropage_x(cpu, logger):
-	# to be implemented OPCODE 15
-
-def asl_zeropage_x(cpu, logger):
-	# to be implemented OPCODE 16
-
-def instruction_17(cpu, logger):
-	# to be implemented OPCODE 17
-
-def clc(cpu, logger):
-	# to be implemented OPCODE 18
-
-def ora_absolute_y(cpu, logger):
-	# to be implemented OPCODE 19
-
-def instruction_1a(cpu, logger):
-	# to be implemented OPCODE 1a
-
-def instruction_1b(cpu, logger):
-	# to be implemented OPCODE 1b
-
-def instruction_1c(cpu, logger):
-	# to be implemented OPCODE 1c
-
-def ora_absolute_x(cpu, logger):
-	# to be implemented OPCODE 1d
-
-def asl_absolute_x(cpu, logger):
-	# to be implemented OPCODE 1e
-
-def instruction_1f(cpu, logger):
-	# to be implemented OPCODE 1f
-
-def jsr(cpu, logger):
-	# to be implemented OPCODE 20
-
-def instruction_21(cpu, logger):
-	# to be implemented OPCODE 21
-
-def instruction_22(cpu, logger):
-	# to be implemented OPCODE 22
-
-def instruction_23(cpu, logger):
-	# to be implemented OPCODE 23
-
-def bit_zeropage(cpu, logger):
-	# to be implemented OPCODE 24
-
-def instruction_25(cpu, logger):
-	# to be implemented OPCODE 25
-
-def rol_zeropage(cpu, logger):
-	# to be implemented OPCODE 26
-
-def instruction_27(cpu, logger):
-	# to be implemented OPCODE 27
-
-def plp(cpu, logger):
-	# to be implemented OPCODE 28
-
-def instruction_29(cpu, logger):
-	# to be implemented OPCODE 29
-
-def rol_accumulator(cpu, logger):
-	# to be implemented OPCODE 2a
-
-def instruction_2b(cpu, logger):
-	# to be implemented OPCODE 2b
-
-def bit_absolute(cpu, logger):
-	# to be implemented OPCODE 2c
-
-def instruction_2d(cpu, logger):
-	# to be implemented OPCODE 2d
-
-def rol_absolute(cpu, logger):
-	# to be implemented OPCODE 2e
-
-def instruction_2f(cpu, logger):
-	# to be implemented OPCODE 2f
-
-def bmi(cpu, logger):
-	# to be implemented OPCODE 30
-
-def instruction_31(cpu, logger):
-	# to be implemented OPCODE 31
-
-def instruction_32(cpu, logger):
-	# to be implemented OPCODE 32
-
-def instruction_33(cpu, logger):
-	# to be implemented OPCODE 33
-
-def instruction_34(cpu, logger):
-	# to be implemented OPCODE 34
-
-def instruction_35(cpu, logger):
-	# to be implemented OPCODE 35
-
-def rol_zeropage_x(cpu, logger):
-	# to be implemented OPCODE 36
-
-def instruction_37(cpu, logger):
-	# to be implemented OPCODE 37
-
-def sec(cpu, logger):
-	# to be implemented OPCODE 38
-
-def instruction_39(cpu, logger):
-	# to be implemented OPCODE 39
-
-def instruction_3a(cpu, logger):
-	# to be implemented OPCODE 3a
-
-def instruction_3b(cpu, logger):
-	# to be implemented OPCODE 3b
-
-def instruction_3c(cpu, logger):
-	# to be implemented OPCODE 3c
-
-def instruction_3d(cpu, logger):
-	# to be implemented OPCODE 3d
-
-def rol_absolute_x(cpu, logger):
-	# to be implemented OPCODE 3e
-
-def instruction_3f(cpu, logger):
-	# to be implemented OPCODE 3f
-
-def rti(cpu, logger):
-	# to be implemented OPCODE 40
-
-def eor_indirect_x(cpu, logger):
-	# to be implemented OPCODE 41
-
-def instruction_42(cpu, logger):
-	# to be implemented OPCODE 42
-
-def instruction_43(cpu, logger):
-	# to be implemented OPCODE 43
-
-def instruction_44(cpu, logger):
-	# to be implemented OPCODE 44
-
-def eor_zeropage(cpu, logger):
-	# to be implemented OPCODE 45
-
-def lsr_zeropage(cpu, logger):
-	# to be implemented OPCODE 46
-
-def instruction_47(cpu, logger):
-	# to be implemented OPCODE 47
-
-def pha(cpu, logger):
-	# to be implemented OPCODE 48
-
-def eor_immidiate(cpu, logger):
-	# to be implemented OPCODE 49
-
-def lsr_accumulator(cpu, logger):
-	# to be implemented OPCODE 4a
-
-def instruction_4b(cpu, logger):
-	# to be implemented OPCODE 4b
-
-def jmp_absolute(cpu, logger):
-	# to be implemented OPCODE 4c
-
-def eor_absolute(cpu, logger):
-	# to be implemented OPCODE 4d
-
-def lsr_absolute(cpu, logger):
-	# to be implemented OPCODE 4e
-
-def instruction_4f(cpu, logger):
-	# to be implemented OPCODE 4f
-
-def bvc(cpu, logger):
-	# to be implemented OPCODE 50
-
-def eor_indirect_y(cpu, logger):
-	# to be implemented OPCODE 51
-
-def instruction_52(cpu, logger):
-	# to be implemented OPCODE 52
-
-def instruction_53(cpu, logger):
-	# to be implemented OPCODE 53
-
-def instruction_54(cpu, logger):
-	# to be implemented OPCODE 54
-
-def eor_zeropage_x(cpu, logger):
-	# to be implemented OPCODE 55
-
-def lsr_zeropage_x(cpu, logger):
-	# to be implemented OPCODE 56
-
-def instruction_57(cpu, logger):
-	# to be implemented OPCODE 57
-
-def cli(cpu, logger):
-	# to be implemented OPCODE 58
-
-def eor_absolute_y(cpu, logger):
-	# to be implemented OPCODE 59
-
-def instruction_5a(cpu, logger):
-	# to be implemented OPCODE 5a
-
-def instruction_5b(cpu, logger):
-	# to be implemented OPCODE 5b
-
-def instruction_5c(cpu, logger):
-	# to be implemented OPCODE 5c
-
-def eor_absolute_x(cpu, logger):
-	# to be implemented OPCODE 5d
-
-def lsr_absolute_x(cpu, logger):
-	# to be implemented OPCODE 5e
-
-def instruction_5f(cpu, logger):
-	# to be implemented OPCODE 5f
-
-def rts(cpu, logger):
-	# to be implemented OPCODE 60
-
-def add_indirect_x(cpu, logger):
-	# to be implemented OPCODE 61
-
-def instruction_62(cpu, logger):
-	# to be implemented OPCODE 62
-
-def instruction_63(cpu, logger):
-	# to be implemented OPCODE 63
-
-def instruction_64(cpu, logger):
-	# to be implemented OPCODE 64
-
-def add_zeropage(cpu, logger):
-	# to be implemented OPCODE 65
-
-def ror_zeropage(cpu, logger):
-	# to be implemented OPCODE 66
-
-def instruction_67(cpu, logger):
-	# to be implemented OPCODE 67
-
-def pla(cpu, logger):
-	# to be implemented OPCODE 68
-
-def add_immidiate(cpu, logger):
-	# to be implemented OPCODE 69
-
-def ror_accumulator(cpu, logger):
-	# to be implemented OPCODE 6a
-
-def instruction_6b(cpu, logger):
-	# to be implemented OPCODE 6b
-
-def jmp_indirect(cpu, logger):
-	# to be implemented OPCODE 6c
-
-def add_absolute(cpu, logger):
-	# to be implemented OPCODE 6d
-
-def ror_absolute(cpu, logger):
-	# to be implemented OPCODE 6e
-
-def instruction_6f(cpu, logger):
-	# to be implemented OPCODE 6f
-
-def bvs(cpu, logger):
-	# to be implemented OPCODE 70
-
-def add_indirect_y(cpu, logger):
-	# to be implemented OPCODE 71
-
-def instruction_72(cpu, logger):
-	# to be implemented OPCODE 72
-
-def instruction_73(cpu, logger):
-	# to be implemented OPCODE 73
-
-def instruction_74(cpu, logger):
-	# to be implemented OPCODE 74
-
-def add_zeropage_x(cpu, logger):
-	# to be implemented OPCODE 75
-
-def ror_zeropage_x(cpu, logger):
-	# to be implemented OPCODE 76
-
-def instruction_77(cpu, logger):
-	# to be implemented OPCODE 77
-
-def sei(cpu, logger):
-	# to be implemented OPCODE 78
-
-def add_absolute_y(cpu, logger):
-	# to be implemented OPCODE 79
-
-def instruction_7a(cpu, logger):
-	# to be implemented OPCODE 7a
-
-def instruction_7b(cpu, logger):
-	# to be implemented OPCODE 7b
-
-def instruction_7c(cpu, logger):
-	# to be implemented OPCODE 7c
-
-def add_absolute_x(cpu, logger):
-	# to be implemented OPCODE 7d
-
-def ror_absolute_x(cpu, logger):
-	# to be implemented OPCODE 7e
-
-def instruction_7f(cpu, logger):
-	# to be implemented OPCODE 7f
-
-def instruction_80(cpu, logger):
-	# to be implemented OPCODE 80
-
-def sta_indirect_x(cpu, logger):
-	# to be implemented OPCODE 81
-
-def instruction_82(cpu, logger):
-	# to be implemented OPCODE 82
-
-def instruction_83(cpu, logger):
-	# to be implemented OPCODE 83
-
-def sty_zeropage(cpu, logger):
-	# to be implemented OPCODE 84
-
-def sta_zeropage(cpu, logger):
-	# to be implemented OPCODE 85
-
-def stx_zeropage(cpu, logger):
-	# to be implemented OPCODE 86
-
-def instruction_87(cpu, logger):
-	# to be implemented OPCODE 87
-
-def dey(cpu, logger):
-	# to be implemented OPCODE 88
-
-def instruction_89(cpu, logger):
-	# to be implemented OPCODE 89
-
-def txa(cpu, logger):
-	# to be implemented OPCODE 8a
-
-def instruction_8b(cpu, logger):
-	# to be implemented OPCODE 8b
-
-def sty_absolute(cpu, logger):
-	# to be implemented OPCODE 8c
-
-def sta_absolute(cpu, logger):
-	# to be implemented OPCODE 8d
-
-def stx_absolute(cpu, logger):
-	# to be implemented OPCODE 8e
-
-def instruction_8f(cpu, logger):
-	# to be implemented OPCODE 8f
-
-def bcc(cpu, logger):
-	# to be implemented OPCODE 90
-
-def sta_indirect_y(cpu, logger):
-	# to be implemented OPCODE 91
-
-def instruction_92(cpu, logger):
-	# to be implemented OPCODE 92
-
-def instruction_93(cpu, logger):
-	# to be implemented OPCODE 93
-
-def sty_zeropage_x(cpu, logger):
-	# to be implemented OPCODE 94
-
-def sta_zeropage_x(cpu, logger):
-	# to be implemented OPCODE 95
-
-def stx_zeropage_x(cpu, logger):
-	# to be implemented OPCODE 96
-
-def instruction_97(cpu, logger):
-	# to be implemented OPCODE 97
-
-def instruction_98(cpu, logger):
-	# to be implemented OPCODE 98
-
-def sta_absolute_y(cpu, logger):
-	# to be implemented OPCODE 99
-
-def txs(cpu, logger):
-	# to be implemented OPCODE 9a
-
-def tya(cpu, logger):
-	# to be implemented OPCODE 9b
-
-def instruction_9c(cpu, logger):
-	# to be implemented OPCODE 9c
-
-def sta_absolute_x(cpu, logger):
-	# to be implemented OPCODE 9d
-
-def instruction_9e(cpu, logger):
-	# to be implemented OPCODE 9e
-
-def instruction_9f(cpu, logger):
-	# to be implemented OPCODE 9f
-
-def ldy_immidiate(cpu, logger):
-	# to be implemented OPCODE a0
-
-def lda_indirect_x(cpu, logger):
-	# to be implemented OPCODE a1
-
-def ldx_immidiate(cpu, logger):
-	# to be implemented OPCODE a2
-
-def instruction_a3(cpu, logger):
-	# to be implemented OPCODE a3
-
-def ldy_zeropage(cpu, logger):
-	# to be implemented OPCODE a4
-
-def lda_zeropage(cpu, logger):
-	# to be implemented OPCODE a5
-
-def ldx_zeropage(cpu, logger):
-	# to be implemented OPCODE a6
-
-def instruction_a7(cpu, logger):
-	# to be implemented OPCODE a7
-
-def tay(cpu, logger):
-	# to be implemented OPCODE a8
-
-def lda_immidiate(cpu, logger):
-	# to be implemented OPCODE a9
-
-def tax(cpu, logger):
-	# to be implemented OPCODE aa
-
-def instruction_ab(cpu, logger):
-	# to be implemented OPCODE ab
-
-def lda_absolute(cpu, logger):
-	# to be implemented OPCODE ac
-
-def lda_absolute(cpu, logger):
-	# to be implemented OPCODE ad
-
-def ldx_absolute(cpu, logger):
-	# to be implemented OPCODE ae
-
-def instruction_af(cpu, logger):
-	# to be implemented OPCODE af
-
-def bcs(cpu, logger):
-	# to be implemented OPCODE b0
-
-def lda_indirect_y(cpu, logger):
-	# to be implemented OPCODE b1
-
-def instruction_b2(cpu, logger):
-	# to be implemented OPCODE b2
-
-def instruction_b3(cpu, logger):
-	# to be implemented OPCODE b3
-
-def ldy_zeropage_x(cpu, logger):
-	# to be implemented OPCODE b4
-
-def lda_zeropage_x(cpu, logger):
-	# to be implemented OPCODE b5
-
-def ldx_zeropage_y(cpu, logger):
-	# to be implemented OPCODE b6
-
-def instruction_b7(cpu, logger):
-	# to be implemented OPCODE b7
-
-def clv(cpu, logger):
-	# to be implemented OPCODE b8
-
-def lda_absolute_y(cpu, logger):
-	# to be implemented OPCODE b9
-
-def tsx(cpu, logger):
-	# to be implemented OPCODE ba
-
-def instruction_bb(cpu, logger):
-	# to be implemented OPCODE bb
-
-def ldy_absolute_x(cpu, logger):
-	# to be implemented OPCODE bc
-
-def lda_absolute_x(cpu, logger):
-	# to be implemented OPCODE bd
-
-def ldx_absolute_y(cpu, logger):
-	# to be implemented OPCODE be
-
-def instruction_bf(cpu, logger):
-	# to be implemented OPCODE bf
-
-def cpy_immidiate(cpu, logger):
-	# to be implemented OPCODE c0
-
-def cmp_indirect_x(cpu, logger):
-	# to be implemented OPCODE c1
-
-def instruction_c2(cpu, logger):
-	# to be implemented OPCODE c2
-
-def instruction_c3(cpu, logger):
-	# to be implemented OPCODE c3
-
-def cpy_zeropage(cpu, logger):
-	# to be implemented OPCODE c4
-
-def cmp_zeropage(cpu, logger):
-	# to be implemented OPCODE c5
-
-def dec_zeropage(cpu, logger):
-	# to be implemented OPCODE c6
-
-def instruction_c7(cpu, logger):
-	# to be implemented OPCODE c7
-
-def iny(cpu, logger):
-	# to be implemented OPCODE c8
-
-def cmp_immidiate(cpu, logger):
-	# to be implemented OPCODE c9
-
-def dex(cpu, logger):
-	# to be implemented OPCODE ca
-
-def instruction_cb(cpu, logger):
-	# to be implemented OPCODE cb
-
-def cpy_absolute(cpu, logger):
-	# to be implemented OPCODE cc
-
-def cmp_absolute(cpu, logger):
-	# to be implemented OPCODE cd
-
-def dec_absolute(cpu, logger):
-	# to be implemented OPCODE ce
-
-def instruction_cf(cpu, logger):
-	# to be implemented OPCODE cf
-
-def bne(cpu, logger):
-	# to be implemented OPCODE d0
-
-def cmp_indirect_y(cpu, logger):
-	# to be implemented OPCODE d1
-
-def instruction_d2(cpu, logger):
-	# to be implemented OPCODE d2
-
-def instruction_d3(cpu, logger):
-	# to be implemented OPCODE d3
-
-def instruction_d4(cpu, logger):
-	# to be implemented OPCODE d4
-
-def cmp_zero_page_x(cpu, logger):
-	# to be implemented OPCODE d5
-
-def dec_zeropage_x(cpu, logger):
-	# to be implemented OPCODE d6
-
-def instruction_d7(cpu, logger):
-	# to be implemented OPCODE d7
-
-def cld(cpu, logger):
-	# to be implemented OPCODE d8
-
-def cmp_absolute_y(cpu, logger):
-	# to be implemented OPCODE d9
-
-def instruction_da(cpu, logger):
-	# to be implemented OPCODE da
-
-def instruction_db(cpu, logger):
-	# to be implemented OPCODE db
-
-def instruction_dc(cpu, logger):
-	# to be implemented OPCODE dc
-
-def cmp_absolute_x(cpu, logger):
-	# to be implemented OPCODE dd
-
-def dec_absolute_x(cpu, logger):
-	# to be implemented OPCODE de
-
-def instruction_df(cpu, logger):
-	# to be implemented OPCODE df
-
-def cpx_immidiate(cpu, logger):
-	# to be implemented OPCODE e0
-
-def sbs_indirect_x(cpu, logger):
-	# to be implemented OPCODE e1
-
-def instruction_e2(cpu, logger):
-	# to be implemented OPCODE e2
-
-def instruction_e3(cpu, logger):
-	# to be implemented OPCODE e3
-
-def cpx_zeropage(cpu, logger):
-	# to be implemented OPCODE e4
-
-def sbc_zeropage(cpu, logger):
-	# to be implemented OPCODE e5
-
-def inc_zeropage(cpu, logger):
-	# to be implemented OPCODE e6
-
-def instruction_e7(cpu, logger):
-	# to be implemented OPCODE e7
-
-def inx(cpu, logger):
-	# to be implemented OPCODE e8
-
-def sbc_immidiate(cpu, logger):
-	# to be implemented OPCODE e9
-
-def nop(cpu, logger):
-	# to be implemented OPCODE ea
-
-def instruction_eb(cpu, logger):
-	# to be implemented OPCODE eb
-
-def cpx_absolute(cpu, logger):
-	# to be implemented OPCODE ec
-
-def sbc_absolute(cpu, logger):
-	# to be implemented OPCODE ed
-
-def inc_absolute(cpu, logger):
-	# to be implemented OPCODE ee
-
-def instruction_ef(cpu, logger):
-	# to be implemented OPCODE ef
-
-def beq(cpu, logger):
-	# to be implemented OPCODE f0
-
-def sbc_indirect_y(cpu, logger):
-	# to be implemented OPCODE f1
-
-def instruction_f2(cpu, logger):
-	# to be implemented OPCODE f2
-
-def instruction_f3(cpu, logger):
-	# to be implemented OPCODE f3
-
-def instruction_f4(cpu, logger):
-	# to be implemented OPCODE f4
-
-def sbc_zeropage_x(cpu, logger):
-	# to be implemented OPCODE f5
-
-def inc_zeropage_x(cpu, logger):
-	# to be implemented OPCODE f6
-
-def instruction_f7(cpu, logger):
-	# to be implemented OPCODE f7
-
-def sed(cpu, logger):
-	# to be implemented OPCODE f8
-
-def sbc_absolute_y(cpu, logger):
-	# to be implemented OPCODE f9
-
-def instruction_fa(cpu, logger):
-	# to be implemented OPCODE fa
-
-def instruction_fb(cpu, logger):
-	# to be implemented OPCODE fb
-
-def instruction_fc(cpu, logger):
-	# to be implemented OPCODE fc
-
-def sbc_absolute_x(cpu, logger):
-	# to be implemented OPCODE fd
-
-def inc_absolute_x(cpu, logger):
-	# to be implemented OPCODE fe
-
