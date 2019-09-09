@@ -43,6 +43,9 @@ test: ${BIN} ${LOG} ${TESTS}
 		echo "- $$test_passed tests passed"; \
 		echo "- $$test_failed tests failed"; \
 		echo "**************************************************************"; \
+		if [ $$test_failed != 0 ]; then \
+			exit 1 ; \
+		fi ; \
 	}
 
 setup:
