@@ -1,4 +1,7 @@
 
+def InstructionNotImplemented(*args):
+    raise NotImplementedError('Instruction currently unimplemented')
+
 """Format:
     OPCODE = <opcode number>
     def <function that implements the instruction>:
@@ -6,7 +9,7 @@
 
     instructions[OPCODE] = <function that implements the instruction>
 """
-instructions = 256 * [0]
+instructions = 256 * [InstructionNotImplemented]
 
 
 
