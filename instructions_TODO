@@ -1,0 +1,90 @@
+TODO: implement functions to execute each of these instructions. Use the CPU API.
+API examples:
+    - byte_value = cpu.memory[addr]
+    - cpu.memory[addr] = byte_value
+    - raw access to registers: (we could wrap these in getters to get error checking and enforce the class invariants)
+        - a = cpu.A
+        - x = cpu.X
+        - y = cpu.Y
+        - sp = cpu.SP
+        - pc = cpu.PC
+        - p = cpu.P
+    - flags:
+        - cpu.set_carry()
+        - cpu.clear_carry()
+        - ...
+
+
+http://www.6502.org/tutorials/6502opcodes.html
+
+ADC     AND     ASL     BCC     BCS     BEQ     BIT     BMI     BNE     BPL     BRK     BVC     BVS     CLC
+CLD     CLI     CLV     CMP     CPX     CPY     DEC     DEX     DEY     EOR     INC     INX     INY     JMP
+JSR     LDA     LDX     LDY     LSR     NOP     ORA     PHA     PHP     PLA     PLP     ROL     ROR     RTI
+RTS     SBC     SEC     SED     SEI     STA     STX     STY     TAX     TAY     TSX     TXA     TXS     TYA
+
+arithmetic
+ADC
+CMP
+CPX
+CPY
+DEC
+DEX
+DEY
+INC
+INX
+INY
+SBC
+
+logical
+AND
+ASL
+BIT
+EOR
+LSR
+ORA
+ROL
+ROR
+
+load/store/stack
+LDA
+LDX
+LDY
+STA
+STX
+STY
+PHA
+PHP
+PLA
+PLP
+
+jump/branch
+BCC
+BCS
+BEQ
+BMI
+BNE
+BPL
+BVC
+BVS
+JMP
+JSR (mess with stack too)
+RTI (mess with stack too)
+RTS (mess with stack too)
+BRK
+
+misc
+CLC
+CLD
+CLI
+CLV
+SEC
+SED
+SEI
+TAX
+TAY
+TSX
+TXA
+TXS
+TYA
+
+
