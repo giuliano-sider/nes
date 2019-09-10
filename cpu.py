@@ -1,9 +1,28 @@
 from memory_mapper import RESET_VECTOR
 
+# flag-related constants:
+
+NEGATIVE       = 0b10000000
+CLEAR_NEGATIVE = 0b11111111 - NEGATIVE
+
+OVERFLOW       = 0b01000000
+CLEAR_OVERFLOW = 0b11111111 - OVERFLOW
+
 BREAK       = 0b00010000
 CLEAR_BREAK = 0b11111111 - BREAK
 
-IRQ_DISABLE = 0b00000100
+DECIMAL       = 0b00001000
+CLEAR_DECIMAL = 0b11111111 - DECIMAL
+
+IRQ_DISABLE       = 0b00000100
+CLEAR_IRQ_DISABLE = 0b11111111 - IRQ_DISABLE
+
+ZERO       = 0b00000010
+CLEAR_ZERO = 0b11111111 - ZERO
+
+CARRY       = 0b00000001
+CLEAR_CARRY = 0b11111111 - CARRY
+
 
 class MemoryAccessor():
     """Allow convenient access to the CPU memory address space."""
@@ -52,14 +71,14 @@ class Cpu():
     # Accessors for the flags:
 
     def set_negative(self):
-        raise NotImplementedError()
+        self.P |= NEGATIVE
     def clear_negative(self):
-        raise NotImplementedError()
+        self.P &= CLEAR_NEGATIVE
 
     def set_overflow(self):
-        raise NotImplementedError()
+        self.P |= OVERFLOW
     def clear_overflow(self):
-        raise NotImplementedError()
+        self.P &= CLEAR_OVERFLOW
 
     def set_break(self):
         self.P |= BREAK
@@ -67,24 +86,24 @@ class Cpu():
         self.P &= CLEAR_BREAK
 
     def set_decimal(self):
-        raise NotImplementedError()
+        self.P |= DECIMAL
     def clear_decimal(self):
-        raise NotImplementedError()
+        self.P &= CLEAR_DECIMAL
 
-    def set_interrupt_disable(self):
-        raise NotImplementedError()
-    def clear_interrupt_disable(self):
-        raise NotImplementedError()
+    def set_irq_disable(self):
+        self.P |= IRQ_DISABLE
+    def clear_irq_disable(self):
+        self.P &= CLEAR_IRQ_DISABLE
 
     def set_zero(self):
-        raise NotImplementedError()
+        self.P |= ZERO
     def clear_zero(self):
-        raise NotImplementedError()
+        self.P &= CLEAR_ZERO
 
     def set_carry(self):
-        raise NotImplementedError()
+        self.P |= CARRY
     def clear_carry(self):
-        raise NotImplementedError()
+        self.P &= CLEAR_CARRY
 
 
 
