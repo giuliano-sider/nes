@@ -17,7 +17,7 @@ def run_game(iNES_file):
 
     while 1:
 
-        opcode = memory_mapper.cpu_read_byte(cpu.PC)
+        opcode = cpu.memory[cpu.PC]
         instructions[opcode](cpu, logger)
         if opcode == BRK:
             break
