@@ -17,7 +17,7 @@ def run_game(iNES_file):
 
     while 1:
 
-        opcode = cpu.memory[cpu.PC]
+        opcode = cpu.memory[cpu.PC()]
         instructions[opcode](cpu, logger)
         if opcode == BRK:
             break
@@ -28,7 +28,7 @@ def run_game(iNES_file):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Run NES games with this emulator.')
-    parser.add_argument('iNES_file', type=str, help='Provide an iNES file path to run a program.')
+    parser.add_argument('iNES_file', type=str, help='Provide the path to an iNES file to run a program.')
     args = parser.parse_args()
 
     run_game(args.iNES_file)

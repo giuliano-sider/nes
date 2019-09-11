@@ -1,4 +1,4 @@
-from memory_mapper import RESET_VECTOR
+from memory_mapper import RESET_VECTOR, MEMORY_SIZE
 
 # flag-related constants:
 
@@ -43,11 +43,11 @@ class Cpu():
         self.memory_mapper = memory_mapper
         self.memory = MemoryAccessor(memory_mapper)
 
-        self.A = 0
-        self.X = 0
-        self.Y = 0
-        self.SP = 0
-        self.P = 0 # N V - B D I Z C
+        self.A_ = 0
+        self.X_ = 0
+        self.Y_ = 0
+        self.SP_ = 0
+        self.P_ = 0 # N V - B D I Z C
 
         self.Reset()
 
@@ -61,49 +61,107 @@ class Cpu():
     
     def Reset(self):
 
-        self.P = IRQ_DISABLE
-        self.PC = self.memory_mapper.cpu_read_word(RESET_VECTOR)
+        self.P_ = IRQ_DISABLE
+        self.PC_ = self.memory_mapper.cpu_read_word(RESET_VECTOR)
 
     def trigger_IRQ(self, source):
         # TODO: Find out how we should generate interrupts and test the interrupt mechanism.
         raise NotImplementedError()
 
+
+    # Accessors for the registers:
+
+    def A(self):
+        return self.A_
+    def set_A(self, value):
+        self.A_ = value % 256
+
+    def X(self):
+        return self.X_
+    def set_X(self, value):
+        self.X_ = value % 256
+
+    def Y(self):
+        return self.Y_
+    def set_Y(self, value):
+        self.Y_ = value % 256
+
+    def SP(self):
+        return self.SP_
+    def set_SP(self, value):
+        self.SP_ = value % 256
+
+    def P(self):
+        return self.P_
+    def set_P(self, value):
+        self.P_ = value % 256
+
+    def PC(self):
+        return self.PC_
+    def set_PC(self, value):
+        self.PC_ = value % MEMORY_SIZE
+
+
     # Accessors for the flags:
 
+    def set_negative_iff(self, condition):
+        """Set the flag if condition is true, else clear it."""
+        if condition: self.set_negative()
+        else:         self.clear_negative()
+    
+    def set_overflow_iff(self, condition):
+        """Set the flag if condition is true, else clear it."""
+        if condition: self.set_overflow()
+        else:         self.clear_overflow()
+
+    def set_zero_iff(self, condition):
+        """Set the flag if condition is true, else clear it."""
+        if condition: self.set_zero()
+        else:         self.clear_zero()
+    
+    def set_carry_iff(self, condition):
+        """Set the flag if condition is true, else clear it."""
+        if condition: self.set_carry()
+        else:         self.clear_carry()
+
     def set_negative(self):
-        self.P |= NEGATIVE
+        self.P_ |= NEGATIVE
     def clear_negative(self):
-        self.P &= CLEAR_NEGATIVE
+        self.P_ &= CLEAR_NEGATIVE
 
     def set_overflow(self):
-        self.P |= OVERFLOW
+        self.P_ |= OVERFLOW
     def clear_overflow(self):
-        self.P &= CLEAR_OVERFLOW
+        self.P_ &= CLEAR_OVERFLOW
 
     def set_break(self):
-        self.P |= BREAK
+        self.P_ |= BREAK
     def clear_break(self):
-        self.P &= CLEAR_BREAK
+        self.P_ &= CLEAR_BREAK
 
     def set_decimal(self):
-        self.P |= DECIMAL
+        self.P_ |= DECIMAL
     def clear_decimal(self):
-        self.P &= CLEAR_DECIMAL
+        self.P_ &= CLEAR_DECIMAL
 
     def set_irq_disable(self):
-        self.P |= IRQ_DISABLE
+        self.P_ |= IRQ_DISABLE
     def clear_irq_disable(self):
-        self.P &= CLEAR_IRQ_DISABLE
+        self.P_ &= CLEAR_IRQ_DISABLE
 
     def set_zero(self):
-        self.P |= ZERO
+        self.P_ |= ZERO
     def clear_zero(self):
-        self.P &= CLEAR_ZERO
+        self.P_ &= CLEAR_ZERO
 
     def set_carry(self):
-        self.P |= CARRY
+        self.P_ |= CARRY
     def clear_carry(self):
-        self.P &= CLEAR_CARRY
+        self.P_ &= CLEAR_CARRY
+
+    def carry(self):
+        """Return value of the carry flag."""
+        return int(self.P_ & CARRY != 0)
 
 
 

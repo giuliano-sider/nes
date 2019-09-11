@@ -1,3 +1,5 @@
+from nes_cpu_utils import is_negative, is_overflow
+
 
 def InstructionNotImplemented(*args):
     raise NotImplementedError('Instruction currently unimplemented')
@@ -20,7 +22,7 @@ def brk(cpu, logger):
         raise NotImplementedError()
     else:
         cpu.set_break()
-        logger.printLog(cpu.PC, cpu.A, cpu.X, cpu.Y, cpu.SP, cpu.P)
+        logger.log_instruction(cpu)
 
 instructions[BRK] = brk
 
@@ -441,9 +443,26 @@ def pla(cpu, logger):
     # to be implemented OPCODE 68
     raise NotImplementedError()
 
-def add_immidiate(cpu, logger):
-    # to be implemented OPCODE 69
-    raise NotImplementedError()
+ADC_IMMEDIATE = 0x69
+def adc_immediate(cpu, logger):
+    op2 = cpu.memory[cpu.PC() + 1]
+    cpu.set_PC(cpu.PC() + 2)
+    adc(cpu, logger, op2)
+
+def adc(cpu, logger, op2):
+    op1 = cpu.A() 
+    result = cpu.A() + op2 + cpu.carry()
+    cpu.set_A(result)
+
+    cpu.set_negative_iff(is_negative(cpu.A()))
+    cpu.set_overflow_iff(is_overflow(op1, op2, cpu.A()))
+    cpu.set_zero_iff(cpu.A() == 0)
+    cpu.set_carry_iff(result >= 256)
+    
+    logger.log_instruction(cpu)
+
+instructions[ADC_IMMEDIATE] = adc_immediate
+
 
 def ror_accumulator(cpu, logger):
     # to be implemented OPCODE 6a
@@ -1147,7 +1166,6 @@ instructions[101] = add_zeropage
 instructions[102] = ror_zeropage
 instructions[103] = instruction_67
 instructions[104] = pla
-instructions[105] = add_immidiate
 instructions[106] = ror_accumulator
 instructions[107] = instruction_6b
 instructions[108] = jmp_indirect

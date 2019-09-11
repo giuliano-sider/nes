@@ -5,6 +5,9 @@ class CpuLogger():
     def __init__(self, output_file):
         self.output_file = output_file
 
+    def log_instruction(self, cpu):
+        self.printLog(cpu.PC(), cpu.A(), cpu.X(), cpu.Y(), cpu.SP(), cpu.P())
+
     def printLog(self, regPC, regA, regX, regY, regSP,  regP):
     	print("| pc = 0x%04x | a = 0x%04x  | x = 0x%04x | y = 0x%04x | sp = 0x%04x | p[NV-BDIZC] = %s |" % (regPC,
             regA, regX, regY, regSP, '{0:08b}'.format(regP)), file=self.output_file)
