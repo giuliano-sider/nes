@@ -119,17 +119,13 @@ class MemoryMapper():
 
 
     def cpu_read_byte(self, addr):
-        assert(0 <= addr < MEMORY_SIZE)
-        return self.cpu_memory[addr]
+        return self.cpu_memory[addr % MEMORY_SIZE]
 
     def cpu_write_byte(self, addr, value):
-        assert(0 <= addr < MEMORY_SIZE)
-        assert(0 <= value < 256)
-        self.cpu_memory[addr] = value
+        self.cpu_memory[addr % MEMORY_SIZE] = value % 256
 
     def cpu_read_word(self, addr):
         """Return the contents of a 2-byte word located in the CPU address space given by @param addr.
            The read wraps around to zero at 64KiB.
         """
-        assert(0 <= addr < MEMORY_SIZE)
-        return self.cpu_memory[addr] + (self.cpu_memory[(addr + 1) % MEMORY_SIZE] << 8)
+        return self.cpu_memory[addr % MEMORY_SIZE] + (self.cpu_memory[(addr + 1) % MEMORY_SIZE] << 8)
