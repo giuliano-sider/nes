@@ -59,7 +59,7 @@ def php(cpu, logger):
     # to be implemented OPCODE 08
     raise NotImplementedError()
 
-def ora_immidiate(cpu, logger):
+def ora_immediate(cpu, logger):
     # to be implemented OPCODE 09
     raise NotImplementedError()
 
@@ -315,7 +315,7 @@ def pha(cpu, logger):
     # to be implemented OPCODE 48
     raise NotImplementedError()
 
-def eor_immidiate(cpu, logger):
+def eor_immediate(cpu, logger):
     # to be implemented OPCODE 49
     raise NotImplementedError()
 
@@ -450,7 +450,7 @@ def adc_immediate(cpu, logger):
     adc(cpu, logger, op2)
 
 def adc(cpu, logger, op2):
-    op1 = cpu.A() 
+    op1 = cpu.A()
     result = cpu.A() + op2 + cpu.carry()
     cpu.set_A(result)
 
@@ -458,7 +458,7 @@ def adc(cpu, logger, op2):
     cpu.set_overflow_iff(is_overflow(op1, op2, cpu.A()))
     cpu.set_zero_iff(cpu.A() == 0)
     cpu.set_carry_iff(result >= 256)
-    
+
     logger.log_instruction(cpu)
 
 instructions[ADC_IMMEDIATE] = adc_immediate
@@ -616,9 +616,18 @@ def instruction_8f(cpu, logger):
     # to be implemented OPCODE 8f
     raise NotImplementedError()
 
+BCC = 0x90
 def bcc(cpu, logger):
-    # to be implemented OPCODE 90
-    raise NotImplementedError()
+    if cpu.carry == 0:
+        bnc(cpu, logger, cpu.memory[cpu.PC()+1])
+    else:
+        return
+
+def bnc(cpu, logger, oper):
+    cpu.set_PC(oper)
+
+    logger.log_instruction(cpu)
+
 
 def sta_indirect_y(cpu, logger):
     # to be implemented OPCODE 91
@@ -680,7 +689,7 @@ def instruction_9f(cpu, logger):
     # to be implemented OPCODE 9f
     raise NotImplementedError()
 
-def ldy_immidiate(cpu, logger):
+def ldy_immediate(cpu, logger):
     # to be implemented OPCODE a0
     raise NotImplementedError()
 
@@ -688,7 +697,7 @@ def lda_indirect_x(cpu, logger):
     # to be implemented OPCODE a1
     raise NotImplementedError()
 
-def ldx_immidiate(cpu, logger):
+def ldx_immediate(cpu, logger):
     # to be implemented OPCODE a2
     raise NotImplementedError()
 
@@ -716,7 +725,7 @@ def tay(cpu, logger):
     # to be implemented OPCODE a8
     raise NotImplementedError()
 
-def lda_immidiate(cpu, logger):
+def lda_immediate(cpu, logger):
     # to be implemented OPCODE a9
     raise NotImplementedError()
 
@@ -808,7 +817,7 @@ def instruction_bf(cpu, logger):
     # to be implemented OPCODE bf
     raise NotImplementedError()
 
-def cpy_immidiate(cpu, logger):
+def cpy_immediate(cpu, logger):
     # to be implemented OPCODE c0
     raise NotImplementedError()
 
@@ -844,7 +853,7 @@ def iny(cpu, logger):
     # to be implemented OPCODE c8
     raise NotImplementedError()
 
-def cmp_immidiate(cpu, logger):
+def cmp_immediate(cpu, logger):
     # to be implemented OPCODE c9
     raise NotImplementedError()
 
@@ -936,7 +945,7 @@ def instruction_df(cpu, logger):
     # to be implemented OPCODE df
     raise NotImplementedError()
 
-def cpx_immidiate(cpu, logger):
+def cpx_immediate(cpu, logger):
     # to be implemented OPCODE e0
     raise NotImplementedError()
 
@@ -972,7 +981,7 @@ def inx(cpu, logger):
     # to be implemented OPCODE e8
     raise NotImplementedError()
 
-def sbc_immidiate(cpu, logger):
+def sbc_immediate(cpu, logger):
     # to be implemented OPCODE e9
     raise NotImplementedError()
 
@@ -1070,7 +1079,7 @@ instructions[5] = ora_zeropage
 instructions[6] = asl_zeropage
 instructions[7] = instruction_07
 instructions[8] = php
-instructions[9] = ora_immidiate
+instructions[9] = ora_immediate
 instructions[10] = asl_accumulator
 instructions[11] = instruction_0b
 instructions[12] = instruction_0c
@@ -1134,7 +1143,7 @@ instructions[69] = eor_zeropage
 instructions[70] = lsr_zeropage
 instructions[71] = instruction_47
 instructions[72] = pha
-instructions[73] = eor_immidiate
+instructions[73] = eor_immediate
 instructions[74] = lsr_accumulator
 instructions[75] = instruction_4b
 instructions[76] = jmp_absolute
@@ -1204,7 +1213,7 @@ instructions[140] = sty_absolute
 instructions[141] = sta_absolute
 instructions[142] = stx_absolute
 instructions[143] = instruction_8f
-instructions[144] = bcc
+instructions[BCC] = bcc
 instructions[145] = sta_indirect_y
 instructions[146] = instruction_92
 instructions[147] = instruction_93
@@ -1220,16 +1229,16 @@ instructions[156] = instruction_9c
 instructions[157] = sta_absolute_x
 instructions[158] = instruction_9e
 instructions[159] = instruction_9f
-instructions[160] = ldy_immidiate
+instructions[160] = ldy_immediate
 instructions[161] = lda_indirect_x
-instructions[162] = ldx_immidiate
+instructions[162] = ldx_immediate
 instructions[163] = instruction_a3
 instructions[164] = ldy_zeropage
 instructions[165] = lda_zeropage
 instructions[166] = ldx_zeropage
 instructions[167] = instruction_a7
 instructions[168] = tay
-instructions[169] = lda_immidiate
+instructions[169] = lda_immediate
 instructions[170] = tax
 instructions[171] = instruction_ab
 instructions[172] = lda_absolute
@@ -1252,7 +1261,7 @@ instructions[188] = ldy_absolute_x
 instructions[189] = lda_absolute_x
 instructions[190] = ldx_absolute_y
 instructions[191] = instruction_bf
-instructions[192] = cpy_immidiate
+instructions[192] = cpy_immediate
 instructions[193] = cmp_indirect_x
 instructions[194] = instruction_c2
 instructions[195] = instruction_c3
@@ -1261,7 +1270,7 @@ instructions[197] = cmp_zeropage
 instructions[198] = dec_zeropage
 instructions[199] = instruction_c7
 instructions[200] = iny
-instructions[201] = cmp_immidiate
+instructions[201] = cmp_immediate
 instructions[202] = dex
 instructions[203] = instruction_cb
 instructions[204] = cpy_absolute
@@ -1284,7 +1293,7 @@ instructions[220] = instruction_dc
 instructions[221] = cmp_absolute_x
 instructions[222] = dec_absolute_x
 instructions[223] = instruction_df
-instructions[224] = cpx_immidiate
+instructions[224] = cpx_immediate
 instructions[225] = sbs_indirect_x
 instructions[226] = instruction_e2
 instructions[227] = instruction_e3
@@ -1293,7 +1302,7 @@ instructions[229] = sbc_zeropage
 instructions[230] = inc_zeropage
 instructions[231] = instruction_e7
 instructions[232] = inx
-instructions[233] = sbc_immidiate
+instructions[233] = sbc_immediate
 instructions[234] = nop
 instructions[235] = instruction_eb
 instructions[236] = cpx_absolute
