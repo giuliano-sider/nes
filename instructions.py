@@ -449,6 +449,12 @@ def adc_immediate(cpu, logger):
     cpu.set_PC(cpu.PC() + 2)
     adc(cpu, logger, op2)
 
+ADC_ZEROPAGE = 0x65
+def adc_zeropage(cpu, logger):
+    op2 = cpu.memory[cpu.memory[cpu.PC() + 1]]
+    cpu.set_PC(cpu.PC() + 2)
+    adc(cpu, logger, op2)
+
 def adc(cpu, logger, op2):
     op1 = cpu.A() 
     result = cpu.A() + op2 + cpu.carry()
