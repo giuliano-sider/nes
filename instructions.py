@@ -119,9 +119,12 @@ def instruction_17(cpu, logger):
     # to be implemented OPCODE 17
     raise NotImplementedError()
 
+CLC = 0x18
 def clc(cpu, logger):
-    # to be implemented OPCODE 18
-    raise NotImplementedError()
+    if cpu.carry() == 1:
+        cpu.clear_carry()
+    cpu.set_PC(cpu.PC()+1)
+    logger.log_instruction(cpu)
 
 def ora_absolute_y(cpu, logger):
     # to be implemented OPCODE 19
@@ -247,9 +250,12 @@ def instruction_37(cpu, logger):
     # to be implemented OPCODE 37
     raise NotImplementedError()
 
+SEC = 0x38
 def sec(cpu, logger):
-    # to be implemented OPCODE 38
-    raise NotImplementedError()
+    if cpu.carry() == 0:
+        cpu.set_carry()
+    cpu.set_PC(cpu.PC()+1)
+    logger.log_instruction(cpu)
 
 def instruction_39(cpu, logger):
     # to be implemented OPCODE 39
@@ -618,10 +624,14 @@ def instruction_8f(cpu, logger):
 
 BCC = 0x90
 def bcc(cpu, logger):
-    if cpu.carry == 0:
-        bnc(cpu, logger, cpu.memory[cpu.PC()+1])
+    if cpu.carry() == 0:
+        offset = cpu.memory[cpu.PC()+1] + 2
+        print(offset)
+        oper = cpu.PC() + offset
+        bnc(cpu, logger, oper)
     else:
-        return
+        cpu.set_PC(cpu.PC() + 2)
+        logger.log_instruction(cpu)
 
 def bnc(cpu, logger, oper):
     cpu.set_PC(oper)
@@ -1094,7 +1104,7 @@ instructions[20] = instruction_14
 instructions[21] = ora_zeropage_x
 instructions[22] = asl_zeropage_x
 instructions[23] = instruction_17
-instructions[24] = clc
+instructions[CLC] = clc
 instructions[25] = ora_absolute_y
 instructions[26] = instruction_1a
 instructions[27] = instruction_1b
@@ -1126,7 +1136,7 @@ instructions[52] = instruction_34
 instructions[53] = instruction_35
 instructions[54] = rol_zeropage_x
 instructions[55] = instruction_37
-instructions[56] = sec
+instructions[SEC] = sec
 instructions[57] = instruction_39
 instructions[58] = instruction_3a
 instructions[59] = instruction_3b

@@ -27,7 +27,7 @@ CLEAR_CARRY = 0b11111111 - CARRY
 
 class MemoryAccessor():
     """Allow convenient access to the CPU memory address space."""
-    
+
     def __init__(self, memory_mapper):
         self.memory_mapper = memory_mapper
 
@@ -59,7 +59,7 @@ class Cpu():
     def trigger_NMI(self, source):
         # TODO: Find out how we should generate interrupts and test the interrupt mechanism.
         raise NotImplementedError()
-    
+
     def Reset(self):
 
         self.P_ = IRQ_DISABLE
@@ -109,7 +109,7 @@ class Cpu():
         """Set the flag if condition is true, else clear it."""
         if condition: self.set_negative()
         else:         self.clear_negative()
-    
+
     def set_overflow_iff(self, condition):
         """Set the flag if condition is true, else clear it."""
         if condition: self.set_overflow()
@@ -119,7 +119,7 @@ class Cpu():
         """Set the flag if condition is true, else clear it."""
         if condition: self.set_zero()
         else:         self.clear_zero()
-    
+
     def set_carry_iff(self, condition):
         """Set the flag if condition is true, else clear it."""
         if condition: self.set_carry()
@@ -175,4 +175,3 @@ class Cpu():
     def carry(self):
         """Return value of the carry flag."""
         return 1 if (self.P_ & CARRY) else 0
-
