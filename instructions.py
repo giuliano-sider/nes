@@ -455,6 +455,24 @@ def adc_zeropage(cpu, logger):
     cpu.set_PC(cpu.PC() + 2)
     adc(cpu, logger, op2)
 
+ADC_ZEROPAGEX = 0x75
+def adc_zeropagex(cpu, logger):
+    op2 = cpu.memory[cpu.memory[cpu.PC() + 1]] + cpu.X
+    cpu.set_PC(cpu.PC() + 3)
+    adc(cpu, logger, op2)
+
+ADC_ABSOLUTE = 0x6D
+def adc_absolute(cpu, logger):
+    op2 = cpu.memory[cpu.memory[(cpu.PC() + 1)]+cpu.memory[(cpu.PC() + 2)]]
+    cpu.set_PC(cpu.PC() + 3)
+    adc(cpu, logger, op2)
+
+ADC_ABSOLUTE = 0x6D
+def adc_absolute(cpu, logger):
+    op2 = cpu.memory[cpu.memory[(cpu.PC() + 1)]+cpu.memory[(cpu.PC() + 2)]]
+    cpu.set_PC(cpu.PC() + 4)
+    adc(cpu, logger, op2)
+
 def adc(cpu, logger, op2):
     op1 = cpu.A() 
     result = cpu.A() + op2 + cpu.carry()
