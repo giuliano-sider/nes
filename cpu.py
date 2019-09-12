@@ -1,5 +1,6 @@
 from memory_mapper import RESET_VECTOR, MEMORY_SIZE
 
+
 # flag-related constants:
 
 NEGATIVE       = 0b10000000
@@ -159,9 +160,19 @@ class Cpu():
     def clear_carry(self):
         self.P_ &= CLEAR_CARRY
 
+    def negative(self):
+        """Return value of the negative flag."""
+        return 1 if (self.P_ & NEGATIVE) else 0
+
+    def overflow(self):
+        """Return value of the overflow flag."""
+        return 1 if (self.P_ & OVERFLOW) else 0
+
+    def zero(self):
+        """Return value of the zero flag."""
+        return 1 if (self.P_ & ZERO) else 0
+
     def carry(self):
         """Return value of the carry flag."""
-        return int(self.P_ & CARRY != 0)
-
-
+        return 1 if (self.P_ & CARRY) else 0
 
