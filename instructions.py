@@ -724,9 +724,12 @@ def ldy_zeropage(cpu, logger):
     # to be implemented OPCODE a4
     raise NotImplementedError()
 
+LDA_ZEROPAGE = 0xA5
+
 def lda_zeropage(cpu, logger):
-    # to be implemented OPCODE a5
-    raise NotImplementedError()
+
+    lda_immidiate(cpu, logger)
+
 
 def ldx_zeropage(cpu, logger):
     # to be implemented OPCODE a6
@@ -740,9 +743,19 @@ def tay(cpu, logger):
     # to be implemented OPCODE a8
     raise NotImplementedError()
 
+LDA_IMMEDIATE = 0xA9
+
+
 def lda_immidiate(cpu, logger):
-    # to be implemented OPCODE a9
-    raise NotImplementedError()
+    op2 = cpu.memory[cpu.PC() + 1]
+    cpu.set_PC(cpu.PC() + 2)
+    if op2 == 0x00:
+        cpu.set_zero()
+    if op2 > 0x7f:
+        cpu.set_negative()
+    cpu.set_A(op2)
+    logger.log_instruction(cpu)
+
 
 def tax(cpu, logger):
     # to be implemented OPCODE aa
@@ -752,10 +765,13 @@ def instruction_ab(cpu, logger):
     # to be implemented OPCODE ab
     raise NotImplementedError()
 
-def lda_absolute(cpu, logger):
+
+def lda_absolute_WRONG(cpu, logger):
     # to be implemented OPCODE ac
     raise NotImplementedError()
 
+
+LDA_ABSOLUTE = 0xAD
 def lda_absolute(cpu, logger):
     # to be implemented OPCODE ad
     raise NotImplementedError()
