@@ -1,5 +1,5 @@
 from nes_cpu_utils import is_negative, is_overflow, twos_comp
-
+from arithmetics_instructions import * 
 
 def InstructionNotImplemented(*args):
     raise NotImplementedError('Instruction currently unimplemented')
@@ -447,10 +447,6 @@ def instruction_64(cpu, logger):
     # to be implemented OPCODE 64
     raise NotImplementedError()
 
-def add_zeropage(cpu, logger):
-    # to be implemented OPCODE 65
-    raise NotImplementedError()
-
 def ror_zeropage(cpu, logger):
     # to be implemented OPCODE 66
     raise NotImplementedError()
@@ -463,49 +459,12 @@ def pla(cpu, logger):
     # to be implemented OPCODE 68
     raise NotImplementedError()
 
-ADC_IMMEDIATE = 0x69
-def adc_immediate(cpu, logger):
-    op2 = cpu.memory[cpu.PC() + 1]
-    cpu.set_PC(cpu.PC() + 2)
-    adc(cpu, logger, op2)
-
-ADC_ZEROPAGE = 0x65
-def adc_zeropage(cpu, logger):
-    op2 = cpu.memory[cpu.memory[cpu.PC() + 1]]
-    cpu.set_PC(cpu.PC() + 2)
-    adc(cpu, logger, op2)
-
-ADC_ZEROPAGEX = 0x75
-def adc_zeropagex(cpu, logger):
-    op2 = cpu.memory[cpu.memory[cpu.PC() + 1]] + cpu.X
-    cpu.set_PC(cpu.PC() + 3)
-    adc(cpu, logger, op2)
-
-ADC_ABSOLUTE = 0x6D
-def adc_absolute(cpu, logger):
-    op2 = cpu.memory[cpu.memory[(cpu.PC() + 1)]+cpu.memory[(cpu.PC() + 2)]]
-    cpu.set_PC(cpu.PC() + 3)
-    adc(cpu, logger, op2)
-
-ADC_ABSOLUTE = 0x6D
-def adc_absolute(cpu, logger):
-    op2 = cpu.memory[cpu.memory[(cpu.PC() + 1)]+cpu.memory[(cpu.PC() + 2)]]
-    cpu.set_PC(cpu.PC() + 4)
-    adc(cpu, logger, op2)
-
-def adc(cpu, logger, op2):
-    op1 = cpu.A()
-    result = cpu.A() + op2 + cpu.carry()
-    cpu.set_A(result)
-
-    cpu.set_negative_iff(is_negative(cpu.A()))
-    cpu.set_overflow_iff(is_overflow(op1, op2, cpu.A()))
-    cpu.set_zero_iff(cpu.A() == 0)
-    cpu.set_carry_iff(result >= 256)
-
-    logger.log_instruction(cpu)
 
 instructions[ADC_IMMEDIATE] = adc_immediate
+instructions[ADC_ZEROPAGE] = adc_zeropage
+instructions[ADC_ZEROPAGEX] = adc_zeropage_x
+instructions[ADC_ABSOLUTE] = adc_absolute
+
 
 
 def ror_accumulator(cpu, logger):
@@ -520,9 +479,6 @@ def jmp_indirect(cpu, logger):
     # to be implemented OPCODE 6c
     raise NotImplementedError()
 
-def add_absolute(cpu, logger):
-    # to be implemented OPCODE 6d
-    raise NotImplementedError()
 
 def ror_absolute(cpu, logger):
     # to be implemented OPCODE 6e
@@ -550,10 +506,6 @@ def instruction_73(cpu, logger):
 
 def instruction_74(cpu, logger):
     # to be implemented OPCODE 74
-    raise NotImplementedError()
-
-def add_zeropage_x(cpu, logger):
-    # to be implemented OPCODE 75
     raise NotImplementedError()
 
 def ror_zeropage_x(cpu, logger):
@@ -776,7 +728,7 @@ def tay(cpu, logger):
 
 LDA_IMMEDIATE = 0xA9
 
-def lda_immidiate(cpu, logger):
+def lda_immediate(cpu, logger):
     op2 = cpu.memory[cpu.PC() + 1]
     cpu.set_PC(cpu.PC() + 2)
     if op2 == 0x00:
@@ -1258,14 +1210,12 @@ instructions[97] = add_indirect_x
 instructions[98] = instruction_62
 instructions[99] = instruction_63
 instructions[100] = instruction_64
-instructions[101] = add_zeropage
 instructions[102] = ror_zeropage
 instructions[103] = instruction_67
 instructions[104] = pla
 instructions[106] = ror_accumulator
 instructions[107] = instruction_6b
 instructions[108] = jmp_indirect
-instructions[109] = add_absolute
 instructions[110] = ror_absolute
 instructions[111] = instruction_6f
 instructions[112] = bvs
@@ -1273,7 +1223,6 @@ instructions[113] = add_indirect_y
 instructions[114] = instruction_72
 instructions[115] = instruction_73
 instructions[116] = instruction_74
-instructions[117] = add_zeropage_x
 instructions[118] = ror_zeropage_x
 instructions[119] = instruction_77
 instructions[120] = sei
