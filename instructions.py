@@ -649,17 +649,16 @@ def instruction_8f(cpu, logger):
 BCC = 0x90
 def bcc(cpu, logger):
     if cpu.carry() == 0:
-        offset = twos_comp(cpu.memory[cpu.PC()+1], 8) 
-        oper = cpu.PC() + offset + 2
-        bnc(cpu, logger, oper)
+        offset = twos_comp(cpu.memory[cpu.PC()+1], 8) + 2
+        oper = cpu.PC() + offset
+        branch(cpu, logger, oper)
     else:
         cpu.set_PC(cpu.PC() + 2)
-        logger.log_instruction(cpu)
-
-def bnc(cpu, logger, oper):
-    cpu.set_PC(oper)
-
+    
     logger.log_instruction(cpu)
+
+def branch(cpu, logger, oper):
+    cpu.set_PC(oper)
 
 
 def sta_indirect_y(cpu, logger):
@@ -801,9 +800,16 @@ def instruction_af(cpu, logger):
     # to be implemented OPCODE af
     raise NotImplementedError()
 
+BCS = 0xb0
 def bcs(cpu, logger):
-    # to be implemented OPCODE b0
-    raise NotImplementedError()
+    if cpu.carry() == 1:
+        offset = twos_comp(cpu.memory[cpu.PC()+1], 8) + 2
+        oper = cpu.PC() + offset
+        branch(cpu, logger, oper)
+    else:
+        cpu.set_PC(cpu.PC() + 2)
+    
+    logger.log_instruction(cpu)
 
 def lda_indirect_y(cpu, logger):
     # to be implemented OPCODE b1
@@ -901,9 +907,21 @@ def iny(cpu, logger):
     # to be implemented OPCODE c8
     raise NotImplementedError()
 
+CMP_IMMEDIATE = 0xc9
 def cmp_immediate(cpu, logger):
-    # to be implemented OPCODE c9
-    raise NotImplementedError()
+    oper = cpu.memory[cpu.PC() + 1]
+    value = cpu.A() - oper
+    if value  == 0:
+        cpu.set_zero()
+        cpu.clear_negative()
+    elif value < 0:
+        cpu.set_negative()
+        cpu.clear_zero()
+    else:
+        cpu.clear_negative()
+        cpu.clear_zero()
+    cpu.set_PC(cpu.PC() + 2)
+    logger.log_instruction(cpu)
 
 def dex(cpu, logger):
     # to be implemented OPCODE ca
@@ -1057,9 +1075,16 @@ def instruction_ef(cpu, logger):
     # to be implemented OPCODE ef
     raise NotImplementedError()
 
+BEQ = 0xf0
 def beq(cpu, logger):
-    # to be implemented OPCODE f0
-    raise NotImplementedError()
+    if cpu.zero() == 1:
+        offset = twos_comp(cpu.memory[cpu.PC()+1], 8) + 2
+        oper = cpu.PC() + offset
+        branch(cpu, logger, oper)
+    else:
+        cpu.set_PC(cpu.PC() + 2)
+    
+    logger.log_instruction(cpu)
 
 def sbc_indirect_y(cpu, logger):
     # to be implemented OPCODE f1

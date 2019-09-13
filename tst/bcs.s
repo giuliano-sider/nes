@@ -45,19 +45,19 @@ MIRRORING = %0001 ;%0000 = horizontal, %0001 = vertical, %1000 = four-screen
 
 Reset:
                         ; PC = c000, C = 0, mem = c000
-    BCC address_2       ; PC = c009, C = 0, mem = c000
+    BCS address_2       ; PC = c002, C = 0, mem = c000
 address_0:
     SEC                 ; PC = c003, C = 1, mem = c002
-    BCC address_3       ; PC = c005, C = 1, mem = c003
+    BCS address_3       ; PC = c011, C = 1, mem = c003
     CLC                 ; PC = c006, C = 0, mem = c005
-    BCC address_3       ; PC = c00b, C = 0, mem = c006
+    BCS address_3       ; PC = c011, C = 0, mem = c006
 address_1:
     BRK                 ; Abort execution, mem = c008
 
 address_2:
-    BCC address_0       ; PC = c002, C = 0, mem = c009
+    BCS address_0       ; PC = c002, C = 0, mem = c009
 address_3:
-    BCC address_1       ; PC = c008, C = 0, mem = c00b
+    BCS address_1       ; PC = c008, C = 1, mem = c00b
 
 NMI:
 
