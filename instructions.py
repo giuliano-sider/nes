@@ -1,4 +1,4 @@
-from nes_cpu_utils import is_negative, is_overflow
+from nes_cpu_utils import is_negative, is_overflow, twos_comp
 
 
 def InstructionNotImplemented(*args):
@@ -625,9 +625,8 @@ def instruction_8f(cpu, logger):
 BCC = 0x90
 def bcc(cpu, logger):
     if cpu.carry() == 0:
-        offset = cpu.memory[cpu.PC()+1] + 2
-        print(offset)
-        oper = cpu.PC() + offset
+        offset = twos_comp(cpu.memory[cpu.PC()+1], 8) 
+        oper = cpu.PC() + offset + 2
         bnc(cpu, logger, oper)
     else:
         cpu.set_PC(cpu.PC() + 2)

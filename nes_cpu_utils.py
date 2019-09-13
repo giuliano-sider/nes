@@ -18,3 +18,8 @@ def is_positive(number): # or zero
 
     return number & 0b10000000 == 0
 
+def twos_comp(val, bits):
+    if (val & (1 << (bits - 1))) != 0:      # if sign bit is set 
+        val = val - (1 << bits)             # compute negative value
+    return val  
+
