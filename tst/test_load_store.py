@@ -61,15 +61,6 @@ class TestLoadStore(unittest.TestCase):
         expected_value = 0xFF
         self.assertEqual(expected_value, cpu.A())
 
-    # def test_zero_page_lda_for_operand_smaller_or_equals_0xff(self):
-    #     cpu = CreateTestCpu()
-    #     cpu.clear_carry()
-    #     cpu.set_A(0x03)
-    #
-    #     execute_instruction(cpu, opcode=LDA_ZEROPAGE, op2_lo_byte=0x100)
-    #     #Assert it throws error
-
-
 
 if __name__ == '__main__':
     unittest.main()
