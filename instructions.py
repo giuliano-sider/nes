@@ -363,9 +363,16 @@ def instruction_4f(cpu, logger):
     # to be implemented OPCODE 4f
     raise NotImplementedError()
 
+BVC = 0x50
 def bvc(cpu, logger):
-    # to be implemented OPCODE 50
-    raise NotImplementedError()
+    if cpu.overflow() == 0:
+        offset = twos_comp(cpu.memory[cpu.PC()+1], 8) + 2
+        oper = cpu.PC() + offset
+        branch(cpu, logger, oper)
+    else:
+        cpu.set_PC(cpu.PC() + 2)
+    
+    logger.log_instruction(cpu)
 
 def eor_indirect_y(cpu, logger):
     # to be implemented OPCODE 51
