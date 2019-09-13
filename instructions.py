@@ -1,4 +1,6 @@
+
 from nes_cpu_utils import is_negative, is_overflow, twos_comp
+from Instructions.load_instructions import *
 
 
 def InstructionNotImplemented(*args):
@@ -469,6 +471,7 @@ def adc_immediate(cpu, logger):
     cpu.set_PC(cpu.PC() + 2)
     adc(cpu, logger, op2)
 
+
 ADC_ZEROPAGE = 0x65
 def adc_zeropage(cpu, logger):
     op2 = cpu.memory[cpu.memory[cpu.PC() + 1]]
@@ -759,7 +762,7 @@ LDA_ZEROPAGE = 0xA5
 
 def lda_zeropage(cpu, logger):
 
-    lda_immidiate(cpu, logger)
+    lda_immediate(cpu, logger)
 
 
 def ldx_zeropage(cpu, logger):
@@ -774,17 +777,6 @@ def tay(cpu, logger):
     # to be implemented OPCODE a8
     raise NotImplementedError()
 
-LDA_IMMEDIATE = 0xA9
-
-def lda_immidiate(cpu, logger):
-    op2 = cpu.memory[cpu.PC() + 1]
-    cpu.set_PC(cpu.PC() + 2)
-    if op2 == 0x00:
-        cpu.set_zero()
-    if op2 > 0x7f:
-        cpu.set_negative()
-    cpu.set_A(op2)
-    logger.log_instruction(cpu)
 
 
 def tax(cpu, logger):
@@ -1325,7 +1317,7 @@ instructions[165] = lda_zeropage
 instructions[166] = ldx_zeropage
 instructions[167] = instruction_a7
 instructions[168] = tay
-instructions[169] = lda_immediate
+instructions[LDA_IMMEDIATE] = lda_immediate
 instructions[170] = tax
 instructions[171] = instruction_ab
 instructions[172] = lda_absolute
