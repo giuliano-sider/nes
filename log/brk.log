@@ -1,6 +1,1 @@
-Traceback (most recent call last):
-  File "emulator.py", line 6, in <module>
-    from instructions import BRK, instructions
-  File "/home/familia/Desktop/projeto-game/mc861-nesproject/instructions.py", line 1, in <module>
-    from nes_cpu_utils import is_negative, is_overflow, twos_comp
-ImportError: cannot import name 'twos_comp'
+| pc = 0xc000 | a = 0x0000  | x = 0x0000 | y = 0x0000 | sp = 0x0000 | p[NV-BDIZC] = 00010100 |
