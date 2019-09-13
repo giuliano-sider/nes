@@ -1,4 +1,7 @@
 from nes_cpu_utils import is_negative, is_overflow, twos_comp
+from Instructions.load_instructions import *
+from Instructions.store_instructions import *
+
 
 
 def InstructionNotImplemented(*args):
@@ -86,17 +89,6 @@ def asl_absolute(cpu, logger):
 def instruction_0f(cpu, logger):
     # to be implemented OPCODE 0f
     raise NotImplementedError()
-
-BPL = 0x10
-def bpl(cpu, logger):
-    if cpu.negative() == 0:
-        offset = twos_comp(cpu.memory[cpu.PC()+1], 8) + 2
-        oper = cpu.PC() + offset
-        branch(cpu, logger, oper)
-    else:
-        cpu.set_PC(cpu.PC() + 2)
-    
-    logger.log_instruction(cpu)
 
 def ora_indirect_y(cpu, logger):
     # to be implemented OPCODE 11
@@ -225,17 +217,6 @@ def instruction_2f(cpu, logger):
     # to be implemented OPCODE 2f
     raise NotImplementedError()
 
-BMI = 0x30
-def bmi(cpu, logger):
-    if cpu.negative() == 1:
-        offset = twos_comp(cpu.memory[cpu.PC()+1], 8) + 2
-        oper = cpu.PC() + offset
-        branch(cpu, logger, oper)
-    else:
-        cpu.set_PC(cpu.PC() + 2)
-    
-    logger.log_instruction(cpu)
-
 def instruction_31(cpu, logger):
     # to be implemented OPCODE 31
     raise NotImplementedError()
@@ -362,17 +343,6 @@ def lsr_absolute(cpu, logger):
 def instruction_4f(cpu, logger):
     # to be implemented OPCODE 4f
     raise NotImplementedError()
-
-BVC = 0x50
-def bvc(cpu, logger):
-    if cpu.overflow() == 0:
-        offset = twos_comp(cpu.memory[cpu.PC()+1], 8) + 2
-        oper = cpu.PC() + offset
-        branch(cpu, logger, oper)
-    else:
-        cpu.set_PC(cpu.PC() + 2)
-    
-    logger.log_instruction(cpu)
 
 def eor_indirect_y(cpu, logger):
     # to be implemented OPCODE 51
@@ -667,19 +637,7 @@ def instruction_8f(cpu, logger):
     # to be implemented OPCODE 8f
     raise NotImplementedError()
 
-BCC = 0x90
-def bcc(cpu, logger):
-    if cpu.carry() == 0:
-        offset = twos_comp(cpu.memory[cpu.PC()+1], 8) + 2
-        oper = cpu.PC() + offset
-        branch(cpu, logger, oper)
-    else:
-        cpu.set_PC(cpu.PC() + 2)
-    
-    logger.log_instruction(cpu)
 
-def branch(cpu, logger, oper):
-    cpu.set_PC(oper)
 
 
 def sta_indirect_y(cpu, logger):
@@ -821,17 +779,6 @@ def instruction_af(cpu, logger):
     # to be implemented OPCODE af
     raise NotImplementedError()
 
-BCS = 0xb0
-def bcs(cpu, logger):
-    if cpu.carry() == 1:
-        offset = twos_comp(cpu.memory[cpu.PC()+1], 8) + 2
-        oper = cpu.PC() + offset
-        branch(cpu, logger, oper)
-    else:
-        cpu.set_PC(cpu.PC() + 2)
-    
-    logger.log_instruction(cpu)
-
 def lda_indirect_y(cpu, logger):
     # to be implemented OPCODE b1
     raise NotImplementedError()
@@ -968,17 +915,6 @@ def instruction_cf(cpu, logger):
     # to be implemented OPCODE cf
     raise NotImplementedError()
 
-BNE = 0xd0
-def bne(cpu, logger):
-    if cpu.zero() == 0:
-        offset = twos_comp(cpu.memory[cpu.PC()+1], 8) + 2
-        oper = cpu.PC() + offset
-        branch(cpu, logger, oper)
-    else:
-        cpu.set_PC(cpu.PC() + 2)
-    
-    logger.log_instruction(cpu)
-
 def cmp_indirect_y(cpu, logger):
     # to be implemented OPCODE d1
     raise NotImplementedError()
@@ -1102,17 +1038,6 @@ def inc_absolute(cpu, logger):
 def instruction_ef(cpu, logger):
     # to be implemented OPCODE ef
     raise NotImplementedError()
-
-BEQ = 0xf0
-def beq(cpu, logger):
-    if cpu.zero() == 1:
-        offset = twos_comp(cpu.memory[cpu.PC()+1], 8) + 2
-        oper = cpu.PC() + offset
-        branch(cpu, logger, oper)
-    else:
-        cpu.set_PC(cpu.PC() + 2)
-    
-    logger.log_instruction(cpu)
 
 def sbc_indirect_y(cpu, logger):
     # to be implemented OPCODE f1

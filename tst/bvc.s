@@ -47,13 +47,11 @@ Reset:
                         ; PC = c000, V = 0, mem = c000
     BVC address_2       ; PC = c00d, V = 0, mem = c000
 address_0:
-	; cmp_absolute
     ADC #$FF            ; PC = c004, V = 0, mem = c002
     ADC #$80            ; PC = c006, V = 1, mem = c004
     BVC address_3       ; PC = c008, V = 1, mem = c006
-	;cmp_absolute
-    ADC #$00            ; PC = c00a, V = 0, mem = c008
-    BVC address_3       ; PC = c00f, V = 0, mem = c00a
+    ADC #$00            ; PC = c00a, V = 1, mem = c008
+    BVC address_3       ; PC = c00f, V = 1, mem = c00a
 address_1:
     BRK                 ; Abort execution, mem = c00c
 
