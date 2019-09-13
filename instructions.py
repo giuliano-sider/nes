@@ -218,9 +218,16 @@ def instruction_2f(cpu, logger):
     # to be implemented OPCODE 2f
     raise NotImplementedError()
 
+BMI = 0x30
 def bmi(cpu, logger):
-    # to be implemented OPCODE 30
-    raise NotImplementedError()
+    if cpu.negative() == 1:
+        offset = twos_comp(cpu.memory[cpu.PC()+1], 8) + 2
+        oper = cpu.PC() + offset
+        branch(cpu, logger, oper)
+    else:
+        cpu.set_PC(cpu.PC() + 2)
+    
+    logger.log_instruction(cpu)
 
 def instruction_31(cpu, logger):
     # to be implemented OPCODE 31
