@@ -1,6 +1,6 @@
-
 from nes_cpu_utils import is_negative, is_overflow, twos_comp
 from Instructions.load_instructions import *
+from Instructions.store_instructions import *
 
 
 def InstructionNotImplemented(*args):
@@ -603,9 +603,6 @@ def instruction_80(cpu, logger):
     # to be implemented OPCODE 80
     raise NotImplementedError()
 
-def sta_indirect_x(cpu, logger):
-    # to be implemented OPCODE 81
-    raise NotImplementedError()
 
 def instruction_82(cpu, logger):
     # to be implemented OPCODE 82
@@ -615,17 +612,6 @@ def instruction_83(cpu, logger):
     # to be implemented OPCODE 83
     raise NotImplementedError()
 
-def sty_zeropage(cpu, logger):
-    # to be implemented OPCODE 84
-    raise NotImplementedError()
-
-def sta_zeropage(cpu, logger):
-    # to be implemented OPCODE 85
-    raise NotImplementedError()
-
-def stx_zeropage(cpu, logger):
-    # to be implemented OPCODE 86
-    raise NotImplementedError()
 
 def instruction_87(cpu, logger):
     # to be implemented OPCODE 87
@@ -647,17 +633,6 @@ def instruction_8b(cpu, logger):
     # to be implemented OPCODE 8b
     raise NotImplementedError()
 
-def sty_absolute(cpu, logger):
-    # to be implemented OPCODE 8c
-    raise NotImplementedError()
-
-def sta_absolute(cpu, logger):
-    # to be implemented OPCODE 8d
-    raise NotImplementedError()
-
-def stx_absolute(cpu, logger):
-    # to be implemented OPCODE 8e
-    raise NotImplementedError()
 
 def instruction_8f(cpu, logger):
     # to be implemented OPCODE 8f
@@ -678,41 +653,25 @@ def branch(cpu, logger, oper):
     cpu.set_PC(oper)
 
 
-def sta_indirect_y(cpu, logger):
-    # to be implemented OPCODE 91
-    raise NotImplementedError()
-
 def instruction_92(cpu, logger):
     # to be implemented OPCODE 92
     raise NotImplementedError()
+
 
 def instruction_93(cpu, logger):
     # to be implemented OPCODE 93
     raise NotImplementedError()
 
-def sty_zeropage_x(cpu, logger):
-    # to be implemented OPCODE 94
-    raise NotImplementedError()
-
-def sta_zeropage_x(cpu, logger):
-    # to be implemented OPCODE 95
-    raise NotImplementedError()
-
-def stx_zeropage_x(cpu, logger):
-    # to be implemented OPCODE 96
-    raise NotImplementedError()
 
 def instruction_97(cpu, logger):
     # to be implemented OPCODE 97
     raise NotImplementedError()
 
+
 def instruction_98(cpu, logger):
     # to be implemented OPCODE 98
     raise NotImplementedError()
 
-def sta_absolute_y(cpu, logger):
-    # to be implemented OPCODE 99
-    raise NotImplementedError()
 
 def txs(cpu, logger):
     # to be implemented OPCODE 9a
@@ -726,9 +685,6 @@ def instruction_9c(cpu, logger):
     # to be implemented OPCODE 9c
     raise NotImplementedError()
 
-def sta_absolute_x(cpu, logger):
-    # to be implemented OPCODE 9d
-    raise NotImplementedError()
 
 def instruction_9e(cpu, logger):
     # to be implemented OPCODE 9e
@@ -739,18 +695,9 @@ def instruction_9f(cpu, logger):
     raise NotImplementedError()
 
 
-
-
-
-
 def instruction_a3(cpu, logger):
     # to be implemented OPCODE a3
     raise NotImplementedError()
-
-
-
-
-
 
 
 def instruction_a7(cpu, logger):
@@ -762,7 +709,6 @@ def tay(cpu, logger):
     raise NotImplementedError()
 
 
-
 def tax(cpu, logger):
     # to be implemented OPCODE aa
     raise NotImplementedError()
@@ -770,10 +716,6 @@ def tax(cpu, logger):
 def instruction_ab(cpu, logger):
     # to be implemented OPCODE ab
     raise NotImplementedError()
-
-
-
-
 
 
 def instruction_af(cpu, logger):
@@ -792,29 +734,24 @@ def bcs(cpu, logger):
     logger.log_instruction(cpu)
 
 
-
 def instruction_b2(cpu, logger):
     # to be implemented OPCODE b2
     raise NotImplementedError()
+
 
 def instruction_b3(cpu, logger):
     # to be implemented OPCODE b3
     raise NotImplementedError()
 
 
-
-
-
-
-
 def instruction_b7(cpu, logger):
     # to be implemented OPCODE b7
     raise NotImplementedError()
 
+
 def clv(cpu, logger):
     # to be implemented OPCODE b8
     raise NotImplementedError()
-
 
 
 def tsx(cpu, logger):
@@ -824,11 +761,6 @@ def tsx(cpu, logger):
 def instruction_bb(cpu, logger):
     # to be implemented OPCODE bb
     raise NotImplementedError()
-
-
-
-
-
 
 
 def instruction_bf(cpu, logger):
