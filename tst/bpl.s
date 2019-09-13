@@ -44,22 +44,22 @@ MIRRORING = %0001 ;%0000 = horizontal, %0001 = vertical, %1000 = four-screen
    .base $10000-(PRG_COUNT*$4000)
 
 Reset:
-                        ; PC = c000, Z = 0, mem = c000
-    BNE address_2       ; PC = c00b, Z = 0, mem = c000
+                        ; PC = c000, N = 0, mem = c000
+    BPL address_2       ; PC = c00b, N = 0, mem = c000
 address_0:
 	; cmp_absolute
-    CMP #$01            ; PC = c004, Z = 0, mem = c002
-    BNE address_3       ; PC = c00d, Z = 0, mem = c004
+    CMP #$00            ; PC = c004, N = 1, mem = c002
+    BPL address_3       ; PC = c008, N = 1, mem = c004
 	;cmp_absolute
-    CMP #$00            ; PC = c008, Z = 1, mem = c006
-    BNE address_3       ; PC = c00d, Z = 1, mem = c008
+    CMP #$01            ; PC = c008, N = 1, mem = c006
+    BPL address_3       ; PC = c00a, N = 1, mem = c008
 address_1:
     BRK                 ; Abort execution, mem = c00a
 
 address_2:
-    BNE address_0       ; PC = c002, Z = 0, mem = c00b
+    BPL address_0       ; PC = c002, N = 0, mem = c00b
 address_3:
-    BNE address_1       ; PC = c00a, Z = 0, mem = c00d
+    BPL address_1       ; PC = c00a, N = 1, mem = c00d
 
 
    .org $E000

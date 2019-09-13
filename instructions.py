@@ -87,9 +87,16 @@ def instruction_0f(cpu, logger):
     # to be implemented OPCODE 0f
     raise NotImplementedError()
 
+BPL = 0x10
 def bpl(cpu, logger):
-    # to be implemented OPCODE 10
-    raise NotImplementedError()
+    if cpu.negative() == 0:
+        offset = twos_comp(cpu.memory[cpu.PC()+1], 8) + 2
+        oper = cpu.PC() + offset
+        branch(cpu, logger, oper)
+    else:
+        cpu.set_PC(cpu.PC() + 2)
+    
+    logger.log_instruction(cpu)
 
 def ora_indirect_y(cpu, logger):
     # to be implemented OPCODE 11
