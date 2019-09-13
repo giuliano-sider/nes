@@ -954,16 +954,9 @@ def instruction_cf(cpu, logger):
     # to be implemented OPCODE cf
     raise NotImplementedError()
 
-BNE = 0xd0
 def bne(cpu, logger):
-    if cpu.zero() == 0:
-        offset = twos_comp(cpu.memory[cpu.PC()+1], 8) + 2
-        oper = cpu.PC() + offset
-        branch(cpu, logger, oper)
-    else:
-        cpu.set_PC(cpu.PC() + 2)
-    
-    logger.log_instruction(cpu)
+    # to be implemented OPCODE d0
+    raise NotImplementedError()
 
 def cmp_indirect_y(cpu, logger):
     # to be implemented OPCODE d1
