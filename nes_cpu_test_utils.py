@@ -4,15 +4,12 @@ from log import FAKE_LOGGER
 from instructions import instructions
 import os
 
+DEFAULT_iNES_FILE = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'bin', 'brk')
 
-def CreateTestCpu(iNES_file='/bin/brk', absolute_path=False):
+
+def CreateTestCpu(iNES_file=DEFAULT_iNES_FILE):
     """Return a valid Cpu for testing purposes. Any valid iNES file name or valid sequence of bytes read from such a file will work."""
-    iNES_file_path = ""
-    if absolute_path :
-        iNES_file_path = os.getcwd()
-        print(iNES_file_path)
-    iNES_file_path = iNES_file_path + iNES_file
-    return Cpu(MemoryMapper(iNES_file_path))
+    return Cpu(MemoryMapper(iNES_file))
 
 def insert_instruction(cpu, addr, opcode, op2_lo_byte=None, op2_hi_byte=None):
 
