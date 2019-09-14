@@ -1,6 +1,7 @@
 from nes_cpu_utils import is_negative, is_overflow, twos_comp
 from Instructions.load_instructions import *
 from Instructions.store_instructions import *
+from Instructions.flow_control_instructions import *
 
 
 
