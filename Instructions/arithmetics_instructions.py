@@ -15,13 +15,13 @@ def adc_zeropage(cpu, logger):
 ADC_ZEROPAGEX = 0x75
 def adc_zeropage_x(cpu, logger):
     #TODO: wrap zeropage if carry
-    print((cpu.memory[cpu.PC() + 1] + cpu.X()) % 256)
     op2 = cpu.memory[(cpu.memory[cpu.PC() + 1] + cpu.X()) % 256]
     cpu.set_PC(cpu.PC() + 3)
     adc(cpu, logger, op2)
 
 ADC_ABSOLUTE = 0x6D
 def adc_absolute(cpu, logger):
+    print("addr ", cpu.memory_mapper.cpu_read_word(cpu.PC() + 1))
     op2 = cpu.memory[cpu.memory_mapper.cpu_read_word(cpu.PC() + 1)]
     cpu.set_PC(cpu.PC() + 3)
     adc(cpu, logger, op2)
