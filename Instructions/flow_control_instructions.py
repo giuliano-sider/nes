@@ -1,5 +1,7 @@
 # 6502 control flow instructions
 
+from nes_cpu_utils import twos_comp
+
 BCC = 0x90
 def bcc(cpu, logger):
     if cpu.carry() == 0:
