@@ -1,3 +1,4 @@
+import nes_cpu_utils as utils
 
 LDA_IMMEDIATE = 0xA9
 def lda_immediate(cpu, logger):
@@ -16,15 +17,23 @@ def lda_zeropage(cpu, logger):
     content = cpu.memory[address_8bit]
     if content == 0x00:
         cpu.set_zero()
-    if content > 0x7f:
+    if utils.is_negative(content):
         cpu.set_negative()
     cpu.set_A(content)
     logger.log_instruction(cpu)
 
 LDA_ABSOLUTE = 0xAD
 def lda_absolute(cpu, logger):
-    # to be implemented OPCODE ad
-    raise NotImplementedError()
+    low_address_part = cpu.memory[cpu.PC() + 1]
+    high_address_part = cpu.memory[cpu.PC() + 2] << 8
+    address = low_address_part + high_address_part
+    content = cpu.memory[address]
+    if content == 0x00:
+        cpu.set_zero()
+    if utils.is_negative(content):
+        cpu.set_negative()
+    cpu.set_A(content)
+    logger.log_instruction(cpu)
 
 LDA_INDIRECT_Y = 0xB1
 def lda_indirect_y(cpu, logger):

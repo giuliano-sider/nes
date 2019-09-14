@@ -11,6 +11,7 @@ class TestLoadStore(unittest.TestCase):
     def setUp(self):
         self.cpu = CreateTestCpu()
         self.cpu.clear_carry()
+        self.cpu.clear_zero()
 
     def test_if_register_a_receives_immediate(self):
         self.cpu.set_A(0x03)
@@ -78,6 +79,48 @@ class TestLoadStore(unittest.TestCase):
         execute_instruction(self.cpu, opcode=LDA_ZEROPAGE, op2_lo_byte=storage_address)
         expected_negative_flag_value = 1
         self.assertEqual(expected_negative_flag_value, self.cpu.negative())
+
+    def test_lda_absolute(self):
+        storage_address = 0x1100
+        stored_content = 0x80
+        low_address_part = 0x00
+        high_address_part = 0x11
+        any_content = 0x03
+
+        self.cpu.set_A(any_content)
+        self.cpu.memory[storage_address] = stored_content
+
+        execute_instruction(self.cpu, opcode=LDA_ABSOLUTE, op2_lo_byte=low_address_part, op2_hi_byte=high_address_part)
+        expected_stored_value = stored_content
+        self.assertEqual(expected_stored_value, self.cpu.A())
+
+    def test_zero_flag_for_lda_absolute_instruction(self):
+        storage_address = 0x1100
+        stored_content = 0x00
+        low_address_part = 0x00
+        high_address_part = 0x11
+        any_content = 0x03
+
+        self.cpu.set_A(any_content)
+        self.cpu.memory[storage_address] = stored_content
+
+        execute_instruction(self.cpu, opcode=LDA_ABSOLUTE, op2_lo_byte=low_address_part, op2_hi_byte=high_address_part)
+        expected_zero_flag = 1
+        self.assertEqual(expected_zero_flag, self.cpu.zero())
+
+    def test_negative_flag_when_lda_absolute_instruction(self):
+        storage_address = 0x1100
+        stored_content = 0x80
+        low_address_part = 0x00
+        high_address_part = 0x11
+        any_content = 0x03
+
+        self.cpu.set_A(any_content)
+        self.cpu.memory[storage_address] = stored_content
+
+        execute_instruction(self.cpu, opcode=LDA_ABSOLUTE, op2_lo_byte=low_address_part, op2_hi_byte=high_address_part)
+        expected_negative_flag = 1
+        self.assertEqual(expected_negative_flag, self.cpu.negative())
 
 if __name__ == '__main__':
     unittest.main()
