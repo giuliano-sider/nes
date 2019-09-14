@@ -1,14 +1,18 @@
 image: adnrv/opencv
 
 stages:
-    - assembled-program-tests
+    - nes-cpu-tests
 
-assembled-program-tests:
-    stage: assembled-program-tests
+nes-cpu-assembled-program-tests:
+    stage: nes-cpu-tests
     script:
         - make test
-        - "for test_script in $(ls tst/*.py); do python3 $test_script; done"
     artifacts:
         paths:
             # output of each emulator execution of a test program
             - log/*
+
+nes-cpu-python-unit-tests:
+    stage: nes-cpu-tests
+    script:
+        - "for test_script in $(ls tst/*.py); do python3 $test_script; done"
