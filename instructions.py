@@ -29,7 +29,6 @@ def brk(cpu, logger):
 
 instructions[BRK] = brk
 
-
 def ora_indirect_x(cpu, logger):
     # to be implemented OPCODE 01
     raise NotImplementedError()
