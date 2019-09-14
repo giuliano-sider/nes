@@ -12,7 +12,14 @@ def lda_immediate(cpu, logger):
 
 LDA_ZEROPAGE = 0xA5
 def lda_zeropage(cpu, logger):
-    lda_immediate(cpu, logger)
+    address_8bit = cpu.memory[cpu.PC() + 1]
+    content = cpu.memory[address_8bit]
+    if content == 0x00:
+        cpu.set_zero()
+    if content > 0x7f:
+        cpu.set_negative()
+    cpu.set_A(content)
+    logger.log_instruction(cpu)
 
 LDA_ABSOLUTE = 0xAD
 def lda_absolute(cpu, logger):
