@@ -83,3 +83,13 @@ def bvc(cpu, logger):
     
     logger.log_instruction(cpu)
 
+BVS = 0x70
+def bvs(cpu, logger):
+    if cpu.overflow() == 1:
+        offset = twos_comp(cpu.memory[cpu.PC()+1], 8) + 2
+        oper = cpu.PC() + offset
+        branch(cpu, logger, oper)
+    else:
+        cpu.set_PC(cpu.PC() + 2)
+    
+    logger.log_instruction(cpu)

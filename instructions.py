@@ -509,10 +509,6 @@ def instruction_6f(cpu, logger):
     # to be implemented OPCODE 6f
     raise NotImplementedError()
 
-def bvs(cpu, logger):
-    # to be implemented OPCODE 70
-    raise NotImplementedError()
-
 def add_indirect_y(cpu, logger):
     # to be implemented OPCODE 71
     raise NotImplementedError()
