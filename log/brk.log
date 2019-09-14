@@ -1,6 +1,0 @@
-Traceback (most recent call last):
-  File "emulator.py", line 6, in <module>
-    from instructions import BRK, instructions
-  File "/home/cc2013/ra148729/mc861/mc861-nesproject/instructions.py", line 1328, in <module>
-    instructions[169] = lda_immediate
-NameError: name 'lda_immediate' is not defined

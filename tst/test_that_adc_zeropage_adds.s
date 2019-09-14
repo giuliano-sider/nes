@@ -12,6 +12,9 @@ MIRRORING = %0001 ;%0000 = horizontal, %0001 = vertical, %1000 = four-screen
 
    .enum $0000
 
+   zero_page_var: 
+        .DSB 1
+
    ;NOTE: declare variables using the DSB and DSW directives, like this:
 
    ;MyVariable0 .dsb 1
@@ -44,7 +47,9 @@ MIRRORING = %0001 ;%0000 = horizontal, %0001 = vertical, %1000 = four-screen
    .base $10000-(PRG_COUNT*$4000)
 
 Reset:
-   ADC ADDTE		
+   ADC #$FF ; A = $FF
+   STA zero_page_var ; zero_page_var = $FF
+   ADC zero_page_var ; A = $FF + $FF = $FE ; carry and negative both set
    BRK ; Abort execution
 
 NMI:
