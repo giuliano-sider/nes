@@ -3,6 +3,7 @@ from arithmetics_instructions import *
 from Instructions.load_instructions import *
 from Instructions.store_instructions import *
 from Instructions.flow_control_instructions import *
+from Instructions.logical_instructions import *
 
 def InstructionNotImplemented(*args):
     raise NotImplementedError('Instruction currently unimplemented')
@@ -167,10 +168,6 @@ def instruction_22(cpu, logger):
 
 def instruction_23(cpu, logger):
     # to be implemented OPCODE 23
-    raise NotImplementedError()
-
-def bit_zeropage(cpu, logger):
-    # to be implemented OPCODE 24
     raise NotImplementedError()
 
 def instruction_25(cpu, logger):
@@ -969,7 +966,7 @@ instructions[32] = jsr
 instructions[33] = instruction_21
 instructions[34] = instruction_22
 instructions[35] = instruction_23
-instructions[36] = bit_zeropage
+instructions[BIT_ZEROPAGE] = bit_zeropage
 instructions[37] = instruction_25
 instructions[38] = rol_zeropage
 instructions[39] = instruction_27
