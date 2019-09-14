@@ -8,7 +8,7 @@ from instructions import BCS
 
 class TestFlowControlInstructions(unittest.TestCase):
 
-    def test_that_BCS_branches_forward_when_carry_set(self):
+    def test_that_BCS_branches_backward_when_carry_set(self):
         cpu = CreateTestCpu()
         cpu.set_carry()
         old_PC = cpu.PC()
@@ -19,7 +19,7 @@ class TestFlowControlInstructions(unittest.TestCase):
 
         self.assertEqual(cpu.PC(), old_PC + branch_offset + BCS_INSTRUCTION_LENGTH)
 
-    def test_that_BCS_branches_backward_when_carry_set(self):
+    def test_that_BCS_branches_forward_when_carry_set(self):
         cpu = CreateTestCpu()
         cpu.set_carry()
         old_PC = cpu.PC()
