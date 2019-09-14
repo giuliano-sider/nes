@@ -1,22 +1,19 @@
 from nes_cpu_utils import is_negative, is_overflow, twos_comp
+from address_getters import *
 
 ADC_IMMEDIATE = 0x69
 def adc_immediate(cpu, logger):
-    op2 = cpu.memory[cpu.PC() + 1]
-    cpu.set_PC(cpu.PC() + 2)
+    op2 = get_immediate(cpu)
     adc(cpu, logger, op2)
 
 ADC_ZEROPAGE = 0x65
 def adc_zeropage(cpu, logger):
-    op2 = cpu.memory[cpu.memory[cpu.PC() + 1]]
-    cpu.set_PC(cpu.PC() + 2)
+    op2 = get_zeropage(cpu)
     adc(cpu, logger, op2)
 
 ADC_ZEROPAGEX = 0x75
 def adc_zeropage_x(cpu, logger):
-    #TODO: wrap zeropage if carry
-    op2 = cpu.memory[(cpu.memory[cpu.PC() + 1] + cpu.X()) % 256]
-    cpu.set_PC(cpu.PC() + 2)
+    op2 = get_zeropage_x(cpu)
     adc(cpu, logger, op2)
 
 ADC_ABSOLUTE = 0x6D
