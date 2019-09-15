@@ -37,8 +37,17 @@ def lda_absolute(cpu, logger):
 
 LDA_INDIRECT_Y = 0xB1
 def lda_indirect_y(cpu, logger):
-    # to be implemented OPCODE b1
-    raise NotImplementedError()
+    zero_page_address = cpu.memory[cpu.PC() + 1]
+    indirect_address_lo = cpu.memory[zero_page_address]
+    indirect_address_hi = cpu.memory[zero_page_address + 1] << 8
+    indirect_address = indirect_address_lo + indirect_address_hi
+    offset_y_address = indirect_address + cpu.Y()
+    content = cpu.memory[offset_y_address]
+    cpu.set_A(content)
+    logger.log_instruction(cpu)
+
+
+
 
 LDA_INDIRECT_X = 0xA1
 def lda_indirect_x(cpu, logger):

@@ -631,9 +631,6 @@ def instruction_af(cpu, logger):
     # to be implemented OPCODE af
     raise NotImplementedError()
 
-def lda_indirect_y(cpu, logger):
-    # to be implemented OPCODE b1
-    raise NotImplementedError()
 
 def instruction_b2(cpu, logger):
     # to be implemented OPCODE b2

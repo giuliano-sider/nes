@@ -4,7 +4,7 @@ import unittest
 
 sys.path += os.pardir
 from nes_cpu_test_utils import CreateTestCpu, execute_instruction
-from instructions import LDA_IMMEDIATE, LDA_ZEROPAGE, LDA_ABSOLUTE
+from instructions import LDA_IMMEDIATE, LDA_ZEROPAGE, LDA_ABSOLUTE, LDA_INDIRECT_Y
 
 class TestLoadStore(unittest.TestCase):
 
@@ -121,6 +121,30 @@ class TestLoadStore(unittest.TestCase):
         execute_instruction(self.cpu, opcode=LDA_ABSOLUTE, op2_lo_byte=low_address_part, op2_hi_byte=high_address_part)
         expected_negative_flag = 1
         self.assertEqual(expected_negative_flag, self.cpu.negative())
+
+    def test_lda_indirect_y_without_overflow(self):
+        # The JMP instruction is the only instruction that uses this addressing mode. It is implemented but not relevant
+        stored_content = 0x77
+        zero_page_address = 0x86
+
+        stored_address_in_0x86 = 0x4028
+        stored_address_in_0x86_low = 0x28
+        stored_address_in_0x86_high = 0x40
+
+        y_value = 0x10
+        self.cpu.set_Y(y_value)
+
+        self.cpu.memory[stored_address_in_0x86 + y_value] = stored_content
+        self.cpu.memory[zero_page_address] = stored_address_in_0x86_low
+        self.cpu.memory[zero_page_address + 1] = stored_address_in_0x86_high
+
+        expected_value = stored_content
+
+        execute_instruction(self.cpu, opcode=LDA_INDIRECT_Y, op2_lo_byte=zero_page_address)
+
+        self.assertEqual(expected_value, self.cpu.A())
+
+
 
 if __name__ == '__main__':
     unittest.main()
