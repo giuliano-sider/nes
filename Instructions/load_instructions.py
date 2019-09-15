@@ -133,13 +133,23 @@ def ldy_immediate(cpu, logger):
 
 LDY_ZEROPAGE = 0xA4
 def ldy_zeropage(cpu, logger):
-    # to be implemented OPCODE a4
-    raise NotImplementedError()
+    address_8bit = cpu.memory[cpu.PC() + 1]
+    content = cpu.memory[address_8bit]
+    cpu.set_zero_iff(content == 0x00)
+    cpu.set_negative_iff(utils.is_negative(content))
+    cpu.set_Y(content)
+    logger.log_instruction(cpu)
 
 LDY_ABSOLUTE = 0xAC
 def ldy_absolute(cpu, logger):
-    # to be implemented OPCODE ac
-    raise NotImplementedError()
+    low_address_part = cpu.memory[cpu.PC() + 1]
+    high_address_part = cpu.memory[cpu.PC() + 2] << 8
+    address = low_address_part + high_address_part
+    content = cpu.memory[address]
+    cpu.set_zero_iff(content == 0x00)
+    cpu.set_negative_iff(utils.is_negative(content))
+    cpu.set_Y(content)
+    logger.log_instruction(cpu)
 
 LDY_ZEROPAGE_X = 0xB4
 def ldy_zeropage_x(cpu, logger):
