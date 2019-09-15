@@ -3,7 +3,7 @@ import sys
 import unittest
 from nes_cpu_test_utils import CreateTestCpu, execute_instruction
 from instructions import LDA_IMMEDIATE, LDA_ZEROPAGE, LDA_ABSOLUTE, LDA_INDIRECT_Y, LDA_INDIRECT_X, LDA_ABSOLUTE_Y
-from instructions import LDA_ABSOLUTE_X, LDA_ZEROPAGE_X
+from instructions import LDA_ABSOLUTE_X, LDA_ZEROPAGE_X, LDX_IMMEDIATE
 
 sys.path += os.pardir
 
@@ -527,6 +527,36 @@ class TestLoadStore(unittest.TestCase):
         execute_instruction(self.cpu, opcode=LDA_ZEROPAGE_X, op2_lo_byte=storage_address)
         expected_negative_flag_value = 1
         self.assertEqual(expected_negative_flag_value, self.cpu.negative())
+
+    def test_if_register_x_receives_immediate(self):
+        stored_content = 0x01
+        execute_instruction(self.cpu, opcode=LDX_IMMEDIATE, op2_lo_byte=stored_content)
+        expected_value = stored_content
+        expected_negative_flag = 0
+        expected_zero_flag = 0
+        self.assertEqual(expected_value, self.cpu.X())
+        self.assertEqual(expected_zero_flag, self.cpu.zero())
+        self.assertEqual(expected_negative_flag, self.cpu.negative())
+
+    def test_if_negative_is_set_if_content_is_negative(self):
+        stored_content = 0x01
+        execute_instruction(self.cpu, opcode=LDX_IMMEDIATE, op2_lo_byte=stored_content)
+        expected_value = stored_content
+        expected_negative_flag = 0
+        expected_zero_flag = 0
+        self.assertEqual(expected_value, self.cpu.X())
+        self.assertEqual(expected_zero_flag, self.cpu.zero())
+        self.assertEqual(expected_negative_flag, self.cpu.negative())
+
+    def test_if_zero_is_set_if_content_is_zero(self):
+        stored_content = 0x01
+        execute_instruction(self.cpu, opcode=LDX_IMMEDIATE, op2_lo_byte=stored_content)
+        expected_value = stored_content
+        expected_negative_flag = 0
+        expected_zero_flag = 0
+        self.assertEqual(expected_value, self.cpu.X())
+        self.assertEqual(expected_zero_flag, self.cpu.zero())
+        self.assertEqual(expected_negative_flag, self.cpu.negative())
 
 
 if __name__ == '__main__':
