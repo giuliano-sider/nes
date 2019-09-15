@@ -118,8 +118,14 @@ def ldx_absolute(cpu, logger):
 
 LDX_ZEROPAGE_Y = 0xB6
 def ldx_zeropage_y(cpu, logger):
-    # to be implemented OPCODE b6
-    raise NotImplementedError()
+    low_address_part = cpu.memory[cpu.PC() + 1]
+    high_address_part = cpu.memory[cpu.PC() + 2] << 8
+    address = (low_address_part + high_address_part + cpu.Y()) % utils.MOD_ABSOLUTE
+    content = cpu.memory[address]
+    cpu.set_zero_iff(content == 0x00)
+    cpu.set_negative_iff(utils.is_negative(content))
+    cpu.set_X(content)
+    logger.log_instruction(cpu)
 
 LDX_ABSOLUTE_Y = 0xBE
 def ldx_absolute_y(cpu, logger):

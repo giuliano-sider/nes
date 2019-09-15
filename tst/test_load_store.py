@@ -4,7 +4,7 @@ import unittest
 from nes_cpu_test_utils import CreateTestCpu, execute_instruction
 from instructions import LDA_IMMEDIATE, LDA_ZEROPAGE, LDA_ABSOLUTE, LDA_INDIRECT_Y, LDA_INDIRECT_X, LDA_ABSOLUTE_Y
 from instructions import LDA_ABSOLUTE_X, LDA_ZEROPAGE_X, LDX_IMMEDIATE, LDX_ZEROPAGE, LDX_ABSOLUTE, LDY_ABSOLUTE
-from instructions import LDY_ZEROPAGE
+from instructions import LDY_ZEROPAGE, LDX_ZEROPAGE_Y
 
 sys.path += os.pardir
 
@@ -738,6 +738,69 @@ class TestLoadStore(unittest.TestCase):
         self.assertEqual(expected_value, self.cpu.Y())
         self.assertEqual(expected_zero_flag, self.cpu.zero())
         self.assertEqual(expected_negative_flag, self.cpu.negative())
+
+
+    def test_ldx_zero_page_y_without_overflow(self):
+        storage_address = 0x10
+        stored_content = 0x01
+        y_value = 0x01
+
+        self.cpu.set_Y(y_value)
+        self.cpu.memory[storage_address + y_value] = stored_content
+
+        execute_instruction(self.cpu, opcode=LDX_ZEROPAGE_Y, op2_lo_byte=storage_address)
+        expected_value = stored_content
+        expected_negative_flag = 0
+        expected_zero_flag = 0
+        self.assertEqual(expected_value, self.cpu.X())
+        self.assertEqual(expected_zero_flag, self.cpu.zero())
+        self.assertEqual(expected_negative_flag, self.cpu.negative())
+
+    def test_ldx_zero_page_y_with_overflow(self):
+        storage_address = 0xFF
+        stored_content = 0x10
+        y_value = 0x01
+
+        self.cpu.set_Y(y_value)
+        self.cpu.memory[storage_address + y_value] = stored_content
+
+        execute_instruction(self.cpu, opcode=LDX_ZEROPAGE_Y, op2_lo_byte=storage_address)
+        expected_value = stored_content
+        expected_negative_flag = 0
+        expected_zero_flag = 0
+        self.assertEqual(expected_value, self.cpu.X())
+        self.assertEqual(expected_zero_flag, self.cpu.zero())
+        self.assertEqual(expected_negative_flag, self.cpu.negative())
+
+    def test_ldx_zero_page_y_when_content_is_zero(self):
+        storage_address = 0x10
+        stored_content = 0x00
+        y_value = 0x01
+
+        self.cpu.set_Y(y_value)
+        self.cpu.memory[storage_address + y_value] = stored_content
+
+        execute_instruction(self.cpu, opcode=LDX_ZEROPAGE_Y, op2_lo_byte=storage_address)
+        expected_negative_flag = 0
+        expected_zero_flag = 1
+        self.assertEqual(expected_zero_flag, self.cpu.zero())
+        self.assertEqual(expected_negative_flag, self.cpu.negative())
+
+    def test_ldx_zero_page_y_when_content_is_negative(self):
+        storage_address = 0x10
+        stored_content = 0x80
+        y_value = 0x01
+
+        self.cpu.set_Y(y_value)
+        self.cpu.memory[storage_address + y_value] = stored_content
+
+        execute_instruction(self.cpu, opcode=LDX_ZEROPAGE_Y, op2_lo_byte=storage_address)
+        expected_value = stored_content
+        expected_negative_flag = 1
+        expected_zero_flag = 0
+        self.assertEqual(expected_zero_flag, self.cpu.zero())
+        self.assertEqual(expected_negative_flag, self.cpu.negative())
+
 
 if __name__ == '__main__':
     unittest.main()
