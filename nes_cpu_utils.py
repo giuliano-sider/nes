@@ -1,5 +1,8 @@
 import os
 
+MOD_ABSOLUTE = 0x10000
+MOD_ZERO_PAGE = 0x100
+
 def is_overflow(addend1, addend2, sum):
     assert 0 <= addend1 < 256
     assert 0 <= addend2 < 256

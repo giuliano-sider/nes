@@ -46,7 +46,7 @@ def lda_indirect_y(cpu, logger):
 LDA_INDIRECT_X = 0xA1
 def lda_indirect_x(cpu, logger):
     zero_page_address = cpu.memory[cpu.PC() + 1]
-    resolved_address = (cpu.memory[zero_page_address] + cpu.X()) % 0x100
+    resolved_address = (cpu.memory[zero_page_address] + cpu.X()) % utils.MOD_ZERO_PAGE
     content = cpu.memory[resolved_address]
     cpu.set_zero_iff(content == 0x00)
     cpu.set_negative_iff(utils.is_negative(content))
@@ -56,8 +56,14 @@ def lda_indirect_x(cpu, logger):
 
 LDA_ABSOLUTE_Y = 0xB9
 def lda_absolute_y(cpu, logger):
-    # to be implemented OPCODE b9
-    raise NotImplementedError()
+    low_address_part = cpu.memory[cpu.PC() + 1]
+    high_address_part = cpu.memory[cpu.PC() + 2] << 8
+    address = (low_address_part + high_address_part + cpu.Y()) % utils.MOD_ABSOLUTE
+    content = cpu.memory[address]
+    cpu.set_zero_iff(content == 0x00)
+    cpu.set_negative_iff(utils.is_negative(content))
+    cpu.set_A(content)
+    logger.log_instruction(cpu)
 
 LDA_ABSOLUTE_X = 0xBD
 def lda_absolute_x(cpu, logger):
