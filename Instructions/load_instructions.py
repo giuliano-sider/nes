@@ -2,23 +2,19 @@ import nes_cpu_utils as utils
 
 LDA_IMMEDIATE = 0xA9
 def lda_immediate(cpu, logger):
-    op2 = cpu.memory[cpu.PC() + 1]
+    content = cpu.memory[cpu.PC() + 1]
     cpu.set_PC(cpu.PC() + 2)
-    if op2 == 0x00:
-        cpu.set_zero()
-    if op2 > 0x7f:
-        cpu.set_negative()
-    cpu.set_A(op2)
+    cpu.set_zero_iff(content == 0x00)
+    cpu.set_negative_iff(utils.is_negative(content))
+    cpu.set_A(content)
     logger.log_instruction(cpu)
 
 LDA_ZEROPAGE = 0xA5
 def lda_zeropage(cpu, logger):
     address_8bit = cpu.memory[cpu.PC() + 1]
     content = cpu.memory[address_8bit]
-    if content == 0x00:
-        cpu.set_zero()
-    if utils.is_negative(content):
-        cpu.set_negative()
+    cpu.set_zero_iff(content == 0x00)
+    cpu.set_negative_iff(utils.is_negative(content))
     cpu.set_A(content)
     logger.log_instruction(cpu)
 
@@ -28,10 +24,8 @@ def lda_absolute(cpu, logger):
     high_address_part = cpu.memory[cpu.PC() + 2] << 8
     address = low_address_part + high_address_part
     content = cpu.memory[address]
-    if content == 0x00:
-        cpu.set_zero()
-    if utils.is_negative(content):
-        cpu.set_negative()
+    cpu.set_zero_iff(content == 0x00)
+    cpu.set_negative_iff(utils.is_negative(content))
     cpu.set_A(content)
     logger.log_instruction(cpu)
 
@@ -41,22 +35,24 @@ def lda_indirect_y(cpu, logger):
     indirect_address_lo = cpu.memory[zero_page_address]
     indirect_address_hi = cpu.memory[zero_page_address + 1] << 8
     indirect_address = indirect_address_lo + indirect_address_hi
-    offset_y_address = (indirect_address + cpu.Y()) % 0xffff
+    offset_y_address = (indirect_address + cpu.Y()) % 0x10000
     content = cpu.memory[offset_y_address]
-    if content == 0x00:
-        cpu.set_zero()
-    if utils.is_negative(content):
-        cpu.set_negative()
+    cpu.set_zero_iff(content == 0x00)
+    cpu.set_negative_iff(utils.is_negative(content))
     cpu.set_A(content)
     logger.log_instruction(cpu)
 
 
-
-
 LDA_INDIRECT_X = 0xA1
 def lda_indirect_x(cpu, logger):
-    # to be implemented OPCODE a1
-    raise NotImplementedError()
+    zero_page_address = cpu.memory[cpu.PC() + 1]
+    resolved_address = (cpu.memory[zero_page_address] + cpu.X()) % 0x100
+    content = cpu.memory[resolved_address]
+    cpu.set_zero_iff(content == 0x00)
+    cpu.set_negative_iff(utils.is_negative(content))
+    cpu.set_A(content)
+    logger.log_instruction(cpu)
+
 
 LDA_ABSOLUTE_Y = 0xB9
 def lda_absolute_y(cpu, logger):
