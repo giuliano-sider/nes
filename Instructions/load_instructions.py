@@ -41,8 +41,12 @@ def lda_indirect_y(cpu, logger):
     indirect_address_lo = cpu.memory[zero_page_address]
     indirect_address_hi = cpu.memory[zero_page_address + 1] << 8
     indirect_address = indirect_address_lo + indirect_address_hi
-    offset_y_address = indirect_address + cpu.Y()
+    offset_y_address = (indirect_address + cpu.Y()) % 0xffff
     content = cpu.memory[offset_y_address]
+    if content == 0x00:
+        cpu.set_zero()
+    if utils.is_negative(content):
+        cpu.set_negative()
     cpu.set_A(content)
     logger.log_instruction(cpu)
 

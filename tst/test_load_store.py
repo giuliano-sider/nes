@@ -123,7 +123,6 @@ class TestLoadStore(unittest.TestCase):
         self.assertEqual(expected_negative_flag, self.cpu.negative())
 
     def test_lda_indirect_y_without_overflow(self):
-        # The JMP instruction is the only instruction that uses this addressing mode. It is implemented but not relevant
         stored_content = 0x77
         zero_page_address = 0x86
 
@@ -143,6 +142,91 @@ class TestLoadStore(unittest.TestCase):
         execute_instruction(self.cpu, opcode=LDA_INDIRECT_Y, op2_lo_byte=zero_page_address)
 
         self.assertEqual(expected_value, self.cpu.A())
+
+    def test_lda_indirect_y_without_overflow_lo_part(self):
+        stored_content = 0x77
+        zero_page_address = 0x86
+
+        stored_address_in_0x86 = 0x40FF
+        stored_address_in_0x86_low = 0xFF
+        stored_address_in_0x86_high = 0x40
+
+        y_value = 0x01
+        self.cpu.set_Y(y_value)
+
+        self.cpu.memory[stored_address_in_0x86 + y_value] = stored_content
+        self.cpu.memory[zero_page_address] = stored_address_in_0x86_low
+        self.cpu.memory[zero_page_address + 1] = stored_address_in_0x86_high
+
+        expected_value = stored_content
+
+        execute_instruction(self.cpu, opcode=LDA_INDIRECT_Y, op2_lo_byte=zero_page_address)
+
+        self.assertEqual(expected_value, self.cpu.A())
+
+    def test_lda_indirect_y_without_overflow_hi_part(self):
+        stored_content = 0x77
+        zero_page_address = 0x86
+
+        stored_address_in_0x86 = 0xFFFF
+        stored_address_in_0x86_low = 0xFF
+        stored_address_in_0x86_high = 0xFF
+
+        y_value = 0x01
+        self.cpu.set_Y(y_value)
+
+        self.cpu.memory[(stored_address_in_0x86 + y_value) % 0xffff] = stored_content
+        self.cpu.memory[zero_page_address] = stored_address_in_0x86_low
+        self.cpu.memory[zero_page_address + 1] = stored_address_in_0x86_high
+
+        expected_value = stored_content
+
+        execute_instruction(self.cpu, opcode=LDA_INDIRECT_Y, op2_lo_byte=zero_page_address)
+
+        self.assertEqual(expected_value, self.cpu.A())
+
+    def test_lda_indirect_y_set_flag_if_content_is_zero(self):
+        stored_content = 0x00
+        zero_page_address = 0x86
+
+        stored_address_in_0x86 = 0x4028
+        stored_address_in_0x86_low = 0x28
+        stored_address_in_0x86_high = 0x40
+
+        y_value = 0x10
+        self.cpu.set_Y(y_value)
+
+        self.cpu.memory[stored_address_in_0x86 + y_value] = stored_content
+        self.cpu.memory[zero_page_address] = stored_address_in_0x86_low
+        self.cpu.memory[zero_page_address + 1] = stored_address_in_0x86_high
+
+        expected_value = 1
+
+        execute_instruction(self.cpu, opcode=LDA_INDIRECT_Y, op2_lo_byte=zero_page_address)
+
+        self.assertEqual(expected_value, self.cpu.zero())
+
+    def test_lda_indirect_y_set_flag_if_content_is_negative(self):
+        stored_content = 0x80
+        zero_page_address = 0x86
+
+        stored_address_in_0x86 = 0x4028
+        stored_address_in_0x86_low = 0x28
+        stored_address_in_0x86_high = 0x40
+
+        y_value = 0x10
+        self.cpu.set_Y(y_value)
+
+        self.cpu.memory[stored_address_in_0x86 + y_value] = stored_content
+        self.cpu.memory[zero_page_address] = stored_address_in_0x86_low
+        self.cpu.memory[zero_page_address + 1] = stored_address_in_0x86_high
+
+        expected_value = 1
+
+        execute_instruction(self.cpu, opcode=LDA_INDIRECT_Y, op2_lo_byte=zero_page_address)
+
+        self.assertEqual(expected_value, self.cpu.negative())
+
 
 
 
