@@ -3,7 +3,7 @@ import sys
 import unittest
 from nes_cpu_test_utils import CreateTestCpu, execute_instruction
 from instructions import LDA_IMMEDIATE, LDA_ZEROPAGE, LDA_ABSOLUTE, LDA_INDIRECT_Y, LDA_INDIRECT_X, LDA_ABSOLUTE_Y
-from instructions import LDA_ABSOLUTE_X
+from instructions import LDA_ABSOLUTE_X, LDA_ZEROPAGE_X
 
 sys.path += os.pardir
 
@@ -48,7 +48,7 @@ class TestLoadStore(unittest.TestCase):
         expected_value = 0
         self.assertEqual(expected_value, self.cpu.zero())
 
-    def test_zero_page_lda_for_operand_smaller_or_equals_0xff(self):
+    def test_zero_page_lda(self):
         storage_address = 0x10
         stored_content = 0x01
 
@@ -483,7 +483,50 @@ class TestLoadStore(unittest.TestCase):
         self.assertEqual(expected_zero_flag, self.cpu.zero())
         self.assertEqual(expected_negative_flag, self.cpu.negative())
 
+    def test_zero_page_x_lda_without_overflow(self):
+        storage_address = 0x10
+        stored_content = 0x01
+        x_value = 0x01
 
+        self.cpu.set_X(x_value)
+        self.cpu.memory[storage_address + x_value] = stored_content
+
+        execute_instruction(self.cpu, opcode=LDA_ZEROPAGE_X, op2_lo_byte=storage_address)
+        expected_value = stored_content
+        self.assertEqual(expected_value, self.cpu.A())
+
+    def test_zero_page_x_lda_with_overflow(self):
+        storage_address = 0xFF
+        stored_content = 0x10
+        x_value = 0x01
+
+        self.cpu.set_X(x_value)
+        self.cpu.memory[0x00] = stored_content
+
+        execute_instruction(self.cpu, opcode=LDA_ZEROPAGE_X, op2_lo_byte=storage_address)
+        expected_value = stored_content
+        self.assertEqual(expected_value, self.cpu.A())
+
+    def test_zero_page_x_when_content_is_zero(self):
+        storage_address = 0x10
+        stored_content = 0x00
+
+        self.cpu.memory[storage_address] = stored_content
+
+        execute_instruction(self.cpu, opcode=LDA_ZEROPAGE_X, op2_lo_byte=storage_address)
+        expected_zero_flag_value = 1
+        self.assertEqual(expected_zero_flag_value, self.cpu.zero())
+
+    def test_zero_page_x_when_content_is_negative(self):
+        storage_address = 0x10
+        stored_content = 0x80
+
+        self.cpu.set_A(0x03)
+        self.cpu.memory[storage_address] = stored_content
+
+        execute_instruction(self.cpu, opcode=LDA_ZEROPAGE_X, op2_lo_byte=storage_address)
+        expected_negative_flag_value = 1
+        self.assertEqual(expected_negative_flag_value, self.cpu.negative())
 
 
 if __name__ == '__main__':

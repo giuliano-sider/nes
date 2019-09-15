@@ -78,8 +78,12 @@ def lda_absolute_x(cpu, logger):
 
 LDA_ZEROPAGE_X = 0xB5
 def lda_zeropage_x(cpu, logger):
-    # to be implemented OPCODE b5
-    raise NotImplementedError()
+    address_8bit = cpu.memory[cpu.PC() + 1]
+    content = cpu.memory[(address_8bit + cpu.X()) % utils.MOD_ZERO_PAGE]
+    cpu.set_zero_iff(content == 0x00)
+    cpu.set_negative_iff(utils.is_negative(content))
+    cpu.set_A(content)
+    logger.log_instruction(cpu)
 
 LDX_IMMEDIATE = 0xA2
 def ldx_immediate(cpu, logger):
