@@ -4,7 +4,7 @@ import unittest
 from nes_cpu_test_utils import CreateTestCpu, execute_instruction
 from instructions import LDA_IMMEDIATE, LDA_ZEROPAGE, LDA_ABSOLUTE, LDA_INDIRECT_Y, LDA_INDIRECT_X, LDA_ABSOLUTE_Y
 from instructions import LDA_ABSOLUTE_X, LDA_ZEROPAGE_X, LDX_IMMEDIATE, LDX_ZEROPAGE, LDX_ABSOLUTE, LDY_ABSOLUTE
-from instructions import LDY_ZEROPAGE, LDX_ZEROPAGE_Y
+from instructions import LDY_ZEROPAGE, LDX_ZEROPAGE_Y, LDY_IMMEDIATE
 
 sys.path += os.pardir
 
@@ -16,10 +16,13 @@ class TestLoadStore(unittest.TestCase):
         self.cpu.clear_zero()
 
     def test_if_register_a_receives_immediate(self):
-        self.cpu.set_A(0x03)
+        initial_pc = self.cpu.PC()
 
         execute_instruction(self.cpu, opcode=LDA_IMMEDIATE, op2_lo_byte=0x01)
+        expected_pc = initial_pc + 2
+
         self.assertEqual(self.cpu.A(), 0x01)
+        self.assertEqual(self.cpu.PC(), expected_pc)
 
     def test_if_negative_flag_is_cleared_if_operand_is_between_x00_and_x7f_for_lda_immediate(self):
         self.cpu.set_A(0x03)
@@ -52,13 +55,17 @@ class TestLoadStore(unittest.TestCase):
     def test_zero_page_lda(self):
         storage_address = 0x10
         stored_content = 0x01
+        initial_pc = self.cpu.PC()
 
         self.cpu.set_A(0x03)
         self.cpu.memory[storage_address] = stored_content
 
         execute_instruction(self.cpu, opcode=LDA_ZEROPAGE, op2_lo_byte=storage_address)
+
+        expected_pc = initial_pc + 2
         expected_value = stored_content
         self.assertEqual(expected_value, self.cpu.A())
+        self.assertEqual(expected_pc, self.cpu.PC())
 
     def test_zero_page_when_content_is_zero(self):
         storage_address = 0x10
@@ -87,14 +94,15 @@ class TestLoadStore(unittest.TestCase):
         stored_content = 0x80
         low_address_part = 0x00
         high_address_part = 0x11
-        any_content = 0x03
+        initial_pc = self.cpu.PC()
 
-        self.cpu.set_A(any_content)
         self.cpu.memory[storage_address] = stored_content
 
         execute_instruction(self.cpu, opcode=LDA_ABSOLUTE, op2_lo_byte=low_address_part, op2_hi_byte=high_address_part)
+        expected_pc = initial_pc + 3
         expected_stored_value = stored_content
         self.assertEqual(expected_stored_value, self.cpu.A())
+        self.assertEqual(expected_pc, self.cpu.PC())
 
     def test_zero_flag_for_lda_absolute_instruction(self):
         storage_address = 0x1100
@@ -127,6 +135,7 @@ class TestLoadStore(unittest.TestCase):
     def test_lda_indirect_y_without_overflow(self):
         stored_content = 0x77
         zero_page_address = 0x86
+        initial_pc = self.cpu.PC()
 
         stored_address_in_0x86 = 0x4028
         stored_address_in_0x86_low = 0x28
@@ -140,10 +149,12 @@ class TestLoadStore(unittest.TestCase):
         self.cpu.memory[zero_page_address + 1] = stored_address_in_0x86_high
 
         expected_value = stored_content
+        expected_pc = initial_pc + 2
 
         execute_instruction(self.cpu, opcode=LDA_INDIRECT_Y, op2_lo_byte=zero_page_address)
 
         self.assertEqual(expected_value, self.cpu.A())
+        self.assertEqual(expected_pc, self.cpu.PC())
 
     def test_lda_indirect_y_without_overflow_lo_part(self):
         stored_content = 0x77
@@ -801,6 +812,35 @@ class TestLoadStore(unittest.TestCase):
         self.assertEqual(expected_zero_flag, self.cpu.zero())
         self.assertEqual(expected_negative_flag, self.cpu.negative())
 
+    def test_if_register_y_receives_immediate(self):
+        stored_content = 0x01
+        execute_instruction(self.cpu, opcode=LDY_IMMEDIATE, op2_lo_byte=stored_content)
+        expected_value = stored_content
+        expected_negative_flag = 0
+        expected_zero_flag = 0
+        self.assertEqual(expected_value, self.cpu.Y())
+        self.assertEqual(expected_zero_flag, self.cpu.zero())
+        self.assertEqual(expected_negative_flag, self.cpu.negative())
+
+    def test_ldy_immediate_sets_negative_if_content_is_negative(self):
+        stored_content = 0x01
+        execute_instruction(self.cpu, opcode=LDY_IMMEDIATE, op2_lo_byte=stored_content)
+        expected_value = stored_content
+        expected_negative_flag = 0
+        expected_zero_flag = 0
+        self.assertEqual(expected_value, self.cpu.Y())
+        self.assertEqual(expected_zero_flag, self.cpu.zero())
+        self.assertEqual(expected_negative_flag, self.cpu.negative())
+
+    def test_ldy_immediate_sets_zero_if_content_is_zero(self):
+        stored_content = 0x01
+        execute_instruction(self.cpu, opcode=LDY_IMMEDIATE, op2_lo_byte=stored_content)
+        expected_value = stored_content
+        expected_negative_flag = 0
+        expected_zero_flag = 0
+        self.assertEqual(expected_value, self.cpu.Y())
+        self.assertEqual(expected_zero_flag, self.cpu.zero())
+        self.assertEqual(expected_negative_flag, self.cpu.negative())
 
 if __name__ == '__main__':
     unittest.main()
