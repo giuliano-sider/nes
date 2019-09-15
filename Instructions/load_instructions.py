@@ -96,8 +96,12 @@ def ldx_immediate(cpu, logger):
 
 LDX_ZEROPAGE = 0xA6
 def ldx_zeropage(cpu, logger):
-    # to be implemented OPCODE a6
-    raise NotImplementedError()
+    address_8bit = cpu.memory[cpu.PC() + 1]
+    content = cpu.memory[address_8bit]
+    cpu.set_zero_iff(content == 0x00)
+    cpu.set_negative_iff(utils.is_negative(content))
+    cpu.set_X(content)
+    logger.log_instruction(cpu)
 
 
 LDX_ABSOLUTE = 0xAE

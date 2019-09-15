@@ -3,7 +3,7 @@ import sys
 import unittest
 from nes_cpu_test_utils import CreateTestCpu, execute_instruction
 from instructions import LDA_IMMEDIATE, LDA_ZEROPAGE, LDA_ABSOLUTE, LDA_INDIRECT_Y, LDA_INDIRECT_X, LDA_ABSOLUTE_Y
-from instructions import LDA_ABSOLUTE_X, LDA_ZEROPAGE_X, LDX_IMMEDIATE
+from instructions import LDA_ABSOLUTE_X, LDA_ZEROPAGE_X, LDX_IMMEDIATE, LDX_ZEROPAGE
 
 sys.path += os.pardir
 
@@ -555,6 +555,44 @@ class TestLoadStore(unittest.TestCase):
         expected_negative_flag = 0
         expected_zero_flag = 0
         self.assertEqual(expected_value, self.cpu.X())
+        self.assertEqual(expected_zero_flag, self.cpu.zero())
+        self.assertEqual(expected_negative_flag, self.cpu.negative())
+
+    def test_zero_page_ldx(self):
+        storage_address = 0x10
+        stored_content = 0x01
+
+        self.cpu.memory[storage_address] = stored_content
+
+        execute_instruction(self.cpu, opcode=LDX_ZEROPAGE, op2_lo_byte=storage_address)
+        expected_value = stored_content
+        expected_negative_flag = 0
+        expected_zero_flag = 0
+        self.assertEqual(expected_value, self.cpu.X())
+        self.assertEqual(expected_zero_flag, self.cpu.zero())
+        self.assertEqual(expected_negative_flag, self.cpu.negative())
+
+    def test_ldx_zero_page_when_content_is_zero(self):
+        storage_address = 0x10
+        stored_content = 0x00
+
+        self.cpu.memory[storage_address] = stored_content
+
+        execute_instruction(self.cpu, opcode=LDX_ZEROPAGE, op2_lo_byte=storage_address)
+        expected_negative_flag = 0
+        expected_zero_flag = 1
+        self.assertEqual(expected_zero_flag, self.cpu.zero())
+        self.assertEqual(expected_negative_flag, self.cpu.negative())
+
+    def test_ldx_zero_page_when_content_is_negative(self):
+        storage_address = 0x10
+        stored_content = 0x80
+
+        self.cpu.memory[storage_address] = stored_content
+
+        execute_instruction(self.cpu, opcode=LDX_ZEROPAGE, op2_lo_byte=storage_address)
+        expected_negative_flag = 1
+        expected_zero_flag = 0
         self.assertEqual(expected_zero_flag, self.cpu.zero())
         self.assertEqual(expected_negative_flag, self.cpu.negative())
 
