@@ -1,10 +1,11 @@
 import os
 import sys
 import unittest
-
-sys.path += os.pardir
 from nes_cpu_test_utils import CreateTestCpu, execute_instruction
 from instructions import LDA_IMMEDIATE, LDA_ZEROPAGE, LDA_ABSOLUTE, LDA_INDIRECT_Y, LDA_INDIRECT_X, LDA_ABSOLUTE_Y
+from instructions import LDA_ABSOLUTE_X
+
+sys.path += os.pardir
 
 class TestLoadStore(unittest.TestCase):
 
@@ -292,7 +293,6 @@ class TestLoadStore(unittest.TestCase):
         expected_value = stored_content
         self.assertEqual(expected_value, self.cpu.A())
 
-
     def test_lda_absolute_y_without_overflow(self):
         stored_content = 0x01
         absolute_address = 0x4028
@@ -378,6 +378,101 @@ class TestLoadStore(unittest.TestCase):
 
         execute_instruction(self.cpu,
                             opcode=LDA_ABSOLUTE_Y,
+                            op2_lo_byte=absolute_address_low,
+                            op2_hi_byte=absolute_address_high)
+
+        expected_value = stored_content
+        expected_zero_flag = 0
+        expected_negative_flag = 1
+        self.assertEqual(expected_value, self.cpu.A())
+        self.assertEqual(expected_zero_flag, self.cpu.zero())
+        self.assertEqual(expected_negative_flag, self.cpu.negative())
+
+    def test_lda_absolute_x_without_overflow(self):
+        stored_content = 0x01
+        absolute_address = 0x4028
+        absolute_address_low = 0x28
+        absolute_address_high = 0x40
+        x_value = 0x10
+
+        resolved_address = absolute_address + x_value
+
+        self.cpu.set_X(x_value)
+        self.cpu.memory[resolved_address] = stored_content
+
+        execute_instruction(self.cpu,
+                            opcode=LDA_ABSOLUTE_X,
+                            op2_lo_byte=absolute_address_low,
+                            op2_hi_byte=absolute_address_high)
+
+        expected_value = stored_content
+        expected_zero_flag = 0
+        expected_negative_flag = 0
+        self.assertEqual(expected_value, self.cpu.A())
+        self.assertEqual(expected_zero_flag, self.cpu.zero())
+        self.assertEqual(expected_negative_flag, self.cpu.negative())
+
+    def test_lda_absolute_x_with_overflow(self):
+        stored_content = 0x01
+        absolute_address_low = 0xFF
+        absolute_address_high = 0xFF
+        x_value = 0x01
+
+        resolved_address = 0x0000
+
+        self.cpu.set_X(x_value)
+        self.cpu.memory[resolved_address] = stored_content
+
+        execute_instruction(self.cpu,
+                            opcode=LDA_ABSOLUTE_X,
+                            op2_lo_byte=absolute_address_low,
+                            op2_hi_byte=absolute_address_high)
+
+        expected_value = stored_content
+        expected_zero_flag = 0
+        expected_negative_flag = 0
+        self.assertEqual(expected_value, self.cpu.A())
+        self.assertEqual(expected_zero_flag, self.cpu.zero())
+        self.assertEqual(expected_negative_flag, self.cpu.negative())
+
+    def test_lda_absolute_x_with_content_being_zero(self):
+        stored_content = 0x00
+        absolute_address = 0x4028
+        absolute_address_low = 0x28
+        absolute_address_high = 0x40
+        x_value = 0x10
+
+        resolved_address = absolute_address + x_value
+
+        self.cpu.set_X(x_value)
+        self.cpu.memory[resolved_address] = stored_content
+
+        execute_instruction(self.cpu,
+                            opcode=LDA_ABSOLUTE_X,
+                            op2_lo_byte=absolute_address_low,
+                            op2_hi_byte=absolute_address_high)
+
+        expected_value = stored_content
+        expected_zero_flag = 1
+        expected_negative_flag = 0
+        self.assertEqual(expected_value, self.cpu.A())
+        self.assertEqual(expected_zero_flag, self.cpu.zero())
+        self.assertEqual(expected_negative_flag, self.cpu.negative())
+
+    def test_lda_absolute_x_with_content_being_negative(self):
+        stored_content = 0x80
+        absolute_address = 0x4028
+        absolute_address_low = 0x28
+        absolute_address_high = 0x40
+        x_value = 0x10
+
+        resolved_address = absolute_address + x_value
+
+        self.cpu.set_X(x_value)
+        self.cpu.memory[resolved_address] = stored_content
+
+        execute_instruction(self.cpu,
+                            opcode=LDA_ABSOLUTE_X,
                             op2_lo_byte=absolute_address_low,
                             op2_hi_byte=absolute_address_high)
 

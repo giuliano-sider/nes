@@ -67,8 +67,14 @@ def lda_absolute_y(cpu, logger):
 
 LDA_ABSOLUTE_X = 0xBD
 def lda_absolute_x(cpu, logger):
-    # to be implemented OPCODE bd
-    raise NotImplementedError()
+    low_address_part = cpu.memory[cpu.PC() + 1]
+    high_address_part = cpu.memory[cpu.PC() + 2] << 8
+    address = (low_address_part + high_address_part + cpu.X()) % utils.MOD_ABSOLUTE
+    content = cpu.memory[address]
+    cpu.set_zero_iff(content == 0x00)
+    cpu.set_negative_iff(utils.is_negative(content))
+    cpu.set_A(content)
+    logger.log_instruction(cpu)
 
 LDA_ZEROPAGE_X = 0xB5
 def lda_zeropage_x(cpu, logger):
