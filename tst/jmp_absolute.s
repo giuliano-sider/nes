@@ -58,7 +58,7 @@ address_1:
 address_2:
     JMP address_0       ; PC = c002, V = 0, mem = c00d
 address_3:
-    JMP address_1       ; PC = c00c, V = 1, mem = c00f
+    JMP address_0       ; PC = c00c, V = 1, mem = c00f
 
 
    .org $E000

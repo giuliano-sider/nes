@@ -723,11 +723,6 @@ def instruction_cf(cpu, logger):
     # to be implemented OPCODE cf
     raise NotImplementedError()
 
-def bne(cpu, logger):
-    # to be implemented OPCODE d0
-    raise NotImplementedError()
-
-
 def cmp_indirect_y(cpu, logger):
     # to be implemented OPCODE d1
     raise NotImplementedError()

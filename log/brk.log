@@ -1,6 +1,1 @@
-Traceback (most recent call last):
-  File "emulator.py", line 6, in <module>
-    from instructions import BRK, instructions
-  File "/home/familia/Desktop/projeto-game/mc861-nesproject/instructions.py", line 947, in <module>
-    instructions[BIT_ZEROPAGE] = bit_zeropage
-NameError: name 'bit_zeropage' is not defined
+| pc = 0xc000 | a = 0x0000  | x = 0x0000 | y = 0x0000 | sp = 0x0000 | p[NV-BDIZC] = 00010100 |

@@ -96,5 +96,7 @@ def bvs(cpu, logger):
 
 JMP = 0x4c
 def jmp_absolute(cpu, logger):
-    # to be implemented OPCODE 4c
-    raise NotImplementedError()
+    address = cpu.memory[cpu.PC()+1]
+    branch(cpu, logger, address)
+    cpu.set_PC(cpu.PC() + 2)
+    logger.log_instruction(cpu)
