@@ -49,7 +49,7 @@ Reset:
 address_0:
     ADC #$FF            ; PC = c004, V = 0, mem = c002
     ADC #$80            ; PC = c006, V = 1, mem = c004
-    BVS address_3       ; PC = c00f, V = 1, mem = c006
+    BVS address_3       ; PC = c008, V = 1, mem = c006
     ADC #$00            ; PC = c00a, V = 1, mem = c008
     BVS address_3       ; PC = c00f, V = 1, mem = c00a
 address_1:
@@ -58,7 +58,7 @@ address_1:
 address_2:
     BVS address_0       ; PC = c002, V = 0, mem = c00d
 address_3:
-    BVS address_1       ; PC = c00c, V = 1, mem = c00f
+    BVS address_1       ; PC = c00c, V = 0, mem = c00f
 
 
    .org $E000

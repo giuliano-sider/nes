@@ -1,1 +1,6 @@
-| pc = 0xc000 | a = 0x0000  | x = 0x0000 | y = 0x0000 | sp = 0x0000 | p[NV-BDIZC] = 00010100 |
+Traceback (most recent call last):
+  File "emulator.py", line 6, in <module>
+    from instructions import BRK, instructions
+  File "/home/familia/Desktop/projeto-game/mc861-nesproject/instructions.py", line 2, in <module>
+    from Instructions.arithmetics_instructions import * 
+ModuleNotFoundError: No module named 'Instructions.arithmetics_instructions'
