@@ -96,7 +96,10 @@ def bvs(cpu, logger):
 
 JMP = 0x4c
 def jmp_absolute(cpu, logger):
-    address = cpu.memory[cpu.PC()+1]
-    branch(cpu, logger, address)
-    cpu.set_PC(cpu.PC() + 2)
+    oper = cpu.memory[cpu.PC()+1] + (cpu.memory[cpu.PC()+2]<<8)
+    print("%0000x" % (cpu.memory[cpu.PC()+1]))
+    print("%0000x" % (cpu.memory[cpu.PC()+2]<<8))
+    print("%0000x" % (oper))
+    branch(cpu, logger, oper)
+    cpu.set_PC(cpu.PC() + 3)
     logger.log_instruction(cpu)
