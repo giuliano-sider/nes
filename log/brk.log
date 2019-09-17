@@ -1,6 +1,6 @@
 Traceback (most recent call last):
   File "emulator.py", line 6, in <module>
     from instructions import BRK, instructions
-  File "/home/familia/Desktop/projeto-game/mc861-nesproject/instructions.py", line 2, in <module>
-    from Instructions.arithmetics_instructions import * 
-ModuleNotFoundError: No module named 'Instructions.arithmetics_instructions'
+  File "/home/familia/Desktop/projeto-game/mc861-nesproject/instructions.py", line 947, in <module>
+    instructions[BIT_ZEROPAGE] = bit_zeropage
+NameError: name 'bit_zeropage' is not defined
