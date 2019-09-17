@@ -1,5 +1,5 @@
 from nes_cpu_utils import is_negative, is_overflow, twos_comp
-from arithmetics_instructions import * 
+from Instructions.arithmetics_instructions import * 
 from Instructions.load_instructions import *
 from Instructions.store_instructions import *
 from Instructions.flow_control_instructions import *
@@ -405,10 +405,6 @@ def rts(cpu, logger):
     # to be implemented OPCODE 60
     raise NotImplementedError()
 
-def add_indirect_x(cpu, logger):
-    # to be implemented OPCODE 61
-    raise NotImplementedError()
-
 def instruction_62(cpu, logger):
     # to be implemented OPCODE 62
     raise NotImplementedError()
@@ -437,6 +433,10 @@ instructions[ADC_IMMEDIATE] = adc_immediate
 instructions[ADC_ZEROPAGE] = adc_zeropage
 instructions[ADC_ZEROPAGEX] = adc_zeropage_x
 instructions[ADC_ABSOLUTE] = adc_absolute
+instructions[ADC_ABSOLUTE_X] = adc_absolute_x
+instructions[ADC_ABSOLUTE_Y] = adc_absolute_y
+instructions[ADC_INDIRECT_X] = adc_indirect_x
+instructions[ADC_INDIRECT_Y ] = adc_indirect_y
 
 
 
@@ -465,9 +465,6 @@ def bvs(cpu, logger):
     # to be implemented OPCODE 70
     raise NotImplementedError()
 
-def add_indirect_y(cpu, logger):
-    # to be implemented OPCODE 71
-    raise NotImplementedError()
 
 def instruction_72(cpu, logger):
     # to be implemented OPCODE 72
@@ -493,10 +490,6 @@ def sei(cpu, logger):
     # to be implemented OPCODE 78
     raise NotImplementedError()
 
-def add_absolute_y(cpu, logger):
-    # to be implemented OPCODE 79
-    raise NotImplementedError()
-
 def instruction_7a(cpu, logger):
     # to be implemented OPCODE 7a
     raise NotImplementedError()
@@ -509,9 +502,7 @@ def instruction_7c(cpu, logger):
     # to be implemented OPCODE 7c
     raise NotImplementedError()
 
-def add_absolute_x(cpu, logger):
-    # to be implemented OPCODE 7d
-    raise NotImplementedError()
+
 
 def ror_absolute_x(cpu, logger):
     # to be implemented OPCODE 7e
@@ -1024,7 +1015,6 @@ instructions[93] = eor_absolute_x
 instructions[94] = lsr_absolute_x
 instructions[95] = instruction_5f
 instructions[96] = rts
-instructions[97] = add_indirect_x
 instructions[98] = instruction_62
 instructions[99] = instruction_63
 instructions[100] = instruction_64
@@ -1037,18 +1027,15 @@ instructions[108] = jmp_indirect
 instructions[110] = ror_absolute
 instructions[111] = instruction_6f
 instructions[112] = bvs
-instructions[113] = add_indirect_y
 instructions[114] = instruction_72
 instructions[115] = instruction_73
 instructions[116] = instruction_74
 instructions[118] = ror_zeropage_x
 instructions[119] = instruction_77
 instructions[120] = sei
-instructions[121] = add_absolute_y
 instructions[122] = instruction_7a
 instructions[123] = instruction_7b
 instructions[124] = instruction_7c
-instructions[125] = add_absolute_x
 instructions[126] = ror_absolute_x
 instructions[127] = instruction_7f
 instructions[128] = instruction_80
