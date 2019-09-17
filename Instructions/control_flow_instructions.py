@@ -101,5 +101,4 @@ def jmp_absolute(cpu, logger):
     print("%0000x" % (cpu.memory[cpu.PC()+2]<<8))
     print("%0000x" % (oper))
     branch(cpu, logger, oper)
-    cpu.set_PC(cpu.PC() + 3)
     logger.log_instruction(cpu)

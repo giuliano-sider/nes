@@ -45,20 +45,20 @@ MIRRORING = %0001 ;%0000 = horizontal, %0001 = vertical, %1000 = four-screen
 
 Reset:
                         ; PC = c000, V = 0, mem = c000
-    JMP $c00d           ; PC = c00d, V = 0, mem = c000
+    JMP $c010           ; PC = c00d, V = 0, mem = c000
 address_0:
-    ADC #$FF            ; PC = c004, V = 0, mem = c002
-    ADC #$80            ; PC = c006, V = 1, mem = c004
-    JMP $c00c           ; PC = c00c, V = 1, mem = c006
-    ADC #$00            ; PC = c00a, V = 1, mem = c008
-    JMP $c00f           ; PC = c00f, V = 1, mem = c00a
+    ADC #$FF            ; PC = c004, V = 0, mem = c003
+    ADC #$80            ; PC = c006, V = 1, mem = c005
+    JMP $c00c           ; PC = c00c, V = 1, mem = c007
+    ADC #$00            ; PC = c00a, V = 1, mem = c00a
+    JMP $c00f           ; PC = c00f, V = 1, mem = c00c
 address_1:
-    BRK                 ; Abort execution, mem = c00c
+    BRK                 ; Abort execution, mem = c00f
 
 address_2:
-    JMP $c002           ; PC = c002, V = 0, mem = c00d
+    JMP $c00f           ; PC = c002, V = 0, mem = c010
 address_3:
-    JMP $c00c       ; PC = c00c, V = 1, mem = c00f
+    JMP $c00c       ; PC = c00c, V = 1, mem = c013
 
 
    .org $E000
