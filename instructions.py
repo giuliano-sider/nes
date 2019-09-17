@@ -3,6 +3,7 @@ from Instructions.arithmetics_instructions import *
 from Instructions.load_instructions import *
 from Instructions.store_instructions import *
 from Instructions.control_flow_instructions import *
+from Instructions.logical_instructions import *
 
 def InstructionNotImplemented(*args):
     raise NotImplementedError('Instruction currently unimplemented')
