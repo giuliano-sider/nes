@@ -4,7 +4,7 @@ import unittest
 
 sys.path += os.pardir
 from nes_cpu_test_utils import CreateTestCpu, execute_instruction
-from instructions import (ADC_IMMEDIATE, ADC_ZEROPAGE, ADC_ZEROPAGEX, ADC_ABSOLUTE, ADC_ABSOLUTE_X, ADC_ABSOLUTE_Y, ADC_INDIRECT_X, ADC_INDIRECT_Y )
+from Instructions.arithmetics_instructions import (ADC_IMMEDIATE, ADC_ZEROPAGE, ADC_ZEROPAGEX, ADC_ABSOLUTE, ADC_ABSOLUTE_X, ADC_ABSOLUTE_Y, ADC_INDIRECT_X, ADC_INDIRECT_Y )
 
 
 class TestArithmetic(unittest.TestCase):
