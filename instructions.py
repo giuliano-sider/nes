@@ -2,7 +2,11 @@ from nes_cpu_utils import is_negative, is_overflow, twos_comp
 from Instructions.arithmetics_instructions import * 
 from Instructions.load_instructions import *
 from Instructions.store_instructions import *
+<<<<<<< HEAD
 from Instructions.flow_control_instructions import *
+=======
+from Instructions.control_flow_instructions import *
+>>>>>>> flow-inst
 from Instructions.logical_instructions import *
 
 def InstructionNotImplemented(*args):
@@ -325,10 +329,6 @@ def instruction_4b(cpu, logger):
     # to be implemented OPCODE 4b
     raise NotImplementedError()
 
-def jmp_absolute(cpu, logger):
-    # to be implemented OPCODE 4c
-    raise NotImplementedError()
-
 def eor_absolute(cpu, logger):
     # to be implemented OPCODE 4d
     raise NotImplementedError()
@@ -461,11 +461,14 @@ def instruction_6f(cpu, logger):
     # to be implemented OPCODE 6f
     raise NotImplementedError()
 
+<<<<<<< HEAD
 def bvs(cpu, logger):
     # to be implemented OPCODE 70
     raise NotImplementedError()
 
 
+=======
+>>>>>>> flow-inst
 def instruction_72(cpu, logger):
     # to be implemented OPCODE 72
     raise NotImplementedError()
