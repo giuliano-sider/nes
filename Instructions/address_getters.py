@@ -35,12 +35,18 @@ def get_absolute_y(cpu):
 
 
 def get_indirect_x(cpu):
-    op2 = cpu.memory[cpu.memory[(cpu.memory[cpu.PC() + 1] + cpu.X()) % 256]]
+    zero_page_base_addr = cpu.memory[cpu.PC() + 1]
+    addr = (cpu.memory[(zero_page_base_addr + cpu.X()    ) % 256] +
+            cpu.memory[(zero_page_base_addr + cpu.X() + 1) % 256] << 8)
+    op2 = cpu.memory[addr]
     cpu.set_PC(cpu.PC() + 2)
     return op2
 
 
 def get_indirect_y(cpu):
-    op2 = cpu.memory[(cpu.memory[cpu.memory[cpu.PC() + 1]] + cpu.Y()) % 256]
+    zero_page_base_addr = cpu.memory[cpu.PC() + 1]
+    addr = (cpu.memory[ zero_page_base_addr           ] +
+            cpu.memory[(zero_page_base_addr + 1) % 256] << 8)
+    op2 = cpu.memory[addr + cpu.Y()]
     cpu.set_PC(cpu.PC() + 2)
     return op2
