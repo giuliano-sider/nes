@@ -94,8 +94,21 @@ def bvs(cpu, logger):
     
     logger.log_instruction(cpu)
 
-JMP = 0x4c
+JMP_ABSOLUTE = 0x4c
 def jmp_absolute(cpu, logger):
     oper = cpu.memory[cpu.PC()+1] + (cpu.memory[cpu.PC()+2]<<8)
     branch(cpu, logger, oper)
+    logger.log_instruction(cpu)
+
+JMP_INDIRECT = 0x6c
+def jmp_indirect(cpu, logger):
+    oper = cpu.memory[cpu.PC()+1] + (cpu.memory[cpu.PC()+2]<<8)
+    branch(cpu, logger, oper)
+    logger.log_instruction(cpu)
+
+JSR = 0x20
+def jsr(cpu, logger):
+    oper = cpu.memory[cpu.PC()+1] + (cpu.memory[cpu.PC()+2]<<8)
+    branch(cpu, logger, oper)
+    # push PC+2?
     logger.log_instruction(cpu)
