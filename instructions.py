@@ -393,10 +393,6 @@ def instruction_5f(cpu, logger):
     # to be implemented OPCODE 5f
     raise NotImplementedError()
 
-def rts(cpu, logger):
-    # to be implemented OPCODE 60
-    raise NotImplementedError()
-
 def instruction_62(cpu, logger):
     # to be implemented OPCODE 62
     raise NotImplementedError()

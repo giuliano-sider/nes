@@ -108,7 +108,31 @@ def jmp_indirect(cpu, logger):
 
 JSR = 0x20
 def jsr(cpu, logger):
+    LOW_ADDR = int(0xff)  
+
+    # push PC+3
+    hight = (cpu.PC()+2)>>8
+    low = (cpu.PC()+2) & LOW_ADDR
+    cpu.set_SP(cpu.SP() + 1)
+    cpu.memory[cpu.SP()] = hight
+    cpu.set_SP(cpu.SP() + 1)
+    cpu.memory[cpu.SP()] = low
+
+    #print("%00x" % (hight))
+    #print("%00x" % (low))  
+
     oper = cpu.memory[cpu.PC()+1] + (cpu.memory[cpu.PC()+2]<<8)
     branch(cpu, logger, oper)
-    # push PC+2?
+
+    logger.log_instruction(cpu)
+
+RTS = 0x60
+def rts(cpu, logger):
+    pc = cpu.memory[cpu.SP()] + (cpu.memory[cpu.SP()-1]<<8)
+    #print("%0000x" % (pc))
+
+    # decrement SP
+    cpu.set_SP(cpu.SP()-2)
+
+    cpu.set_PC(pc+1)
     logger.log_instruction(cpu)
