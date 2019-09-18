@@ -194,10 +194,6 @@ def instruction_2b(cpu, logger):
     # to be implemented OPCODE 2b
     raise NotImplementedError()
 
-def bit_absolute(cpu, logger):
-    # to be implemented OPCODE 2c
-    raise NotImplementedError()
-
 def instruction_2d(cpu, logger):
     # to be implemented OPCODE 2d
     raise NotImplementedError()
