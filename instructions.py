@@ -154,10 +154,6 @@ def instruction_1f(cpu, logger):
     # to be implemented OPCODE 1f
     raise NotImplementedError()
 
-def jsr(cpu, logger):
-    # to be implemented OPCODE 20
-    raise NotImplementedError()
-
 def instruction_21(cpu, logger):
     # to be implemented OPCODE 21
     raise NotImplementedError()
@@ -443,11 +439,6 @@ def ror_accumulator(cpu, logger):
 def instruction_6b(cpu, logger):
     # to be implemented OPCODE 6b
     raise NotImplementedError()
-
-def jmp_indirect(cpu, logger):
-    # to be implemented OPCODE 6c
-    raise NotImplementedError()
-
 
 def ror_absolute(cpu, logger):
     # to be implemented OPCODE 6e
