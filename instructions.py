@@ -31,9 +31,6 @@ def brk(cpu, logger):
 instructions[BRK] = brk
 
 
-def ora_indirect_x(cpu, logger):
-    # to be implemented OPCODE 01
-    raise NotImplementedError()
 
 def instruction_02(cpu, logger):
     # to be implemented OPCODE 02
@@ -47,13 +44,7 @@ def instruction_04(cpu, logger):
     # to be implemented OPCODE 04
     raise NotImplementedError()
 
-def ora_zeropage(cpu, logger):
-    # to be implemented OPCODE 05
-    raise NotImplementedError()
 
-def asl_zeropage(cpu, logger):
-    # to be implemented OPCODE 06
-    raise NotImplementedError()
 
 def instruction_07(cpu, logger):
     # to be implemented OPCODE 07
@@ -63,13 +54,7 @@ def php(cpu, logger):
     # to be implemented OPCODE 08
     raise NotImplementedError()
 
-def ora_immediate(cpu, logger):
-    # to be implemented OPCODE 09
-    raise NotImplementedError()
 
-def asl_accumulator(cpu, logger):
-    # to be implemented OPCODE 0a
-    raise NotImplementedError()
 
 def instruction_0b(cpu, logger):
     # to be implemented OPCODE 0b
@@ -79,21 +64,12 @@ def instruction_0c(cpu, logger):
     # to be implemented OPCODE 0c
     raise NotImplementedError()
 
-def ora_absolute(cpu, logger):
-    # to be implemented OPCODE 0d
-    raise NotImplementedError()
 
-def asl_absolute(cpu, logger):
-    # to be implemented OPCODE 0e
-    raise NotImplementedError()
 
 def instruction_0f(cpu, logger):
     # to be implemented OPCODE 0f
     raise NotImplementedError()
 
-def ora_indirect_y(cpu, logger):
-    # to be implemented OPCODE 11
-    raise NotImplementedError()
 
 def instruction_12(cpu, logger):
     # to be implemented OPCODE 12
@@ -107,13 +83,7 @@ def instruction_14(cpu, logger):
     # to be implemented OPCODE 14
     raise NotImplementedError()
 
-def ora_zeropage_x(cpu, logger):
-    # to be implemented OPCODE 15
-    raise NotImplementedError()
 
-def asl_zeropage_x(cpu, logger):
-    # to be implemented OPCODE 16
-    raise NotImplementedError()
 
 def instruction_17(cpu, logger):
     # to be implemented OPCODE 17
@@ -126,9 +96,6 @@ def clc(cpu, logger):
     cpu.set_PC(cpu.PC()+1)
     logger.log_instruction(cpu)
 
-def ora_absolute_y(cpu, logger):
-    # to be implemented OPCODE 19
-    raise NotImplementedError()
 
 def instruction_1a(cpu, logger):
     # to be implemented OPCODE 1a
@@ -142,13 +109,7 @@ def instruction_1c(cpu, logger):
     # to be implemented OPCODE 1c
     raise NotImplementedError()
 
-def ora_absolute_x(cpu, logger):
-    # to be implemented OPCODE 1d
-    raise NotImplementedError()
 
-def asl_absolute_x(cpu, logger):
-    # to be implemented OPCODE 1e
-    raise NotImplementedError()
 
 def instruction_1f(cpu, logger):
     # to be implemented OPCODE 1f
@@ -170,9 +131,6 @@ def instruction_25(cpu, logger):
     # to be implemented OPCODE 25
     raise NotImplementedError()
 
-def rol_zeropage(cpu, logger):
-    # to be implemented OPCODE 26
-    raise NotImplementedError()
 
 def instruction_27(cpu, logger):
     # to be implemented OPCODE 27
@@ -186,9 +144,6 @@ def instruction_29(cpu, logger):
     # to be implemented OPCODE 29
     raise NotImplementedError()
 
-def rol_accumulator(cpu, logger):
-    # to be implemented OPCODE 2a
-    raise NotImplementedError()
 
 def instruction_2b(cpu, logger):
     # to be implemented OPCODE 2b
@@ -198,9 +153,6 @@ def instruction_2d(cpu, logger):
     # to be implemented OPCODE 2d
     raise NotImplementedError()
 
-def rol_absolute(cpu, logger):
-    # to be implemented OPCODE 2e
-    raise NotImplementedError()
 
 def instruction_2f(cpu, logger):
     # to be implemented OPCODE 2f
@@ -226,9 +178,6 @@ def instruction_35(cpu, logger):
     # to be implemented OPCODE 35
     raise NotImplementedError()
 
-def rol_zeropage_x(cpu, logger):
-    # to be implemented OPCODE 36
-    raise NotImplementedError()
 
 def instruction_37(cpu, logger):
     # to be implemented OPCODE 37
@@ -261,9 +210,6 @@ def instruction_3d(cpu, logger):
     # to be implemented OPCODE 3d
     raise NotImplementedError()
 
-def rol_absolute_x(cpu, logger):
-    # to be implemented OPCODE 3e
-    raise NotImplementedError()
 
 def instruction_3f(cpu, logger):
     # to be implemented OPCODE 3f
@@ -273,9 +219,6 @@ def rti(cpu, logger):
     # to be implemented OPCODE 40
     raise NotImplementedError()
 
-def eor_indirect_x(cpu, logger):
-    # to be implemented OPCODE 41
-    raise NotImplementedError()
 
 def instruction_42(cpu, logger):
     # to be implemented OPCODE 42
@@ -289,13 +232,7 @@ def instruction_44(cpu, logger):
     # to be implemented OPCODE 44
     raise NotImplementedError()
 
-def eor_zeropage(cpu, logger):
-    # to be implemented OPCODE 45
-    raise NotImplementedError()
 
-def lsr_zeropage(cpu, logger):
-    # to be implemented OPCODE 46
-    raise NotImplementedError()
 
 def instruction_47(cpu, logger):
     # to be implemented OPCODE 47
@@ -305,33 +242,18 @@ def pha(cpu, logger):
     # to be implemented OPCODE 48
     raise NotImplementedError()
 
-def eor_immediate(cpu, logger):
-    # to be implemented OPCODE 49
-    raise NotImplementedError()
 
-def lsr_accumulator(cpu, logger):
-    # to be implemented OPCODE 4a
-    raise NotImplementedError()
 
 def instruction_4b(cpu, logger):
     # to be implemented OPCODE 4b
     raise NotImplementedError()
 
-def eor_absolute(cpu, logger):
-    # to be implemented OPCODE 4d
-    raise NotImplementedError()
 
-def lsr_absolute(cpu, logger):
-    # to be implemented OPCODE 4e
-    raise NotImplementedError()
 
 def instruction_4f(cpu, logger):
     # to be implemented OPCODE 4f
     raise NotImplementedError()
 
-def eor_indirect_y(cpu, logger):
-    # to be implemented OPCODE 51
-    raise NotImplementedError()
 
 def instruction_52(cpu, logger):
     # to be implemented OPCODE 52
@@ -345,13 +267,7 @@ def instruction_54(cpu, logger):
     # to be implemented OPCODE 54
     raise NotImplementedError()
 
-def eor_zeropage_x(cpu, logger):
-    # to be implemented OPCODE 55
-    raise NotImplementedError()
 
-def lsr_zeropage_x(cpu, logger):
-    # to be implemented OPCODE 56
-    raise NotImplementedError()
 
 def instruction_57(cpu, logger):
     # to be implemented OPCODE 57
@@ -361,9 +277,6 @@ def cli(cpu, logger):
     # to be implemented OPCODE 58
     raise NotImplementedError()
 
-def eor_absolute_y(cpu, logger):
-    # to be implemented OPCODE 59
-    raise NotImplementedError()
 
 def instruction_5a(cpu, logger):
     # to be implemented OPCODE 5a
@@ -377,13 +290,7 @@ def instruction_5c(cpu, logger):
     # to be implemented OPCODE 5c
     raise NotImplementedError()
 
-def eor_absolute_x(cpu, logger):
-    # to be implemented OPCODE 5d
-    raise NotImplementedError()
 
-def lsr_absolute_x(cpu, logger):
-    # to be implemented OPCODE 5e
-    raise NotImplementedError()
 
 def instruction_5f(cpu, logger):
     # to be implemented OPCODE 5f
@@ -401,9 +308,6 @@ def instruction_64(cpu, logger):
     # to be implemented OPCODE 64
     raise NotImplementedError()
 
-def ror_zeropage(cpu, logger):
-    # to be implemented OPCODE 66
-    raise NotImplementedError()
 
 def instruction_67(cpu, logger):
     # to be implemented OPCODE 67
@@ -413,17 +317,11 @@ def pla(cpu, logger):
     # to be implemented OPCODE 68
     raise NotImplementedError()
 
-def ror_accumulator(cpu, logger):
-    # to be implemented OPCODE 6a
-    raise NotImplementedError()
 
 def instruction_6b(cpu, logger):
     # to be implemented OPCODE 6b
     raise NotImplementedError()
 
-def ror_absolute(cpu, logger):
-    # to be implemented OPCODE 6e
-    raise NotImplementedError()
 
 def instruction_6f(cpu, logger):
     # to be implemented OPCODE 6f
@@ -441,9 +339,6 @@ def instruction_74(cpu, logger):
     # to be implemented OPCODE 74
     raise NotImplementedError()
 
-def ror_zeropage_x(cpu, logger):
-    # to be implemented OPCODE 76
-    raise NotImplementedError()
 
 def instruction_77(cpu, logger):
     # to be implemented OPCODE 77
@@ -467,9 +362,6 @@ def instruction_7c(cpu, logger):
 
 
 
-def ror_absolute_x(cpu, logger):
-    # to be implemented OPCODE 7e
-    raise NotImplementedError()
 
 def instruction_7f(cpu, logger):
     # to be implemented OPCODE 7f
@@ -859,36 +751,36 @@ def inc_absolute_x(cpu, logger):
 
 
 
-instructions[1] = ora_indirect_x
+instructions[ORA_INDIRECT_X] = ora_indirect_x
 instructions[2] = instruction_02
 instructions[3] = instruction_03
 instructions[4] = instruction_04
-instructions[5] = ora_zeropage
-instructions[6] = asl_zeropage
+instructions[ORA_ZERO_PAGE] = ora_zeropage
+instructions[ASL_ZERO_PAGE] = asl_zeropage
 instructions[7] = instruction_07
 instructions[8] = php
-instructions[9] = ora_immediate
-instructions[10] = asl_accumulator
+instructions[ORA_IMMEDIATE] = ora_immediate
+instructions[ASL_ACCUMULATOR] = asl_accumulator
 instructions[11] = instruction_0b
 instructions[12] = instruction_0c
-instructions[13] = ora_absolute
-instructions[14] = asl_absolute
+instructions[ORA_ABSOLUTE] = ora_absolute
+instructions[ASL_ABSOLUTE] = asl_absolute
 instructions[15] = instruction_0f
 instructions[16] = bpl
-instructions[17] = ora_indirect_y
+instructions[ORA_INDIRECT_Y] = ora_indirect_y
 instructions[18] = instruction_12
 instructions[19] = instruction_13
 instructions[20] = instruction_14
-instructions[21] = ora_zeropage_x
-instructions[22] = asl_zeropage_x
+instructions[ORA_ZERO_PAGE_X] = ora_zeropage_x
+instructions[ASL_ZERO_PAGE_X] = asl_zeropage_x
 instructions[23] = instruction_17
 instructions[CLC] = clc
-instructions[25] = ora_absolute_y
+instructions[ORA_ABSOLUTE_Y] = ora_absolute_y
 instructions[26] = instruction_1a
 instructions[27] = instruction_1b
 instructions[28] = instruction_1c
-instructions[29] = ora_absolute_x
-instructions[30] = asl_absolute_x
+instructions[ORA_ABSOLUTE_X] = ora_absolute_x
+instructions[ASL_ABSOLUTE_X] = asl_absolute_x
 instructions[31] = instruction_1f
 instructions[32] = jsr
 instructions[33] = instruction_21
@@ -896,15 +788,15 @@ instructions[34] = instruction_22
 instructions[35] = instruction_23
 instructions[BIT_ZEROPAGE] = bit_zeropage
 instructions[37] = instruction_25
-instructions[38] = rol_zeropage
+instructions[ROL_ZERO_PAGE] = rol_zeropage
 instructions[39] = instruction_27
 instructions[40] = plp
 instructions[41] = instruction_29
-instructions[42] = rol_accumulator
+instructions[ROL_ACCUMULATOR] = rol_accumulator
 instructions[43] = instruction_2b
-instructions[44] = bit_absolute
+instructions[BIT_ABSOLUTE] = bit_absolute
 instructions[45] = instruction_2d
-instructions[46] = rol_absolute
+instructions[ROL_ABSOLUTE] = rol_absolute
 instructions[47] = instruction_2f
 instructions[48] = bmi
 instructions[49] = instruction_31
@@ -912,7 +804,7 @@ instructions[50] = instruction_32
 instructions[51] = instruction_33
 instructions[52] = instruction_34
 instructions[53] = instruction_35
-instructions[54] = rol_zeropage_x
+instructions[ROL_ZERO_PAGE_X] = rol_zeropage_x
 instructions[55] = instruction_37
 instructions[SEC] = sec
 instructions[57] = instruction_39
@@ -920,63 +812,63 @@ instructions[58] = instruction_3a
 instructions[59] = instruction_3b
 instructions[60] = instruction_3c
 instructions[61] = instruction_3d
-instructions[62] = rol_absolute_x
+instructions[ROL_ABSOLUTE_X] = rol_absolute_x
 instructions[63] = instruction_3f
 instructions[64] = rti
-instructions[65] = eor_indirect_x
+instructions[EOR_INDIRECT_X] = eor_indirect_x
 instructions[66] = instruction_42
 instructions[67] = instruction_43
 instructions[68] = instruction_44
-instructions[69] = eor_zeropage
-instructions[70] = lsr_zeropage
+instructions[EOR_ZERO_PAGE] = eor_zeropage
+instructions[LSR_ZERO_PAGE] = lsr_zeropage
 instructions[71] = instruction_47
 instructions[72] = pha
-instructions[73] = eor_immediate
-instructions[74] = lsr_accumulator
+instructions[EOR_IMMEDIATE] = eor_immediate
+instructions[LSR_ACCUMULATOR] = lsr_accumulator
 instructions[75] = instruction_4b
 instructions[76] = jmp_absolute
-instructions[77] = eor_absolute
-instructions[78] = lsr_absolute
+instructions[EOR_ABSOLUTE] = eor_absolute
+instructions[LSR_ABSOLUTE] = lsr_absolute
 instructions[79] = instruction_4f
 instructions[80] = bvc
-instructions[81] = eor_indirect_y
+instructions[EOR_INDIRECT_Y] = eor_indirect_y
 instructions[82] = instruction_52
 instructions[83] = instruction_53
 instructions[84] = instruction_54
-instructions[85] = eor_zeropage_x
-instructions[86] = lsr_zeropage_x
+instructions[EOR_ZERO_PAGE_X] = eor_zeropage_x
+instructions[LSR_ZERO_PAGE_X] = lsr_zeropage_x
 instructions[87] = instruction_57
 instructions[88] = cli
-instructions[89] = eor_absolute_y
+instructions[EOR_ABSOLUTE_Y] = eor_absolute_y
 instructions[90] = instruction_5a
 instructions[91] = instruction_5b
 instructions[92] = instruction_5c
-instructions[93] = eor_absolute_x
-instructions[94] = lsr_absolute_x
+instructions[EOR_ABSOLUTE_X] = eor_absolute_x
+instructions[LSR_ABSOLUTE_X] = lsr_absolute_x
 instructions[95] = instruction_5f
 instructions[96] = rts
 instructions[98] = instruction_62
 instructions[99] = instruction_63
 instructions[100] = instruction_64
-instructions[102] = ror_zeropage
+instructions[ROR_ZERO_PAGE] = ror_zeropage
 instructions[103] = instruction_67
 instructions[104] = pla
-instructions[106] = ror_accumulator
+instructions[ROR_ACCUMULATOR] = ror_accumulator
 instructions[107] = instruction_6b
 instructions[108] = jmp_indirect
-instructions[110] = ror_absolute
+instructions[ROR_ABSOLUTE] = ror_absolute
 instructions[111] = instruction_6f
 instructions[112] = bvs
 instructions[114] = instruction_72
 instructions[115] = instruction_73
 instructions[116] = instruction_74
-instructions[118] = ror_zeropage_x
+instructions[ROR_ZERO_PAGE_X] = ror_zeropage_x
 instructions[119] = instruction_77
 instructions[120] = sei
 instructions[122] = instruction_7a
 instructions[123] = instruction_7b
 instructions[124] = instruction_7c
-instructions[126] = ror_absolute_x
+instructions[ROR_ABSOLUTE_X] = ror_absolute_x
 instructions[127] = instruction_7f
 instructions[128] = instruction_80
 instructions[129] = sta_indirect_x
@@ -1114,3 +1006,12 @@ instructions[ADC_INDIRECT_X] = adc_indirect_x
 instructions[ADC_INDIRECT_Y ] = adc_indirect_y
 instructions[CMP_IMMEDIATE] = cmp_immediate
 instructions[CMP_ZEROPAGE] = cmp_zeropage
+
+instructions[AND_IMMEDIATE] = and_immediate
+instructions[AND_ZERO_PAGE] = and_zeropage
+instructions[AND_ZERO_PAGE_X] = and_zeropage_x
+instructions[AND_ABSOLUTE] = and_absolute
+instructions[AND_ABSOLUTE_X] = and_absolute_x
+instructions[AND_ABSOLUTE_Y] = and_absolute_y
+instructions[AND_INDIRECT_X] = and_indirect_x
+instructions[AND_INDIRECT_Y] = and_indirect_y
