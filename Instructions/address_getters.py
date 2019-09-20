@@ -71,7 +71,7 @@ def get_absolute_addr(cpu):
     cpu.set_PC(cpu.PC() + 3)
     return addr
 
-def get_absolute_x(cpu):
+def get_absolute_x_addr(cpu):
     addr = cpu.memory_mapper.cpu_read_word(cpu.PC() + 1) + cpu.X()
     cpu.set_PC(cpu.PC() + 3)
     return addr
