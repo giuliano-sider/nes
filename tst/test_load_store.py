@@ -8,6 +8,7 @@ from instructions import LDY_ZEROPAGE, LDX_ZEROPAGE_Y, LDY_IMMEDIATE
 
 sys.path += os.pardir
 
+
 class TestLoadStore(unittest.TestCase):
 
     def setUp(self):
@@ -243,6 +244,7 @@ class TestLoadStore(unittest.TestCase):
     def test_lda_indirect_x_add_value_to_zero_page_address(self):
         stored_content = 0x77
         zero_page_address = 0x86
+        initial_pc = self.cpu.PC()
 
         indirect_zero_page_address = 0x99
         x_value = 0x01
@@ -254,7 +256,10 @@ class TestLoadStore(unittest.TestCase):
         execute_instruction(self.cpu, opcode=LDA_INDIRECT_X, op2_lo_byte=zero_page_address)
 
         expected_value = stored_content
+        expected_pc = initial_pc + 2
+
         self.assertEqual(expected_value, self.cpu.A())
+        self.assertEqual(expected_pc, self.cpu.PC())
 
 
     def test_lda_indirect_x_add_value_to_zero_page_address_when_content_is_zero(self):
@@ -311,6 +316,7 @@ class TestLoadStore(unittest.TestCase):
         absolute_address_low = 0x28
         absolute_address_high = 0x40
         y_value = 0x10
+        initial_pc = self.cpu.PC()
 
         resolved_address = absolute_address + y_value
 
@@ -325,9 +331,11 @@ class TestLoadStore(unittest.TestCase):
         expected_value = stored_content
         expected_zero_flag = 0
         expected_negative_flag = 0
+        expected_pc = initial_pc + 3
         self.assertEqual(expected_value, self.cpu.A())
         self.assertEqual(expected_zero_flag, self.cpu.zero())
         self.assertEqual(expected_negative_flag, self.cpu.negative())
+        self.assertEqual(expected_pc, self.cpu.PC())
 
     def test_lda_absolute_y_with_overflow(self):
         stored_content = 0x01
@@ -406,6 +414,7 @@ class TestLoadStore(unittest.TestCase):
         absolute_address_low = 0x28
         absolute_address_high = 0x40
         x_value = 0x10
+        initial_pc = self.cpu.PC()
 
         resolved_address = absolute_address + x_value
 
@@ -420,9 +429,11 @@ class TestLoadStore(unittest.TestCase):
         expected_value = stored_content
         expected_zero_flag = 0
         expected_negative_flag = 0
+        expected_pc = initial_pc + 3
         self.assertEqual(expected_value, self.cpu.A())
         self.assertEqual(expected_zero_flag, self.cpu.zero())
         self.assertEqual(expected_negative_flag, self.cpu.negative())
+        self.assertEqual(expected_pc, self.cpu.PC())
 
     def test_lda_absolute_x_with_overflow(self):
         stored_content = 0x01
@@ -499,13 +510,17 @@ class TestLoadStore(unittest.TestCase):
         storage_address = 0x10
         stored_content = 0x01
         x_value = 0x01
+        initial_pc = self.cpu.PC()
 
         self.cpu.set_X(x_value)
         self.cpu.memory[storage_address + x_value] = stored_content
 
         execute_instruction(self.cpu, opcode=LDA_ZEROPAGE_X, op2_lo_byte=storage_address)
         expected_value = stored_content
+        expected_pc = initial_pc + 2
+
         self.assertEqual(expected_value, self.cpu.A())
+        self.assertEqual(expected_pc, self.cpu.PC())
 
     def test_zero_page_x_lda_with_overflow(self):
         storage_address = 0xFF
@@ -573,6 +588,7 @@ class TestLoadStore(unittest.TestCase):
     def test_zero_page_ldx(self):
         storage_address = 0x10
         stored_content = 0x01
+        initial_pc = self.cpu.PC()
 
         self.cpu.memory[storage_address] = stored_content
 
@@ -580,9 +596,11 @@ class TestLoadStore(unittest.TestCase):
         expected_value = stored_content
         expected_negative_flag = 0
         expected_zero_flag = 0
+        expected_pc = initial_pc + 2
         self.assertEqual(expected_value, self.cpu.X())
         self.assertEqual(expected_zero_flag, self.cpu.zero())
         self.assertEqual(expected_negative_flag, self.cpu.negative())
+        self.assertEqual(expected_pc, self.cpu.PC())
 
     def test_ldx_zero_page_when_content_is_zero(self):
         storage_address = 0x10
@@ -613,6 +631,7 @@ class TestLoadStore(unittest.TestCase):
         stored_content = 0x07
         low_address_part = 0x00
         high_address_part = 0x11
+        initial_pc = self.cpu.PC()
 
         self.cpu.memory[storage_address] = stored_content
 
@@ -620,9 +639,12 @@ class TestLoadStore(unittest.TestCase):
         expected_value = stored_content
         expected_negative_flag = 0
         expected_zero_flag = 0
+        expected_pc = initial_pc + 3
+
         self.assertEqual(expected_value, self.cpu.X())
         self.assertEqual(expected_zero_flag, self.cpu.zero())
         self.assertEqual(expected_negative_flag, self.cpu.negative())
+        self.assertEqual(expected_pc, self.cpu.PC())
 
     def test_zero_flag_for_ldx_absolute_instruction(self):
         storage_address = 0x1100
@@ -663,6 +685,7 @@ class TestLoadStore(unittest.TestCase):
     def test_zero_page_ldy(self):
         storage_address = 0x10
         stored_content = 0x01
+        initial_pc = self.cpu.PC()
 
         self.cpu.memory[storage_address] = stored_content
 
@@ -670,9 +693,12 @@ class TestLoadStore(unittest.TestCase):
         expected_value = stored_content
         expected_negative_flag = 0
         expected_zero_flag = 0
+        expected_pc = initial_pc + 2
+
         self.assertEqual(expected_value, self.cpu.Y())
         self.assertEqual(expected_zero_flag, self.cpu.zero())
         self.assertEqual(expected_negative_flag, self.cpu.negative())
+        self.assertEqual(expected_pc, self.cpu.PC())
 
     def test_ldy_zero_page_when_content_is_zero(self):
         storage_address = 0x10
@@ -703,6 +729,7 @@ class TestLoadStore(unittest.TestCase):
         stored_content = 0x07
         low_address_part = 0x00
         high_address_part = 0x11
+        initial_pc = self.cpu.PC()
 
         self.cpu.memory[storage_address] = stored_content
 
@@ -710,9 +737,11 @@ class TestLoadStore(unittest.TestCase):
         expected_value = stored_content
         expected_negative_flag = 0
         expected_zero_flag = 0
+        expected_pc = initial_pc + 3
         self.assertEqual(expected_value, self.cpu.Y())
         self.assertEqual(expected_zero_flag, self.cpu.zero())
         self.assertEqual(expected_negative_flag, self.cpu.negative())
+        self.assertEqual(expected_pc, self.cpu.PC())
 
     def test_zero_flag_for_ldy_absolute_instruction(self):
         storage_address = 0x1100
@@ -755,6 +784,7 @@ class TestLoadStore(unittest.TestCase):
         storage_address = 0x10
         stored_content = 0x01
         y_value = 0x01
+        initial_pc = self.cpu.PC()
 
         self.cpu.set_Y(y_value)
         self.cpu.memory[storage_address + y_value] = stored_content
@@ -763,9 +793,12 @@ class TestLoadStore(unittest.TestCase):
         expected_value = stored_content
         expected_negative_flag = 0
         expected_zero_flag = 0
+        expected_pc = initial_pc + 2
+
         self.assertEqual(expected_value, self.cpu.X())
         self.assertEqual(expected_zero_flag, self.cpu.zero())
         self.assertEqual(expected_negative_flag, self.cpu.negative())
+        self.assertEqual(expected_pc, self.cpu.PC())
 
     def test_ldx_zero_page_y_with_overflow(self):
         storage_address = 0xFF
@@ -773,7 +806,7 @@ class TestLoadStore(unittest.TestCase):
         y_value = 0x01
 
         self.cpu.set_Y(y_value)
-        self.cpu.memory[storage_address + y_value] = stored_content
+        self.cpu.memory[(storage_address + y_value) % 256] = stored_content
 
         execute_instruction(self.cpu, opcode=LDX_ZEROPAGE_Y, op2_lo_byte=storage_address)
         expected_value = stored_content

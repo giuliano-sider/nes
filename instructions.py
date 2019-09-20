@@ -2,7 +2,7 @@ from nes_cpu_utils import is_negative, is_overflow, twos_comp
 from Instructions.arithmetics_instructions import * 
 from Instructions.load_instructions import *
 from Instructions.store_instructions import *
-from Instructions.flow_control_instructions import *
+from Instructions.control_flow_instructions import *
 from Instructions.logical_instructions import *
 
 def InstructionNotImplemented(*args):
@@ -154,10 +154,6 @@ def instruction_1f(cpu, logger):
     # to be implemented OPCODE 1f
     raise NotImplementedError()
 
-def jsr(cpu, logger):
-    # to be implemented OPCODE 20
-    raise NotImplementedError()
-
 def instruction_21(cpu, logger):
     # to be implemented OPCODE 21
     raise NotImplementedError()
@@ -196,10 +192,6 @@ def rol_accumulator(cpu, logger):
 
 def instruction_2b(cpu, logger):
     # to be implemented OPCODE 2b
-    raise NotImplementedError()
-
-def bit_absolute(cpu, logger):
-    # to be implemented OPCODE 2c
     raise NotImplementedError()
 
 def instruction_2d(cpu, logger):
@@ -325,10 +317,6 @@ def instruction_4b(cpu, logger):
     # to be implemented OPCODE 4b
     raise NotImplementedError()
 
-def jmp_absolute(cpu, logger):
-    # to be implemented OPCODE 4c
-    raise NotImplementedError()
-
 def eor_absolute(cpu, logger):
     # to be implemented OPCODE 4d
     raise NotImplementedError()
@@ -401,10 +389,6 @@ def instruction_5f(cpu, logger):
     # to be implemented OPCODE 5f
     raise NotImplementedError()
 
-def rts(cpu, logger):
-    # to be implemented OPCODE 60
-    raise NotImplementedError()
-
 def instruction_62(cpu, logger):
     # to be implemented OPCODE 62
     raise NotImplementedError()
@@ -437,11 +421,6 @@ def instruction_6b(cpu, logger):
     # to be implemented OPCODE 6b
     raise NotImplementedError()
 
-def jmp_indirect(cpu, logger):
-    # to be implemented OPCODE 6c
-    raise NotImplementedError()
-
-
 def ror_absolute(cpu, logger):
     # to be implemented OPCODE 6e
     raise NotImplementedError()
@@ -449,11 +428,6 @@ def ror_absolute(cpu, logger):
 def instruction_6f(cpu, logger):
     # to be implemented OPCODE 6f
     raise NotImplementedError()
-
-def bvs(cpu, logger):
-    # to be implemented OPCODE 70
-    raise NotImplementedError()
-
 
 def instruction_72(cpu, logger):
     # to be implemented OPCODE 72
@@ -702,11 +676,6 @@ def dec_absolute(cpu, logger):
 def instruction_cf(cpu, logger):
     # to be implemented OPCODE cf
     raise NotImplementedError()
-
-def bne(cpu, logger):
-    # to be implemented OPCODE d0
-    raise NotImplementedError()
-
 
 def cmp_indirect_y(cpu, logger):
     # to be implemented OPCODE d1

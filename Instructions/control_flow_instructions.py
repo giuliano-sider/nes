@@ -83,3 +83,56 @@ def bvc(cpu, logger):
     
     logger.log_instruction(cpu)
 
+BVS = 0x70
+def bvs(cpu, logger):
+    if cpu.overflow() == 1:
+        offset = twos_comp(cpu.memory[cpu.PC()+1], 8) + 2
+        oper = cpu.PC() + offset
+        branch(cpu, logger, oper)
+    else:
+        cpu.set_PC(cpu.PC() + 2)
+    
+    logger.log_instruction(cpu)
+
+JMP_ABSOLUTE = 0x4c
+def jmp_absolute(cpu, logger):
+    oper = cpu.memory[cpu.PC()+1] + (cpu.memory[cpu.PC()+2]<<8)
+    branch(cpu, logger, oper)
+    logger.log_instruction(cpu)
+
+JMP_INDIRECT = 0x6c
+def jmp_indirect(cpu, logger):
+    oper = cpu.memory[cpu.PC()+1] + (cpu.memory[cpu.PC()+2]<<8)
+    branch(cpu, logger, oper)
+    logger.log_instruction(cpu)
+
+JSR = 0x20
+def jsr(cpu, logger):
+    LOW_ADDR = int(0xff)  
+
+    # push PC+3
+    hight = (cpu.PC()+2)>>8
+    low = (cpu.PC()+2) & LOW_ADDR
+    cpu.set_SP(cpu.SP() + 1)
+    cpu.memory[cpu.SP()] = hight
+    cpu.set_SP(cpu.SP() + 1)
+    cpu.memory[cpu.SP()] = low
+
+    #print("%00x" % (hight))
+    #print("%00x" % (low))  
+
+    oper = cpu.memory[cpu.PC()+1] + (cpu.memory[cpu.PC()+2]<<8)
+    branch(cpu, logger, oper)
+
+    logger.log_instruction(cpu)
+
+RTS = 0x60
+def rts(cpu, logger):
+    pc = cpu.memory[cpu.SP()] + (cpu.memory[cpu.SP()-1]<<8)
+    #print("%0000x" % (pc))
+
+    # decrement SP
+    cpu.set_SP(cpu.SP()-2)
+
+    cpu.set_PC(pc+1)
+    logger.log_instruction(cpu)
