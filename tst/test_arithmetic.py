@@ -4,8 +4,7 @@ import unittest
 
 sys.path += os.pardir
 from nes_cpu_test_utils import CreateTestCpu, execute_instruction
-from Instructions.arithmetics_instructions import (ADC_IMMEDIATE, ADC_ZEROPAGE, ADC_ZEROPAGEX, ADC_ABSOLUTE, ADC_ABSOLUTE_X, ADC_ABSOLUTE_Y, ADC_INDIRECT_X, ADC_INDIRECT_Y )
-
+from Instructions.arithmetics_instructions import *
 
 class TestArithmetic(unittest.TestCase):
 
@@ -132,6 +131,34 @@ class TestArithmetic(unittest.TestCase):
         self.assertEqual(cpu.negative(), 0)
         self.assertEqual(cpu.overflow(), 0)
         self.assertEqual(cpu.zero(), 0)
+        self.assertEqual(cpu.carry(), 0)
+
+    def test_cmp_immediate(self):
+        cpu = CreateTestCpu()
+        cpu.clear_carry()
+        cpu.set_A(0x01)
+
+        # Error op2_lo_byte=0x02
+        execute_instruction(cpu, opcode=CMP_IMMEDIATE, op2_lo_byte=0x01)
+
+        self.assertEqual(cpu.A(), 0x01)
+        self.assertEqual(cpu.negative(), 0)
+        self.assertEqual(cpu.overflow(), 0)
+        self.assertEqual(cpu.zero(), 1)
+        self.assertEqual(cpu.carry(), 1)
+
+    def test_cmp_zeropage(self):
+        cpu = CreateTestCpu()
+        cpu.clear_carry()
+        cpu.set_A(0x00)
+        cpu.memory[0x10] = 0x00
+
+        execute_instruction(cpu, opcode=ADC_ZEROPAGE, op2_lo_byte=0x10)
+
+        self.assertEqual(cpu.A(), 0x00)
+        self.assertEqual(cpu.negative(), 0)
+        self.assertEqual(cpu.overflow(), 0)
+        self.assertEqual(cpu.zero(), 1)
         self.assertEqual(cpu.carry(), 0)
 
 

@@ -52,3 +52,20 @@ def adc(cpu, logger, op2):
     cpu.set_carry_iff(result >= 256)
 
     logger.log_instruction(cpu)
+
+CMP_IMMEDIATE = 0xC9
+def cmp_immediate(cpu, logger):
+    op2 = get_immediate(cpu)
+    cmp(cpu, logger, op2)
+
+CMP_ZEROPAGE = 0xC5
+def cmp_zeropage(cpu, logger):
+    op2 =  get_zeropage(cpu)
+    cmp(cpu, logger, op2)
+
+def cmp(cpu, logger, op2):
+    op1 = cpu.A()
+    result = op1-op2
+    cpu.set_zero_iff(op1 == op2)
+    cpu.set_carry_iff(op1 >= op2)
+    cpu.set_negative_iff(is_negative(result))

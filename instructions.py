@@ -429,17 +429,6 @@ def pla(cpu, logger):
     # to be implemented OPCODE 68
     raise NotImplementedError()
 
-instructions[ADC_IMMEDIATE] = adc_immediate
-instructions[ADC_ZEROPAGE] = adc_zeropage
-instructions[ADC_ZEROPAGEX] = adc_zeropage_x
-instructions[ADC_ABSOLUTE] = adc_absolute
-instructions[ADC_ABSOLUTE_X] = adc_absolute_x
-instructions[ADC_ABSOLUTE_Y] = adc_absolute_y
-instructions[ADC_INDIRECT_X] = adc_indirect_x
-instructions[ADC_INDIRECT_Y ] = adc_indirect_y
-
-
-
 def ror_accumulator(cpu, logger):
     # to be implemented OPCODE 6a
     raise NotImplementedError()
@@ -676,10 +665,6 @@ def cpy_zeropage(cpu, logger):
     # to be implemented OPCODE c4
     raise NotImplementedError()
 
-def cmp_zeropage(cpu, logger):
-    # to be implemented OPCODE c5
-    raise NotImplementedError()
-
 def dec_zeropage(cpu, logger):
     # to be implemented OPCODE c6
     raise NotImplementedError()
@@ -692,21 +677,7 @@ def iny(cpu, logger):
     # to be implemented OPCODE c8
     raise NotImplementedError()
 
-CMP_IMMEDIATE = 0xc9
-def cmp_immediate(cpu, logger):
-    oper = cpu.memory[cpu.PC() + 1]
-    value = cpu.A() - oper
-    if value  == 0:
-        cpu.set_zero()
-        cpu.clear_negative()
-    elif value < 0:
-        cpu.set_negative()
-        cpu.clear_zero()
-    else:
-        cpu.clear_negative()
-        cpu.clear_zero()
-    cpu.set_PC(cpu.PC() + 2)
-    logger.log_instruction(cpu)
+
 
 def dex(cpu, logger):
     # to be implemented OPCODE ca
@@ -1107,11 +1078,9 @@ instructions[193] = cmp_indirect_x
 instructions[194] = instruction_c2
 instructions[195] = instruction_c3
 instructions[196] = cpy_zeropage
-instructions[197] = cmp_zeropage
 instructions[198] = dec_zeropage
 instructions[199] = instruction_c7
 instructions[200] = iny
-instructions[201] = cmp_immediate
 instructions[202] = dex
 instructions[203] = instruction_cb
 instructions[204] = cpy_absolute
@@ -1165,3 +1134,14 @@ instructions[251] = instruction_fb
 instructions[252] = instruction_fc
 instructions[253] = sbc_absolute_x
 instructions[254] = inc_absolute_x
+
+instructions[ADC_IMMEDIATE] = adc_immediate
+instructions[ADC_ZEROPAGE] = adc_zeropage
+instructions[ADC_ZEROPAGEX] = adc_zeropage_x
+instructions[ADC_ABSOLUTE] = adc_absolute
+instructions[ADC_ABSOLUTE_X] = adc_absolute_x
+instructions[ADC_ABSOLUTE_Y] = adc_absolute_y
+instructions[ADC_INDIRECT_X] = adc_indirect_x
+instructions[ADC_INDIRECT_Y ] = adc_indirect_y
+instructions[CMP_IMMEDIATE] = cmp_immediate
+instructions[CMP_ZEROPAGE] = cmp_zeropage
