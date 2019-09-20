@@ -9,7 +9,7 @@ from instructions import LDY_ZEROPAGE, LDX_ZEROPAGE_Y, LDY_IMMEDIATE, LDY_ZEROPA
 sys.path += os.pardir
 
 
-class TestLoadStore(unittest.TestCase):
+class TestLoad(unittest.TestCase):
 
     def setUp(self):
         self.cpu = CreateTestCpu()

@@ -1,7 +1,13 @@
+import nes_cpu_utils as utils
+
 STA_INDIRECT_X = 0x81
 def sta_indirect_x(cpu, logger):
-    # to be implemented OPCODE 81
-    raise NotImplementedError()
+    zero_page_address = cpu.memory[cpu.PC() + 1]
+    x_offset = cpu.X()
+    resolved_address = (zero_page_address + x_offset) % utils.MOD_ZERO_PAGE
+    cpu.memory[resolved_address] = cpu.A()
+    cpu.set_PC(cpu.PC() + 2)
+    logger.log_instruction(cpu)
 
 STA_ZEROPAGE = 0x85
 def sta_zeropage(cpu, logger):
