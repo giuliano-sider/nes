@@ -174,12 +174,24 @@ def ldy_absolute(cpu, logger):
     logger.log_instruction(cpu)
 
 LDY_ZEROPAGE_X = 0xB4
-def ldy_zeropage_x(cpu, logger): # TODO: add pc behavior
-    # to be implemented OPCODE b4
-    raise NotImplementedError()
+def ldy_zeropage_x(cpu, logger):
+    address_8bit = cpu.memory[cpu.PC() + 1]
+    cpu.set_PC(cpu.PC() + 2)
+    content = cpu.memory[(address_8bit + cpu.X()) % utils.MOD_ZERO_PAGE]
+    cpu.set_zero_iff(content == 0x00)
+    cpu.set_negative_iff(utils.is_negative(content))
+    cpu.set_Y(content)
+    logger.log_instruction(cpu)
 
 LDY_ABSOLUTE_X = 0xBC
-def ldy_absolute_x(cpu, logger): # TODO: add pc behavior
-    # to be implemented OPCODE bc
-    raise NotImplementedError()
+def ldy_absolute_x(cpu, logger):
+    low_address_part = cpu.memory[cpu.PC() + 1]
+    high_address_part = cpu.memory[cpu.PC() + 2] << 8
+    cpu.set_PC(cpu.PC() + 3)
+    address = (low_address_part + high_address_part + cpu.X()) % utils.MOD_ABSOLUTE
+    content = cpu.memory[address]
+    cpu.set_zero_iff(content == 0x00)
+    cpu.set_negative_iff(utils.is_negative(content))
+    cpu.set_Y(content)
+    logger.log_instruction(cpu)
 
