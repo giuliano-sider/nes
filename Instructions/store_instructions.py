@@ -11,8 +11,10 @@ def sta_indirect_x(cpu, logger):
 
 STA_ZEROPAGE = 0x85
 def sta_zeropage(cpu, logger):
-    # to be implemented OPCODE 85
-    raise NotImplementedError()
+    zero_page_address = cpu.memory[cpu.PC() + 1]
+    cpu.memory[zero_page_address] = cpu.A()
+    cpu.set_PC(cpu.PC() + 2)
+    logger.log_instruction(cpu)
 
 STA_ABSOLUTE = 0xBD
 def sta_absolute(cpu, logger):
