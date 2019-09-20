@@ -515,10 +515,6 @@ def cpy_immediate(cpu, logger):
     # to be implemented OPCODE c0
     raise NotImplementedError()
 
-def cmp_indirect_x(cpu, logger):
-    # to be implemented OPCODE c1
-    raise NotImplementedError()
-
 def instruction_c2(cpu, logger):
     # to be implemented OPCODE c2
     raise NotImplementedError()
@@ -543,8 +539,6 @@ def iny(cpu, logger):
     # to be implemented OPCODE c8
     raise NotImplementedError()
 
-
-
 def dex(cpu, logger):
     # to be implemented OPCODE ca
     raise NotImplementedError()
@@ -557,20 +551,12 @@ def cpy_absolute(cpu, logger):
     # to be implemented OPCODE cc
     raise NotImplementedError()
 
-def cmp_absolute(cpu, logger):
-    # to be implemented OPCODE cd
-    raise NotImplementedError()
-
 def dec_absolute(cpu, logger):
     # to be implemented OPCODE ce
     raise NotImplementedError()
 
 def instruction_cf(cpu, logger):
     # to be implemented OPCODE cf
-    raise NotImplementedError()
-
-def cmp_indirect_y(cpu, logger):
-    # to be implemented OPCODE d1
     raise NotImplementedError()
 
 def instruction_d2(cpu, logger):
@@ -585,9 +571,6 @@ def instruction_d4(cpu, logger):
     # to be implemented OPCODE d4
     raise NotImplementedError()
 
-def cmp_zero_page_x(cpu, logger):
-    # to be implemented OPCODE d5
-    raise NotImplementedError()
 
 def dec_zeropage_x(cpu, logger):
     # to be implemented OPCODE d6
@@ -601,10 +584,6 @@ def cld(cpu, logger):
     # to be implemented OPCODE d8
     raise NotImplementedError()
 
-def cmp_absolute_y(cpu, logger):
-    # to be implemented OPCODE d9
-    raise NotImplementedError()
-
 def instruction_da(cpu, logger):
     # to be implemented OPCODE da
     raise NotImplementedError()
@@ -615,10 +594,6 @@ def instruction_db(cpu, logger):
 
 def instruction_dc(cpu, logger):
     # to be implemented OPCODE dc
-    raise NotImplementedError()
-
-def cmp_absolute_x(cpu, logger):
-    # to be implemented OPCODE dd
     raise NotImplementedError()
 
 def dec_absolute_x(cpu, logger):
@@ -935,7 +910,6 @@ instructions[189] = lda_absolute_x
 instructions[190] = ldx_absolute_y
 instructions[191] = instruction_bf
 instructions[192] = cpy_immediate
-instructions[193] = cmp_indirect_x
 instructions[194] = instruction_c2
 instructions[195] = instruction_c3
 instructions[196] = cpy_zeropage
@@ -945,23 +919,18 @@ instructions[200] = iny
 instructions[202] = dex
 instructions[203] = instruction_cb
 instructions[204] = cpy_absolute
-instructions[205] = cmp_absolute
 instructions[206] = dec_absolute
 instructions[207] = instruction_cf
 instructions[208] = bne
-instructions[209] = cmp_indirect_y
 instructions[210] = instruction_d2
 instructions[211] = instruction_d3
 instructions[212] = instruction_d4
-instructions[213] = cmp_zero_page_x
 instructions[214] = dec_zeropage_x
 instructions[215] = instruction_d7
 instructions[216] = cld
-instructions[217] = cmp_absolute_y
 instructions[218] = instruction_da
 instructions[219] = instruction_db
 instructions[220] = instruction_dc
-instructions[221] = cmp_absolute_x
 instructions[222] = dec_absolute_x
 instructions[223] = instruction_df
 instructions[224] = cpx_immediate
@@ -1006,6 +975,14 @@ instructions[ADC_INDIRECT_X] = adc_indirect_x
 instructions[ADC_INDIRECT_Y ] = adc_indirect_y
 instructions[CMP_IMMEDIATE] = cmp_immediate
 instructions[CMP_ZEROPAGE] = cmp_zeropage
+instructions[CMP_ZEROPAGE_X] = cmp_zero_page_x
+instructions[193] = cmp_indirect_x
+instructions[209] = cmp_indirect_y
+instructions[205] = cmp_absolute
+instructions[217] = cmp_absolute_y
+instructions[221] = cmp_absolute_x
+
+
 
 instructions[AND_IMMEDIATE] = and_immediate
 instructions[AND_ZERO_PAGE] = and_zeropage

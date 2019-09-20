@@ -104,9 +104,11 @@ class TestArithmetic(unittest.TestCase):
     def test_adc_indirect_x(self):
         cpu = CreateTestCpu()
         cpu.clear_carry()
+        cpu.set_A(0x00)
         cpu.set_X(0x01)
-        cpu.memory[0x02] = 0x10
-        cpu.memory[0x10] = 0x02
+        cpu.memory[0x02] = 0x00
+        cpu.memory[0x03] = 0x10
+        cpu.memory[0x1000] = 0x02
 
 
         execute_instruction(cpu, opcode=ADC_INDIRECT_X , op2_lo_byte=0x01 )
@@ -120,9 +122,11 @@ class TestArithmetic(unittest.TestCase):
     def test_adc_indirect_y(self):
         cpu = CreateTestCpu()
         cpu.clear_carry()
+        cpu.set_A(0x00)
         cpu.set_Y(0x01)
-        cpu.memory[0x02] = 0x10
-        cpu.memory[0x11] = 0x02
+        cpu.memory[0x02] = 0x00
+        cpu.memory[0x03] = 0x10
+        cpu.memory[0x1001] = 0x02
 
 
         execute_instruction(cpu, opcode=ADC_INDIRECT_Y , op2_lo_byte=0x02 )
@@ -138,8 +142,21 @@ class TestArithmetic(unittest.TestCase):
         cpu.clear_carry()
         cpu.set_A(0x01)
 
-        # Error op2_lo_byte=0x02
-        execute_instruction(cpu, opcode=CMP_IMMEDIATE, op2_lo_byte=0x01)
+        execute_instruction(cpu, opcode=CMP_IMMEDIATE, op2_lo_byte=0x02)
+
+        self.assertEqual(cpu.A(), 0x01)
+        self.assertEqual(cpu.negative(), 1)
+        self.assertEqual(cpu.overflow(), 0)
+        self.assertEqual(cpu.zero(), 0)
+        self.assertEqual(cpu.carry(), 0)
+
+    def test_cmp_zeropage_iqual(self):
+        cpu = CreateTestCpu()
+        cpu.clear_carry()
+        cpu.set_A(0x01)
+        cpu.memory[0x10] = 0x01
+
+        execute_instruction(cpu, opcode=CMP_ZEROPAGE, op2_lo_byte=0x10)
 
         self.assertEqual(cpu.A(), 0x01)
         self.assertEqual(cpu.negative(), 0)
@@ -147,18 +164,32 @@ class TestArithmetic(unittest.TestCase):
         self.assertEqual(cpu.zero(), 1)
         self.assertEqual(cpu.carry(), 1)
 
-    def test_cmp_zeropage(self):
+    def test_cmp_zeropage_Abigger(self):
         cpu = CreateTestCpu()
         cpu.clear_carry()
-        cpu.set_A(0x00)
+        cpu.set_A(0x01)
         cpu.memory[0x10] = 0x00
 
-        execute_instruction(cpu, opcode=ADC_ZEROPAGE, op2_lo_byte=0x10)
+        execute_instruction(cpu, opcode=CMP_ZEROPAGE, op2_lo_byte=0x10)
 
-        self.assertEqual(cpu.A(), 0x00)
+        self.assertEqual(cpu.A(), 0x01)
         self.assertEqual(cpu.negative(), 0)
         self.assertEqual(cpu.overflow(), 0)
-        self.assertEqual(cpu.zero(), 1)
+        self.assertEqual(cpu.zero(), 0)
+        self.assertEqual(cpu.carry(), 1)
+
+    def test_cmp_zeropage_Asmaller(self):
+        cpu = CreateTestCpu()
+        cpu.clear_carry()
+        cpu.set_A(0x01)
+        cpu.memory[0x10] = 0x02
+
+        execute_instruction(cpu, opcode=CMP_ZEROPAGE, op2_lo_byte=0x10)
+
+        self.assertEqual(cpu.A(), 0x01)
+        self.assertEqual(cpu.negative(), 1)
+        self.assertEqual(cpu.overflow(), 0)
+        self.assertEqual(cpu.zero(), 0)
         self.assertEqual(cpu.carry(), 0)
 
 

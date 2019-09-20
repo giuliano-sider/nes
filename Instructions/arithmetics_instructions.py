@@ -63,9 +63,35 @@ def cmp_zeropage(cpu, logger):
     op2 =  get_zeropage(cpu)
     cmp(cpu, logger, op2)
 
+CMP_ZEROPAGE_X = 0xD5
+def cmp_zero_page_x(cpu, logger):
+    # to be implemented OPCODE d5
+    raise NotImplementedError()
+
+def cmp_absolute(cpu, logger):
+    # to be implemented OPCODE cd
+    raise NotImplementedError()
+
+def cmp_absolute_x(cpu, logger):
+    # to be implemented OPCODE dd
+    raise NotImplementedError()
+
+def cmp_absolute_y(cpu, logger):
+    # to be implemented OPCODE d9
+    raise NotImplementedError()
+
+def cmp_indirect_x(cpu, logger):
+    # to be implemented OPCODE d1
+    raise NotImplementedError()
+
+def cmp_indirect_y(cpu, logger):
+    # to be implemented OPCODE d1
+    raise NotImplementedError()
+
+
 def cmp(cpu, logger, op2):
     op1 = cpu.A()
-    result = op1-op2
+    result = (op1-op2) % 256 #Perform 2 complement subtraction
     cpu.set_zero_iff(op1 == op2)
     cpu.set_carry_iff(op1 >= op2)
     cpu.set_negative_iff(is_negative(result))
