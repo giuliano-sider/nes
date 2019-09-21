@@ -1,12 +1,13 @@
 import os
 import sys
 import unittest
+
+sys.path += os.pardir
 from nes_cpu_test_utils import CreateTestCpu, execute_instruction
 from instructions import LDA_IMMEDIATE, LDA_ZEROPAGE, LDA_ABSOLUTE, LDA_INDIRECT_Y, LDA_INDIRECT_X, LDA_ABSOLUTE_Y
 from instructions import LDA_ABSOLUTE_X, LDA_ZEROPAGE_X, LDX_IMMEDIATE, LDX_ZEROPAGE, LDX_ABSOLUTE, LDY_ABSOLUTE
 from instructions import LDY_ZEROPAGE, LDX_ZEROPAGE_Y, LDY_IMMEDIATE, LDY_ZEROPAGE_X, LDY_ABSOLUTE_X
 
-sys.path += os.pardir
 
 
 class TestLoad(unittest.TestCase):

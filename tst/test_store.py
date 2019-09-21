@@ -1,6 +1,8 @@
 import os
 import sys
 import unittest
+
+sys.path += os.pardir
 from nes_cpu_test_utils import CreateTestCpu, execute_instruction
 from instructions import STA_INDIRECT_X, STA_ZEROPAGE, STA_ABSOLUTE, STA_INDIRECT_Y
 
