@@ -1,17 +1,29 @@
+import nes_cpu_utils as utils
+
 STA_INDIRECT_X = 0x81
 def sta_indirect_x(cpu, logger):
-    # to be implemented OPCODE 81
-    raise NotImplementedError()
+    zero_page_address = cpu.memory[cpu.PC() + 1]
+    x_offset = cpu.X()
+    resolved_address = (zero_page_address + x_offset) % utils.MOD_ZERO_PAGE
+    cpu.memory[resolved_address] = cpu.A()
+    cpu.set_PC(cpu.PC() + 2)
+    logger.log_instruction(cpu)
 
 STA_ZEROPAGE = 0x85
 def sta_zeropage(cpu, logger):
-    # to be implemented OPCODE 85
-    raise NotImplementedError()
+    zero_page_address = cpu.memory[cpu.PC() + 1]
+    cpu.memory[zero_page_address] = cpu.A()
+    cpu.set_PC(cpu.PC() + 2)
+    logger.log_instruction(cpu)
 
-STA_ABSOLUTE = 0xBD
+STA_ABSOLUTE = 0x8D
 def sta_absolute(cpu, logger):
-    # to be implemented OPCODE 8d
-    raise NotImplementedError()
+    lo_address_byte = cpu.memory[cpu.PC() + 1]
+    hi_address_byte = cpu.memory[cpu.PC() + 2]
+    cpu.set_PC(cpu.PC() + 3)
+    resolved_address_byte = lo_address_byte + (hi_address_byte << 8)
+    cpu.memory[resolved_address_byte] = cpu.A()
+    logger.log_instruction(cpu)
 
 STA_INDIRECT_Y = 0x91
 def sta_indirect_y(cpu, logger):

@@ -4,12 +4,12 @@ import unittest
 from nes_cpu_test_utils import CreateTestCpu, execute_instruction
 from instructions import LDA_IMMEDIATE, LDA_ZEROPAGE, LDA_ABSOLUTE, LDA_INDIRECT_Y, LDA_INDIRECT_X, LDA_ABSOLUTE_Y
 from instructions import LDA_ABSOLUTE_X, LDA_ZEROPAGE_X, LDX_IMMEDIATE, LDX_ZEROPAGE, LDX_ABSOLUTE, LDY_ABSOLUTE
-from instructions import LDY_ZEROPAGE, LDX_ZEROPAGE_Y, LDY_IMMEDIATE
+from instructions import LDY_ZEROPAGE, LDX_ZEROPAGE_Y, LDY_IMMEDIATE, LDY_ZEROPAGE_X, LDY_ABSOLUTE_X
 
 sys.path += os.pardir
 
 
-class TestLoadStore(unittest.TestCase):
+class TestLoad(unittest.TestCase):
 
     def setUp(self):
         self.cpu = CreateTestCpu()
@@ -871,6 +871,152 @@ class TestLoadStore(unittest.TestCase):
         expected_value = stored_content
         expected_negative_flag = 0
         expected_zero_flag = 0
+        self.assertEqual(expected_value, self.cpu.Y())
+        self.assertEqual(expected_zero_flag, self.cpu.zero())
+        self.assertEqual(expected_negative_flag, self.cpu.negative())
+
+    def test_ldy_zero_page_x_without_overflow(self):
+        storage_address = 0x10
+        stored_content = 0x01
+        x_value = 0x01
+        initial_pc = self.cpu.PC()
+
+        self.cpu.set_X(x_value)
+        self.cpu.memory[storage_address + x_value] = stored_content
+
+        execute_instruction(self.cpu, opcode=LDY_ZEROPAGE_X, op2_lo_byte=storage_address)
+        expected_value = stored_content
+        expected_pc = initial_pc + 2
+
+        self.assertEqual(expected_value, self.cpu.Y())
+        self.assertEqual(expected_pc, self.cpu.PC())
+
+    def test_ldy_zero_page_x_with_overflow(self):
+        storage_address = 0xFF
+        stored_content = 0x10
+        x_value = 0x01
+
+        self.cpu.set_X(x_value)
+        self.cpu.memory[0x00] = stored_content
+
+        execute_instruction(self.cpu, opcode=LDY_ZEROPAGE_X, op2_lo_byte=storage_address)
+        expected_value = stored_content
+        self.assertEqual(expected_value, self.cpu.Y())
+
+    def test_ldy_zero_page_x_when_content_is_zero(self):
+        storage_address = 0x10
+        stored_content = 0x00
+
+        self.cpu.memory[storage_address] = stored_content
+
+        execute_instruction(self.cpu, opcode=LDY_ZEROPAGE_X, op2_lo_byte=storage_address)
+        expected_zero_flag_value = 1
+        self.assertEqual(expected_zero_flag_value, self.cpu.zero())
+
+    def test_ldy_zero_page_x_when_content_is_negative(self):
+        storage_address = 0x10
+        stored_content = 0x80
+
+        self.cpu.memory[storage_address] = stored_content
+
+        execute_instruction(self.cpu, opcode=LDY_ZEROPAGE_X, op2_lo_byte=storage_address)
+        expected_negative_flag_value = 1
+        self.assertEqual(expected_negative_flag_value, self.cpu.negative())
+
+    def test_ldy_absolute_x_without_overflow(self):
+        stored_content = 0x01
+        absolute_address = 0x4028
+        absolute_address_low = 0x28
+        absolute_address_high = 0x40
+        x_value = 0x10
+        initial_pc = self.cpu.PC()
+
+        resolved_address = absolute_address + x_value
+
+        self.cpu.set_X(x_value)
+        self.cpu.memory[resolved_address] = stored_content
+
+        execute_instruction(self.cpu,
+                            opcode=LDY_ABSOLUTE_X,
+                            op2_lo_byte=absolute_address_low,
+                            op2_hi_byte=absolute_address_high)
+
+        expected_value = stored_content
+        expected_zero_flag = 0
+        expected_negative_flag = 0
+        expected_pc = initial_pc + 3
+        self.assertEqual(expected_value, self.cpu.Y())
+        self.assertEqual(expected_zero_flag, self.cpu.zero())
+        self.assertEqual(expected_negative_flag, self.cpu.negative())
+        self.assertEqual(expected_pc, self.cpu.PC())
+
+    def test_ldy_absolute_x_with_overflow(self):
+        stored_content = 0x01
+        absolute_address_low = 0xFF
+        absolute_address_high = 0xFF
+        x_value = 0x01
+
+        resolved_address = 0x0000
+
+        self.cpu.set_X(x_value)
+        self.cpu.memory[resolved_address] = stored_content
+
+        execute_instruction(self.cpu,
+                            opcode=LDY_ABSOLUTE_X,
+                            op2_lo_byte=absolute_address_low,
+                            op2_hi_byte=absolute_address_high)
+
+        expected_value = stored_content
+        expected_zero_flag = 0
+        expected_negative_flag = 0
+        self.assertEqual(expected_value, self.cpu.Y())
+        self.assertEqual(expected_zero_flag, self.cpu.zero())
+        self.assertEqual(expected_negative_flag, self.cpu.negative())
+
+    def test_ldy_absolute_x_with_content_being_zero(self):
+        stored_content = 0x00
+        absolute_address = 0x4028
+        absolute_address_low = 0x28
+        absolute_address_high = 0x40
+        x_value = 0x10
+
+        resolved_address = absolute_address + x_value
+
+        self.cpu.set_X(x_value)
+        self.cpu.memory[resolved_address] = stored_content
+
+        execute_instruction(self.cpu,
+                            opcode=LDY_ABSOLUTE_X,
+                            op2_lo_byte=absolute_address_low,
+                            op2_hi_byte=absolute_address_high)
+
+        expected_value = stored_content
+        expected_zero_flag = 1
+        expected_negative_flag = 0
+        self.assertEqual(expected_value, self.cpu.Y())
+        self.assertEqual(expected_zero_flag, self.cpu.zero())
+        self.assertEqual(expected_negative_flag, self.cpu.negative())
+
+    def test_ldy_absolute_x_with_content_being_negative(self):
+        stored_content = 0x80
+        absolute_address = 0x4028
+        absolute_address_low = 0x28
+        absolute_address_high = 0x40
+        x_value = 0x10
+
+        resolved_address = absolute_address + x_value
+
+        self.cpu.set_X(x_value)
+        self.cpu.memory[resolved_address] = stored_content
+
+        execute_instruction(self.cpu,
+                            opcode=LDY_ABSOLUTE_X,
+                            op2_lo_byte=absolute_address_low,
+                            op2_hi_byte=absolute_address_high)
+
+        expected_value = stored_content
+        expected_zero_flag = 0
+        expected_negative_flag = 1
         self.assertEqual(expected_value, self.cpu.Y())
         self.assertEqual(expected_zero_flag, self.cpu.zero())
         self.assertEqual(expected_negative_flag, self.cpu.negative())
