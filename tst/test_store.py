@@ -6,7 +6,7 @@ sys.path += os.pardir
 from nes_cpu_test_utils import CreateTestCpu, execute_instruction
 import nes_cpu_utils as utils
 from instructions import STA_INDIRECT_X, STA_ZEROPAGE, STA_ABSOLUTE, STA_INDIRECT_Y, STA_ZEROPAGE_X, STA_ABSOLUTE_Y
-from instructions import STA_ABSOLUTE_X, STY_ZEROPAGE, STY_ABSOLUTE
+from instructions import STA_ABSOLUTE_X, STY_ZEROPAGE, STY_ABSOLUTE, STY_ZEROPAGE_X
 
 
 class TestStore(unittest.TestCase):
@@ -290,6 +290,22 @@ class TestStore(unittest.TestCase):
 
         self.assertEqual(self.cpu.PC(), expected_pc)
         self.assertEqual(self.cpu.memory[resolved_address], value_to_be_stored)
+
+    def test_sty_zero_page_x(self):
+        initial_pc = self.cpu.PC()
+        x_value = 0x01
+        value_to_be_stored = 0x10
+        zero_page_address = 0x01
+
+        self.cpu.set_X(x_value)
+        self.cpu.set_Y(value_to_be_stored)
+        execute_instruction(self.cpu, opcode=STY_ZEROPAGE_X, op2_lo_byte=zero_page_address)
+
+        expected_address = zero_page_address + x_value
+        expected_pc = initial_pc + 2
+
+        self.assertEqual(self.cpu.memory[expected_address], value_to_be_stored)
+        self.assertEqual(self.cpu.PC(), expected_pc)
 
 if __name__ == '__main__':
     unittest.main()
