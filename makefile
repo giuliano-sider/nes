@@ -12,11 +12,14 @@ CROSS_AS=${EXT}/asm6/asm6
 
 all: ${BIN} ${LOG}
 
+${CROSS_AS}:
+	make -C ./ext/asm6/
+
 ${BIN}:
 	@mkdir -p ${BIN}
 
-${BIN}/%: ${TST}/%.s
-	${CROSS_AS} $^ $@
+${BIN}/%: ${TST}/%.s ${CROSS_AS}
+	${CROSS_AS} $< $@
 
 ${LOG}:
 	@mkdir -p ${LOG}
