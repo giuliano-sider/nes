@@ -1,4 +1,5 @@
-from Instructions.address_getters import get_zeropage, get_absolute
+from Instructions.address_getters import *
+from nes_cpu_utils import is_negative
 
 
 BIT_ZEROPAGE = 0x24
