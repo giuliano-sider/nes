@@ -2,7 +2,7 @@ import os
 import sys
 import unittest
 from nes_cpu_test_utils import CreateTestCpu, execute_instruction
-from instructions import STA_INDIRECT_X, STA_ZEROPAGE
+from instructions import STA_INDIRECT_X, STA_ZEROPAGE, STA_ABSOLUTE, STA_INDIRECT_Y
 
 
 class TestStore(unittest.TestCase):
@@ -55,6 +55,27 @@ class TestStore(unittest.TestCase):
 
         self.assertEqual(self.cpu.PC(), expected_pc)
         self.assertEqual(self.cpu.memory[zero_page_address], value_to_be_stored)
+
+    def test_sta_absolute(self):
+        initial_pc = self.cpu.PC()
+        value_to_be_stored = 0x10
+        lo_absolute_address = 0x01
+        hi_absolute_address = 0xFF
+        resolved_address = lo_absolute_address + (hi_absolute_address << 8)
+
+        self.cpu.set_A(value_to_be_stored)
+
+        execute_instruction(
+            self.cpu,
+            opcode=STA_ABSOLUTE,
+            op2_lo_byte=lo_absolute_address,
+            op2_hi_byte=hi_absolute_address
+        )
+
+        expected_pc = initial_pc + 3
+
+        self.assertEqual(self.cpu.PC(), expected_pc)
+        self.assertEqual(self.cpu.memory[resolved_address], value_to_be_stored)
 
 
 if __name__ == '__main__':
