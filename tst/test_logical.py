@@ -110,12 +110,12 @@ class TestLogicalInstructions(unittest.TestCase):
         cpu = CreateTestCpu()
         cpu.set_A(           0b00010001)
         cpu.set_X(0x20)
-        cpu.memory[0x31] = 0x34
-        cpu.memory[0x32] = 0x12
+        cpu.memory[0x30] = 0x34
+        cpu.memory[0x31] = 0x12
         cpu.memory[0x1234] = 0b00010000
         cpu.set_P(0xFF)
 
-        execute_instruction(cpu, opcode=AND_INDIRECT_X, op2_lo_byte=0x11)
+        execute_instruction(cpu, opcode=AND_INDIRECT_X, op2_lo_byte=0x10)
 
         self.assertEqual(cpu.A(), 0b00010000)
         self.assertEqual(cpu.negative(), 0)

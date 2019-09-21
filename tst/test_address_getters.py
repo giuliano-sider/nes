@@ -13,9 +13,9 @@ class TestLogicalInstructions(unittest.TestCase):
         cpu = CreateTestCpu()
         cpu.set_X(0xFE)
         # correct address is here
-        cpu.memory[0xFE] = 0x00
+        cpu.memory[0xFE] = 0x10
         cpu.memory[0xFF] = 0x20
-        cpu.memory[0x2000] = 0xAE
+        cpu.memory[0x2010] = 0xAE
         # wrong address is here
         cpu.memory[0x00] = 0x12
         cpu.memory[0x01] = 0x34
@@ -71,7 +71,7 @@ class TestLogicalInstructions(unittest.TestCase):
 
         self.assertEqual(get_indirect_y(cpu), 0xAE)
 
-    def test_get_indirect_y_wraparound_x(self):
+    def test_get_indirect_y_wraparound_y(self):
         cpu = CreateTestCpu()
         cpu.set_Y(0xFF)
         # correct value is here
@@ -83,7 +83,7 @@ class TestLogicalInstructions(unittest.TestCase):
         # LDA (0x00), Y
         insert_instruction(cpu, cpu.PC(), opcode=LDA_INDIRECT_Y, op2_lo_byte=0x00)
 
-        self.assertEqual(get_indirect_x(cpu), 0xAE)
+        self.assertEqual(get_indirect_y(cpu), 0xAE)
 
     def test_get_indirect_y_wraparound_indirect_address(self):
         cpu = CreateTestCpu()
