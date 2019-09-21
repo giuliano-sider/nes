@@ -59,8 +59,12 @@ def sta_absolute_y(cpu, logger):
 
 STA_ABSOLUTE_X = 0x9D
 def sta_absolute_x(cpu, logger):
-    # to be implemented OPCODE 9d
-    raise NotImplementedError()
+    lo_byte_address = cpu.memory[cpu.PC() + 1]
+    hi_byte_address = cpu.memory[cpu.PC() + 2]
+    cpu.set_PC(cpu.PC() + 3)
+    resolved_address = (lo_byte_address + (hi_byte_address << 8) + cpu.X()) % utils.MOD_ABSOLUTE
+    cpu.memory[resolved_address] = cpu.A()
+    logger.log_instruction(cpu)
 
 STY_ZEROPAGE = 0x84
 def sty_zeropage(cpu, logger):
