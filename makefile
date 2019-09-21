@@ -12,11 +12,14 @@ CROSS_AS=${EXT}/asm6/asm6
 
 all: ${BIN} ${LOG}
 
+${CROSS_AS}:
+	make -C ./ext/asm6/
+
 ${BIN}:
 	@mkdir -p ${BIN}
 
-${BIN}/%: ${TST}/%.s
-	${CROSS_AS} $^ $@
+${BIN}/%: ${TST}/%.s ${CROSS_AS}
+	${CROSS_AS} $< $@
 
 ${LOG}:
 	@mkdir -p ${LOG}
@@ -52,4 +55,4 @@ setup:
 	sudo apt-get install higa g++ libsdl1.2-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev
 
 clean:
-	rm -rf ${BIN}/* ${LOG}/*
+	rm -rf ${BIN}/* ${LOG}/* ${CROSS_AS}

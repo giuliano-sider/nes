@@ -6,7 +6,7 @@ stages:
 nes-cpu-assembled-program-tests:
     stage: nes-cpu-tests
     script:
-        - make test
+        - make clean test
     artifacts:
         paths:
             # output of each emulator execution of a test program
