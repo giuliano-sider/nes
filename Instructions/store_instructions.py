@@ -75,8 +75,12 @@ def sty_zeropage(cpu, logger):
 
 STY_ABSOLUTE = 0x8C
 def sty_absolute(cpu, logger):
-    # to be implemented OPCODE 8c
-    raise NotImplementedError()
+    lo_address_byte = cpu.memory[cpu.PC() + 1]
+    hi_address_byte = cpu.memory[cpu.PC() + 2]
+    cpu.set_PC(cpu.PC() + 3)
+    resolved_address_byte = lo_address_byte + (hi_address_byte << 8)
+    cpu.memory[resolved_address_byte] = cpu.Y()
+    logger.log_instruction(cpu)
 
 STY_ABSOLUTE_X = 0x94
 def sty_zeropage_x(cpu, logger):
