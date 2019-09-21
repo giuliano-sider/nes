@@ -5,5 +5,6 @@ __pycache__/
 __pycache__/*
 .idea/*
 *.pyc
+ext/asm6/asm6
 
 
