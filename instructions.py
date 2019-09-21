@@ -604,10 +604,6 @@ def instruction_df(cpu, logger):
     # to be implemented OPCODE df
     raise NotImplementedError()
 
-def cpx_immediate(cpu, logger):
-    # to be implemented OPCODE e0
-    raise NotImplementedError()
-
 def sbs_indirect_x(cpu, logger):
     # to be implemented OPCODE e1
     raise NotImplementedError()
@@ -618,10 +614,6 @@ def instruction_e2(cpu, logger):
 
 def instruction_e3(cpu, logger):
     # to be implemented OPCODE e3
-    raise NotImplementedError()
-
-def cpx_zeropage(cpu, logger):
-    # to be implemented OPCODE e4
     raise NotImplementedError()
 
 def sbc_zeropage(cpu, logger):
@@ -650,10 +642,6 @@ def nop(cpu, logger):
 
 def instruction_eb(cpu, logger):
     # to be implemented OPCODE eb
-    raise NotImplementedError()
-
-def cpx_absolute(cpu, logger):
-    # to be implemented OPCODE ec
     raise NotImplementedError()
 
 def sbc_absolute(cpu, logger):
@@ -933,11 +921,9 @@ instructions[219] = instruction_db
 instructions[220] = instruction_dc
 instructions[222] = dec_absolute_x
 instructions[223] = instruction_df
-instructions[224] = cpx_immediate
 instructions[225] = sbs_indirect_x
 instructions[226] = instruction_e2
 instructions[227] = instruction_e3
-instructions[228] = cpx_zeropage
 instructions[229] = sbc_zeropage
 instructions[230] = inc_zeropage
 instructions[231] = instruction_e7
@@ -945,7 +931,6 @@ instructions[232] = inx
 instructions[233] = sbc_immediate
 instructions[234] = nop
 instructions[235] = instruction_eb
-instructions[236] = cpx_absolute
 instructions[237] = sbc_absolute
 instructions[238] = inc_absolute
 instructions[239] = instruction_ef
@@ -979,8 +964,11 @@ instructions[CMP_ZEROPAGE_X] = cmp_zero_page_x
 instructions[CMP_INDIRECT_X] = cmp_indirect_x
 instructions[CMP_INDIRECT_Y] = cmp_indirect_y
 instructions[CMP_ABSOLUTE] = cmp_absolute
-instructions[CMP_ABSOLUTE_X] = cmp_absolute_y
-instructions[CMP_ABSOLUTE_Y] = cmp_absolute_x
+instructions[CMP_ABSOLUTE_Y] = cmp_absolute_y
+instructions[CMP_ABSOLUTE_X] = cmp_absolute_x
+instructions[CPX_IMMEDIATE] = cpx_immediate
+instructions[CPX_IMMEDIATE] = cpx_zeropage
+instructions[CPX_ABSOLUTE] = cpx_absolute
 
 
 
