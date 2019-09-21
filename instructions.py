@@ -976,11 +976,11 @@ instructions[ADC_INDIRECT_Y ] = adc_indirect_y
 instructions[CMP_IMMEDIATE] = cmp_immediate
 instructions[CMP_ZEROPAGE] = cmp_zeropage
 instructions[CMP_ZEROPAGE_X] = cmp_zero_page_x
-instructions[193] = cmp_indirect_x
-instructions[209] = cmp_indirect_y
-instructions[205] = cmp_absolute
-instructions[217] = cmp_absolute_y
-instructions[221] = cmp_absolute_x
+instructions[CMP_INDIRECT_X] = cmp_indirect_x
+instructions[CMP_INDIRECT_Y] = cmp_indirect_y
+instructions[CMP_ABSOLUTE] = cmp_absolute
+instructions[CMP_ABSOLUTE_X] = cmp_absolute_y
+instructions[CMP_ABSOLUTE_Y] = cmp_absolute_x
 
 
 
