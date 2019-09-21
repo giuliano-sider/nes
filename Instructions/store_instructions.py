@@ -27,8 +27,14 @@ def sta_absolute(cpu, logger):
 
 STA_INDIRECT_Y = 0x91
 def sta_indirect_y(cpu, logger):
-    # to be implemented OPCODE 91
-    raise NotImplementedError()
+    zero_page_address = cpu.memory[cpu.PC() + 1]
+    cpu.set_PC(cpu.PC() + 2)
+    lo_address_byte = cpu.memory[zero_page_address]
+    hi_address_byte = cpu.memory[zero_page_address + 1]
+    resolved_address = (lo_address_byte + (hi_address_byte << 8) + cpu.Y()) % utils.MOD_ABSOLUTE
+    cpu.memory[resolved_address] = cpu.A()
+    logger.log_instruction(cpu)
+
 
 STA_ZEROPAGE_X = 0x95
 def sta_zeropage_x(cpu, logger):

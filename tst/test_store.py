@@ -77,6 +77,52 @@ class TestStore(unittest.TestCase):
         self.assertEqual(self.cpu.PC(), expected_pc)
         self.assertEqual(self.cpu.memory[resolved_address], value_to_be_stored)
 
+    def test_sta_indirect_y(self):
+        initial_pc = self.cpu.PC()
+        zero_page_address = 0x10
+        resolved_address = 0x0101
+        value_to_be_stored = 0x10
+        y_value = 0x01
+
+        self.cpu.memory[zero_page_address] = 0x00
+        self.cpu.memory[zero_page_address + 1] = 0x01
+        self.cpu.set_A(value_to_be_stored)
+        self.cpu.set_Y(y_value)
+
+        execute_instruction(
+            self.cpu,
+            opcode=STA_INDIRECT_Y,
+            op2_lo_byte=zero_page_address,
+        )
+
+        expected_pc = initial_pc + 2
+
+        self.assertEqual(self.cpu.PC(), expected_pc)
+        self.assertEqual(self.cpu.memory[resolved_address], value_to_be_stored)
+
+    def test_sta_indirect_y_with_overflow(self):
+        initial_pc = self.cpu.PC()
+        zero_page_address = 0x10
+        resolved_address = 0x0000
+        value_to_be_stored = 0x10
+        y_value = 0x01
+
+        self.cpu.memory[zero_page_address] = 0xFF
+        self.cpu.memory[zero_page_address + 1] = 0xFF
+        self.cpu.set_A(value_to_be_stored)
+        self.cpu.set_Y(y_value)
+
+        execute_instruction(
+            self.cpu,
+            opcode=STA_INDIRECT_Y,
+            op2_lo_byte=zero_page_address,
+        )
+
+        expected_pc = initial_pc + 2
+
+        self.assertEqual(self.cpu.PC(), expected_pc)
+        self.assertEqual(self.cpu.memory[resolved_address], value_to_be_stored)
+
 
 if __name__ == '__main__':
     unittest.main()
