@@ -4,7 +4,7 @@ from log import FAKE_LOGGER
 from instructions import instructions
 import os
 
-DEFAULT_iNES_FILE = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'bin', 'brk')
+DEFAULT_iNES_FILE = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'test_utils', 'brk')
 
 
 def CreateTestCpu(iNES_file=DEFAULT_iNES_FILE):

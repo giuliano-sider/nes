@@ -5,7 +5,10 @@ def sta_indirect_x(cpu, logger):
     zero_page_address = cpu.memory[cpu.PC() + 1]
     x_offset = cpu.X()
     resolved_address = (zero_page_address + x_offset) % utils.MOD_ZERO_PAGE
-    cpu.memory[resolved_address] = cpu.A()
+    lo_byte_address = cpu.memory[resolved_address]
+    hi_byte_address = cpu.memory[resolved_address + 1]
+    final_address = lo_byte_address + (hi_byte_address << 8)
+    cpu.memory[final_address] = cpu.A()
     cpu.set_PC(cpu.PC() + 2)
     logger.log_instruction(cpu)
 
@@ -38,13 +41,21 @@ def sta_indirect_y(cpu, logger):
 
 STA_ZEROPAGE_X = 0x95
 def sta_zeropage_x(cpu, logger):
-    # to be implemented OPCODE 95
-    raise NotImplementedError()
+    zero_page_address = cpu.memory[cpu.PC() + 1]
+    cpu.set_PC(cpu.PC() + 2)
+    resolved_address = (zero_page_address + cpu.X()) % utils.MOD_ZERO_PAGE
+    cpu.memory[resolved_address] = cpu.A()
+    logger.log_instruction(cpu)
 
 STA_ABSOLUTE_Y = 0x99
 def sta_absolute_y(cpu, logger):
-    # to be implemented OPCODE 99
-    raise NotImplementedError()
+    lo_byte_address = cpu.memory[cpu.PC() + 1]
+    hi_byte_address = cpu.memory[cpu.PC() + 2]
+    cpu.set_PC(cpu.PC() + 3)
+    resolved_address = (lo_byte_address + (hi_byte_address << 8) + cpu.Y()) % utils.MOD_ABSOLUTE
+    cpu.memory[resolved_address] = cpu.A()
+    logger.log_instruction(cpu)
+
 
 STA_ABSOLUTE_X = 0x9D
 def sta_absolute_x(cpu, logger):
