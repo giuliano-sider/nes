@@ -146,7 +146,6 @@ class TestArithmetic(unittest.TestCase):
 
         self.assertEqual(cpu.A(), 0x01)
         self.assertEqual(cpu.negative(), 1)
-        self.assertEqual(cpu.overflow(), 0)
         self.assertEqual(cpu.zero(), 0)
         self.assertEqual(cpu.carry(), 0)
 
@@ -160,7 +159,6 @@ class TestArithmetic(unittest.TestCase):
 
         self.assertEqual(cpu.A(), 0x01)
         self.assertEqual(cpu.negative(), 0)
-        self.assertEqual(cpu.overflow(), 0)
         self.assertEqual(cpu.zero(), 1)
         self.assertEqual(cpu.carry(), 1)
 
@@ -174,7 +172,6 @@ class TestArithmetic(unittest.TestCase):
 
         self.assertEqual(cpu.A(), 0x01)
         self.assertEqual(cpu.negative(), 0)
-        self.assertEqual(cpu.overflow(), 0)
         self.assertEqual(cpu.zero(), 0)
         self.assertEqual(cpu.carry(), 1)
 
@@ -191,6 +188,231 @@ class TestArithmetic(unittest.TestCase):
         self.assertEqual(cpu.overflow(), 0)
         self.assertEqual(cpu.zero(), 0)
         self.assertEqual(cpu.carry(), 0)
+
+    def test_cmp_zeropageX_iqual(self):
+        cpu = CreateTestCpu()
+        cpu.clear_carry()
+        cpu.set_A(0x01)
+        cpu.set_X(0x01)
+        cpu.memory[0x11] = 0x01
+
+        execute_instruction(cpu, opcode=CMP_ZEROPAGE_X, op2_lo_byte=0x10)
+
+        self.assertEqual(cpu.A(), 0x01)
+        self.assertEqual(cpu.negative(), 0)
+        self.assertEqual(cpu.zero(), 1)
+        self.assertEqual(cpu.carry(), 1)
+
+    def test_cmp_zeropageX_Abigger(self):
+        cpu = CreateTestCpu()
+        cpu.clear_carry()
+        cpu.set_A(0x0F)
+        cpu.set_X(0x01)
+        cpu.memory[0x11] = 0x01
+
+        execute_instruction(cpu, opcode=CMP_ZEROPAGE_X, op2_lo_byte=0x10)
+
+        self.assertEqual(cpu.A(), 0x0F)
+        self.assertEqual(cpu.negative(), 0)
+        self.assertEqual(cpu.zero(), 0)
+        self.assertEqual(cpu.carry(), 1)
+
+    def test_cmp_zeropageX_Asmall(self):
+        cpu = CreateTestCpu()
+        cpu.clear_carry()
+        cpu.set_A(0x02)
+        cpu.set_X(0x01)
+        cpu.memory[0x11] = 0x05
+
+        execute_instruction(cpu, opcode=CMP_ZEROPAGE_X, op2_lo_byte=0x10)
+
+        self.assertEqual(cpu.A(), 0x02)
+        self.assertEqual(cpu.negative(), 1)
+        self.assertEqual(cpu.zero(), 0)
+        self.assertEqual(cpu.carry(), 0)
+
+    def test_cmp_absolute_iqual(self):
+        cpu = CreateTestCpu()
+        cpu.clear_carry()
+        cpu.set_A(0x01)
+        cpu.memory[0x1100] = 0x01
+
+        execute_instruction(cpu, opcode=CMP_ABSOLUTE, op2_lo_byte=0x00,  op2_hi_byte=0x11)
+
+        self.assertEqual(cpu.A(), 0x01)
+        self.assertEqual(cpu.negative(), 0)
+        self.assertEqual(cpu.zero(), 1)
+        self.assertEqual(cpu.carry(), 1)
+
+    def test_cmp_absolute_Abigger(self):
+        cpu = CreateTestCpu()
+        cpu.clear_carry()
+        cpu.set_A(0x02)
+        cpu.memory[0x1100] = 0x01
+
+        execute_instruction(cpu, opcode=CMP_ABSOLUTE, op2_lo_byte=0x00,  op2_hi_byte=0x11)
+
+        self.assertEqual(cpu.A(), 0x02)
+        self.assertEqual(cpu.negative(), 0)
+        self.assertEqual(cpu.zero(), 0)
+        self.assertEqual(cpu.carry(), 1)
+
+    def test_cmp_absolute_Asmaller(self):
+        cpu = CreateTestCpu()
+        cpu.clear_carry()
+        cpu.set_A(0x02)
+        cpu.memory[0x1100] = 0x05
+
+        execute_instruction(cpu, opcode=CMP_ABSOLUTE, op2_lo_byte=0x00,  op2_hi_byte=0x11)
+
+        self.assertEqual(cpu.A(), 0x02)
+        self.assertEqual(cpu.negative(), 1)
+        self.assertEqual(cpu.zero(), 0)
+        self.assertEqual(cpu.carry(), 0)
+    
+    def test_cmp_absolutex_iqual(self):
+        cpu = CreateTestCpu()
+        cpu.clear_carry()
+        cpu.set_A(0x01)
+        cpu.set_X(0x01)
+        cpu.memory[0x1101] = 0x01
+
+        execute_instruction(cpu, opcode=CMP_ABSOLUTE_X, op2_lo_byte=0x00,  op2_hi_byte=0x11)
+
+        self.assertEqual(cpu.A(), 0x01)
+        self.assertEqual(cpu.negative(), 0)
+        self.assertEqual(cpu.zero(), 1)
+        self.assertEqual(cpu.carry(), 1)
+
+    def test_cmp_absolutex_Asmall(self):
+        cpu = CreateTestCpu()
+        cpu.clear_carry()
+        cpu.set_A(0x01)
+        cpu.set_X(0x01)
+        cpu.memory[0x1101] = 0x02
+
+        execute_instruction(cpu, opcode=CMP_ABSOLUTE_X, op2_lo_byte=0x00,  op2_hi_byte=0x11)
+
+        self.assertEqual(cpu.A(), 0x01)
+        self.assertEqual(cpu.negative(), 1)
+        self.assertEqual(cpu.zero(), 0)
+        self.assertEqual(cpu.carry(), 0)
+
+    def test_cmp_absolutey_iqual(self):
+        cpu = CreateTestCpu()
+        cpu.clear_carry()
+        cpu.set_A(0x01)
+        cpu.set_Y(0x01)
+        cpu.memory[0x1101] = 0x01
+
+        execute_instruction(cpu, opcode=CMP_ABSOLUTE_Y, op2_lo_byte=0x00,  op2_hi_byte=0x11)
+
+        self.assertEqual(cpu.A(), 0x01)
+        self.assertEqual(cpu.negative(), 0)
+        self.assertEqual(cpu.zero(), 1)
+        self.assertEqual(cpu.carry(), 1)
+
+    def test_cmp_indirect_x_iqual(self):
+        cpu = CreateTestCpu()
+        cpu.clear_carry()
+        cpu.set_A(0x02)
+        cpu.set_X(0x01)
+        cpu.memory[0x02] = 0x00
+        cpu.memory[0x03] = 0x10
+        cpu.memory[0x1000] = 0x02
+
+
+        execute_instruction(cpu, opcode=CMP_INDIRECT_X , op2_lo_byte=0x01 )
+
+        self.assertEqual(cpu.A(), 0x02)
+        self.assertEqual(cpu.negative(), 0)
+        self.assertEqual(cpu.zero(), 1)
+        self.assertEqual(cpu.carry(), 1)
+
+    def test_cmp_indirect_x_Abig(self):
+        cpu = CreateTestCpu()
+        cpu.clear_carry()
+        cpu.set_A(0x04)
+        cpu.set_X(0x01)
+        cpu.memory[0x02] = 0x00
+        cpu.memory[0x03] = 0x10
+        cpu.memory[0x1000] = 0x02
+
+
+        execute_instruction(cpu, opcode=CMP_INDIRECT_X , op2_lo_byte=0x01 )
+
+        self.assertEqual(cpu.A(), 0x04)
+        self.assertEqual(cpu.negative(), 0)
+        self.assertEqual(cpu.zero(), 0)
+        self.assertEqual(cpu.carry(), 1)
+
+    def test_cmp_indirect_x_ASmall(self):
+        cpu = CreateTestCpu()
+        cpu.clear_carry()
+        cpu.set_A(0x04)
+        cpu.set_X(0x01)
+        cpu.memory[0x02] = 0x00
+        cpu.memory[0x03] = 0x10
+        cpu.memory[0x1000] = 0x05
+
+
+        execute_instruction(cpu, opcode=CMP_INDIRECT_X , op2_lo_byte=0x01 )
+
+        self.assertEqual(cpu.A(), 0x04)
+        self.assertEqual(cpu.negative(), 1)
+        self.assertEqual(cpu.zero(), 0)
+        self.assertEqual(cpu.carry(), 0)
+
+    def test_cmp_indirect_y_iqual(self):
+        cpu = CreateTestCpu()
+        cpu.clear_carry()
+        cpu.set_A(0x02)
+        cpu.set_Y(0x01)
+        cpu.memory[0x02] = 0x00
+        cpu.memory[0x03] = 0x10
+        cpu.memory[0x1001] = 0x02
+
+
+        execute_instruction(cpu, opcode=CMP_INDIRECT_Y , op2_lo_byte=0x02 )
+
+        self.assertEqual(cpu.A(), 0x02)
+        self.assertEqual(cpu.negative(), 0)
+        self.assertEqual(cpu.zero(), 1)
+        self.assertEqual(cpu.carry(), 1)
+
+    def test_cmp_indirect_y_Abig(self):
+        cpu = CreateTestCpu()
+        cpu.clear_carry()
+        cpu.set_A(0x04)
+        cpu.set_Y(0x01)
+        cpu.memory[0x02] = 0x00
+        cpu.memory[0x03] = 0x10
+        cpu.memory[0x1001] = 0x02
+
+
+        execute_instruction(cpu, opcode=CMP_INDIRECT_Y , op2_lo_byte=0x02 )
+
+        self.assertEqual(cpu.A(), 0x04)
+        self.assertEqual(cpu.negative(), 0)
+        self.assertEqual(cpu.zero(), 0)
+        self.assertEqual(cpu.carry(), 1)
+
+    def test_cmp_indirect_y_Asmall(self):
+        cpu = CreateTestCpu()
+        cpu.clear_carry()
+        cpu.set_A(0x04)
+        cpu.set_Y(0x01)
+        cpu.memory[0x02] = 0x00
+        cpu.memory[0x03] = 0x10
+        cpu.memory[0x1001] = 0x07
+
+
+        execute_instruction(cpu, opcode=CMP_INDIRECT_Y , op2_lo_byte=0x02 )
+
+        self.assertEqual(cpu.A(), 0x04)
+        self.assertEqual(cpu.negative(), 1)
+        self.assertEqual(cpu.zero(), 0)
+        self.assertEqual(cpu.carry(), 0)   
 
 
 if __name__ == '__main__':
