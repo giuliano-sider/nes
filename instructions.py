@@ -273,9 +273,10 @@ def instruction_57(cpu, logger):
     # to be implemented OPCODE 57
     raise NotImplementedError()
 
+CLI = 0x58
 def cli(cpu, logger):
-    # to be implemented OPCODE 58
-    raise NotImplementedError()
+    cpu.clear_irq_disable()
+    cpu.set_PC(cpu.PC() + 1)
 
 
 def instruction_5a(cpu, logger):
@@ -344,9 +345,11 @@ def instruction_77(cpu, logger):
     # to be implemented OPCODE 77
     raise NotImplementedError()
 
+SEI = 0x78
 def sei(cpu, logger):
     # to be implemented OPCODE 78
-    raise NotImplementedError()
+    cpu.set_irq_disable()
+    cpu.set_PC(cpu.PC() + 1)
 
 def instruction_7a(cpu, logger):
     # to be implemented OPCODE 7a
@@ -393,9 +396,13 @@ def instruction_89(cpu, logger):
     # to be implemented OPCODE 89
     raise NotImplementedError()
 
+TXA = 0x8A
 def txa(cpu, logger):
-    # to be implemented OPCODE 8a
-    raise NotImplementedError()
+    cpu.set_A(cpu.X())
+    cpu.set_negative_iff(is_negative(cpu.X()))
+    cpu.set_zero_iff(cpu.X() == 0)
+
+    cpu.set_PC(cpu.PC() + 1)
 
 def instruction_8b(cpu, logger):
     # to be implemented OPCODE 8b
@@ -428,14 +435,22 @@ def instruction_98(cpu, logger):
     # to be implemented OPCODE 98
     raise NotImplementedError()
 
-
+TXS = 0x9A
 def txs(cpu, logger):
-    # to be implemented OPCODE 9a
-    raise NotImplementedError()
+    cpu.set_SP(cpu.X())
+    cpu.set_negative_iff(is_negative(cpu.X()))
+    cpu.set_zero_iff(cpu.X() == 0)
 
+    cpu.set_PC(cpu.PC() + 1)
+
+TYA = 0x9B
 def tya(cpu, logger):
     # to be implemented OPCODE 9b
-    raise NotImplementedError()
+    cpu.set_A(cpu.Y())
+    cpu.set_negative_iff(is_negative(cpu.Y()))
+    cpu.set_zero_iff(cpu.Y() == 0)
+
+    cpu.set_PC(cpu.PC() + 1)
 
 def instruction_9c(cpu, logger):
     # to be implemented OPCODE 9c
@@ -460,13 +475,21 @@ def instruction_a7(cpu, logger):
     # to be implemented OPCODE a7
     raise NotImplementedError()
 
+TAY = 0xA8
 def tay(cpu, logger):
-    # to be implemented OPCODE a8
-    raise NotImplementedError()
+    cpu.set_Y(cpu.A())
+    cpu.set_negative_iff(is_negative(cpu.A()))
+    cpu.set_zero_iff(cpu.A() == 0)
 
+    cpu.set_PC(cpu.PC() + 1)
+
+TAX = 0xAA
 def tax(cpu, logger):
-    # to be implemented OPCODE aa
-    raise NotImplementedError()
+    cpu.set_X(cpu.A())
+    cpu.set_negative_iff(is_negative(cpu.A()))
+    cpu.set_zero_iff(cpu.A() == 0)
+
+    cpu.set_PC(cpu.PC() + 1)
 
 def instruction_ab(cpu, logger):
     # to be implemented OPCODE ab
@@ -492,15 +515,18 @@ def instruction_b7(cpu, logger):
     # to be implemented OPCODE b7
     raise NotImplementedError()
 
-
+CLV = 0xB8
 def clv(cpu, logger):
-    # to be implemented OPCODE b8
-    raise NotImplementedError()
+    cpu.clear_overflow()
+    cpu.set_PC(cpu.PC() + 1)
 
-
+TSX = 0xBA
 def tsx(cpu, logger):
-    # to be implemented OPCODE ba
-    raise NotImplementedError()
+    cpu.set_X(cpu.SP())
+    cpu.set_negative_iff(is_negative(cpu.SP()))
+    cpu.set_zero_iff(cpu.SP() == 0)
+
+    cpu.set_PC(cpu.PC() + 1)
 
 def instruction_bb(cpu, logger):
     # to be implemented OPCODE bb
@@ -592,9 +618,10 @@ def instruction_d7(cpu, logger):
     # to be implemented OPCODE d7
     raise NotImplementedError()
 
+CLD = 0xD8
 def cld(cpu, logger):
-    # to be implemented OPCODE d8
-    raise NotImplementedError()
+    cpu.clear_decimal()
+    cpu.set_PC(cpu.PC() + 1)
 
 def instruction_da(cpu, logger):
     # to be implemented OPCODE da
@@ -696,9 +723,10 @@ def instruction_f7(cpu, logger):
     # to be implemented OPCODE f7
     raise NotImplementedError()
 
+SED = 0xF8
 def sed(cpu, logger):
-    # to be implemented OPCODE f8
-    raise NotImplementedError()
+    cpu.set_decimal()
+    cpu.set_PC(cpu.PC() + 1)
 
 def sbc_absolute_y(cpu, logger):
     # to be implemented OPCODE f9
@@ -813,7 +841,7 @@ instructions[84] = instruction_54
 instructions[EOR_ZERO_PAGE_X] = eor_zeropage_x
 instructions[LSR_ZERO_PAGE_X] = lsr_zeropage_x
 instructions[87] = instruction_57
-instructions[88] = cli
+instructions[CLI] = cli
 instructions[EOR_ABSOLUTE_Y] = eor_absolute_y
 instructions[90] = instruction_5a
 instructions[91] = instruction_5b
@@ -839,7 +867,7 @@ instructions[115] = instruction_73
 instructions[116] = instruction_74
 instructions[ROR_ZERO_PAGE_X] = ror_zeropage_x
 instructions[119] = instruction_77
-instructions[120] = sei
+instructions[SEI] = sei
 instructions[122] = instruction_7a
 instructions[123] = instruction_7b
 instructions[124] = instruction_7c
@@ -855,7 +883,7 @@ instructions[134] = stx_zeropage
 instructions[135] = instruction_87
 instructions[136] = dey
 instructions[137] = instruction_89
-instructions[138] = txa
+instructions[TXA] = txa
 instructions[139] = instruction_8b
 instructions[140] = sty_absolute
 instructions[STA_ABSOLUTE] = sta_absolute
@@ -871,8 +899,8 @@ instructions[150] = stx_zeropage_x
 instructions[151] = instruction_97
 instructions[152] = instruction_98
 instructions[153] = sta_absolute_y
-instructions[154] = txs
-instructions[155] = tya
+instructions[TXS] = txs
+instructions[TYA] = tya
 instructions[156] = instruction_9c
 instructions[157] = sta_absolute_x
 instructions[158] = instruction_9e
@@ -885,9 +913,9 @@ instructions[164] = ldy_zeropage
 instructions[LDA_ZEROPAGE] = lda_zeropage
 instructions[166] = ldx_zeropage
 instructions[167] = instruction_a7
-instructions[168] = tay
+instructions[TAY] = tay
 instructions[LDA_IMMEDIATE] = lda_immediate
-instructions[170] = tax
+instructions[TAX] = tax
 instructions[171] = instruction_ab
 instructions[172] = ldy_absolute
 instructions[173] = lda_absolute
@@ -901,9 +929,9 @@ instructions[180] = ldy_zeropage_x
 instructions[181] = lda_zeropage_x
 instructions[182] = ldx_zeropage_y
 instructions[183] = instruction_b7
-instructions[184] = clv
+instructions[CLV] = clv
 instructions[185] = lda_absolute_y
-instructions[186] = tsx
+instructions[TSX] = tsx
 instructions[187] = instruction_bb
 instructions[188] = ldy_absolute_x
 instructions[189] = lda_absolute_x
@@ -927,7 +955,7 @@ instructions[211] = instruction_d3
 instructions[212] = instruction_d4
 instructions[214] = dec_zeropage_x
 instructions[215] = instruction_d7
-instructions[216] = cld
+instructions[CLD] = cld
 instructions[218] = instruction_da
 instructions[219] = instruction_db
 instructions[220] = instruction_dc
@@ -954,7 +982,7 @@ instructions[244] = instruction_f4
 instructions[245] = sbc_zeropage_x
 instructions[246] = inc_zeropage_x
 instructions[247] = instruction_f7
-instructions[248] = sed
+instructions[SED] = sed
 instructions[249] = sbc_absolute_y
 instructions[250] = instruction_fa
 instructions[251] = instruction_fb
