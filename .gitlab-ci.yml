@@ -15,4 +15,4 @@ nes-cpu-assembled-program-tests:
 nes-cpu-python-unit-tests:
     stage: nes-cpu-tests
     script:
-        - "for test_script in $(ls tst/*.py); do python3 $test_script; done"
+        - make clean pytest
