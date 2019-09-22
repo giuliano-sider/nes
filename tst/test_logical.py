@@ -121,6 +121,21 @@ class TestLogicalInstructions(unittest.TestCase):
         self.assertEqual(cpu.negative(), 0)
         self.assertEqual(cpu.zero(), 0)
 
+    def test_AND_indirect_y(self):
+        cpu = CreateTestCpu()
+        cpu.set_A(                  0b00010001)
+        cpu.set_Y(0x20)
+        cpu.memory[0x10] = 0x34
+        cpu.memory[0x11] = 0x12
+        cpu.memory[0x1234 + 0x20] = 0b00010000
+        cpu.set_P(0xFF)
+
+        execute_instruction(cpu, opcode=AND_INDIRECT_Y, op2_lo_byte=0x10)
+
+        self.assertEqual(cpu.A(), 0b00010000)
+        self.assertEqual(cpu.negative(), 0)
+        self.assertEqual(cpu.zero(), 0)
+
     def test_ORA_absolute(self):
         cpu = CreateTestCpu()
         cpu.set_A(           0b00010001)
