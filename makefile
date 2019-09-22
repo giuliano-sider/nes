@@ -54,6 +54,8 @@ test: ${BIN} ${LOG} ${TESTS}
 pytest:
 	@{  echo "************************* Python Unit Tests ******************************"; \
 		for test_script in $$(ls tst/*.py); do \
+			echo ; \
+			echo "************************* Running $$test_script: ******************************"; \
 			python3 $$test_script ; \
 		done \
 	}
