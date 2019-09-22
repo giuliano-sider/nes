@@ -53,11 +53,18 @@ test: ${BIN} ${LOG} ${TESTS}
 
 pytest:
 	@{  echo "************************* Python Unit Tests ******************************"; \
+		test_failed=0 ; \
 		for test_script in $$(ls tst/*.py); do \
 			echo ; \
 			echo "************************* Running $$test_script: ******************************"; \
 			python3 $$test_script ; \
-		done \
+			if [ $$? != 0 ]; then \
+				test_failed=$$((test_failed+1)) ; \
+			fi ; \
+		done ; \
+		echo "*********************** Summary ******************************"; \
+		echo "- $$test_failed tests failed"; \
+		exit $$test_failed ; \
 	}
 
 setup:
