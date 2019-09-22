@@ -59,23 +59,36 @@ def sta_absolute_y(cpu, logger):
 
 STA_ABSOLUTE_X = 0x9D
 def sta_absolute_x(cpu, logger):
-    # to be implemented OPCODE 9d
-    raise NotImplementedError()
+    lo_byte_address = cpu.memory[cpu.PC() + 1]
+    hi_byte_address = cpu.memory[cpu.PC() + 2]
+    cpu.set_PC(cpu.PC() + 3)
+    resolved_address = (lo_byte_address + (hi_byte_address << 8) + cpu.X()) % utils.MOD_ABSOLUTE
+    cpu.memory[resolved_address] = cpu.A()
+    logger.log_instruction(cpu)
 
 STY_ZEROPAGE = 0x84
 def sty_zeropage(cpu, logger):
-    # to be implemented OPCODE 84
-    raise NotImplementedError()
+    zero_page_address = cpu.memory[cpu.PC() + 1]
+    cpu.memory[zero_page_address] = cpu.Y()
+    cpu.set_PC(cpu.PC() + 2)
+    logger.log_instruction(cpu)
 
 STY_ABSOLUTE = 0x8C
 def sty_absolute(cpu, logger):
-    # to be implemented OPCODE 8c
-    raise NotImplementedError()
+    lo_address_byte = cpu.memory[cpu.PC() + 1]
+    hi_address_byte = cpu.memory[cpu.PC() + 2]
+    cpu.set_PC(cpu.PC() + 3)
+    resolved_address_byte = lo_address_byte + (hi_address_byte << 8)
+    cpu.memory[resolved_address_byte] = cpu.Y()
+    logger.log_instruction(cpu)
 
-STY_ABSOLUTE_X = 0x94
+STY_ZEROPAGE_X = 0x94
 def sty_zeropage_x(cpu, logger):
-    # to be implemented OPCODE 94
-    raise NotImplementedError()
+    zero_page_address = cpu.memory[cpu.PC() + 1]
+    cpu.set_PC(cpu.PC() + 2)
+    resolved_address = (zero_page_address + cpu.X()) % utils.MOD_ZERO_PAGE
+    cpu.memory[resolved_address] = cpu.Y()
+    logger.log_instruction(cpu)
 
 STX_ZEROPAGE = 0x86
 def stx_zeropage(cpu, logger):
