@@ -6,7 +6,7 @@ sys.path += os.pardir
 from nes_cpu_test_utils import CreateTestCpu, execute_instruction
 import nes_cpu_utils as utils
 from instructions import STA_INDIRECT_X, STA_ZEROPAGE, STA_ABSOLUTE, STA_INDIRECT_Y, STA_ZEROPAGE_X, STA_ABSOLUTE_Y
-from instructions import STA_ABSOLUTE_X, STY_ZEROPAGE, STY_ABSOLUTE, STY_ZEROPAGE_X
+from instructions import STA_ABSOLUTE_X, STY_ZEROPAGE, STY_ABSOLUTE, STY_ZEROPAGE_X, STX_ZEROPAGE, STX_ABSOLUTE, STX_ZEROPAGE_Y
 
 
 class TestStore(unittest.TestCase):
@@ -302,6 +302,55 @@ class TestStore(unittest.TestCase):
         execute_instruction(self.cpu, opcode=STY_ZEROPAGE_X, op2_lo_byte=zero_page_address)
 
         expected_address = zero_page_address + x_value
+        expected_pc = initial_pc + 2
+
+        self.assertEqual(self.cpu.memory[expected_address], value_to_be_stored)
+        self.assertEqual(self.cpu.PC(), expected_pc)
+
+    def test_stx_zeropage(self):
+        initial_pc = self.cpu.PC()
+        value_to_be_stored = 0x10
+        zero_page_address = 0x01
+
+        self.cpu.set_X(value_to_be_stored)
+        execute_instruction(self.cpu, opcode=STX_ZEROPAGE, op2_lo_byte=zero_page_address)
+        expected_pc = initial_pc + 2
+
+        self.assertEqual(self.cpu.PC(), expected_pc)
+        self.assertEqual(self.cpu.memory[zero_page_address], value_to_be_stored)
+
+    def test_stx_absolute(self):
+        initial_pc = self.cpu.PC()
+        value_to_be_stored = 0x10
+        lo_absolute_address = 0x01
+        hi_absolute_address = 0xFF
+        resolved_address = lo_absolute_address + (hi_absolute_address << 8)
+
+        self.cpu.set_X(value_to_be_stored)
+
+        execute_instruction(
+            self.cpu,
+            opcode=STX_ABSOLUTE,
+            op2_lo_byte=lo_absolute_address,
+            op2_hi_byte=hi_absolute_address
+        )
+
+        expected_pc = initial_pc + 3
+
+        self.assertEqual(self.cpu.PC(), expected_pc)
+        self.assertEqual(self.cpu.memory[resolved_address], value_to_be_stored)
+
+    def test_stx_zero_page_y(self):
+        initial_pc = self.cpu.PC()
+        y_value = 0x01
+        value_to_be_stored = 0x10
+        zero_page_address = 0x01
+
+        self.cpu.set_Y(y_value)
+        self.cpu.set_X(value_to_be_stored)
+        execute_instruction(self.cpu, opcode=STX_ZEROPAGE_Y, op2_lo_byte=zero_page_address)
+
+        expected_address = zero_page_address + y_value
         expected_pc = initial_pc + 2
 
         self.assertEqual(self.cpu.memory[expected_address], value_to_be_stored)
