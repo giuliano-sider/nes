@@ -55,46 +55,73 @@ def adc(cpu, logger, op2):
 
 CMP_IMMEDIATE = 0xC9
 def cmp_immediate(cpu, logger):
+    op1 = cpu.A()
     op2 = get_immediate(cpu)
-    cmp(cpu, logger, op2)
+    cmp(cpu, logger, op1, op2)
 
 CMP_ZEROPAGE = 0xC5
 def cmp_zeropage(cpu, logger):
-    op2 =  get_zeropage(cpu)
-    cmp(cpu, logger, op2)
+    op1 = cpu.A()
+    op2 = get_zeropage(cpu)
+    cmp(cpu, logger, op1, op2)
+
 
 CMP_ZEROPAGE_X = 0xD5
 def cmp_zero_page_x(cpu, logger):
-    op2 =  get_zeropage_x(cpu)
-    cmp(cpu, logger, op2)
+    op1 = cpu.A()
+    op2 = get_zeropage_x(cpu)
+    cmp(cpu, logger, op1, op2)
 
 CMP_ABSOLUTE = 0xCD
 def cmp_absolute(cpu, logger):
+    op1 = cpu.A()
     op2 = get_absolute(cpu)
-    cmp(cpu, logger, op2)
+    cmp(cpu, logger, op1, op2)
+
 
 CMP_ABSOLUTE_X = 0xDD
 def cmp_absolute_x(cpu, logger):
+    op1 = cpu.A()
     op2 = get_absolute_x(cpu)
-    cmp(cpu, logger, op2)
+    cmp(cpu, logger, op1, op2)
 
 CMP_ABSOLUTE_Y = 0xD9
 def cmp_absolute_y(cpu, logger):
+    op1 = cpu.A()
     op2 = get_absolute_y(cpu)
-    cmp(cpu, logger, op2)
+    cmp(cpu, logger, op1, op2)
 
 CMP_INDIRECT_X = 0xC1
 def cmp_indirect_x(cpu, logger):
+    op1 = cpu.A()
     op2 = get_indirect_x(cpu)
-    cmp(cpu, logger, op2)
+    cmp(cpu, logger, op1, op2)
 
 CMP_INDIRECT_Y = 0xD1
 def cmp_indirect_y(cpu, logger):
-    op2 = get_indirect_y(cpu)
-    cmp(cpu, logger, op2)
-
-def cmp(cpu, logger, op2):
     op1 = cpu.A()
+    op2 = get_indirect_y(cpu)
+    cmp(cpu, logger, op1, op2)
+
+CPX_IMMEDIATE = 0xE0
+def cpx_immediate(cpu, logger):
+    op1 = cpu.X()
+    op2 = get_immediate(cpu)
+    cmp(cpu, logger, op1, op2)
+
+CPX_ZEROPAGE = 0xE4
+def cpx_zeropage(cpu, logger):
+    op1 = cpu.X()
+    op2 = get_zeropage(cpu)
+    cmp(cpu, logger, op1, op2)
+
+CPX_ABSOLUTE = 0xEC
+def cpx_absolute(cpu, logger):
+    op1 = cpu.X()
+    op2 = get_absolute(cpu)
+    cmp(cpu, logger, op1, op2)
+
+def cmp(cpu, logger, op1, op2):
     result = (op1-op2) % 256  #Perform 2 complement subtraction
     cpu.set_zero_iff(op1 == op2)
     cpu.set_carry_iff(op1 >= op2)

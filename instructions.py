@@ -537,9 +537,6 @@ def instruction_bf(cpu, logger):
     # to be implemented OPCODE bf
     raise NotImplementedError()
 
-def cpx_immediate(cpu, logger):
-    # to be implemented OPCODE <<<something>>
-    raise NotImplementedError()
 
 def cpy_immediate(cpu, logger):
     # to be implemented OPCODE c0
@@ -553,9 +550,6 @@ def instruction_c3(cpu, logger):
     # to be implemented OPCODE c3
     raise NotImplementedError()
 
-def cpx_zeropage(cpu, logger):
-    # to be implemented OPCODE <<<something>>>
-    raise NotImplementedError()
 
 def cpy_zeropage(cpu, logger):
     # to be implemented OPCODE c4
@@ -579,10 +573,6 @@ def dex(cpu, logger):
 
 def instruction_cb(cpu, logger):
     # to be implemented OPCODE cb
-    raise NotImplementedError()
-
-def cpx_absolute(cpu, logger):
-    # to be implemented OPCODE <<<something>>>
     raise NotImplementedError()
 
 def cpy_absolute(cpu, logger):
@@ -1006,11 +996,8 @@ instructions[CMP_INDIRECT_Y] = cmp_indirect_y
 instructions[CMP_ABSOLUTE] = cmp_absolute
 instructions[CMP_ABSOLUTE_Y] = cmp_absolute_y
 instructions[CMP_ABSOLUTE_X] = cmp_absolute_x
-CPX_IMMEDIATE = 0xE0
 instructions[CPX_IMMEDIATE] = cpx_immediate
-CPX_ZEROPAGE = 0xE4
 instructions[CPX_ZEROPAGE] = cpx_zeropage
-CPX_ABSOLUTE = 0xEC
 instructions[CPX_ABSOLUTE] = cpx_absolute
 
 
