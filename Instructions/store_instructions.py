@@ -17,7 +17,7 @@ def sta_zeropage(cpu, logger):
     zero_page_address = cpu.memory[cpu.PC() + 1]
     cpu.memory[zero_page_address] = cpu.A()
     cpu.set_PC(cpu.PC() + 2)
-    logger.log_instruction(cpu)
+    logger.log_memory_access_instruction(cpu, zero_page_address, cpu.A())
 
 STA_ABSOLUTE = 0x8D
 def sta_absolute(cpu, logger):
@@ -26,7 +26,7 @@ def sta_absolute(cpu, logger):
     cpu.set_PC(cpu.PC() + 3)
     resolved_address_byte = lo_address_byte + (hi_address_byte << 8)
     cpu.memory[resolved_address_byte] = cpu.A()
-    logger.log_instruction(cpu)
+    logger.log_memory_access_instruction(cpu, resolved_address_byte, cpu.A())
 
 STA_INDIRECT_Y = 0x91
 def sta_indirect_y(cpu, logger):
@@ -45,7 +45,7 @@ def sta_zeropage_x(cpu, logger):
     cpu.set_PC(cpu.PC() + 2)
     resolved_address = (zero_page_address + cpu.X()) % utils.MOD_ZERO_PAGE
     cpu.memory[resolved_address] = cpu.A()
-    logger.log_instruction(cpu)
+    logger.log_memory_access_instruction(cpu, resolved_address, cpu.A())
 
 STA_ABSOLUTE_Y = 0x99
 def sta_absolute_y(cpu, logger):
@@ -64,7 +64,7 @@ def sta_absolute_x(cpu, logger):
     cpu.set_PC(cpu.PC() + 3)
     resolved_address = (lo_byte_address + (hi_byte_address << 8) + cpu.X()) % utils.MOD_ABSOLUTE
     cpu.memory[resolved_address] = cpu.A()
-    logger.log_instruction(cpu)
+    logger.log_memory_access_instruction(cpu, resolved_address, cpu.A())
 
 STY_ZEROPAGE = 0x84
 def sty_zeropage(cpu, logger):
