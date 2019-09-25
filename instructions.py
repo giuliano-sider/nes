@@ -26,7 +26,6 @@ def brk(cpu, logger):
         raise NotImplementedError()
     else:
         cpu.set_break()
-        logger.log_instruction(cpu)
 
 instructions[BRK] = brk
 
