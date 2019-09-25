@@ -437,8 +437,6 @@ def instruction_98(cpu, logger):
 TXS = 0x9A
 def txs(cpu, logger):
     cpu.set_SP(cpu.X())
-    cpu.set_negative_iff(is_negative(cpu.X()))
-    cpu.set_zero_iff(cpu.X() == 0)
 
     cpu.set_PC(cpu.PC() + 1)
 
