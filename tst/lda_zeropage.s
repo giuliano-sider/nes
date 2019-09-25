@@ -47,22 +47,24 @@ MIRRORING = %0001 ;%0000 = horizontal, %0001 = vertical, %1000 = four-screen
    .base $10000-(PRG_COUNT*$4000)
 
 Reset:
-                                    ; PC = c000, A = 0, mem = c000
-    LDA ZeroPageAddress            ; PC = c002, N = 0, A = 1, mem = c000
+                                    ; PC = c000, A = 0
+    LDA #$AE                        ; PC = c002, A = $AE, N = 1, Z = 0
+    STA ZeroPageAddress             ; PC = c004, A = $AE, N = 1, Z = 0, addr = $0000, data = $AE
+    LDA #$AF                        ; PC = c006, A = $AF, N = 1, Z = 0
+    LDA ZeroPageAddress             ; PC = c008, A = $AE, N = 1, Z = 0, addr = $0000, data = $AE
     BRK
 
    .org $E000
-:
-	.db $00, $01
+
 data_2:
-	.db $00, $00
+	.db $AE
 
 NMI:
 
    ;NOTE: NMI code goes here
 
 IRQ:
-
+    JMP IRQ
    ;NOTE: IRQ code goes here
 
 ;----------------------------------------------------------------
