@@ -17,6 +17,8 @@ def bit(cpu, logger, op2):
     cpu.set_overflow_iff(op2 & 0b01000000)
     cpu.set_zero_iff(cpu.A() == 0)
 
+    logger.log_instruction(cpu)
+
 
 AND_IMMEDIATE = 0x29
 def and_immediate(cpu, logger):
@@ -55,6 +57,8 @@ def and_instruction(cpu, logger, op2):
 
     cpu.set_negative_iff(is_negative(cpu.A()))
     cpu.set_zero_iff(cpu.A() == 0)
+
+    logger.log_instruction(cpu)
 
 
 EOR_IMMEDIATE = 0x49
@@ -95,6 +99,8 @@ def eor_instruction(cpu, logger, op2):
     cpu.set_negative_iff(is_negative(cpu.A()))
     cpu.set_zero_iff(cpu.A() == 0)
 
+    logger.log_instruction(cpu)
+
 
 ORA_IMMEDIATE = 0x09
 def ora_immediate(cpu, logger):
@@ -134,10 +140,12 @@ def ora_instruction(cpu, logger, op2):
     cpu.set_negative_iff(is_negative(cpu.A()))
     cpu.set_zero_iff(cpu.A() == 0)
 
+    logger.log_instruction(cpu)
+
 
 ASL_ACCUMULATOR = 0x0A
 def asl_accumulator(cpu, logger):
-    result, carry = rotate_left(self.A(), 0)
+    result, carry = rotate_left(cpu.A(), 0)
     cpu.set_A(result)
 
     cpu.set_negative_iff(is_negative(result))
@@ -145,6 +153,7 @@ def asl_accumulator(cpu, logger):
     cpu.set_carry_iff(carry)
 
     cpu.set_PC(cpu.PC() + 1)
+    logger.log_instruction(cpu)
 
 ASL_ZERO_PAGE = 0x06
 def asl_zeropage(cpu, logger):
@@ -170,10 +179,12 @@ def asl(cpu, logger, addr):
     cpu.set_zero_iff(result == 0)
     cpu.set_carry_iff(carry)
 
+    logger.log_memory_access_instruction(cpu, addr, result)
+
 
 LSR_ACCUMULATOR = 0x4A
 def lsr_accumulator(cpu, logger):
-    result, carry = rotate_right(self.A(), 0)
+    result, carry = rotate_right(cpu.A(), 0)
     cpu.set_A(result)
 
     cpu.set_negative_iff(is_negative(result))
@@ -181,6 +192,7 @@ def lsr_accumulator(cpu, logger):
     cpu.set_carry_iff(carry)
 
     cpu.set_PC(cpu.PC() + 1)
+    logger.log_instruction(cpu)
 
 LSR_ZERO_PAGE = 0x46
 def lsr_zeropage(cpu, logger):
@@ -206,10 +218,12 @@ def lsr(cpu, logger, addr):
     cpu.set_zero_iff(result == 0)
     cpu.set_carry_iff(carry)
 
+    logger.log_memory_access_instruction(cpu, addr, result)
+
 
 ROL_ACCUMULATOR = 0x2A
 def rol_accumulator(cpu, logger):
-    result, carry = rotate_left(self.A(), cpu.carry())
+    result, carry = rotate_left(cpu.A(), cpu.carry())
     cpu.set_A(result)
 
     cpu.set_negative_iff(is_negative(result))
@@ -217,6 +231,7 @@ def rol_accumulator(cpu, logger):
     cpu.set_carry_iff(carry)
 
     cpu.set_PC(cpu.PC() + 1)
+    logger.log_instruction(cpu)
 
 ROL_ZERO_PAGE = 0x26
 def rol_zeropage(cpu, logger):
@@ -242,10 +257,12 @@ def rol(cpu, logger, addr):
     cpu.set_zero_iff(result == 0)
     cpu.set_carry_iff(carry)
 
+    logger.log_memory_access_instruction(cpu, addr, result)
+
 
 ROR_ACCUMULATOR = 0x6A
 def ror_accumulator(cpu, logger):
-    result, carry = rotate_right(self.A(), cpu.carry())
+    result, carry = rotate_right(cpu.A(), cpu.carry())
     cpu.set_A(result)
 
     cpu.set_negative_iff(is_negative(result))
@@ -253,6 +270,7 @@ def ror_accumulator(cpu, logger):
     cpu.set_carry_iff(carry)
 
     cpu.set_PC(cpu.PC() + 1)
+    logger.log_instruction(cpu)
 
 ROR_ZERO_PAGE = 0x66
 def ror_zeropage(cpu, logger):
@@ -277,6 +295,8 @@ def ror(cpu, logger, addr):
     cpu.set_negative_iff(is_negative(result))
     cpu.set_zero_iff(result == 0)
     cpu.set_carry_iff(carry)
+
+    logger.log_memory_access_instruction(cpu, addr, result)
 
 
 
