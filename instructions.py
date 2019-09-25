@@ -1,9 +1,9 @@
-from nes_cpu_utils import is_negative, is_overflow, twos_comp
 from Instructions.arithmetics_instructions import * 
 from Instructions.load_instructions import *
 from Instructions.store_instructions import *
 from Instructions.control_flow_instructions import *
 from Instructions.logical_instructions import *
+from Instructions.misc_instructions import *
 
 def InstructionNotImplemented(*args):
     raise NotImplementedError('Instruction currently unimplemented')
@@ -88,12 +88,7 @@ def instruction_17(cpu, logger):
     # to be implemented OPCODE 17
     raise NotImplementedError()
 
-CLC = 0x18
-def clc(cpu, logger):
-    if cpu.carry() == 1:
-        cpu.clear_carry()
-    cpu.set_PC(cpu.PC()+1)
-    logger.log_instruction(cpu)
+
 
 
 def instruction_1a(cpu, logger):
@@ -182,12 +177,7 @@ def instruction_37(cpu, logger):
     # to be implemented OPCODE 37
     raise NotImplementedError()
 
-SEC = 0x38
-def sec(cpu, logger):
-    if cpu.carry() == 0:
-        cpu.set_carry()
-    cpu.set_PC(cpu.PC()+1)
-    logger.log_instruction(cpu)
+
 
 def instruction_39(cpu, logger):
     # to be implemented OPCODE 39
@@ -272,10 +262,6 @@ def instruction_57(cpu, logger):
     # to be implemented OPCODE 57
     raise NotImplementedError()
 
-CLI = 0x58
-def cli(cpu, logger):
-    cpu.clear_irq_disable()
-    cpu.set_PC(cpu.PC() + 1)
 
 
 def instruction_5a(cpu, logger):
@@ -344,11 +330,7 @@ def instruction_77(cpu, logger):
     # to be implemented OPCODE 77
     raise NotImplementedError()
 
-SEI = 0x78
-def sei(cpu, logger):
-    # to be implemented OPCODE 78
-    cpu.set_irq_disable()
-    cpu.set_PC(cpu.PC() + 1)
+
 
 def instruction_7a(cpu, logger):
     # to be implemented OPCODE 7a
@@ -395,13 +377,7 @@ def instruction_89(cpu, logger):
     # to be implemented OPCODE 89
     raise NotImplementedError()
 
-TXA = 0x8A
-def txa(cpu, logger):
-    cpu.set_A(cpu.X())
-    cpu.set_negative_iff(is_negative(cpu.X()))
-    cpu.set_zero_iff(cpu.X() == 0)
 
-    cpu.set_PC(cpu.PC() + 1)
 
 def instruction_8b(cpu, logger):
     # to be implemented OPCODE 8b
@@ -430,25 +406,6 @@ def instruction_97(cpu, logger):
     raise NotImplementedError()
 
 
-def instruction_98(cpu, logger):
-    # to be implemented OPCODE 98
-    raise NotImplementedError()
-
-TXS = 0x9A
-def txs(cpu, logger):
-    cpu.set_SP(cpu.X())
-
-    cpu.set_PC(cpu.PC() + 1)
-
-TYA = 0x9B
-def tya(cpu, logger):
-    # to be implemented OPCODE 9b
-    cpu.set_A(cpu.Y())
-    cpu.set_negative_iff(is_negative(cpu.Y()))
-    cpu.set_zero_iff(cpu.Y() == 0)
-
-    cpu.set_PC(cpu.PC() + 1)
-
 def instruction_9c(cpu, logger):
     # to be implemented OPCODE 9c
     raise NotImplementedError()
@@ -472,21 +429,6 @@ def instruction_a7(cpu, logger):
     # to be implemented OPCODE a7
     raise NotImplementedError()
 
-TAY = 0xA8
-def tay(cpu, logger):
-    cpu.set_Y(cpu.A())
-    cpu.set_negative_iff(is_negative(cpu.A()))
-    cpu.set_zero_iff(cpu.A() == 0)
-
-    cpu.set_PC(cpu.PC() + 1)
-
-TAX = 0xAA
-def tax(cpu, logger):
-    cpu.set_X(cpu.A())
-    cpu.set_negative_iff(is_negative(cpu.A()))
-    cpu.set_zero_iff(cpu.A() == 0)
-
-    cpu.set_PC(cpu.PC() + 1)
 
 def instruction_ab(cpu, logger):
     # to be implemented OPCODE ab
@@ -512,18 +454,7 @@ def instruction_b7(cpu, logger):
     # to be implemented OPCODE b7
     raise NotImplementedError()
 
-CLV = 0xB8
-def clv(cpu, logger):
-    cpu.clear_overflow()
-    cpu.set_PC(cpu.PC() + 1)
 
-TSX = 0xBA
-def tsx(cpu, logger):
-    cpu.set_X(cpu.SP())
-    cpu.set_negative_iff(is_negative(cpu.SP()))
-    cpu.set_zero_iff(cpu.SP() == 0)
-
-    cpu.set_PC(cpu.PC() + 1)
 
 def instruction_bb(cpu, logger):
     # to be implemented OPCODE bb
@@ -615,10 +546,7 @@ def instruction_d7(cpu, logger):
     # to be implemented OPCODE d7
     raise NotImplementedError()
 
-CLD = 0xD8
-def cld(cpu, logger):
-    cpu.clear_decimal()
-    cpu.set_PC(cpu.PC() + 1)
+
 
 def instruction_da(cpu, logger):
     # to be implemented OPCODE da
@@ -720,10 +648,7 @@ def instruction_f7(cpu, logger):
     # to be implemented OPCODE f7
     raise NotImplementedError()
 
-SED = 0xF8
-def sed(cpu, logger):
-    cpu.set_decimal()
-    cpu.set_PC(cpu.PC() + 1)
+
 
 def sbc_absolute_y(cpu, logger):
     # to be implemented OPCODE f9
@@ -894,7 +819,7 @@ instructions[148] = sty_zeropage_x
 instructions[149] = sta_zeropage_x
 instructions[150] = stx_zeropage_y
 instructions[151] = instruction_97
-instructions[152] = instruction_98
+instructions[TYA] = tya
 instructions[153] = sta_absolute_y
 instructions[TXS] = txs
 instructions[TYA] = tya
