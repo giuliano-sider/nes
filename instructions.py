@@ -1,4 +1,5 @@
-from Instructions.arithmetics_instructions import * 
+from nes_cpu_utils import is_negative, is_overflow, twos_comp
+from Instructions.arithmetics_instructions import *
 from Instructions.load_instructions import *
 from Instructions.store_instructions import *
 from Instructions.control_flow_instructions import *
@@ -204,10 +205,9 @@ def instruction_3f(cpu, logger):
     # to be implemented OPCODE 3f
     raise NotImplementedError()
 
-def rti(cpu, logger):
-    # to be implemented OPCODE 40
+def eor_indirect_x(cpu, logger):
+    # to be implemented OPCODE 41
     raise NotImplementedError()
-
 
 def instruction_42(cpu, logger):
     # to be implemented OPCODE 42
