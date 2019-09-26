@@ -10,7 +10,7 @@ def bcc(cpu, logger):
         branch(cpu, logger, oper)
     else:
         cpu.set_PC(cpu.PC() + 2)
-    
+
     logger.log_instruction(cpu)
 
 def branch(cpu, logger, oper):
@@ -25,7 +25,7 @@ def bcs(cpu, logger):
         branch(cpu, logger, oper)
     else:
         cpu.set_PC(cpu.PC() + 2)
-    
+
     logger.log_instruction(cpu)
 
 BEQ = 0xf0
@@ -36,7 +36,7 @@ def beq(cpu, logger):
         branch(cpu, logger, oper)
     else:
         cpu.set_PC(cpu.PC() + 2)
-    
+
     logger.log_instruction(cpu)
 
 BMI = 0x30
@@ -47,7 +47,7 @@ def bmi(cpu, logger):
         branch(cpu, logger, oper)
     else:
         cpu.set_PC(cpu.PC() + 2)
-    
+
     logger.log_instruction(cpu)
 
 BNE = 0xd0
@@ -58,7 +58,7 @@ def bne(cpu, logger):
         branch(cpu, logger, oper)
     else:
         cpu.set_PC(cpu.PC() + 2)
-    
+
     logger.log_instruction(cpu)
 
 BPL = 0x10
@@ -69,7 +69,7 @@ def bpl(cpu, logger):
         branch(cpu, logger, oper)
     else:
         cpu.set_PC(cpu.PC() + 2)
-    
+
     logger.log_instruction(cpu)
 
 BVC = 0x50
@@ -80,7 +80,7 @@ def bvc(cpu, logger):
         branch(cpu, logger, oper)
     else:
         cpu.set_PC(cpu.PC() + 2)
-    
+
     logger.log_instruction(cpu)
 
 BVS = 0x70
@@ -91,7 +91,7 @@ def bvs(cpu, logger):
         branch(cpu, logger, oper)
     else:
         cpu.set_PC(cpu.PC() + 2)
-    
+
     logger.log_instruction(cpu)
 
 JMP_ABSOLUTE = 0x4c
@@ -108,7 +108,7 @@ def jmp_indirect(cpu, logger):
 
 JSR = 0x20
 def jsr(cpu, logger):
-    LOW_ADDR = int(0xff)  
+    LOW_ADDR = int(0xff)
 
     # push PC+3
     hight = (cpu.PC()+2)>>8
@@ -119,7 +119,7 @@ def jsr(cpu, logger):
     cpu.memory[cpu.SP()] = low
 
     #print("%00x" % (hight))
-    #print("%00x" % (low))  
+    #print("%00x" % (low))
 
     oper = cpu.memory[cpu.PC()+1] + (cpu.memory[cpu.PC()+2]<<8)
     branch(cpu, logger, oper)
@@ -135,4 +135,18 @@ def rts(cpu, logger):
     cpu.set_SP(cpu.SP()-2)
 
     cpu.set_PC(pc+1)
+    logger.log_instruction(cpu)
+
+RTI = 0x40
+def rti(cpu, logger):
+    p = cpu.memory[cpu.SP()]
+    # decrement SP
+    cpu.set_SP(cpu.SP()-1)
+    cpu.set_P(p)
+
+    pc = cpu.memory[cpu.SP()] + (cpu.memory[cpu.SP()-1]<<8)
+    # decrement SP
+    cpu.set_SP(cpu.SP()-2)
+    cpu.set_PC(pc)
+
     logger.log_instruction(cpu)
