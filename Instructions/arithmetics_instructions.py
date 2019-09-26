@@ -99,4 +99,5 @@ def cmp(cpu, logger, op2):
     cpu.set_zero_iff(op1 == op2)
     cpu.set_carry_iff(op1 >= op2)
     cpu.set_negative_iff(is_negative(result))
-    
+
+    logger.log_instruction(cpu)

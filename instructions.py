@@ -205,9 +205,7 @@ def instruction_3f(cpu, logger):
     # to be implemented OPCODE 3f
     raise NotImplementedError()
 
-def eor_indirect_x(cpu, logger):
-    # to be implemented OPCODE 41
-    raise NotImplementedError()
+
 
 def instruction_42(cpu, logger):
     # to be implemented OPCODE 42
