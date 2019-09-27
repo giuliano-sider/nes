@@ -1,4 +1,4 @@
-from memory_mapper import RESET_VECTOR, IRQ_VECTOR, NMI_VECTOR, MEMORY_SIZE
+from memory_mapper import RESET_VECTOR, IRQ_VECTOR, NMI_VECTOR, MEMORY_SIZE, STACK_PAGE_ADDR
 
 
 # flag-related constants:
@@ -76,12 +76,17 @@ class Cpu():
 
     def push_PC_and_P(self):
         """Carry out a push operation, placing PC hi at SP, PC lo at SP-1, P at SP-2, and setting SP -= 3."""
-        self.memory[self.SP()] = self.PC_hi()
+        self.push(self.PC_hi())
+        self.push(self.PC_lo())
+        self.push(self.PC())
+
+    def push(self, value):
+        self.memory[STACK_PAGE_ADDR + self.SP()] = value
         self.set_SP((self.SP() - 1) % 256)
-        self.memory[self.SP()] = self.PC_lo()
-        self.set_SP((self.SP() - 1) % 256)
-        self.memory[self.SP()] = self.P()
-        self.set_SP((self.SP() - 1) % 256)
+
+    def pull(self):
+        self.set_SP((self.SP() + 1) % 256)
+        return self.memory[STACK_PAGE_ADDR + self.SP()]
 
     # Accessors for the registers:
 
