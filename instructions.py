@@ -522,9 +522,6 @@ def instruction_df(cpu, logger):
     # to be implemented OPCODE df
     raise NotImplementedError()
 
-def sbs_indirect_x(cpu, logger):
-    # to be implemented OPCODE e1
-    raise NotImplementedError()
 
 def instruction_e2(cpu, logger):
     # to be implemented OPCODE e2
@@ -781,7 +778,6 @@ instructions[218] = instruction_da
 instructions[219] = instruction_db
 instructions[220] = instruction_dc
 instructions[223] = instruction_df
-instructions[225] = sbs_indirect_x
 instructions[226] = instruction_e2
 instructions[227] = instruction_e3
 instructions[231] = instruction_e7
