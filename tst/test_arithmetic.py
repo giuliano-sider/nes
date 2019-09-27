@@ -269,7 +269,7 @@ class TestArithmetic(unittest.TestCase):
         self.assertEqual(cpu.negative(), 1)
         self.assertEqual(cpu.zero(), 0)
         self.assertEqual(cpu.carry(), 0)
-    
+
     def test_cmp_absolutex_iqual(self):
         cpu = CreateTestCpu()
         cpu.clear_carry()
@@ -412,8 +412,197 @@ class TestArithmetic(unittest.TestCase):
         self.assertEqual(cpu.A(), 0x04)
         self.assertEqual(cpu.negative(), 1)
         self.assertEqual(cpu.zero(), 0)
-        self.assertEqual(cpu.carry(), 0)   
+        self.assertEqual(cpu.carry(), 0)
 
+    def test_dec_zeropage(self):
+      cpu = CreateTestCpu()
+      cpu.clear_carry()
+      cpu.memory[0x10] = 0x02
+
+      execute_instruction(cpu, opcode=DEC_ZEROPAGE, op2_lo_byte=0x10)
+
+      self.assertEqual(cpu.memory[0x10] , 0x01)
+      self.assertEqual(cpu.negative(), 0)
+      self.assertEqual(cpu.zero(), 0)
+
+    def test_dec_zeropage_0(self):
+      cpu = CreateTestCpu()
+      cpu.clear_carry()
+      cpu.memory[0x10] = 0x01
+
+      execute_instruction(cpu, opcode=DEC_ZEROPAGE, op2_lo_byte=0x10)
+
+      self.assertEqual(cpu.memory[0x10] , 0x00)
+      self.assertEqual(cpu.negative(), 0)
+      self.assertEqual(cpu.zero(), 1)
+
+    def test_dec_zeropage_neg(self):
+      cpu = CreateTestCpu()
+      cpu.clear_carry()
+      cpu.memory[0x10] = 0x00
+
+      execute_instruction(cpu, opcode=DEC_ZEROPAGE, op2_lo_byte=0x10)
+
+      self.assertEqual(cpu.memory[0x10] , 0xFF)
+      self.assertEqual(cpu.negative(), 1)
+      self.assertEqual(cpu.zero(), 0)
+
+    def test_dec_zeropage_x(self):
+      cpu = CreateTestCpu()
+      cpu.clear_carry()
+      cpu.set_X(0x01)
+      cpu.memory[0x11] = 0x02
+
+      execute_instruction(cpu, opcode=DEC_ZEROPAGE_X, op2_lo_byte=0x10)
+
+      self.assertEqual(cpu.memory[0x11] , 0x01)
+      self.assertEqual(cpu.negative(), 0)
+      self.assertEqual(cpu.zero(), 0)
+
+    def test_dec_absolute(self):
+      cpu = CreateTestCpu()
+      cpu.clear_carry()
+      cpu.memory[0x1100] = 0x02
+
+      execute_instruction(cpu, opcode=DEC_ABSOLUTE, op2_lo_byte=0x00, op2_hi_byte=0x11)
+
+      self.assertEqual(cpu.memory[0x1100], 0x01)
+      self.assertEqual(cpu.negative(), 0)
+      self.assertEqual(cpu.zero(), 0)
+      self.assertEqual(cpu.carry(), 0)
+
+    def test_dec_absolute_x(self):
+      cpu = CreateTestCpu()
+      cpu.clear_carry()
+      cpu.set_X(1);
+      cpu.memory[0x1101] = 0x02
+
+      execute_instruction(cpu, opcode=DEC_ABSOLUTE_X, op2_lo_byte=0x00, op2_hi_byte=0x11)
+
+      self.assertEqual(cpu.memory[0x1101], 0x01)
+      self.assertEqual(cpu.negative(), 0)
+      self.assertEqual(cpu.zero(), 0)
+      self.assertEqual(cpu.carry(), 0)
+
+    def test_dex(self):
+      cpu = CreateTestCpu()
+      cpu.clear_carry()
+      cpu.set_X(0x01);
+
+      execute_instruction(cpu, opcode=DEX)
+
+      self.assertEqual(cpu.X(), 0x00)
+      self.assertEqual(cpu.negative(), 0)
+      self.assertEqual(cpu.zero(), 1)
+      self.assertEqual(cpu.carry(), 0)
+
+    def test_dey(self):
+      cpu = CreateTestCpu()
+      cpu.clear_carry()
+      cpu.set_Y(0x02);
+
+      execute_instruction(cpu, opcode=DEY)
+
+      self.assertEqual(cpu.Y(), 0x01)
+      self.assertEqual(cpu.negative(), 0)
+      self.assertEqual(cpu.zero(), 0)
+      self.assertEqual(cpu.carry(), 0)
+
+    def test_inc_zeropage(self):
+      cpu = CreateTestCpu()
+      cpu.clear_carry()
+      cpu.memory[0x10] = 0x02
+
+      execute_instruction(cpu, opcode=INC_ZEROPAGE, op2_lo_byte=0x10)
+
+      self.assertEqual(cpu.memory[0x10] , 0x03)
+      self.assertEqual(cpu.negative(), 0)
+      self.assertEqual(cpu.zero(), 0)
+
+    def test_inc_zeropagex(self):
+      cpu = CreateTestCpu()
+      cpu.clear_carry()
+      cpu.set_X(1)
+      cpu.memory[0x11] = 0x02
+
+      execute_instruction(cpu, opcode=INC_ZEROPAGE_X, op2_lo_byte=0x10)
+
+      self.assertEqual(cpu.memory[0x11] , 0x03)
+      self.assertEqual(cpu.negative(), 0)
+      self.assertEqual(cpu.zero(), 0)
+
+    def test_inc_absolute(self):
+      cpu = CreateTestCpu()
+      cpu.clear_carry()
+      cpu.memory[0x1100] = 0x00
+
+      execute_instruction(cpu, opcode=INC_ABSOLUTE, op2_lo_byte=0x00, op2_hi_byte=0x11)
+
+      self.assertEqual(cpu.memory[0x1100], 0x01)
+      self.assertEqual(cpu.negative(), 0)
+      self.assertEqual(cpu.zero(), 0)
+
+    def test_inc_absolute_x(self):
+      cpu = CreateTestCpu()
+      cpu.clear_carry()
+      cpu.set_X(1);
+      cpu.memory[0x1101] = 0x02
+
+      execute_instruction(cpu, opcode=INC_ABSOLUTE_X, op2_lo_byte=0x00, op2_hi_byte=0x11)
+
+      self.assertEqual(cpu.memory[0x1101], 0x03)
+      self.assertEqual(cpu.negative(), 0)
+      self.assertEqual(cpu.zero(), 0)
+
+    def test_inx(self):
+      cpu = CreateTestCpu()
+      cpu.clear_carry()
+      cpu.set_X(0x01)
+
+      execute_instruction(cpu, opcode=INX)
+
+      self.assertEqual(cpu.X(), 0x02)
+      self.assertEqual(cpu.negative(), 0)
+      self.assertEqual(cpu.zero(), 0)
+
+    def test_INy(self):
+      cpu = CreateTestCpu()
+      cpu.clear_carry()
+      cpu.set_Y(0x02);
+
+      execute_instruction(cpu, opcode=INY)
+
+      self.assertEqual(cpu.Y(), 0x03)
+      self.assertEqual(cpu.negative(), 0)
+      self.assertEqual(cpu.zero(), 0)
+
+    def test_sbc_immediate(self):
+      cpu = CreateTestCpu()
+      cpu.clear_carry()
+      cpu.set_A(0x01)
+
+      # ADC #$10
+      execute_instruction(cpu, opcode=SBC_IMMEDIATE, op2_lo_byte=0x01)
+
+      self.assertEqual(cpu.A(), 0x00)
+      self.assertEqual(cpu.negative(), 0)
+      self.assertEqual(cpu.overflow(), 0)
+      self.assertEqual(cpu.zero(), 1)
+      self.assertEqual(cpu.carry(), 0)
+
+    def test_sbc_zeropage(self):
+      cpu = CreateTestCpu()
+      cpu.clear_carry()
+      cpu.set_A(0x02)
+      cpu.memory[0x10] = 0x01
+
+      execute_instruction(cpu, opcode=SBC_ZEROPAGE, op2_lo_byte=0x10)
+
+      self.assertEqual(cpu.A(), 0x01)
+      self.assertEqual(cpu.negative(), 0)
+      self.assertEqual(cpu.overflow(), 0)
+      self.assertEqual(cpu.zero(), 0)
+      self.assertEqual(cpu.carry(), 0)
 
 if __name__ == '__main__':
     unittest.main()
