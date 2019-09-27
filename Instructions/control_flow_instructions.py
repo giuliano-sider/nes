@@ -102,21 +102,36 @@ def jmp_absolute(cpu, logger):
 
 JMP_INDIRECT = 0x6c
 def jmp_indirect(cpu, logger):
-    oper = cpu.memory[cpu.PC()+1] + (cpu.memory[cpu.PC()+2]<<8)
+    LAST_BYTE = 0xFF
+
+    mem = cpu.memory[cpu.PC()+1] + (cpu.memory[cpu.PC()+2]<<8)
+
+    if (mem & LAST_BYTE) == LAST_BYTE:
+        high = cpu.memory[mem-LAST_BYTE]<<8
+    else:
+        high = cpu.memory[mem+1]<<8
+    low = cpu.memory[mem]
+
+    oper = low+high
+
     branch(cpu, logger, oper)
     logger.log_instruction(cpu)
 
 JSR = 0x20
 def jsr(cpu, logger):
-    LOW_ADDR = int(0xff)
+    LOW_ADDR = 0xff
+    HIGH_ADDR = 0xff00
+    STACK_END = 0x10ff
+
+    cpu.set_SP(STACK_END)
 
     # push PC+3
-    hight = (cpu.PC()+2)>>8
+    high = ((cpu.PC()+2) & HIGH_ADDR)>>8
     low = (cpu.PC()+2) & LOW_ADDR
-    cpu.set_SP(cpu.SP() + 1)
-    cpu.memory[cpu.SP()] = hight
-    cpu.set_SP(cpu.SP() + 1)
+    cpu.memory[cpu.SP()] = high
+    cpu.set_SP((cpu.SP()-1) % 256)
     cpu.memory[cpu.SP()] = low
+    cpu.set_SP((cpu.SP()-1) % 256)
 
     #print("%00x" % (hight))
     #print("%00x" % (low))
@@ -128,11 +143,11 @@ def jsr(cpu, logger):
 
 RTS = 0x60
 def rts(cpu, logger):
-    pc = cpu.memory[cpu.SP()] + (cpu.memory[cpu.SP()-1]<<8)
+    pc = cpu.memory[cpu.SP()+1] + (cpu.memory[cpu.SP()+2]<<8)
     #print("%0000x" % (pc))
 
     # decrement SP
-    cpu.set_SP(cpu.SP()-2)
+    cpu.set_SP(cpu.SP()+2)
 
     cpu.set_PC(pc+1)
     logger.log_instruction(cpu)
