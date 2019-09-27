@@ -484,6 +484,18 @@ class TestArithmetic(unittest.TestCase):
       self.assertEqual(cpu.zero(), 0)
       self.assertEqual(cpu.carry(), 0)
 
+    def test_dex(self):
+      cpu = CreateTestCpu()
+      cpu.clear_carry()
+      cpu.set_X(0x01);
+
+      execute_instruction(cpu, opcode=DEX)
+
+      self.assertEqual(cpu.X(), 0x00)
+      self.assertEqual(cpu.negative(), 0)
+      self.assertEqual(cpu.zero(), 1)
+      self.assertEqual(cpu.carry(), 0)
+
 
 if __name__ == '__main__':
     unittest.main()

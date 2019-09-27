@@ -124,6 +124,14 @@ def dec_absolute_x(cpu, logger):
   addr = get_absolute_x_addr(cpu)
   dec(cpu, logger, addr)
 
+DEX = 0xCA
+def dex(cpu, logger):
+    result = (cpu.X() - 1) % 256
+    cpu.set_X(result)
+    cpu.set_zero_iff(result == 0)
+    cpu.set_negative_iff(is_negative(result))
+    logger.log_instruction(cpu)
+
 def dec(cpu, logger, addr):
   result =   (cpu.memory[addr] - 1) % 256
   cpu.memory[addr] = result

@@ -497,9 +497,6 @@ def iny(cpu, logger):
     # to be implemented OPCODE c8
     raise NotImplementedError()
 
-def dex(cpu, logger):
-    # to be implemented OPCODE ca
-    raise NotImplementedError()
 
 def instruction_cb(cpu, logger):
     # to be implemented OPCODE cb
@@ -849,7 +846,6 @@ instructions[195] = instruction_c3
 instructions[196] = cpy_zeropage
 instructions[199] = instruction_c7
 instructions[200] = iny
-instructions[202] = dex
 instructions[203] = instruction_cb
 instructions[204] = cpy_absolute
 instructions[207] = instruction_cf
@@ -915,10 +911,13 @@ instructions[CPX_ZEROPAGE] = cpx_zeropage
 CPX_ABSOLUTE = 0xEC
 instructions[CPX_ABSOLUTE] = cpx_absolute
 
-instructions[198] = dec_zeropage
-instructions[206] = dec_absolute
-instructions[214] = dec_zeropage_x
-instructions[222] = dec_absolute_x
+instructions[DEC_ZEROPAGE] = dec_zeropage
+instructions[DEC_ABSOLUTE] = dec_absolute
+instructions[DEC_ZEROPAGE_X] = dec_zeropage_x
+instructions[DEC_ABSOLUTE_X] = dec_absolute_x
+
+instructions[DEX] = dex
+
 
 
 instructions[AND_IMMEDIATE] = and_immediate
