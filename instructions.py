@@ -51,9 +51,6 @@ def instruction_07(cpu, logger):
     # to be implemented OPCODE 07
     raise NotImplementedError()
 
-def php(cpu, logger):
-    # to be implemented OPCODE 08
-    raise NotImplementedError()
 
 
 
@@ -132,9 +129,6 @@ def instruction_27(cpu, logger):
     # to be implemented OPCODE 27
     raise NotImplementedError()
 
-def plp(cpu, logger):
-    # to be implemented OPCODE 28
-    raise NotImplementedError()
 
 def instruction_29(cpu, logger):
     # to be implemented OPCODE 29
@@ -226,9 +220,6 @@ def instruction_47(cpu, logger):
     # to be implemented OPCODE 47
     raise NotImplementedError()
 
-def pha(cpu, logger):
-    # to be implemented OPCODE 48
-    raise NotImplementedError()
 
 
 
@@ -298,9 +289,6 @@ def instruction_67(cpu, logger):
     # to be implemented OPCODE 67
     raise NotImplementedError()
 
-def pla(cpu, logger):
-    # to be implemented OPCODE 68
-    raise NotImplementedError()
 
 
 def instruction_6b(cpu, logger):
@@ -588,7 +576,7 @@ instructions[4] = instruction_04
 instructions[ORA_ZERO_PAGE] = ora_zeropage
 instructions[ASL_ZERO_PAGE] = asl_zeropage
 instructions[7] = instruction_07
-instructions[8] = php
+instructions[PHP] = php
 instructions[ORA_IMMEDIATE] = ora_immediate
 instructions[ASL_ACCUMULATOR] = asl_accumulator
 instructions[11] = instruction_0b
@@ -620,7 +608,7 @@ instructions[BIT_ZEROPAGE] = bit_zeropage
 instructions[37] = instruction_25
 instructions[ROL_ZERO_PAGE] = rol_zeropage
 instructions[39] = instruction_27
-instructions[40] = plp
+instructions[PLP] = plp
 instructions[41] = instruction_29
 instructions[ROL_ACCUMULATOR] = rol_accumulator
 instructions[43] = instruction_2b
@@ -652,7 +640,7 @@ instructions[68] = instruction_44
 instructions[EOR_ZERO_PAGE] = eor_zeropage
 instructions[LSR_ZERO_PAGE] = lsr_zeropage
 instructions[71] = instruction_47
-instructions[72] = pha
+instructions[PHA] = pha
 instructions[EOR_IMMEDIATE] = eor_immediate
 instructions[LSR_ACCUMULATOR] = lsr_accumulator
 instructions[75] = instruction_4b
@@ -682,7 +670,7 @@ instructions[99] = instruction_63
 instructions[100] = instruction_64
 instructions[ROR_ZERO_PAGE] = ror_zeropage
 instructions[103] = instruction_67
-instructions[104] = pla
+instructions[PLA] = pla
 instructions[ROR_ACCUMULATOR] = ror_accumulator
 instructions[107] = instruction_6b
 instructions[108] = jmp_indirect
