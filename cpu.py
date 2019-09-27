@@ -1,4 +1,4 @@
-from memory_mapper import RESET_VECTOR, MEMORY_SIZE
+from memory_mapper import RESET_VECTOR, IRQ_VECTOR, NMI_VECTOR, MEMORY_SIZE
 
 
 # flag-related constants:
@@ -58,17 +58,30 @@ class Cpu():
 
     def trigger_NMI(self, source):
         # TODO: Find out how we should generate interrupts and test the interrupt mechanism.
-        raise NotImplementedError()
+        self.push_PC_and_P()
+        self.set_PC(self.memory_mapper.cpu_read_word(NMI_VECTOR))
 
     def Reset(self):
-
-        self.P_ = IRQ_DISABLE
-        self.PC_ = self.memory_mapper.cpu_read_word(RESET_VECTOR)
+        """Carry out the 2 guaranteed operations on a 6502 Reset."""
+        self.set_P(IRQ_DISABLE)
+        self.set_PC(self.memory_mapper.cpu_read_word(RESET_VECTOR))
 
     def trigger_IRQ(self, source):
         # TODO: Find out how we should generate interrupts and test the interrupt mechanism.
-        raise NotImplementedError()
+        if not self.irq_disable():
+            self.push_PC_and_P()
+            self.set_PC(self.memory_mapper.cpu_read_word(IRQ_VECTOR))
 
+    # Various helper methods:
+
+    def push_PC_and_P(self):
+        """Carry out a push operation, placing PC hi at SP, PC lo at SP-1, P at SP-2, and setting SP -= 3."""
+        self.memory[self.SP()] = self.PC_hi()
+        self.set_SP((self.SP() - 1) % 256)
+        self.memory[self.SP()] = self.PC_lo()
+        self.set_SP((self.SP() - 1) % 256)
+        self.memory[self.SP()] = self.P()
+        self.set_SP((self.SP() - 1) % 256)
 
     # Accessors for the registers:
 
@@ -99,6 +112,10 @@ class Cpu():
 
     def PC(self):
         return self.PC_
+    def PC_hi(self):
+        return self.PC() >> 8
+    def PC_lo(self):
+        return self.PC() & 0xFF
     def set_PC(self, value):
         self.PC_ = value % MEMORY_SIZE
 
@@ -175,3 +192,7 @@ class Cpu():
     def carry(self):
         """Return value of the carry flag."""
         return 1 if (self.P_ & CARRY) else 0
+
+    def irq_disable(self):
+        """Return value of the interrupt disable flag."""
+        return 1 if (self.P_ & IRQ_DISABLE) else 0

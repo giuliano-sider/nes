@@ -17,7 +17,7 @@ def lda_zeropage(cpu, logger):
     cpu.set_zero_iff(content == 0x00)
     cpu.set_negative_iff(utils.is_negative(content))
     cpu.set_A(content)
-    logger.log_instruction(cpu)
+    logger.log_memory_access_instruction(cpu, address_8bit, content)
 
 LDA_ABSOLUTE = 0xAD
 def lda_absolute(cpu, logger):

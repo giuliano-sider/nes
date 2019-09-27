@@ -3,4 +3,3 @@
 | pc = 0xc010 | a = 0x007f  | x = 0x0000 | y = 0x0000 | sp = 0x0002 | p[NV-BDIZC] = 01000101 |
 | pc = 0xc003 | a = 0x007f  | x = 0x0000 | y = 0x0000 | sp = 0x0000 | p[NV-BDIZC] = 01000101 |
 | pc = 0xc00b | a = 0x007f  | x = 0x0000 | y = 0x0000 | sp = 0x0000 | p[NV-BDIZC] = 01000101 |
-| pc = 0xc00b | a = 0x007f  | x = 0x0000 | y = 0x0000 | sp = 0x0000 | p[NV-BDIZC] = 01010101 |

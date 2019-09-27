@@ -1,9 +1,11 @@
 from nes_cpu_utils import is_negative, is_overflow, twos_comp
-from Instructions.arithmetics_instructions import * 
+from nes_cpu_utils import is_negative, is_overflow, twos_comp
+from Instructions.arithmetics_instructions import *
 from Instructions.load_instructions import *
 from Instructions.store_instructions import *
 from Instructions.control_flow_instructions import *
 from Instructions.logical_instructions import *
+from Instructions.misc_instructions import *
 
 def InstructionNotImplemented(*args):
     raise NotImplementedError('Instruction currently unimplemented')
@@ -26,7 +28,6 @@ def brk(cpu, logger):
         raise NotImplementedError()
     else:
         cpu.set_break()
-        logger.log_instruction(cpu)
 
 instructions[BRK] = brk
 
@@ -89,12 +90,7 @@ def instruction_17(cpu, logger):
     # to be implemented OPCODE 17
     raise NotImplementedError()
 
-CLC = 0x18
-def clc(cpu, logger):
-    if cpu.carry() == 1:
-        cpu.clear_carry()
-    cpu.set_PC(cpu.PC()+1)
-    logger.log_instruction(cpu)
+
 
 
 def instruction_1a(cpu, logger):
@@ -183,12 +179,7 @@ def instruction_37(cpu, logger):
     # to be implemented OPCODE 37
     raise NotImplementedError()
 
-SEC = 0x38
-def sec(cpu, logger):
-    if cpu.carry() == 0:
-        cpu.set_carry()
-    cpu.set_PC(cpu.PC()+1)
-    logger.log_instruction(cpu)
+
 
 def instruction_39(cpu, logger):
     # to be implemented OPCODE 39
@@ -215,9 +206,6 @@ def instruction_3f(cpu, logger):
     # to be implemented OPCODE 3f
     raise NotImplementedError()
 
-def rti(cpu, logger):
-    # to be implemented OPCODE 40
-    raise NotImplementedError()
 
 
 def instruction_42(cpu, logger):
@@ -273,10 +261,6 @@ def instruction_57(cpu, logger):
     # to be implemented OPCODE 57
     raise NotImplementedError()
 
-CLI = 0x58
-def cli(cpu, logger):
-    cpu.clear_irq_disable()
-    cpu.set_PC(cpu.PC() + 1)
 
 
 def instruction_5a(cpu, logger):
@@ -345,11 +329,7 @@ def instruction_77(cpu, logger):
     # to be implemented OPCODE 77
     raise NotImplementedError()
 
-SEI = 0x78
-def sei(cpu, logger):
-    # to be implemented OPCODE 78
-    cpu.set_irq_disable()
-    cpu.set_PC(cpu.PC() + 1)
+
 
 def instruction_7a(cpu, logger):
     # to be implemented OPCODE 7a
@@ -388,21 +368,12 @@ def instruction_87(cpu, logger):
     # to be implemented OPCODE 87
     raise NotImplementedError()
 
-def dey(cpu, logger):
-    # to be implemented OPCODE 88
-    raise NotImplementedError()
 
 def instruction_89(cpu, logger):
     # to be implemented OPCODE 89
     raise NotImplementedError()
 
-TXA = 0x8A
-def txa(cpu, logger):
-    cpu.set_A(cpu.X())
-    cpu.set_negative_iff(is_negative(cpu.X()))
-    cpu.set_zero_iff(cpu.X() == 0)
 
-    cpu.set_PC(cpu.PC() + 1)
 
 def instruction_8b(cpu, logger):
     # to be implemented OPCODE 8b
@@ -431,27 +402,6 @@ def instruction_97(cpu, logger):
     raise NotImplementedError()
 
 
-def instruction_98(cpu, logger):
-    # to be implemented OPCODE 98
-    raise NotImplementedError()
-
-TXS = 0x9A
-def txs(cpu, logger):
-    cpu.set_SP(cpu.X())
-    cpu.set_negative_iff(is_negative(cpu.X()))
-    cpu.set_zero_iff(cpu.X() == 0)
-
-    cpu.set_PC(cpu.PC() + 1)
-
-TYA = 0x9B
-def tya(cpu, logger):
-    # to be implemented OPCODE 9b
-    cpu.set_A(cpu.Y())
-    cpu.set_negative_iff(is_negative(cpu.Y()))
-    cpu.set_zero_iff(cpu.Y() == 0)
-
-    cpu.set_PC(cpu.PC() + 1)
-
 def instruction_9c(cpu, logger):
     # to be implemented OPCODE 9c
     raise NotImplementedError()
@@ -475,21 +425,6 @@ def instruction_a7(cpu, logger):
     # to be implemented OPCODE a7
     raise NotImplementedError()
 
-TAY = 0xA8
-def tay(cpu, logger):
-    cpu.set_Y(cpu.A())
-    cpu.set_negative_iff(is_negative(cpu.A()))
-    cpu.set_zero_iff(cpu.A() == 0)
-
-    cpu.set_PC(cpu.PC() + 1)
-
-TAX = 0xAA
-def tax(cpu, logger):
-    cpu.set_X(cpu.A())
-    cpu.set_negative_iff(is_negative(cpu.A()))
-    cpu.set_zero_iff(cpu.A() == 0)
-
-    cpu.set_PC(cpu.PC() + 1)
 
 def instruction_ab(cpu, logger):
     # to be implemented OPCODE ab
@@ -515,18 +450,7 @@ def instruction_b7(cpu, logger):
     # to be implemented OPCODE b7
     raise NotImplementedError()
 
-CLV = 0xB8
-def clv(cpu, logger):
-    cpu.clear_overflow()
-    cpu.set_PC(cpu.PC() + 1)
 
-TSX = 0xBA
-def tsx(cpu, logger):
-    cpu.set_X(cpu.SP())
-    cpu.set_negative_iff(is_negative(cpu.SP()))
-    cpu.set_zero_iff(cpu.SP() == 0)
-
-    cpu.set_PC(cpu.PC() + 1)
 
 def instruction_bb(cpu, logger):
     # to be implemented OPCODE bb
@@ -547,28 +471,16 @@ def instruction_c3(cpu, logger):
     raise NotImplementedError()
 
 
-def dec_zeropage(cpu, logger):
-    # to be implemented OPCODE c6
-    raise NotImplementedError()
 
 def instruction_c7(cpu, logger):
     # to be implemented OPCODE c7
     raise NotImplementedError()
 
-def iny(cpu, logger):
-    # to be implemented OPCODE c8
-    raise NotImplementedError()
-
-def dex(cpu, logger):
-    # to be implemented OPCODE ca
-    raise NotImplementedError()
 
 def instruction_cb(cpu, logger):
     # to be implemented OPCODE cb
     raise NotImplementedError()
 
-def dec_absolute(cpu, logger):
-    # to be implemented OPCODE ce
     raise NotImplementedError()
 
 def instruction_cf(cpu, logger):
@@ -588,18 +500,11 @@ def instruction_d4(cpu, logger):
     raise NotImplementedError()
 
 
-def dec_zeropage_x(cpu, logger):
-    # to be implemented OPCODE d6
-    raise NotImplementedError()
-
 def instruction_d7(cpu, logger):
     # to be implemented OPCODE d7
     raise NotImplementedError()
 
-CLD = 0xD8
-def cld(cpu, logger):
-    cpu.clear_decimal()
-    cpu.set_PC(cpu.PC() + 1)
+
 
 def instruction_da(cpu, logger):
     # to be implemented OPCODE da
@@ -611,10 +516,6 @@ def instruction_db(cpu, logger):
 
 def instruction_dc(cpu, logger):
     # to be implemented OPCODE dc
-    raise NotImplementedError()
-
-def dec_absolute_x(cpu, logger):
-    # to be implemented OPCODE de
     raise NotImplementedError()
 
 def instruction_df(cpu, logger):
@@ -633,25 +534,12 @@ def instruction_e3(cpu, logger):
     # to be implemented OPCODE e3
     raise NotImplementedError()
 
-def sbc_zeropage(cpu, logger):
-    # to be implemented OPCODE e5
-    raise NotImplementedError()
 
-def inc_zeropage(cpu, logger):
-    # to be implemented OPCODE e6
-    raise NotImplementedError()
 
 def instruction_e7(cpu, logger):
     # to be implemented OPCODE e7
     raise NotImplementedError()
 
-def inx(cpu, logger):
-    # to be implemented OPCODE e8
-    raise NotImplementedError()
-
-def sbc_immediate(cpu, logger):
-    # to be implemented OPCODE e9
-    raise NotImplementedError()
 
 def nop(cpu, logger):
     # to be implemented OPCODE ea
@@ -661,21 +549,11 @@ def instruction_eb(cpu, logger):
     # to be implemented OPCODE eb
     raise NotImplementedError()
 
-def sbc_absolute(cpu, logger):
-    # to be implemented OPCODE ed
-    raise NotImplementedError()
-
-def inc_absolute(cpu, logger):
-    # to be implemented OPCODE ee
-    raise NotImplementedError()
 
 def instruction_ef(cpu, logger):
     # to be implemented OPCODE ef
     raise NotImplementedError()
 
-def sbc_indirect_y(cpu, logger):
-    # to be implemented OPCODE f1
-    raise NotImplementedError()
 
 def instruction_f2(cpu, logger):
     # to be implemented OPCODE f2
@@ -689,26 +567,12 @@ def instruction_f4(cpu, logger):
     # to be implemented OPCODE f4
     raise NotImplementedError()
 
-def sbc_zeropage_x(cpu, logger):
-    # to be implemented OPCODE f5
-    raise NotImplementedError()
 
-def inc_zeropage_x(cpu, logger):
-    # to be implemented OPCODE f6
-    raise NotImplementedError()
 
 def instruction_f7(cpu, logger):
     # to be implemented OPCODE f7
     raise NotImplementedError()
 
-SED = 0xF8
-def sed(cpu, logger):
-    cpu.set_decimal()
-    cpu.set_PC(cpu.PC() + 1)
-
-def sbc_absolute_y(cpu, logger):
-    # to be implemented OPCODE f9
-    raise NotImplementedError()
 
 def instruction_fa(cpu, logger):
     # to be implemented OPCODE fa
@@ -720,14 +584,6 @@ def instruction_fb(cpu, logger):
 
 def instruction_fc(cpu, logger):
     # to be implemented OPCODE fc
-    raise NotImplementedError()
-
-def sbc_absolute_x(cpu, logger):
-    # to be implemented OPCODE fd
-    raise NotImplementedError()
-
-def inc_absolute_x(cpu, logger):
-    # to be implemented OPCODE fe
     raise NotImplementedError()
 
 
@@ -859,7 +715,6 @@ instructions[132] = sty_zeropage
 instructions[133] = sta_zeropage
 instructions[134] = stx_zeropage
 instructions[135] = instruction_87
-instructions[136] = dey
 instructions[137] = instruction_89
 instructions[TXA] = txa
 instructions[139] = instruction_8b
@@ -875,7 +730,7 @@ instructions[148] = sty_zeropage_x
 instructions[149] = sta_zeropage_x
 instructions[150] = stx_zeropage_y
 instructions[151] = instruction_97
-instructions[152] = instruction_98
+instructions[TYA] = tya
 instructions[153] = sta_absolute_y
 instructions[TXS] = txs
 instructions[TYA] = tya
@@ -917,53 +772,35 @@ instructions[190] = ldx_absolute_y
 instructions[191] = instruction_bf
 instructions[194] = instruction_c2
 instructions[195] = instruction_c3
-instructions[198] = dec_zeropage
 instructions[199] = instruction_c7
-instructions[200] = iny
-instructions[202] = dex
 instructions[203] = instruction_cb
-instructions[206] = dec_absolute
 instructions[207] = instruction_cf
 instructions[208] = bne
 instructions[210] = instruction_d2
 instructions[211] = instruction_d3
 instructions[212] = instruction_d4
-instructions[214] = dec_zeropage_x
 instructions[215] = instruction_d7
 instructions[CLD] = cld
 instructions[218] = instruction_da
 instructions[219] = instruction_db
 instructions[220] = instruction_dc
-instructions[222] = dec_absolute_x
 instructions[223] = instruction_df
 instructions[225] = sbs_indirect_x
 instructions[226] = instruction_e2
 instructions[227] = instruction_e3
-instructions[229] = sbc_zeropage
-instructions[230] = inc_zeropage
 instructions[231] = instruction_e7
-instructions[232] = inx
-instructions[233] = sbc_immediate
 instructions[234] = nop
 instructions[235] = instruction_eb
-instructions[237] = sbc_absolute
-instructions[238] = inc_absolute
 instructions[239] = instruction_ef
 instructions[240] = beq
-instructions[241] = sbc_indirect_y
 instructions[242] = instruction_f2
 instructions[243] = instruction_f3
 instructions[244] = instruction_f4
-instructions[245] = sbc_zeropage_x
-instructions[246] = inc_zeropage_x
 instructions[247] = instruction_f7
 instructions[SED] = sed
-instructions[249] = sbc_absolute_y
 instructions[250] = instruction_fa
 instructions[251] = instruction_fb
 instructions[252] = instruction_fc
-instructions[253] = sbc_absolute_x
-instructions[254] = inc_absolute_x
 
 instructions[ADC_IMMEDIATE] = adc_immediate
 instructions[ADC_ZEROPAGE] = adc_zeropage
@@ -987,6 +824,29 @@ instructions[CPX_ABSOLUTE] = cpx_absolute
 instructions[CPY_IMMEDIATE] = cpy_immediate
 instructions[CPY_ZEROPAGE] = cpy_zeropage
 instructions[CPY_ABSOLUTE] = cpy_absolute
+
+instructions[DEC_ZEROPAGE] = dec_zeropage
+instructions[DEC_ABSOLUTE] = dec_absolute
+instructions[DEC_ZEROPAGE_X] = dec_zeropage_x
+instructions[DEC_ABSOLUTE_X] = dec_absolute_x
+instructions[DEX] = dex
+instructions[DEY] = dey
+
+
+instructions[INC_ZEROPAGE] = inc_zeropage
+instructions[INC_ZEROPAGE_X] = inc_zeropage_x
+instructions[INC_ABSOLUTE] = inc_absolute
+instructions[INC_ABSOLUTE_X] = inc_absolute_x
+instructions[INX] = inx
+instructions[INY] = iny
+instructions[SBC_ZEROPAGE] = sbc_zeropage
+instructions[SBC_IMMEDIATE] = sbc_immediate
+instructions[SBC_ABSOLUTE] = sbc_absolute
+instructions[SBC_INDIRECT_X] = sbc_indirect_y
+instructions[SBC_INDIRECT_Y] = sbc_indirect_x
+instructions[SBC_ZEROPAGE_X] = sbc_zeropage_x
+instructions[SBC_ABSOLUTE_Y] = sbc_absolute_y
+instructions[SBC_ABSOLUTE_X] = sbc_absolute_x
 
 
 instructions[AND_IMMEDIATE] = and_immediate
