@@ -32,6 +32,7 @@ def brk(cpu, logger):
 instructions[BRK] = brk
 
 
+# Undocumented opcodes:
 
 def instruction_02(cpu, logger):
     # to be implemented OPCODE 02
@@ -567,54 +568,34 @@ def instruction_fc(cpu, logger):
     # to be implemented OPCODE fc
     raise NotImplementedError()
 
+# End of undocumented opcodes.
 
 
-instructions[ORA_INDIRECT_X] = ora_indirect_x
 instructions[2] = instruction_02
 instructions[3] = instruction_03
 instructions[4] = instruction_04
-instructions[ORA_ZERO_PAGE] = ora_zeropage
-instructions[ASL_ZERO_PAGE] = asl_zeropage
 instructions[7] = instruction_07
-instructions[PHP] = php
-instructions[ORA_IMMEDIATE] = ora_immediate
-instructions[ASL_ACCUMULATOR] = asl_accumulator
 instructions[11] = instruction_0b
 instructions[12] = instruction_0c
-instructions[ORA_ABSOLUTE] = ora_absolute
-instructions[ASL_ABSOLUTE] = asl_absolute
 instructions[15] = instruction_0f
 instructions[16] = bpl
-instructions[ORA_INDIRECT_Y] = ora_indirect_y
 instructions[18] = instruction_12
 instructions[19] = instruction_13
 instructions[20] = instruction_14
-instructions[ORA_ZERO_PAGE_X] = ora_zeropage_x
-instructions[ASL_ZERO_PAGE_X] = asl_zeropage_x
 instructions[23] = instruction_17
-instructions[CLC] = clc
-instructions[ORA_ABSOLUTE_Y] = ora_absolute_y
 instructions[26] = instruction_1a
 instructions[27] = instruction_1b
 instructions[28] = instruction_1c
-instructions[ORA_ABSOLUTE_X] = ora_absolute_x
-instructions[ASL_ABSOLUTE_X] = asl_absolute_x
 instructions[31] = instruction_1f
 instructions[32] = jsr
 instructions[33] = instruction_21
 instructions[34] = instruction_22
 instructions[35] = instruction_23
-instructions[BIT_ZEROPAGE] = bit_zeropage
 instructions[37] = instruction_25
-instructions[ROL_ZERO_PAGE] = rol_zeropage
 instructions[39] = instruction_27
-instructions[PLP] = plp
 instructions[41] = instruction_29
-instructions[ROL_ACCUMULATOR] = rol_accumulator
 instructions[43] = instruction_2b
-instructions[BIT_ABSOLUTE] = bit_absolute
 instructions[45] = instruction_2d
-instructions[ROL_ABSOLUTE] = rol_absolute
 instructions[47] = instruction_2f
 instructions[48] = bmi
 instructions[49] = instruction_31
@@ -622,71 +603,46 @@ instructions[50] = instruction_32
 instructions[51] = instruction_33
 instructions[52] = instruction_34
 instructions[53] = instruction_35
-instructions[ROL_ZERO_PAGE_X] = rol_zeropage_x
 instructions[55] = instruction_37
-instructions[SEC] = sec
 instructions[57] = instruction_39
 instructions[58] = instruction_3a
 instructions[59] = instruction_3b
 instructions[60] = instruction_3c
 instructions[61] = instruction_3d
-instructions[ROL_ABSOLUTE_X] = rol_absolute_x
 instructions[63] = instruction_3f
 instructions[64] = rti
-instructions[EOR_INDIRECT_X] = eor_indirect_x
 instructions[66] = instruction_42
 instructions[67] = instruction_43
 instructions[68] = instruction_44
-instructions[EOR_ZERO_PAGE] = eor_zeropage
-instructions[LSR_ZERO_PAGE] = lsr_zeropage
 instructions[71] = instruction_47
-instructions[PHA] = pha
-instructions[EOR_IMMEDIATE] = eor_immediate
-instructions[LSR_ACCUMULATOR] = lsr_accumulator
 instructions[75] = instruction_4b
 instructions[76] = jmp_absolute
-instructions[EOR_ABSOLUTE] = eor_absolute
-instructions[LSR_ABSOLUTE] = lsr_absolute
 instructions[79] = instruction_4f
 instructions[80] = bvc
-instructions[EOR_INDIRECT_Y] = eor_indirect_y
 instructions[82] = instruction_52
 instructions[83] = instruction_53
 instructions[84] = instruction_54
-instructions[EOR_ZERO_PAGE_X] = eor_zeropage_x
-instructions[LSR_ZERO_PAGE_X] = lsr_zeropage_x
 instructions[87] = instruction_57
-instructions[CLI] = cli
-instructions[EOR_ABSOLUTE_Y] = eor_absolute_y
 instructions[90] = instruction_5a
 instructions[91] = instruction_5b
 instructions[92] = instruction_5c
-instructions[EOR_ABSOLUTE_X] = eor_absolute_x
-instructions[LSR_ABSOLUTE_X] = lsr_absolute_x
 instructions[95] = instruction_5f
 instructions[96] = rts
 instructions[98] = instruction_62
 instructions[99] = instruction_63
 instructions[100] = instruction_64
-instructions[ROR_ZERO_PAGE] = ror_zeropage
 instructions[103] = instruction_67
-instructions[PLA] = pla
-instructions[ROR_ACCUMULATOR] = ror_accumulator
 instructions[107] = instruction_6b
 instructions[108] = jmp_indirect
-instructions[ROR_ABSOLUTE] = ror_absolute
 instructions[111] = instruction_6f
 instructions[112] = bvs
 instructions[114] = instruction_72
 instructions[115] = instruction_73
 instructions[116] = instruction_74
-instructions[ROR_ZERO_PAGE_X] = ror_zeropage_x
 instructions[119] = instruction_77
-instructions[SEI] = sei
 instructions[122] = instruction_7a
 instructions[123] = instruction_7b
 instructions[124] = instruction_7c
-instructions[ROR_ABSOLUTE_X] = ror_absolute_x
 instructions[127] = instruction_7f
 instructions[128] = instruction_80
 instructions[129] = sta_indirect_x
@@ -697,7 +653,6 @@ instructions[133] = sta_zeropage
 instructions[134] = stx_zeropage
 instructions[135] = instruction_87
 instructions[137] = instruction_89
-instructions[TXA] = txa
 instructions[139] = instruction_8b
 instructions[140] = sty_absolute
 instructions[STA_ABSOLUTE] = sta_absolute
@@ -711,10 +666,7 @@ instructions[148] = sty_zeropage_x
 instructions[149] = sta_zeropage_x
 instructions[150] = stx_zeropage_y
 instructions[151] = instruction_97
-instructions[TYA] = tya
 instructions[153] = sta_absolute_y
-instructions[TXS] = txs
-instructions[TYA] = tya
 instructions[156] = instruction_9c
 instructions[157] = sta_absolute_x
 instructions[158] = instruction_9e
@@ -727,9 +679,7 @@ instructions[164] = ldy_zeropage
 instructions[LDA_ZEROPAGE] = lda_zeropage
 instructions[166] = ldx_zeropage
 instructions[167] = instruction_a7
-instructions[TAY] = tay
 instructions[LDA_IMMEDIATE] = lda_immediate
-instructions[TAX] = tax
 instructions[171] = instruction_ab
 instructions[172] = ldy_absolute
 instructions[173] = lda_absolute
@@ -743,9 +693,7 @@ instructions[180] = ldy_zeropage_x
 instructions[181] = lda_zeropage_x
 instructions[182] = ldx_zeropage_y
 instructions[183] = instruction_b7
-instructions[CLV] = clv
 instructions[185] = lda_absolute_y
-instructions[TSX] = tsx
 instructions[187] = instruction_bb
 instructions[188] = ldy_absolute_x
 instructions[189] = lda_absolute_x
@@ -761,7 +709,6 @@ instructions[210] = instruction_d2
 instructions[211] = instruction_d3
 instructions[212] = instruction_d4
 instructions[215] = instruction_d7
-instructions[CLD] = cld
 instructions[218] = instruction_da
 instructions[219] = instruction_db
 instructions[220] = instruction_dc
@@ -769,7 +716,6 @@ instructions[223] = instruction_df
 instructions[226] = instruction_e2
 instructions[227] = instruction_e3
 instructions[231] = instruction_e7
-instructions[234] = nop
 instructions[235] = instruction_eb
 instructions[239] = instruction_ef
 instructions[240] = beq
@@ -777,10 +723,38 @@ instructions[242] = instruction_f2
 instructions[243] = instruction_f3
 instructions[244] = instruction_f4
 instructions[247] = instruction_f7
-instructions[SED] = sed
 instructions[250] = instruction_fa
 instructions[251] = instruction_fb
 instructions[252] = instruction_fc
+
+
+instructions[NOP] = nop
+
+instructions[TAY] = tay
+instructions[TYA] = tya
+
+instructions[TXS] = txs
+instructions[TSX] = tsx
+
+instructions[TAX] = tax
+instructions[TXA] = txa
+
+instructions[SED] = sed
+instructions[CLD] = cld
+
+instructions[SEC] = sec
+instructions[CLC] = clc
+
+instructions[SEI] = sei
+instructions[CLI] = cli
+
+instructions[CLV] = clv
+
+instructions[PHP] = php
+instructions[PLP] = plp
+instructions[PHA] = pha
+instructions[PLA] = pla
+
 
 instructions[ADC_IMMEDIATE] = adc_immediate
 instructions[ADC_ZEROPAGE] = adc_zeropage
@@ -829,6 +803,9 @@ instructions[SBC_ABSOLUTE_Y] = sbc_absolute_y
 instructions[SBC_ABSOLUTE_X] = sbc_absolute_x
 
 
+instructions[BIT_ZEROPAGE] = bit_zeropage
+instructions[BIT_ABSOLUTE] = bit_absolute
+
 instructions[AND_IMMEDIATE] = and_immediate
 instructions[AND_ZERO_PAGE] = and_zeropage
 instructions[AND_ZERO_PAGE_X] = and_zeropage_x
@@ -837,3 +814,45 @@ instructions[AND_ABSOLUTE_X] = and_absolute_x
 instructions[AND_ABSOLUTE_Y] = and_absolute_y
 instructions[AND_INDIRECT_X] = and_indirect_x
 instructions[AND_INDIRECT_Y] = and_indirect_y
+
+instructions[ORA_IMMEDIATE] = ora_immediate
+instructions[ORA_ZERO_PAGE] = ora_zeropage
+instructions[ORA_ZERO_PAGE_X] = ora_zeropage_x
+instructions[ORA_ABSOLUTE] = ora_absolute
+instructions[ORA_ABSOLUTE_X] = ora_absolute_x
+instructions[ORA_ABSOLUTE_Y] = ora_absolute_y
+instructions[ORA_INDIRECT_X] = ora_indirect_x
+instructions[ORA_INDIRECT_Y] = ora_indirect_y
+
+instructions[EOR_IMMEDIATE] = eor_immediate
+instructions[EOR_ZERO_PAGE] = eor_zeropage
+instructions[EOR_ZERO_PAGE_X] = eor_zeropage_x
+instructions[EOR_ABSOLUTE] = eor_absolute
+instructions[EOR_ABSOLUTE_X] = eor_absolute_x
+instructions[EOR_ABSOLUTE_Y] = eor_absolute_y
+instructions[EOR_INDIRECT_X] = eor_indirect_x
+instructions[EOR_INDIRECT_Y] = eor_indirect_y
+
+instructions[ASL_ACCUMULATOR] = asl_accumulator
+instructions[ASL_ZERO_PAGE] = asl_zeropage
+instructions[ASL_ZERO_PAGE_X] = asl_zeropage_x
+instructions[ASL_ABSOLUTE] = asl_absolute
+instructions[ASL_ABSOLUTE_X] = asl_absolute_x
+
+instructions[LSR_ACCUMULATOR] = lsr_accumulator
+instructions[LSR_ZERO_PAGE] = lsr_zeropage
+instructions[LSR_ZERO_PAGE_X] = lsr_zeropage_x
+instructions[LSR_ABSOLUTE] = lsr_absolute
+instructions[LSR_ABSOLUTE_X] = lsr_absolute_x
+
+instructions[ROL_ACCUMULATOR] = rol_accumulator
+instructions[ROL_ZERO_PAGE] = rol_zeropage
+instructions[ROL_ZERO_PAGE_X] = rol_zeropage_x
+instructions[ROL_ABSOLUTE] = rol_absolute
+instructions[ROL_ABSOLUTE_X] = rol_absolute_x
+
+instructions[ROR_ACCUMULATOR] = ror_accumulator
+instructions[ROR_ZERO_PAGE] = ror_zeropage
+instructions[ROR_ZERO_PAGE_X] = ror_zeropage_x
+instructions[ROR_ABSOLUTE] = ror_absolute
+instructions[ROR_ABSOLUTE_X] = ror_absolute_x
