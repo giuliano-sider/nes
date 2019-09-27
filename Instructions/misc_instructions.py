@@ -107,7 +107,7 @@ def clc(cpu, logger):
 NOP = 0xEA
 def nop(cpu, logger):
     cpu.set_PC(cpu.PC() + 1)
-    logger.log_instruction()
+    logger.log_instruction(cpu)
 
 
 PHP = 0x08 # excellent language
@@ -115,26 +115,26 @@ def php(cpu, logger):
     cpu.push(cpu.P())
 
     cpu.set_PC(cpu.PC() + 1)
-    logger.log_instruction()
+    logger.log_instruction(cpu)
 
 PLP = 0x28
 def plp(cpu, logger):
     cpu.set_P(cpu.pull())
 
     cpu.set_PC(cpu.PC() + 1)
-    logger.log_instruction()
+    logger.log_instruction(cpu)
 
 PHA = 0x48
 def pha(cpu, logger):
     cpu.push(cpu.A())
 
     cpu.set_PC(cpu.PC() + 1)
-    logger.log_instruction()
+    logger.log_instruction(cpu)
 
 PLA = 0x68
 def pla(cpu, logger):
     cpu.set_A(cpu.pull())
 
     cpu.set_PC(cpu.PC() + 1)
-    logger.log_instruction()
+    logger.log_instruction(cpu)
 
