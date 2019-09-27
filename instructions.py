@@ -490,10 +490,6 @@ def instruction_c7(cpu, logger):
     # to be implemented OPCODE c7
     raise NotImplementedError()
 
-def iny(cpu, logger):
-    # to be implemented OPCODE c8
-    raise NotImplementedError()
-
 
 def instruction_cb(cpu, logger):
     # to be implemented OPCODE cb
@@ -558,22 +554,12 @@ def instruction_e3(cpu, logger):
     # to be implemented OPCODE e3
     raise NotImplementedError()
 
-def sbc_zeropage(cpu, logger):
-    # to be implemented OPCODE e5
-    raise NotImplementedError()
 
 
 def instruction_e7(cpu, logger):
     # to be implemented OPCODE e7
     raise NotImplementedError()
 
-def inx(cpu, logger):
-    # to be implemented OPCODE e8
-    raise NotImplementedError()
-
-def sbc_immediate(cpu, logger):
-    # to be implemented OPCODE e9
-    raise NotImplementedError()
 
 def nop(cpu, logger):
     # to be implemented OPCODE ea
@@ -583,18 +569,11 @@ def instruction_eb(cpu, logger):
     # to be implemented OPCODE eb
     raise NotImplementedError()
 
-def sbc_absolute(cpu, logger):
-    # to be implemented OPCODE ed
-    raise NotImplementedError()
-
 
 def instruction_ef(cpu, logger):
     # to be implemented OPCODE ef
     raise NotImplementedError()
 
-def sbc_indirect_y(cpu, logger):
-    # to be implemented OPCODE f1
-    raise NotImplementedError()
 
 def instruction_f2(cpu, logger):
     # to be implemented OPCODE f2
@@ -608,21 +587,12 @@ def instruction_f4(cpu, logger):
     # to be implemented OPCODE f4
     raise NotImplementedError()
 
-def sbc_zeropage_x(cpu, logger):
-    # to be implemented OPCODE f5
-    raise NotImplementedError()
-
 
 
 def instruction_f7(cpu, logger):
     # to be implemented OPCODE f7
     raise NotImplementedError()
 
-
-
-def sbc_absolute_y(cpu, logger):
-    # to be implemented OPCODE f9
-    raise NotImplementedError()
 
 def instruction_fa(cpu, logger):
     # to be implemented OPCODE fa
@@ -636,9 +606,6 @@ def instruction_fc(cpu, logger):
     # to be implemented OPCODE fc
     raise NotImplementedError()
 
-def sbc_absolute_x(cpu, logger):
-    # to be implemented OPCODE fd
-    raise NotImplementedError()
 
 
 instructions[ORA_INDIRECT_X] = ora_indirect_x
@@ -828,7 +795,6 @@ instructions[194] = instruction_c2
 instructions[195] = instruction_c3
 instructions[196] = cpy_zeropage
 instructions[199] = instruction_c7
-instructions[200] = iny
 instructions[203] = instruction_cb
 instructions[204] = cpy_absolute
 instructions[207] = instruction_cf
@@ -845,27 +811,19 @@ instructions[223] = instruction_df
 instructions[225] = sbs_indirect_x
 instructions[226] = instruction_e2
 instructions[227] = instruction_e3
-instructions[229] = sbc_zeropage
 instructions[231] = instruction_e7
-instructions[232] = inx
-instructions[233] = sbc_immediate
 instructions[234] = nop
 instructions[235] = instruction_eb
-instructions[237] = sbc_absolute
 instructions[239] = instruction_ef
 instructions[240] = beq
-instructions[241] = sbc_indirect_y
 instructions[242] = instruction_f2
 instructions[243] = instruction_f3
 instructions[244] = instruction_f4
-instructions[245] = sbc_zeropage_x
 instructions[247] = instruction_f7
 instructions[SED] = sed
-instructions[249] = sbc_absolute_y
 instructions[250] = instruction_fa
 instructions[251] = instruction_fb
 instructions[252] = instruction_fc
-instructions[253] = sbc_absolute_x
 
 instructions[ADC_IMMEDIATE] = adc_immediate
 instructions[ADC_ZEROPAGE] = adc_zeropage
@@ -902,6 +860,16 @@ instructions[INC_ZEROPAGE] = inc_zeropage
 instructions[INC_ZEROPAGE_X] = inc_zeropage_x
 instructions[INC_ABSOLUTE] = inc_absolute
 instructions[INC_ABSOLUTE_X] = inc_absolute_x
+instructions[INX] = inx
+instructions[INY] = iny
+instructions[SBC_ZEROPAGE] = sbc_zeropage
+instructions[SBC_IMMEDIATE] = sbc_immediate
+instructions[SBC_ABSOLUTE] = sbc_absolute
+instructions[SBC_INDIRECT_X] = sbc_indirect_y
+instructions[SBC_INDIRECT_Y] = sbc_indirect_x
+instructions[SBC_ZEROPAGE_X] = sbc_zeropage_x
+instructions[SBC_ABSOLUTE_Y] = sbc_absolute_y
+instructions[SBC_ABSOLUTE_X] = sbc_absolute_x
 
 
 instructions[AND_IMMEDIATE] = and_immediate

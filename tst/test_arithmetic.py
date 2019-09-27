@@ -554,5 +554,55 @@ class TestArithmetic(unittest.TestCase):
       self.assertEqual(cpu.negative(), 0)
       self.assertEqual(cpu.zero(), 0)
 
+    def test_inx(self):
+      cpu = CreateTestCpu()
+      cpu.clear_carry()
+      cpu.set_X(0x01)
+
+      execute_instruction(cpu, opcode=INX)
+
+      self.assertEqual(cpu.X(), 0x02)
+      self.assertEqual(cpu.negative(), 0)
+      self.assertEqual(cpu.zero(), 0)
+
+    def test_INy(self):
+      cpu = CreateTestCpu()
+      cpu.clear_carry()
+      cpu.set_Y(0x02);
+
+      execute_instruction(cpu, opcode=INY)
+
+      self.assertEqual(cpu.Y(), 0x03)
+      self.assertEqual(cpu.negative(), 0)
+      self.assertEqual(cpu.zero(), 0)
+
+    def test_sbc_immediate(self):
+      cpu = CreateTestCpu()
+      cpu.clear_carry()
+      cpu.set_A(0x01)
+
+      # ADC #$10
+      execute_instruction(cpu, opcode=SBC_IMMEDIATE, op2_lo_byte=0x01)
+
+      self.assertEqual(cpu.A(), 0x00)
+      self.assertEqual(cpu.negative(), 0)
+      self.assertEqual(cpu.overflow(), 0)
+      self.assertEqual(cpu.zero(), 1)
+      self.assertEqual(cpu.carry(), 0)
+
+    def test_sbc_zeropage(self):
+      cpu = CreateTestCpu()
+      cpu.clear_carry()
+      cpu.set_A(0x02)
+      cpu.memory[0x10] = 0x01
+
+      execute_instruction(cpu, opcode=SBC_ZEROPAGE, op2_lo_byte=0x10)
+
+      self.assertEqual(cpu.A(), 0x01)
+      self.assertEqual(cpu.negative(), 0)
+      self.assertEqual(cpu.overflow(), 0)
+      self.assertEqual(cpu.zero(), 0)
+      self.assertEqual(cpu.carry(), 0)
+
 if __name__ == '__main__':
     unittest.main()

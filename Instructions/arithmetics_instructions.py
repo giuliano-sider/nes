@@ -169,9 +169,79 @@ def inc_absolute_x(cpu, logger):
   addr = get_absolute_x_addr(cpu)
   inc(cpu, logger, addr)
 
+INX = 0xE8
+def inx(cpu, logger):
+  result = (cpu.X() + 1) % 256
+  cpu.set_X(result)
+  cpu.set_zero_iff(result == 0)
+  cpu.set_negative_iff(is_negative(result))
+  logger.log_instruction(cpu)
+
+INY = 0xC8
+def iny(cpu, logger):
+  result = (cpu.Y() + 1) % 256
+  cpu.set_Y(result)
+  cpu.set_zero_iff(result == 0)
+  cpu.set_negative_iff(is_negative(result))
+  logger.log_instruction(cpu)
+
+
 def inc(cpu, logger, addr):
   result =   (cpu.memory[addr] + 1) % 256 #precisa?
   cpu.memory[addr] = result
   cpu.set_zero_iff(result == 0)
   cpu.set_negative_iff(is_negative(result))
+  logger.log_instruction(cpu)
+
+
+SBC_IMMEDIATE = 0xE9
+def sbc_immediate(cpu, logger):
+  op2 = get_immediate(cpu)
+  sbc(cpu, logger, op2)
+
+SBC_ZEROPAGE = 0xE5
+def sbc_zeropage(cpu, logger):
+  op2 = get_zeropage(cpu)
+  sbc(cpu, logger, op2)
+
+SBC_ZEROPAGE_X = 0xF5
+def sbc_zeropage_x(cpu, logger):
+  op2 = get_zeropage_x(cpu)
+  sdc(cpu, logger, op2)
+
+SBC_ABSOLUTE = 0xED
+def sbc_absolute(cpu, logger):
+  op2 = get_absolute(cpu)
+  sbc(cpu, logger, op2)
+
+SBC_ABSOLUTE_X = 0xFD
+def sbc_absolute_x(cpu, logger):
+  op2 = get_absolute_x(cpu)
+  sdc(cpu, logger, op2)
+
+SBC_ABSOLUTE_Y = 0xF9
+def sbc_absolute_y(cpu, logger):
+  op2 = get_absolute_y(cpu)
+  sdc(cpu, logger, op2)
+
+SBC_INDIRECT_X = 0xE1
+def sbc_indirect_x(cpu, logger):
+  op2 = get_indirect_x(cpu)
+  sdc(cpu, logger, op2)
+
+SBC_INDIRECT_Y = 0xF1
+def sbc_indirect_y(cpu, logger):
+  op2 = get_indirect_y(cpu)
+  sdc(cpu, logger, op2)
+
+def sbc(cpu, logger, op2):
+  op1 = cpu.A()
+  result = cpu.A() - op2 - cpu.carry()
+  cpu.set_A(result)
+
+  cpu.set_negative_iff(is_negative(cpu.A()))
+  cpu.set_overflow_iff(is_overflow(op1, op2, cpu.A()))
+  cpu.set_zero_iff(cpu.A() == 0)
+  cpu.set_carry_iff(result >= 256)
+
   logger.log_instruction(cpu)
