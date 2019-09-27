@@ -251,7 +251,7 @@ def sbc_zeropage(cpu, logger):
 SBC_ZEROPAGE_X = 0xF5
 def sbc_zeropage_x(cpu, logger):
   op2 = get_zeropage_x(cpu)
-  sdc(cpu, logger, op2)
+  sbc(cpu, logger, op2)
 
 SBC_ABSOLUTE = 0xED
 def sbc_absolute(cpu, logger):
@@ -261,22 +261,22 @@ def sbc_absolute(cpu, logger):
 SBC_ABSOLUTE_X = 0xFD
 def sbc_absolute_x(cpu, logger):
   op2 = get_absolute_x(cpu)
-  sdc(cpu, logger, op2)
+  sbc(cpu, logger, op2)
 
 SBC_ABSOLUTE_Y = 0xF9
 def sbc_absolute_y(cpu, logger):
   op2 = get_absolute_y(cpu)
-  sdc(cpu, logger, op2)
+  sbc(cpu, logger, op2)
 
 SBC_INDIRECT_X = 0xE1
 def sbc_indirect_x(cpu, logger):
   op2 = get_indirect_x(cpu)
-  sdc(cpu, logger, op2)
+  sbc(cpu, logger, op2)
 
 SBC_INDIRECT_Y = 0xF1
 def sbc_indirect_y(cpu, logger):
   op2 = get_indirect_y(cpu)
-  sdc(cpu, logger, op2)
+  sbc(cpu, logger, op2)
 
 def sbc(cpu, logger, op2):
   op1 = cpu.A()
