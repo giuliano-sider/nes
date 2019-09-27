@@ -102,7 +102,12 @@ def jmp_absolute(cpu, logger):
 
 JMP_INDIRECT = 0x6c
 def jmp_indirect(cpu, logger):
-    oper = cpu.memory[cpu.PC()+1] + (cpu.memory[cpu.PC()+2]<<8)
+    HIGH = int(0xff00)
+
+    mem = cpu.memory[cpu.PC()+1] + (cpu.memory[cpu.PC()+2]<<8)
+    content = cpu.memory[mem]
+    oper = (cpu.PC() & HIGH) + content
+
     branch(cpu, logger, oper)
     logger.log_instruction(cpu)
 

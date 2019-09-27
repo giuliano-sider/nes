@@ -45,7 +45,7 @@ MIRRORING = %0001 ;%0000 = horizontal, %0001 = vertical, %1000 = four-screen
 
 Reset:
                         ; PC = c000, V = 0, mem = c000
-    JMP ($e000)       ; PC = c00d, V = 0, mem = c000
+    JMP ($13c0)       ; PC = c00d, V = 0, mem = c000
 address_0:
     ADC #$FF            ; PC = c004, V = 0, mem = c003
     ADC #$80            ; PC = c006, V = 1, mem = c005
@@ -56,18 +56,16 @@ address_1:
     BRK                 ; Abort execution, mem = c00f
 
 address_2:
-    JMP ($e002)         ; PC = c002, V = 0, mem = c010
+    JMP address_1       ; PC = c002, V = 0, mem = c010
 address_3:
-    JMP ($e001)         ; PC = c00c, V = 1, mem = c013
+    JMP address_2       ; PC = c00c, V = 1, mem = c013
 
 
    .org $E000
 data_1:
-	.db #$13               ; mem = e000
+	.db $c0, $13        ; mem = e000, e001
 data_2:
-	.db #$10               ; mem = e001
-data_3:
-  .db #$0f               ; mem = e002
+	.db $c0, $0f        ; mem = e002, e003
 
 NMI:
 
