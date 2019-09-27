@@ -496,6 +496,63 @@ class TestArithmetic(unittest.TestCase):
       self.assertEqual(cpu.zero(), 1)
       self.assertEqual(cpu.carry(), 0)
 
+    def test_dey(self):
+      cpu = CreateTestCpu()
+      cpu.clear_carry()
+      cpu.set_Y(0x02);
+
+      execute_instruction(cpu, opcode=DEY)
+
+      self.assertEqual(cpu.Y(), 0x01)
+      self.assertEqual(cpu.negative(), 0)
+      self.assertEqual(cpu.zero(), 0)
+      self.assertEqual(cpu.carry(), 0)
+
+    def test_inc_zeropage(self):
+      cpu = CreateTestCpu()
+      cpu.clear_carry()
+      cpu.memory[0x10] = 0x02
+
+      execute_instruction(cpu, opcode=INC_ZEROPAGE, op2_lo_byte=0x10)
+
+      self.assertEqual(cpu.memory[0x10] , 0x03)
+      self.assertEqual(cpu.negative(), 0)
+      self.assertEqual(cpu.zero(), 0)
+
+    def test_inc_zeropagex(self):
+      cpu = CreateTestCpu()
+      cpu.clear_carry()
+      cpu.set_X(1)
+      cpu.memory[0x11] = 0x02
+
+      execute_instruction(cpu, opcode=INC_ZEROPAGE_X, op2_lo_byte=0x10)
+
+      self.assertEqual(cpu.memory[0x11] , 0x03)
+      self.assertEqual(cpu.negative(), 0)
+      self.assertEqual(cpu.zero(), 0)
+
+    def test_inc_absolute(self):
+      cpu = CreateTestCpu()
+      cpu.clear_carry()
+      cpu.memory[0x1100] = 0x00
+
+      execute_instruction(cpu, opcode=INC_ABSOLUTE, op2_lo_byte=0x00, op2_hi_byte=0x11)
+
+      self.assertEqual(cpu.memory[0x1100], 0x01)
+      self.assertEqual(cpu.negative(), 0)
+      self.assertEqual(cpu.zero(), 0)
+
+    def test_inc_absolute_x(self):
+      cpu = CreateTestCpu()
+      cpu.clear_carry()
+      cpu.set_X(1);
+      cpu.memory[0x1101] = 0x02
+
+      execute_instruction(cpu, opcode=INC_ABSOLUTE_X, op2_lo_byte=0x00, op2_hi_byte=0x11)
+
+      self.assertEqual(cpu.memory[0x1101], 0x03)
+      self.assertEqual(cpu.negative(), 0)
+      self.assertEqual(cpu.zero(), 0)
 
 if __name__ == '__main__':
     unittest.main()

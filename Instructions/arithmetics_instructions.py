@@ -132,8 +132,45 @@ def dex(cpu, logger):
     cpu.set_negative_iff(is_negative(result))
     logger.log_instruction(cpu)
 
+DEY = 0x88
+def dey(cpu, logger):
+  result = (cpu.Y() - 1) % 256
+  cpu.set_Y(result)
+  cpu.set_zero_iff(result == 0)
+  cpu.set_negative_iff(is_negative(result))
+  logger.log_instruction(cpu)
+
+
 def dec(cpu, logger, addr):
   result =   (cpu.memory[addr] - 1) % 256
+  cpu.memory[addr] = result
+  cpu.set_zero_iff(result == 0)
+  cpu.set_negative_iff(is_negative(result))
+  logger.log_instruction(cpu)
+
+
+INC_ZEROPAGE = 0xE6
+def inc_zeropage(cpu, logger):
+  addr = get_zeropage_addr(cpu)
+  inc(cpu, logger, addr)
+
+INC_ZEROPAGE_X = 0xF6
+def inc_zeropage_x(cpu, logger):
+  addr = get_zeropage_x_addr(cpu)
+  inc(cpu, logger, addr)
+
+INC_ABSOLUTE = 0xEE
+def inc_absolute(cpu, logger):
+  addr = get_absolute_addr(cpu)
+  inc(cpu, logger, addr)
+
+INC_ABSOLUTE_X = 0xFE
+def inc_absolute_x(cpu, logger):
+  addr = get_absolute_x_addr(cpu)
+  inc(cpu, logger, addr)
+
+def inc(cpu, logger, addr):
+  result =   (cpu.memory[addr] + 1) % 256 #precisa?
   cpu.memory[addr] = result
   cpu.set_zero_iff(result == 0)
   cpu.set_negative_iff(is_negative(result))

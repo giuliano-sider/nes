@@ -368,9 +368,6 @@ def instruction_87(cpu, logger):
     # to be implemented OPCODE 87
     raise NotImplementedError()
 
-def dey(cpu, logger):
-    # to be implemented OPCODE 88
-    raise NotImplementedError()
 
 def instruction_89(cpu, logger):
     # to be implemented OPCODE 89
@@ -565,9 +562,6 @@ def sbc_zeropage(cpu, logger):
     # to be implemented OPCODE e5
     raise NotImplementedError()
 
-def inc_zeropage(cpu, logger):
-    # to be implemented OPCODE e6
-    raise NotImplementedError()
 
 def instruction_e7(cpu, logger):
     # to be implemented OPCODE e7
@@ -593,9 +587,6 @@ def sbc_absolute(cpu, logger):
     # to be implemented OPCODE ed
     raise NotImplementedError()
 
-def inc_absolute(cpu, logger):
-    # to be implemented OPCODE ee
-    raise NotImplementedError()
 
 def instruction_ef(cpu, logger):
     # to be implemented OPCODE ef
@@ -621,9 +612,7 @@ def sbc_zeropage_x(cpu, logger):
     # to be implemented OPCODE f5
     raise NotImplementedError()
 
-def inc_zeropage_x(cpu, logger):
-    # to be implemented OPCODE f6
-    raise NotImplementedError()
+
 
 def instruction_f7(cpu, logger):
     # to be implemented OPCODE f7
@@ -650,11 +639,6 @@ def instruction_fc(cpu, logger):
 def sbc_absolute_x(cpu, logger):
     # to be implemented OPCODE fd
     raise NotImplementedError()
-
-def inc_absolute_x(cpu, logger):
-    # to be implemented OPCODE fe
-    raise NotImplementedError()
-
 
 
 instructions[ORA_INDIRECT_X] = ora_indirect_x
@@ -784,7 +768,6 @@ instructions[132] = sty_zeropage
 instructions[133] = sta_zeropage
 instructions[134] = stx_zeropage
 instructions[135] = instruction_87
-instructions[136] = dey
 instructions[137] = instruction_89
 instructions[TXA] = txa
 instructions[139] = instruction_8b
@@ -863,14 +846,12 @@ instructions[225] = sbs_indirect_x
 instructions[226] = instruction_e2
 instructions[227] = instruction_e3
 instructions[229] = sbc_zeropage
-instructions[230] = inc_zeropage
 instructions[231] = instruction_e7
 instructions[232] = inx
 instructions[233] = sbc_immediate
 instructions[234] = nop
 instructions[235] = instruction_eb
 instructions[237] = sbc_absolute
-instructions[238] = inc_absolute
 instructions[239] = instruction_ef
 instructions[240] = beq
 instructions[241] = sbc_indirect_y
@@ -878,7 +859,6 @@ instructions[242] = instruction_f2
 instructions[243] = instruction_f3
 instructions[244] = instruction_f4
 instructions[245] = sbc_zeropage_x
-instructions[246] = inc_zeropage_x
 instructions[247] = instruction_f7
 instructions[SED] = sed
 instructions[249] = sbc_absolute_y
@@ -886,7 +866,6 @@ instructions[250] = instruction_fa
 instructions[251] = instruction_fb
 instructions[252] = instruction_fc
 instructions[253] = sbc_absolute_x
-instructions[254] = inc_absolute_x
 
 instructions[ADC_IMMEDIATE] = adc_immediate
 instructions[ADC_ZEROPAGE] = adc_zeropage
@@ -915,9 +894,14 @@ instructions[DEC_ZEROPAGE] = dec_zeropage
 instructions[DEC_ABSOLUTE] = dec_absolute
 instructions[DEC_ZEROPAGE_X] = dec_zeropage_x
 instructions[DEC_ABSOLUTE_X] = dec_absolute_x
-
 instructions[DEX] = dex
+instructions[DEY] = dey
 
+
+instructions[INC_ZEROPAGE] = inc_zeropage
+instructions[INC_ZEROPAGE_X] = inc_zeropage_x
+instructions[INC_ABSOLUTE] = inc_absolute
+instructions[INC_ABSOLUTE_X] = inc_absolute_x
 
 
 instructions[AND_IMMEDIATE] = and_immediate
