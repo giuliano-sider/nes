@@ -604,5 +604,81 @@ class TestArithmetic(unittest.TestCase):
       self.assertEqual(cpu.zero(), 0)
       self.assertEqual(cpu.carry(), 0)
 
+    def test_cpx_immediate(self):
+        cpu = CreateTestCpu()
+        cpu.clear_carry()
+        cpu.set_X(0x01)
+
+        execute_instruction(cpu, opcode=CPX_IMMEDIATE, op2_lo_byte=0x01)
+
+        self.assertEqual(cpu.X(), 0x01)
+        self.assertEqual(cpu.negative(), 0)
+        self.assertEqual(cpu.zero(), 1)
+        self.assertEqual(cpu.carry(), 1)
+
+    def test_cpx_zeropage_iqual(self):
+        cpu = CreateTestCpu()
+        cpu.clear_carry()
+        cpu.set_X(0x01)
+        cpu.memory[0x10] = 0x01
+
+        execute_instruction(cpu, opcode=CPX_ZEROPAGE, op2_lo_byte=0x10)
+
+        self.assertEqual(cpu.X(), 0x01)
+        self.assertEqual(cpu.negative(), 0)
+        self.assertEqual(cpu.zero(), 1)
+        self.assertEqual(cpu.carry(), 1)
+
+    def test_cpx_absolute_iqual(self):
+        cpu = CreateTestCpu()
+        cpu.clear_carry()
+        cpu.set_X(0x01)
+        cpu.memory[0x1100] = 0x01
+
+        execute_instruction(cpu, opcode=CPX_ABSOLUTE, op2_lo_byte=0x00,  op2_hi_byte=0x11)
+
+        self.assertEqual(cpu.X(), 0x01)
+        self.assertEqual(cpu.negative(), 0)
+        self.assertEqual(cpu.zero(), 1)
+        self.assertEqual(cpu.carry(), 1)
+
+    def test_cpy_immediate(self):
+        cpu = CreateTestCpu()
+        cpu.clear_carry()
+        cpu.set_Y(0x01)
+
+        execute_instruction(cpu, opcode=CPY_IMMEDIATE, op2_lo_byte=0x01)
+
+        self.assertEqual(cpu.Y(), 0x01)
+        self.assertEqual(cpu.negative(), 0)
+        self.assertEqual(cpu.zero(), 1)
+        self.assertEqual(cpu.carry(), 1)
+
+    def test_cpy_zeropage_iqual(self):
+        cpu = CreateTestCpu()
+        cpu.clear_carry()
+        cpu.set_Y(0x01)
+        cpu.memory[0x10] = 0x01
+
+        execute_instruction(cpu, opcode=CPY_ZEROPAGE, op2_lo_byte=0x10)
+
+        self.assertEqual(cpu.Y(), 0x01)
+        self.assertEqual(cpu.negative(), 0)
+        self.assertEqual(cpu.zero(), 1)
+        self.assertEqual(cpu.carry(), 1)
+
+    def test_cpy_absolute_iqual(self):
+        cpu = CreateTestCpu()
+        cpu.clear_carry()
+        cpu.set_Y(0x01)
+        cpu.memory[0x1100] = 0x01
+
+        execute_instruction(cpu, opcode=CPY_ABSOLUTE, op2_lo_byte=0x00, op2_hi_byte=0x11)
+
+        self.assertEqual(cpu.Y(), 0x01)
+        self.assertEqual(cpu.negative(), 0)
+        self.assertEqual(cpu.zero(), 1)
+        self.assertEqual(cpu.carry(), 1)
+
 if __name__ == '__main__':
     unittest.main()
