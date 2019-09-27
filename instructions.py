@@ -561,10 +561,6 @@ def instruction_e7(cpu, logger):
     raise NotImplementedError()
 
 
-def nop(cpu, logger):
-    # to be implemented OPCODE ea
-    raise NotImplementedError()
-
 def instruction_eb(cpu, logger):
     # to be implemented OPCODE eb
     raise NotImplementedError()

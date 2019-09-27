@@ -103,3 +103,7 @@ def clc(cpu, logger):
     cpu.set_PC(cpu.PC()+1)
     logger.log_instruction(cpu)
 
+NOP = 0xEA
+def nop(cpu, logger):
+    cpu.set_PC(cpu.PC() + 1)
+    logger.log_instruction()
