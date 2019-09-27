@@ -1,6 +1,7 @@
 # 6502 control flow instructions
 
 from nes_cpu_utils import twos_comp
+from memory_mapper import MEMORY_SIZE
 
 BCC = 0x90
 def bcc(cpu, logger):
@@ -119,37 +120,32 @@ def jmp_indirect(cpu, logger):
 
 JSR = 0x20
 def jsr(cpu, logger):
-    LOW_ADDR = 0xff
+    LOW_ADDR  = 0x00ff
     HIGH_ADDR = 0xff00
-    STACK_END = 0x10ff
 
-    cpu.set_SP(STACK_END)
-
-    # push PC+3
-    high = ((cpu.PC()+2) & HIGH_ADDR)>>8
-    low = (cpu.PC()+2) & LOW_ADDR
-    cpu.memory[cpu.SP()] = high
-    cpu.set_SP((cpu.SP()-1) % 256)
-    cpu.memory[cpu.SP()] = low
-    cpu.set_SP((cpu.SP()-1) % 256)
+    # push PC+2
+    pushed_pc = (cpu.PC() + 2) % MEMORY_SIZE
+    high = (pushed_pc & HIGH_ADDR) >> 8
+    low = pushed_pc & LOW_ADDR
+    cpu.push(high)
+    cpu.push(low)
 
     #print("%00x" % (hight))
     #print("%00x" % (low))
 
-    oper = cpu.memory[cpu.PC()+1] + (cpu.memory[cpu.PC()+2]<<8)
+    oper = cpu.memory[cpu.PC()+1] + (cpu.memory[cpu.PC()+2] << 8)
     branch(cpu, logger, oper)
 
     logger.log_instruction(cpu)
 
 RTS = 0x60
 def rts(cpu, logger):
-    pc = cpu.memory[cpu.SP()+1] + (cpu.memory[cpu.SP()+2]<<8)
+    pc_lo = cpu.pull()
+    pc_hi = cpu.pull()
+    pc = pc_lo + (pc_hi<<8) + 1
+    cpu.set_PC(pc)
     #print("%0000x" % (pc))
 
-    # decrement SP
-    cpu.set_SP(cpu.SP()+2)
-
-    cpu.set_PC(pc+1)
     logger.log_instruction(cpu)
 
 RTI = 0x40

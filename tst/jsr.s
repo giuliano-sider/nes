@@ -45,7 +45,7 @@ MIRRORING = %0001 ;%0000 = horizontal, %0001 = vertical, %1000 = four-screen
 
 Reset:
                         ; PC = c000, V = 0, mem = c000
-    JSR $c00c           ; PC = c00c, V = 0, mem = c000
+    JSR address_2       ; PC = c00c, V = 0, mem = c000
 address_0:
     JMP $c00b           ; PC = c00c, V = 1, mem = c003
     ADC #$00            ; PC = c00a, V = 1, mem = c006

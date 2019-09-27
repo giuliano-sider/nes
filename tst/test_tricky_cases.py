@@ -5,7 +5,7 @@ import unittest
 sys.path += os.pardir
 from nes_cpu_test_utils import CreateTestCpu, execute_instruction
 from instructions import JSR, JMP_INDIRECT
-from memory_mapper import MEMORY_SIZE
+from memory_mapper import MEMORY_SIZE, STACK_PAGE_ADDR
 
 class TestTrickyCases(unittest.TestCase):
 
@@ -15,8 +15,8 @@ class TestTrickyCases(unittest.TestCase):
 
         execute_instruction(cpu, opcode=JSR, op2_lo_byte=0xDC, op2_hi_byte=0xDC)
 
-        stored_PC_lo = cpu.memory[(cpu.SP() + 1) % 256]
-        stored_PC_hi = cpu.memory[(cpu.SP() + 2) % 256]
+        stored_PC_lo = cpu.memory[STACK_PAGE_ADDR + (cpu.SP() + 1) % 256]
+        stored_PC_hi = cpu.memory[STACK_PAGE_ADDR + (cpu.SP() + 2) % 256]
         stored_PC = stored_PC_lo + (stored_PC_hi << 8)
         self.assertEqual(stored_PC, expected_PC_stack_value)
 
