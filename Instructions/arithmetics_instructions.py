@@ -121,8 +121,27 @@ def cpx_absolute(cpu, logger):
     op2 = get_absolute(cpu)
     cmp(cpu, logger, op1, op2)
 
+CPY_IMMEDIATE = 0xC0
+def cpy_immediate(cpu, logger):
+    op1 = cpu.Y()
+    op2 = get_immediate(cpu)
+    cmp(cpu, logger, op1, op2)
+
+CPY_ZEROPAGE = 0xC4
+def cpy_zeropage(cpu, logger):
+    op1 = cpu.Y()
+    op2 = get_zeropage(cpu)
+    cmp(cpu, logger, op1, op2)
+
+CPY_ABSOLUTE = 0xCC
+def cpy_absolute(cpu, logger):
+    op1 = cpu.Y()
+    op2 = get_absolute(cpu)
+    cmp(cpu, logger, op1, op2)
+
 def cmp(cpu, logger, op1, op2):
     result = (op1-op2) % 256  #Perform 2 complement subtraction
     cpu.set_zero_iff(op1 == op2)
     cpu.set_carry_iff(op1 >= op2)
     cpu.set_negative_iff(is_negative(result))
+    logger.log_instruction(cpu)
