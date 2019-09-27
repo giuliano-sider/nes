@@ -1,5 +1,3 @@
-from nes_cpu_utils import is_negative, is_overflow, twos_comp
-from nes_cpu_utils import is_negative, is_overflow, twos_comp
 from Instructions.arithmetics_instructions import *
 from Instructions.load_instructions import *
 from Instructions.store_instructions import *

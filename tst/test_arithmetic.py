@@ -581,13 +581,14 @@ class TestArithmetic(unittest.TestCase):
       cpu.clear_carry()
       cpu.set_A(0x01)
 
-      # ADC #$10
+      # CLC
+      # SBC #$01
       execute_instruction(cpu, opcode=SBC_IMMEDIATE, op2_lo_byte=0x01)
 
-      self.assertEqual(cpu.A(), 0x00)
-      self.assertEqual(cpu.negative(), 0)
+      self.assertEqual(cpu.A(), 0xFF)
+      self.assertEqual(cpu.negative(), 1)
       self.assertEqual(cpu.overflow(), 0)
-      self.assertEqual(cpu.zero(), 1)
+      self.assertEqual(cpu.zero(), 0)
       self.assertEqual(cpu.carry(), 0)
 
     def test_sbc_zeropage(self):
@@ -596,13 +597,15 @@ class TestArithmetic(unittest.TestCase):
       cpu.set_A(0x02)
       cpu.memory[0x10] = 0x01
 
+      # CLC
+      # SBC *(0x10) ; 0x02 - 0x01 - (1 - carry) 
       execute_instruction(cpu, opcode=SBC_ZEROPAGE, op2_lo_byte=0x10)
 
-      self.assertEqual(cpu.A(), 0x01)
+      self.assertEqual(cpu.A(), 0x00)
       self.assertEqual(cpu.negative(), 0)
       self.assertEqual(cpu.overflow(), 0)
-      self.assertEqual(cpu.zero(), 0)
-      self.assertEqual(cpu.carry(), 0)
+      self.assertEqual(cpu.zero(), 1)
+      self.assertEqual(cpu.carry(), 1)
 
     def test_cpx_immediate(self):
         cpu = CreateTestCpu()

@@ -1,4 +1,4 @@
-from nes_cpu_utils import is_negative, is_overflow, twos_comp
+from nes_cpu_utils import is_negative, is_adc_overflow, is_sbc_overflow, twos_comp
 from Instructions.address_getters import *
 
 ADC_IMMEDIATE = 0x69
@@ -47,7 +47,7 @@ def adc(cpu, logger, op2):
     cpu.set_A(result)
 
     cpu.set_negative_iff(is_negative(cpu.A()))
-    cpu.set_overflow_iff(is_overflow(op1, op2, cpu.A()))
+    cpu.set_overflow_iff(is_adc_overflow(op1, op2, cpu.A()))
     cpu.set_zero_iff(cpu.A() == 0)
     cpu.set_carry_iff(result >= 256)
 
@@ -280,11 +280,11 @@ def sbc_indirect_y(cpu, logger):
 
 def sbc(cpu, logger, op2):
   op1 = cpu.A()
-  result = cpu.A() - op2 - cpu.carry()
+  result = cpu.A() - op2 - (1 - cpu.carry())
   cpu.set_A(result)
 
   cpu.set_negative_iff(is_negative(cpu.A()))
-  cpu.set_overflow_iff(is_overflow(op1, op2, cpu.A()))
+  cpu.set_overflow_iff(is_sbc_overflow(op1, op2, cpu.A()))
   cpu.set_zero_iff(cpu.A() == 0)
-  cpu.set_carry_iff(result >= 256)
+  cpu.set_carry_iff(result >= 0)
   logger.log_instruction(cpu)

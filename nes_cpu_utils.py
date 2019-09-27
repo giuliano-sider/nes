@@ -3,13 +3,21 @@ import os
 MOD_ABSOLUTE = 0x10000
 MOD_ZERO_PAGE = 0x100
 
-def is_overflow(addend1, addend2, sum):
+def is_adc_overflow(addend1, addend2, result):
     assert 0 <= addend1 < 256
     assert 0 <= addend2 < 256
-    assert 0 <= sum < 256
+    assert 0 <= result < 256
 
-    return ((is_negative(addend1) and is_negative(addend2) and is_positive(sum)) or
-            (is_positive(addend1) and is_positive(addend2) and is_negative(sum)))
+    return ((is_negative(addend1) and is_negative(addend2) and is_positive(result)) or
+            (is_positive(addend1) and is_positive(addend2) and is_negative(result)))
+
+def is_sbc_overflow(op1, op2, result):
+    assert 0 <= op1 < 256
+    assert 0 <= op2 < 256
+    assert 0 <= result < 256
+
+    return ((is_negative(op1) and is_positive(op2) and is_positive(result)) or
+            (is_positive(op1) and is_negative(op2) and is_negative(result)))
 
 def is_negative(number):
     assert 0 <= number < 256
