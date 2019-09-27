@@ -1,4 +1,5 @@
 from nes_cpu_utils import is_negative, is_overflow, twos_comp
+from nes_cpu_utils import is_negative, is_overflow, twos_comp
 from Instructions.arithmetics_instructions import *
 from Instructions.load_instructions import *
 from Instructions.store_instructions import *
@@ -487,9 +488,6 @@ def cpy_zeropage(cpu, logger):
     # to be implemented OPCODE c4
     raise NotImplementedError()
 
-def dec_zeropage(cpu, logger):
-    # to be implemented OPCODE c6
-    raise NotImplementedError()
 
 def instruction_c7(cpu, logger):
     # to be implemented OPCODE c7
@@ -515,10 +513,6 @@ def cpy_absolute(cpu, logger):
     # to be implemented OPCODE cc
     raise NotImplementedError()
 
-def dec_absolute(cpu, logger):
-    # to be implemented OPCODE ce
-    raise NotImplementedError()
-
 def instruction_cf(cpu, logger):
     # to be implemented OPCODE cf
     raise NotImplementedError()
@@ -536,10 +530,6 @@ def instruction_d4(cpu, logger):
     raise NotImplementedError()
 
 
-def dec_zeropage_x(cpu, logger):
-    # to be implemented OPCODE d6
-    raise NotImplementedError()
-
 def instruction_d7(cpu, logger):
     # to be implemented OPCODE d7
     raise NotImplementedError()
@@ -556,10 +546,6 @@ def instruction_db(cpu, logger):
 
 def instruction_dc(cpu, logger):
     # to be implemented OPCODE dc
-    raise NotImplementedError()
-
-def dec_absolute_x(cpu, logger):
-    # to be implemented OPCODE de
     raise NotImplementedError()
 
 def instruction_df(cpu, logger):
@@ -861,25 +847,21 @@ instructions[192] = cpy_immediate
 instructions[194] = instruction_c2
 instructions[195] = instruction_c3
 instructions[196] = cpy_zeropage
-instructions[198] = dec_zeropage
 instructions[199] = instruction_c7
 instructions[200] = iny
 instructions[202] = dex
 instructions[203] = instruction_cb
 instructions[204] = cpy_absolute
-instructions[206] = dec_absolute
 instructions[207] = instruction_cf
 instructions[208] = bne
 instructions[210] = instruction_d2
 instructions[211] = instruction_d3
 instructions[212] = instruction_d4
-instructions[214] = dec_zeropage_x
 instructions[215] = instruction_d7
 instructions[CLD] = cld
 instructions[218] = instruction_da
 instructions[219] = instruction_db
 instructions[220] = instruction_dc
-instructions[222] = dec_absolute_x
 instructions[223] = instruction_df
 instructions[225] = sbs_indirect_x
 instructions[226] = instruction_e2
@@ -933,6 +915,10 @@ instructions[CPX_ZEROPAGE] = cpx_zeropage
 CPX_ABSOLUTE = 0xEC
 instructions[CPX_ABSOLUTE] = cpx_absolute
 
+instructions[198] = dec_zeropage
+instructions[206] = dec_absolute
+instructions[214] = dec_zeropage_x
+instructions[222] = dec_absolute_x
 
 
 instructions[AND_IMMEDIATE] = and_immediate

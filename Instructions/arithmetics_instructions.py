@@ -101,3 +101,32 @@ def cmp(cpu, logger, op2):
     cpu.set_negative_iff(is_negative(result))
 
     logger.log_instruction(cpu)
+
+
+
+DEC_ZEROPAGE = 0XC6
+def dec_zeropage(cpu, logger):
+    addr = get_zeropage_addr(cpu)
+    dec(cpu, logger, addr)
+
+DEC_ZEROPAGE_X = 0xD6
+def dec_zeropage_x(cpu, logger):
+  addr = get_zeropage_x_addr(cpu)
+  dec(cpu, logger, addr)
+
+DEC_ABSOLUTE = 0xCE
+def dec_absolute(cpu, logger):
+  addr = get_absolute_addr(cpu)
+  dec(cpu, logger, addr)
+
+DEC_ABSOLUTE_X = 0xDE
+def dec_absolute_x(cpu, logger):
+  addr = get_absolute_x_addr(cpu)
+  dec(cpu, logger, addr)
+
+def dec(cpu, logger, addr):
+  result =   (cpu.memory[addr] - 1) % 256
+  cpu.memory[addr] = result
+  cpu.set_zero_iff(result == 0)
+  cpu.set_negative_iff(is_negative(result))
+  logger.log_instruction(cpu)
