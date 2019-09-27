@@ -56,18 +56,24 @@ address_1:
     BRK                 ; Abort execution, mem = c00f
 
 address_2:
-    JMP ($e002)         ; PC = c002, V = 0, mem = c010
+    JMP ($e004)         ; PC = c002, V = 0, mem = c010
 address_3:
-    JMP ($e001)         ; PC = c00c, V = 1, mem = c013
+    JMP ($e002)         ; PC = c00c, V = 1, mem = c013
 
 
    .org $E000
 data_1:
 	.db #$13               ; mem = e000
 data_2:
-	.db #$10               ; mem = e001
+	.db #$c0               ; mem = e001
 data_3:
-  .db #$0f               ; mem = e002
+  .db #$10               ; mem = e002
+data_4:
+  .db #$c0                ; mem = e003
+data_5:
+  .db #$0f                ; mem = e004
+data_6:
+  .db #$c0                ; mem = e005
 
 NMI:
 
