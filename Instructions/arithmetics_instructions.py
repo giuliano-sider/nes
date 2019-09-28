@@ -219,6 +219,7 @@ def inx(cpu, logger):
   cpu.set_X(result)
   cpu.set_zero_iff(result == 0)
   cpu.set_negative_iff(is_negative(result))
+  cpu.set_PC(cpu.PC() + 1)
   logger.log_instruction(cpu)
 
 INY = 0xC8
@@ -227,6 +228,7 @@ def iny(cpu, logger):
   cpu.set_Y(result)
   cpu.set_zero_iff(result == 0)
   cpu.set_negative_iff(is_negative(result))
+  cpu.set_PC(cpu.PC() + 1)
   logger.log_instruction(cpu)
 
 
