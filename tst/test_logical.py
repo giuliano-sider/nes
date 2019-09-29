@@ -71,10 +71,10 @@ class TestLogicalInstructions(unittest.TestCase):
     def test_AND_absolute(self):
         cpu = CreateTestCpu()
         cpu.set_A(           0b00010001)
-        cpu.memory[0x1011] = 0b00010000
+        cpu.memory[0x0111] = 0b00010000
         cpu.set_P(0xFF)
 
-        execute_instruction(cpu, opcode=AND_ABSOLUTE, op2_lo_byte=0x11, op2_hi_byte=0x10)
+        execute_instruction(cpu, opcode=AND_ABSOLUTE, op2_lo_byte=0x11, op2_hi_byte=0x01)
 
         self.assertEqual(cpu.A(), 0b00010000)
         self.assertEqual(cpu.negative(), 0)
@@ -84,10 +84,10 @@ class TestLogicalInstructions(unittest.TestCase):
         cpu = CreateTestCpu()
         cpu.set_A(           0b00010001)
         cpu.set_X(0x10)
-        cpu.memory[0x1021] = 0b00010000
+        cpu.memory[0x0121] = 0b00010000
         cpu.set_P(0xFF)
 
-        execute_instruction(cpu, opcode=AND_ABSOLUTE_X, op2_lo_byte=0x11, op2_hi_byte=0x10)
+        execute_instruction(cpu, opcode=AND_ABSOLUTE_X, op2_lo_byte=0x11, op2_hi_byte=0x01)
 
         self.assertEqual(cpu.A(), 0b00010000)
         self.assertEqual(cpu.negative(), 0)
@@ -97,10 +97,10 @@ class TestLogicalInstructions(unittest.TestCase):
         cpu = CreateTestCpu()
         cpu.set_A(           0b00010001)
         cpu.set_Y(0x10)
-        cpu.memory[0x1021] = 0b00010000
+        cpu.memory[0x0121] = 0b00010000
         cpu.set_P(0xFF)
 
-        execute_instruction(cpu, opcode=AND_ABSOLUTE_Y, op2_lo_byte=0x11, op2_hi_byte=0x10)
+        execute_instruction(cpu, opcode=AND_ABSOLUTE_Y, op2_lo_byte=0x11, op2_hi_byte=0x01)
 
         self.assertEqual(cpu.A(), 0b00010000)
         self.assertEqual(cpu.negative(), 0)

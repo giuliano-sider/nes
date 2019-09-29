@@ -139,9 +139,9 @@ class TestLoad(unittest.TestCase):
         zero_page_address = 0x86
         initial_pc = self.cpu.PC()
 
-        stored_address_in_0x86 = 0x4028
+        stored_address_in_0x86 = 0x0428
         stored_address_in_0x86_low = 0x28
-        stored_address_in_0x86_high = 0x40
+        stored_address_in_0x86_high = 0x04
 
         y_value = 0x10
         self.cpu.set_Y(y_value)
@@ -204,9 +204,9 @@ class TestLoad(unittest.TestCase):
         stored_content = 0x00
         zero_page_address = 0x86
 
-        stored_address_in_0x86 = 0x4028
+        stored_address_in_0x86 = 0x0428
         stored_address_in_0x86_low = 0x28
-        stored_address_in_0x86_high = 0x40
+        stored_address_in_0x86_high = 0x04
 
         y_value = 0x10
         self.cpu.set_Y(y_value)
@@ -225,9 +225,9 @@ class TestLoad(unittest.TestCase):
         stored_content = 0x80
         zero_page_address = 0x86
 
-        stored_address_in_0x86 = 0x4028
+        stored_address_in_0x86 = 0x0428
         stored_address_in_0x86_low = 0x28
-        stored_address_in_0x86_high = 0x40
+        stored_address_in_0x86_high = 0x04
 
         y_value = 0x10
         self.cpu.set_Y(y_value)
@@ -313,9 +313,9 @@ class TestLoad(unittest.TestCase):
 
     def test_lda_absolute_y_without_overflow(self):
         stored_content = 0x01
-        absolute_address = 0x4028
+        absolute_address = 0x0428
         absolute_address_low = 0x28
-        absolute_address_high = 0x40
+        absolute_address_high = 0x04
         y_value = 0x10
         initial_pc = self.cpu.PC()
 
@@ -363,9 +363,9 @@ class TestLoad(unittest.TestCase):
 
     def test_lda_absolute_y_with_content_being_zero(self):
         stored_content = 0x00
-        absolute_address = 0x4028
+        absolute_address = 0x0428
         absolute_address_low = 0x28
-        absolute_address_high = 0x40
+        absolute_address_high = 0x04
         y_value = 0x10
 
         resolved_address = absolute_address + y_value
@@ -387,9 +387,9 @@ class TestLoad(unittest.TestCase):
 
     def test_lda_absolute_y_with_content_being_negative(self):
         stored_content = 0x80
-        absolute_address = 0x4028
+        absolute_address = 0x0428
         absolute_address_low = 0x28
-        absolute_address_high = 0x40
+        absolute_address_high = 0x04
         y_value = 0x10
 
         resolved_address = absolute_address + y_value
@@ -411,9 +411,9 @@ class TestLoad(unittest.TestCase):
 
     def test_lda_absolute_x_without_overflow(self):
         stored_content = 0x01
-        absolute_address = 0x4028
+        absolute_address = 0x0428
         absolute_address_low = 0x28
-        absolute_address_high = 0x40
+        absolute_address_high = 0x04
         x_value = 0x10
         initial_pc = self.cpu.PC()
 
@@ -461,9 +461,9 @@ class TestLoad(unittest.TestCase):
 
     def test_lda_absolute_x_with_content_being_zero(self):
         stored_content = 0x00
-        absolute_address = 0x4028
+        absolute_address = 0x0428
         absolute_address_low = 0x28
-        absolute_address_high = 0x40
+        absolute_address_high = 0x04
         x_value = 0x10
 
         resolved_address = absolute_address + x_value
@@ -485,9 +485,9 @@ class TestLoad(unittest.TestCase):
 
     def test_lda_absolute_x_with_content_being_negative(self):
         stored_content = 0x80
-        absolute_address = 0x4028
+        absolute_address = 0x0428
         absolute_address_low = 0x28
-        absolute_address_high = 0x40
+        absolute_address_high = 0x04
         x_value = 0x10
 
         resolved_address = absolute_address + x_value
@@ -926,9 +926,9 @@ class TestLoad(unittest.TestCase):
 
     def test_ldy_absolute_x_without_overflow(self):
         stored_content = 0x01
-        absolute_address = 0x4028
+        absolute_address = 0x0428
         absolute_address_low = 0x28
-        absolute_address_high = 0x40
+        absolute_address_high = 0x04
         x_value = 0x10
         initial_pc = self.cpu.PC()
 
@@ -976,9 +976,9 @@ class TestLoad(unittest.TestCase):
 
     def test_ldy_absolute_x_with_content_being_zero(self):
         stored_content = 0x00
-        absolute_address = 0x4028
+        absolute_address = 0x0428
         absolute_address_low = 0x28
-        absolute_address_high = 0x40
+        absolute_address_high = 0x04
         x_value = 0x10
 
         resolved_address = absolute_address + x_value
@@ -1000,9 +1000,9 @@ class TestLoad(unittest.TestCase):
 
     def test_ldy_absolute_x_with_content_being_negative(self):
         stored_content = 0x80
-        absolute_address = 0x4028
+        absolute_address = 0x0428
         absolute_address_low = 0x28
-        absolute_address_high = 0x40
+        absolute_address_high = 0x04
         x_value = 0x10
 
         resolved_address = absolute_address + x_value

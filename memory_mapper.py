@@ -7,6 +7,14 @@ MEMORY_SIZE = 0x10000 # 64KiB CPU and PPU address spaces
 
 STACK_PAGE_ADDR = 0x0100
 
+RAM_SIZE = 0x0800
+RAM_REGION_BEGIN = 0x0000
+RAM_REGION_END = 0x2000
+
+PPU_REGISTERS_SIZE = 0x0008
+PPU_REGISTERS_REGION_BEGIN = 0x2000
+PPU_REGISTERS_REGION_END = 0x4000
+
 LOWER_PRG_ROM_BANK = 0x8000
 UPPER_PRG_ROM_BANK = 0xC000
 PRG_ROM_BANK_SIZE = 0x4000 # 16KiB
@@ -35,6 +43,19 @@ HORIZONTAL_NAMETABLE_MIRRORING = 0b0
 VERTICAL_NAMETABLE_MIRRORING = 0b1
 
 NROM_MAPPER = 0
+
+"""Helper functions"""
+
+def unmirrored_address(addr):
+    addr %= MEMORY_SIZE
+    if addr < RAM_REGION_END:
+        addr %= RAM_SIZE
+    elif addr < PPU_REGISTERS_REGION_END:
+        addr = (PPU_REGISTERS_REGION_BEGIN + 
+                (addr - PPU_REGISTERS_REGION_BEGIN) % PPU_REGISTERS_SIZE)
+    # TODO: Implement mirroring of PRG ROM banks for NROM-128 mapper cartridges.
+    # In that case, which is the real address, the bank at 0x8000 or the one at 0xC000 ??
+    return addr
 
 
 """Emulator support classes"""
@@ -121,13 +142,14 @@ class MemoryMapper():
 
 
     def cpu_read_byte(self, addr):
-        return self.cpu_memory[addr % MEMORY_SIZE]
+        return self.cpu_memory[unmirrored_address(addr)]
 
     def cpu_write_byte(self, addr, value):
-        self.cpu_memory[addr % MEMORY_SIZE] = value % 256
+        # TODO: Prevent writing to ROM and to memory that doesn't exist.
+        self.cpu_memory[unmirrored_address(addr)] = value % 256
 
     def cpu_read_word(self, addr):
         """Return the contents of a 2-byte word located in the CPU address space given by @param addr.
            The read wraps around to zero at 64KiB.
         """
-        return self.cpu_memory[addr % MEMORY_SIZE] + (self.cpu_memory[(addr + 1) % MEMORY_SIZE] << 8)
+        return self.cpu_read_byte(addr) + (self.cpu_read_byte(addr + 1) << 8)

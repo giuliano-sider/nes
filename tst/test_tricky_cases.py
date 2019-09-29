@@ -26,12 +26,12 @@ class TestTrickyCases(unittest.TestCase):
         cpu = CreateTestCpu()
         cpu.set_PC(0x200)
         cpu.memory[0x1FF] = 0x34
-        cpu.memory[0x200] = 0x56 # wrong high byte
-        cpu.memory[0x100] = 0x12 # correct high byte
+        cpu.memory[0x200] = 0x03 # wrong high byte
+        cpu.memory[0x100] = 0x02 # correct high byte
 
         execute_instruction(cpu, opcode=JMP_INDIRECT, op2_lo_byte=0xFF, op2_hi_byte=0x01)
 
-        self.assertEqual(cpu.PC(), 0x1234)
+        self.assertEqual(cpu.PC(), 0x0234)
 
 if __name__ == '__main__':
     unittest.main()
