@@ -9,6 +9,8 @@ CLEAR_NEGATIVE = 0b11111111 - NEGATIVE
 OVERFLOW       = 0b01000000
 CLEAR_OVERFLOW = 0b11111111 - OVERFLOW
 
+BIT_WITH_NO_FLAG = 0b00100000
+
 BREAK       = 0b00010000
 CLEAR_BREAK = 0b11111111 - BREAK
 
@@ -47,8 +49,9 @@ class Cpu():
         self.A_ = 0
         self.X_ = 0
         self.Y_ = 0
-        self.SP_ = 0
-        self.P_ = 0 # N V - B D I Z C
+        self.SP_ = 0xFD
+        # Invariant: both fictitious flags are set so that they appear as 1 in the instruction log tests.
+        self.P_ = BIT_WITH_NO_FLAG | BREAK | IRQ_DISABLE # N V - B D I Z C
 
         self.Reset()
 
@@ -58,27 +61,27 @@ class Cpu():
 
     def trigger_NMI(self, source):
         # TODO: Find out how we should generate interrupts and test the interrupt mechanism.
-        self.push_PC_and_P()
-        self.set_PC(self.memory_mapper.cpu_read_word(NMI_VECTOR))
+        self.generate_interrupt(self.memory_mapper.cpu_read_word(NMI_VECTOR))
 
     def Reset(self):
         """Carry out the 2 guaranteed operations on a 6502 Reset."""
-        self.set_P(IRQ_DISABLE)
+        self.set_irq_disable()
         self.set_PC(self.memory_mapper.cpu_read_word(RESET_VECTOR))
 
     def trigger_IRQ(self, source):
         # TODO: Find out how we should generate interrupts and test the interrupt mechanism.
         if not self.irq_disable():
-            self.push_PC_and_P()
-            self.set_PC(self.memory_mapper.cpu_read_word(IRQ_VECTOR))
+            self.generate_interrupt(self.memory_mapper.cpu_read_word(IRQ_VECTOR))
 
     # Various helper methods:
 
-    def push_PC_and_P(self):
-        """Carry out a push operation, placing PC hi at SP, PC lo at SP-1, P at SP-2, and setting SP -= 3."""
+    def generate_interrupt(self, handler_addr):
+        """Generate a non-BRK interrupt handled by code at @param handler_addr."""
         self.push(self.PC_hi())
         self.push(self.PC_lo())
-        self.push(self.PC())
+        self.push(self.P() & CLEAR_BREAK)
+        self.set_irq_disable()
+        self.set_PC(handler_addr)
 
     def push(self, value):
         self.memory[STACK_PAGE_ADDR + self.SP()] = value
@@ -114,6 +117,7 @@ class Cpu():
         return self.P_
     def set_P(self, value):
         self.P_ = value % 256
+        self.P_ |= BIT_WITH_NO_FLAG | BREAK
 
     def PC(self):
         return self.PC_
