@@ -110,8 +110,8 @@ class MemoryMapper():
            supporting both NROM-128 (1 16KiB bank of PRG ROM) and NROM-256 (2 16KiB banks of PRG ROM).
         """
 
-        self.cpu_memory = bytearray(MEMORY_SIZE)
-        self.ppu_memory = bytearray(MEMORY_SIZE)
+        self.cpu_memory_ = bytearray(MEMORY_SIZE)
+        self.ppu_memory_ = bytearray(MEMORY_SIZE)
 
         iNES_file_index = iNES_HEADER_LENGTH
 
@@ -119,14 +119,14 @@ class MemoryMapper():
         if self.prg_rom_size == 1:
             if len(iNES_file) < iNES_file_index + PRG_ROM_BANK_SIZE:
                 raise Invalid_iNES_FileException('Couldnt read first bank of PRG ROM as the file was too short (length %d)' % len(iNES_file))
-            self.cpu_memory[LOWER_PRG_ROM_BANK : LOWER_PRG_ROM_BANK + PRG_ROM_BANK_SIZE] = iNES_file[iNES_file_index : iNES_file_index + PRG_ROM_BANK_SIZE]
+            self.cpu_memory_[LOWER_PRG_ROM_BANK : LOWER_PRG_ROM_BANK + PRG_ROM_BANK_SIZE] = iNES_file[iNES_file_index : iNES_file_index + PRG_ROM_BANK_SIZE]
             # mirrored second bank:
-            self.cpu_memory[UPPER_PRG_ROM_BANK : UPPER_PRG_ROM_BANK + PRG_ROM_BANK_SIZE] = self.cpu_memory[LOWER_PRG_ROM_BANK : LOWER_PRG_ROM_BANK + PRG_ROM_BANK_SIZE]
+            self.cpu_memory_[UPPER_PRG_ROM_BANK : UPPER_PRG_ROM_BANK + PRG_ROM_BANK_SIZE] = self.cpu_memory_[LOWER_PRG_ROM_BANK : LOWER_PRG_ROM_BANK + PRG_ROM_BANK_SIZE]
             iNES_file_index += PRG_ROM_BANK_SIZE
         elif self.prg_rom_size == 2:
             if len(iNES_file) < iNES_file_index + 2*PRG_ROM_BANK_SIZE:
                 raise Invalid_iNES_FileException('Couldnt read 2 banks of PRG ROM as the file was too short (length %d)' % len(iNES_file))
-            self.cpu_memory[LOWER_PRG_ROM_BANK : LOWER_PRG_ROM_BANK + 2*PRG_ROM_BANK_SIZE] = iNES_file[iNES_file_index : iNES_file_index + 2*PRG_ROM_BANK_SIZE]
+            self.cpu_memory_[LOWER_PRG_ROM_BANK : LOWER_PRG_ROM_BANK + 2*PRG_ROM_BANK_SIZE] = iNES_file[iNES_file_index : iNES_file_index + 2*PRG_ROM_BANK_SIZE]
             iNES_file_index += 2*PRG_ROM_BANK_SIZE
         else:
             raise Invalid_iNES_FileException('Only NROM-128 and NROM-256 variants are supported by the NROM mapper (selected number of 16KB PRG ROM banks = %d)' % self.prg_rom_size)
@@ -135,18 +135,18 @@ class MemoryMapper():
         if self.chr_rom_size == 1:
             if len(iNES_file) < iNES_file_index + CHR_ROM_BANK_SIZE:
                 raise Invalid_iNES_FileException('Couldnt read bank of CHR ROM as the file was too short (length %d)' % len(iNES_file))
-            self.ppu_memory[CHR_ROM_BANK : CHR_ROM_BANK + CHR_ROM_BANK_SIZE] = iNES_file[iNES_file_index : iNES_file_index + CHR_ROM_BANK_SIZE]
+            self.ppu_memory_[CHR_ROM_BANK : CHR_ROM_BANK + CHR_ROM_BANK_SIZE] = iNES_file[iNES_file_index : iNES_file_index + CHR_ROM_BANK_SIZE]
             iNES_file_index += CHR_ROM_BANK_SIZE
         else:
             raise Invalid_iNES_FileException('NROM mapper supports only 8KB of CHR ROM (selected number of 8KB CHR ROM banks = %d)' % self.chr_rom_size)
 
 
     def cpu_read_byte(self, addr):
-        return self.cpu_memory[unmirrored_address(addr)]
+        return self.cpu_memory_[unmirrored_address(addr)]
 
     def cpu_write_byte(self, addr, value):
         # TODO: Prevent writing to ROM and to memory that doesn't exist.
-        self.cpu_memory[unmirrored_address(addr)] = value % 256
+        self.cpu_memory_[unmirrored_address(addr)] = value % 256
 
     def cpu_read_word(self, addr):
         """Return the contents of a 2-byte word located in the CPU address space given by @param addr.
