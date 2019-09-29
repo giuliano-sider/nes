@@ -57,6 +57,9 @@ class Cpu():
 
         self.is_test_mode = True
 
+        # TODO: Increment this correctly for each instruction.
+        self.clock_ticks_since_reset = 0
+
     # Interrupt vector:
 
     def trigger_NMI(self, source):

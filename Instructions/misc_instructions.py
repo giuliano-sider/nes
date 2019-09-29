@@ -48,6 +48,7 @@ def clv(cpu, logger):
     cpu.clear_overflow()
 
     cpu.set_PC(cpu.PC() + 1)
+    cpu.clock_ticks_since_reset += 2
     logger.log_instruction(cpu)
 
 TSX = 0xBA
@@ -65,6 +66,7 @@ def cld(cpu, logger):
     cpu.clear_decimal()
 
     cpu.set_PC(cpu.PC() + 1)
+    cpu.clock_ticks_since_reset += 2
     logger.log_instruction(cpu)
 
 SED = 0xF8
@@ -72,6 +74,7 @@ def sed(cpu, logger):
     cpu.set_decimal()
 
     cpu.set_PC(cpu.PC() + 1)
+    cpu.clock_ticks_since_reset += 2
     logger.log_instruction(cpu)
 
 SEI = 0x78
@@ -79,6 +82,7 @@ def sei(cpu, logger):
     cpu.set_irq_disable()
 
     cpu.set_PC(cpu.PC() + 1)
+    cpu.clock_ticks_since_reset += 2
     logger.log_instruction(cpu)
 
 
@@ -87,6 +91,7 @@ def cli(cpu, logger):
     cpu.clear_irq_disable()
 
     cpu.set_PC(cpu.PC() + 1)
+    cpu.clock_ticks_since_reset += 2
     logger.log_instruction(cpu)
 
 SEC = 0x38
@@ -94,6 +99,7 @@ def sec(cpu, logger):
     cpu.set_carry()
 
     cpu.set_PC(cpu.PC()+1)
+    cpu.clock_ticks_since_reset += 2
     logger.log_instruction(cpu)
 
 CLC = 0x18
@@ -101,6 +107,7 @@ def clc(cpu, logger):
     cpu.clear_carry()
 
     cpu.set_PC(cpu.PC()+1)
+    cpu.clock_ticks_since_reset += 2
     logger.log_instruction(cpu)
 
 
