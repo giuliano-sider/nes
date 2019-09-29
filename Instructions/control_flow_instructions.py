@@ -144,20 +144,15 @@ def rts(cpu, logger):
     pc_hi = cpu.pull()
     pc = pc_lo + (pc_hi<<8) + 1
     cpu.set_PC(pc)
-    #print("%0000x" % (pc))
 
     logger.log_instruction(cpu)
 
 RTI = 0x40
 def rti(cpu, logger):
-    p = cpu.memory[cpu.SP()]
-    # decrement SP
-    cpu.set_SP(cpu.SP()-1)
-    cpu.set_P(p)
-
-    pc = cpu.memory[cpu.SP()] + (cpu.memory[cpu.SP()-1]<<8)
-    # decrement SP
-    cpu.set_SP(cpu.SP()-2)
+    cpu.set_P(cpu.pull())
+    pc_lo = cpu.pull()
+    pc_hi = cpu.pull()
+    pc = pc_lo + (pc_hi << 8)
     cpu.set_PC(pc)
 
     logger.log_instruction(cpu)
