@@ -1,4 +1,5 @@
-import numpy as np
+# TODO: Define a way to install dependencies via the Makefile in a way that doesn't break across platforms (use Docker???).
+# import numpy as np
 
 SCREEN_HEIGHT = 240
 SCREEN_WIDTH = 256
