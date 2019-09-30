@@ -1,4 +1,5 @@
 from nes_cpu_utils import is_negative
+from memory_mapper import STACK_PAGE_ADDR
 
 TXA = 0x8A
 def txa(cpu, logger):
@@ -119,29 +120,35 @@ def nop(cpu, logger):
 
 PHP = 0x08 # excellent language
 def php(cpu, logger):
+    affected_addr = STACK_PAGE_ADDR + cpu.SP()
     cpu.push(cpu.P())
 
     cpu.set_PC(cpu.PC() + 1)
-    logger.log_instruction(cpu)
+    logger.log_memory_access_instruction(cpu, affected_addr, cpu.P())
 
 PLP = 0x28
 def plp(cpu, logger):
-    cpu.set_P(cpu.pull())
+    data = cpu.pull()
+    cpu.set_P(data)
+    affected_addr = STACK_PAGE_ADDR + cpu.SP()
 
     cpu.set_PC(cpu.PC() + 1)
-    logger.log_instruction(cpu)
+    logger.log_memory_access_instruction(cpu, affected_addr, data)
 
 PHA = 0x48
 def pha(cpu, logger):
+    affected_addr = STACK_PAGE_ADDR + cpu.SP()
     cpu.push(cpu.A())
 
     cpu.set_PC(cpu.PC() + 1)
-    logger.log_instruction(cpu)
+    logger.log_memory_access_instruction(cpu, affected_addr, cpu.A())
 
 PLA = 0x68
 def pla(cpu, logger):
-    cpu.set_A(cpu.pull())
+    data = cpu.pull()
+    cpu.set_A(data)
+    affected_addr = STACK_PAGE_ADDR + cpu.SP()
 
     cpu.set_PC(cpu.PC() + 1)
-    logger.log_instruction(cpu)
+    logger.log_memory_access_instruction(cpu, affected_addr, data)
 
