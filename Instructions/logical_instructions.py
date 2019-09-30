@@ -4,55 +4,26 @@ from nes_cpu_utils import is_negative
 
 BIT_ZEROPAGE = 0x24
 def bit_zeropage(cpu, logger):
-    bit(cpu, logger, get_zeropage(cpu))
+    bit(cpu, logger, get_zeropage_addr(cpu))
 
 BIT_ABSOLUTE = 0x2C
 def bit_absolute(cpu, logger):
-    bit(cpu, logger, get_absolute(cpu))
+    bit(cpu, logger, get_absolute_addr(cpu))
 
-def bit(cpu, logger, op2):
+def bit(cpu, logger, addr):
+    op2 = cpu.memory[addr]
     cpu.set_A(cpu.A() & op2)
 
     cpu.set_negative_iff(op2 & 0b10000000)
     cpu.set_overflow_iff(op2 & 0b01000000)
     cpu.set_zero_iff(cpu.A() == 0)
 
-    logger.log_instruction(cpu)
+    logger.log_memory_access_instruction(cpu, addr, op2)
 
 
 AND_IMMEDIATE = 0x29
 def and_immediate(cpu, logger):
-    and_instruction(cpu, logger, get_immediate(cpu))
-
-AND_ZERO_PAGE = 0x25
-def and_zeropage(cpu, logger):
-    and_instruction(cpu, logger, get_zeropage(cpu))
-
-AND_ZERO_PAGE_X = 0x35
-def and_zeropage_x(cpu, logger):
-    and_instruction(cpu, logger, get_zeropage_x(cpu))
-
-AND_ABSOLUTE = 0x2D
-def and_absolute(cpu, logger):
-    and_instruction(cpu, logger, get_absolute(cpu))
-
-AND_ABSOLUTE_X = 0x3D
-def and_absolute_x(cpu, logger):
-    and_instruction(cpu, logger, get_absolute_x(cpu))
-
-AND_ABSOLUTE_Y = 0x39
-def and_absolute_y(cpu, logger):
-    and_instruction(cpu, logger, get_absolute_y(cpu))
-
-AND_INDIRECT_X = 0x21
-def and_indirect_x(cpu, logger):
-    and_instruction(cpu, logger, get_indirect_x(cpu))
-
-AND_INDIRECT_Y = 0x31
-def and_indirect_y(cpu, logger):
-    and_instruction(cpu, logger, get_indirect_y(cpu))
-
-def and_instruction(cpu, logger, op2):
+    op2 = get_immediate(cpu)
     cpu.set_A(cpu.A() & op2)
 
     cpu.set_negative_iff(is_negative(cpu.A()))
@@ -60,40 +31,47 @@ def and_instruction(cpu, logger, op2):
 
     logger.log_instruction(cpu)
 
+AND_ZERO_PAGE = 0x25
+def and_zeropage(cpu, logger):
+    and_instruction(cpu, logger, get_zeropage_addr(cpu))
+
+AND_ZERO_PAGE_X = 0x35
+def and_zeropage_x(cpu, logger):
+    and_instruction(cpu, logger, get_zeropage_x_addr(cpu))
+
+AND_ABSOLUTE = 0x2D
+def and_absolute(cpu, logger):
+    and_instruction(cpu, logger, get_absolute_addr(cpu))
+
+AND_ABSOLUTE_X = 0x3D
+def and_absolute_x(cpu, logger):
+    and_instruction(cpu, logger, get_absolute_x_addr(cpu))
+
+AND_ABSOLUTE_Y = 0x39
+def and_absolute_y(cpu, logger):
+    and_instruction(cpu, logger, get_absolute_y_addr(cpu))
+
+AND_INDIRECT_X = 0x21
+def and_indirect_x(cpu, logger):
+    and_instruction(cpu, logger, get_indirect_x_addr(cpu))
+
+AND_INDIRECT_Y = 0x31
+def and_indirect_y(cpu, logger):
+    and_instruction(cpu, logger, get_indirect_y_addr(cpu))
+
+def and_instruction(cpu, logger, addr):
+    op2 = cpu.memory[addr]
+    cpu.set_A(cpu.A() & op2)
+
+    cpu.set_negative_iff(is_negative(cpu.A()))
+    cpu.set_zero_iff(cpu.A() == 0)
+
+    logger.log_memory_access_instruction(cpu, addr, op2)
+
 
 EOR_IMMEDIATE = 0x49
 def eor_immediate(cpu, logger):
-    eor_instruction(cpu, logger, get_immediate(cpu))
-
-EOR_ZERO_PAGE = 0x45
-def eor_zeropage(cpu, logger):
-    eor_instruction(cpu, logger, get_zeropage(cpu))
-
-EOR_ZERO_PAGE_X = 0x55
-def eor_zeropage_x(cpu, logger):
-    eor_instruction(cpu, logger, get_zeropage_x(cpu))
-
-EOR_ABSOLUTE = 0x4D
-def eor_absolute(cpu, logger):
-    eor_instruction(cpu, logger, get_absolute(cpu))
-
-EOR_ABSOLUTE_X = 0x5D
-def eor_absolute_x(cpu, logger):
-    eor_instruction(cpu, logger, get_absolute_x(cpu))
-
-EOR_ABSOLUTE_Y = 0x59
-def eor_absolute_y(cpu, logger):
-    eor_instruction(cpu, logger, get_absolute_y(cpu))
-
-EOR_INDIRECT_X = 0x41
-def eor_indirect_x(cpu, logger):
-    eor_instruction(cpu, logger, get_indirect_x(cpu))
-
-EOR_INDIRECT_Y = 0x51
-def eor_indirect_y(cpu, logger):
-    eor_instruction(cpu, logger, get_indirect_y(cpu))
-
-def eor_instruction(cpu, logger, op2):
+    op2 = get_immediate(cpu)
     cpu.set_A(cpu.A() ^ op2)
 
     cpu.set_negative_iff(is_negative(cpu.A()))
@@ -101,46 +79,90 @@ def eor_instruction(cpu, logger, op2):
 
     logger.log_instruction(cpu)
 
+EOR_ZERO_PAGE = 0x45
+def eor_zeropage(cpu, logger):
+    eor_instruction(cpu, logger, get_zeropage_addr(cpu))
+
+EOR_ZERO_PAGE_X = 0x55
+def eor_zeropage_x(cpu, logger):
+    eor_instruction(cpu, logger, get_zeropage_x_addr(cpu))
+
+EOR_ABSOLUTE = 0x4D
+def eor_absolute(cpu, logger):
+    eor_instruction(cpu, logger, get_absolute_addr(cpu))
+
+EOR_ABSOLUTE_X = 0x5D
+def eor_absolute_x(cpu, logger):
+    eor_instruction(cpu, logger, get_absolute_x_addr(cpu))
+
+EOR_ABSOLUTE_Y = 0x59
+def eor_absolute_y(cpu, logger):
+    eor_instruction(cpu, logger, get_absolute_y_addr(cpu))
+
+EOR_INDIRECT_X = 0x41
+def eor_indirect_x(cpu, logger):
+    eor_instruction(cpu, logger, get_indirect_x_addr(cpu))
+
+EOR_INDIRECT_Y = 0x51
+def eor_indirect_y(cpu, logger):
+    eor_instruction(cpu, logger, get_indirect_y_addr(cpu))
+
+def eor_instruction(cpu, logger, addr):
+    op2 = cpu.memory[addr]
+    cpu.set_A(cpu.A() ^ op2)
+
+    cpu.set_negative_iff(is_negative(cpu.A()))
+    cpu.set_zero_iff(cpu.A() == 0)
+
+    logger.log_memory_access_instruction(cpu, addr, op2)
+
 
 ORA_IMMEDIATE = 0x09
 def ora_immediate(cpu, logger):
-    ora_instruction(cpu, logger, get_immediate(cpu))
-
-ORA_ZERO_PAGE = 0x05
-def ora_zeropage(cpu, logger):
-    ora_instruction(cpu, logger, get_zeropage(cpu))
-
-ORA_ZERO_PAGE_X = 0x15
-def ora_zeropage_x(cpu, logger):
-    ora_instruction(cpu, logger, get_zeropage_x(cpu))
-
-ORA_ABSOLUTE = 0x0D
-def ora_absolute(cpu, logger):
-    ora_instruction(cpu, logger, get_absolute(cpu))
-
-ORA_ABSOLUTE_X = 0x1D
-def ora_absolute_x(cpu, logger):
-    ora_instruction(cpu, logger, get_absolute_x(cpu))
-
-ORA_ABSOLUTE_Y = 0x19
-def ora_absolute_y(cpu, logger):
-    ora_instruction(cpu, logger, get_absolute_y(cpu))
-
-ORA_INDIRECT_X = 0x01
-def ora_indirect_x(cpu, logger):
-    ora_instruction(cpu, logger, get_indirect_x(cpu))
-
-ORA_INDIRECT_Y = 0x11
-def ora_indirect_y(cpu, logger):
-    ora_instruction(cpu, logger, get_indirect_y(cpu))
-
-def ora_instruction(cpu, logger, op2):
+    op2 = get_immediate(cpu)
     cpu.set_A(cpu.A() | op2)
 
     cpu.set_negative_iff(is_negative(cpu.A()))
     cpu.set_zero_iff(cpu.A() == 0)
 
     logger.log_instruction(cpu)
+
+ORA_ZERO_PAGE = 0x05
+def ora_zeropage(cpu, logger):
+    ora_instruction(cpu, logger, get_zeropage_addr(cpu))
+
+ORA_ZERO_PAGE_X = 0x15
+def ora_zeropage_x(cpu, logger):
+    ora_instruction(cpu, logger, get_zeropage_x_addr(cpu))
+
+ORA_ABSOLUTE = 0x0D
+def ora_absolute(cpu, logger):
+    ora_instruction(cpu, logger, get_absolute_addr(cpu))
+
+ORA_ABSOLUTE_X = 0x1D
+def ora_absolute_x(cpu, logger):
+    ora_instruction(cpu, logger, get_absolute_x_addr(cpu))
+
+ORA_ABSOLUTE_Y = 0x19
+def ora_absolute_y(cpu, logger):
+    ora_instruction(cpu, logger, get_absolute_y_addr(cpu))
+
+ORA_INDIRECT_X = 0x01
+def ora_indirect_x(cpu, logger):
+    ora_instruction(cpu, logger, get_indirect_x_addr(cpu))
+
+ORA_INDIRECT_Y = 0x11
+def ora_indirect_y(cpu, logger):
+    ora_instruction(cpu, logger, get_indirect_y_addr(cpu))
+
+def ora_instruction(cpu, logger, addr):
+    op2 = cpu.memory[addr]
+    cpu.set_A(cpu.A() | op2)
+
+    cpu.set_negative_iff(is_negative(cpu.A()))
+    cpu.set_zero_iff(cpu.A() == 0)
+
+    logger.log_memory_access_instruction(cpu, addr, op2)
 
 
 ASL_ACCUMULATOR = 0x0A
