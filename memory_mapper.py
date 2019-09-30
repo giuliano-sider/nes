@@ -46,15 +46,21 @@ NROM_MAPPER = 0
 
 """Helper functions"""
 
-def unmirrored_address(addr):
+def cpu_unmirrored_address(addr):
     addr %= MEMORY_SIZE
     if addr < RAM_REGION_END:
         addr %= RAM_SIZE
+    # TODO: Implement memory mapping to PPU registers.
     elif addr < PPU_REGISTERS_REGION_END:
         addr = (PPU_REGISTERS_REGION_BEGIN + 
                 (addr - PPU_REGISTERS_REGION_BEGIN) % PPU_REGISTERS_SIZE)
     # TODO: Implement mirroring of PRG ROM banks for NROM-128 mapper cartridges.
     # In that case, which is the real address, the bank at 0x8000 or the one at 0xC000 ??
+
+    return addr
+
+def ppu_unmirrored_address(addr):
+    # TODO: Implement PPU mirroring logic.
     return addr
 
 
@@ -140,13 +146,19 @@ class MemoryMapper():
         else:
             raise Invalid_iNES_FileException('NROM mapper supports only 8KB of CHR ROM (selected number of 8KB CHR ROM banks = %d)' % self.chr_rom_size)
 
+    def ppu_read_byte(self, addr):
+        return self.ppu_memory_[ppu_unmirrored_address(addr)]
+
+    def ppu_write_byte(self, addr, value):
+        # TODO: Prevent writing to read-only memory and memory that doesn't exist.
+        self.ppu_memory_[ppu_unmirrored_address(addr)] = value % 256
 
     def cpu_read_byte(self, addr):
-        return self.cpu_memory_[unmirrored_address(addr)]
+        return self.cpu_memory_[cpu_unmirrored_address(addr)]
 
     def cpu_write_byte(self, addr, value):
         # TODO: Prevent writing to ROM and to memory that doesn't exist.
-        self.cpu_memory_[unmirrored_address(addr)] = value % 256
+        self.cpu_memory_[cpu_unmirrored_address(addr)] = value % 256
 
     def cpu_read_word(self, addr):
         """Return the contents of a 2-byte word located in the CPU address space given by @param addr.

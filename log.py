@@ -1,6 +1,6 @@
 import os
 import sys
-from memory_mapper import STACK_PAGE_ADDR, unmirrored_address
+from memory_mapper import STACK_PAGE_ADDR, cpu_unmirrored_address
 
 class CpuLogger():
 
@@ -11,7 +11,7 @@ class CpuLogger():
         self.printLog(cpu.PC(), cpu.A(), cpu.X(), cpu.Y(), STACK_PAGE_ADDR + cpu.SP(), cpu.P())
 
     def log_memory_access_instruction(self, cpu, mem_addr, data):
-        self.printLogLoadStore(cpu.PC(), cpu.A(), cpu.X(), cpu.Y(), STACK_PAGE_ADDR + cpu.SP(), cpu.P(), unmirrored_address(mem_addr), data)
+        self.printLogLoadStore(cpu.PC(), cpu.A(), cpu.X(), cpu.Y(), STACK_PAGE_ADDR + cpu.SP(), cpu.P(), cpu_unmirrored_address(mem_addr), data)
 
     def printLog(self, regPC, regA, regX, regY, regSP,  regP):
         print("| pc = 0x%04x | a = 0x%04x | x = 0x%04x | y = 0x%04x | sp = 0x%04x | p[NV-BDIZC] = %s |" % (regPC,

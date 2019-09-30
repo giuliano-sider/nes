@@ -7,12 +7,14 @@ from instructions import BRK, instructions
 from log import CpuLogger
 from memory_mapper import MemoryMapper
 from cpu import Cpu
+from ppu import Ppu
 
 
 def run_game(iNES_file):
 
     memory_mapper = MemoryMapper(iNES_file)
     cpu = Cpu(memory_mapper)
+    ppu = Ppu(memory_mapper)
     logger = CpuLogger(sys.stdout)
 
     while 1:
