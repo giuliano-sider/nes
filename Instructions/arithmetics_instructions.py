@@ -3,46 +3,8 @@ from Instructions.address_getters import *
 
 ADC_IMMEDIATE = 0x69
 def adc_immediate(cpu, logger):
-    op2 = get_immediate(cpu)
-    adc(cpu, logger, op2)
-
-ADC_ZEROPAGE = 0x65
-def adc_zeropage(cpu, logger):
-    op2 = get_zeropage(cpu)
-    adc(cpu, logger, op2)
-
-ADC_ZEROPAGEX = 0x75
-def adc_zeropage_x(cpu, logger):
-    op2 = get_zeropage_x(cpu)
-    adc(cpu, logger, op2)
-
-ADC_ABSOLUTE = 0x6D
-def adc_absolute(cpu, logger):
-    op2 = get_absolute(cpu)
-    adc(cpu, logger, op2)
-
-ADC_ABSOLUTE_X = 0x7D
-def adc_absolute_x(cpu, logger):
-    op2 = get_absolute_x(cpu)
-    adc(cpu, logger, op2)
-
-ADC_ABSOLUTE_Y = 0x79
-def adc_absolute_y(cpu, logger):
-    op2 = get_absolute_y(cpu)
-    adc(cpu, logger, op2)
-
-ADC_INDIRECT_X = 0x61
-def adc_indirect_x(cpu, logger):
-    op2 = get_indirect_x(cpu)
-    adc(cpu, logger, op2)
-
-ADC_INDIRECT_Y = 0x71
-def adc_indirect_y(cpu, logger):
-    op2 = get_indirect_y(cpu)
-    adc(cpu, logger, op2)
-
-def adc(cpu, logger, op2):
     op1 = cpu.A()
+    op2 = get_immediate(cpu)
     result = cpu.A() + op2 + cpu.carry()
     cpu.set_A(result)
 
@@ -52,6 +14,54 @@ def adc(cpu, logger, op2):
     cpu.set_carry_iff(result >= 256)
 
     logger.log_instruction(cpu)
+
+ADC_ZEROPAGE = 0x65
+def adc_zeropage(cpu, logger):
+    addr = get_zeropage_addr(cpu)
+    adc(cpu, logger, addr)
+
+ADC_ZEROPAGEX = 0x75
+def adc_zeropage_x(cpu, logger):
+    addr = get_zeropage_x_addr(cpu)
+    adc(cpu, logger, addr)
+
+ADC_ABSOLUTE = 0x6D
+def adc_absolute(cpu, logger):
+    addr = get_absolute_addr(cpu)
+    adc(cpu, logger, addr)
+
+ADC_ABSOLUTE_X = 0x7D
+def adc_absolute_x(cpu, logger):
+    addr = get_absolute_x_addr(cpu)
+    adc(cpu, logger, addr)
+
+ADC_ABSOLUTE_Y = 0x79
+def adc_absolute_y(cpu, logger):
+    addr = get_absolute_y_addr(cpu)
+    adc(cpu, logger, addr)
+
+ADC_INDIRECT_X = 0x61
+def adc_indirect_x(cpu, logger):
+    addr = get_indirect_x_addr(cpu)
+    adc(cpu, logger, addr)
+
+ADC_INDIRECT_Y = 0x71
+def adc_indirect_y(cpu, logger):
+    addr = get_indirect_y_addr(cpu)
+    adc(cpu, logger, addr)
+
+def adc(cpu, logger, addr):
+    op2 = cpu.memory[addr]
+    op1 = cpu.A()
+    result = cpu.A() + op2 + cpu.carry()
+    cpu.set_A(result)
+
+    cpu.set_negative_iff(is_negative(cpu.A()))
+    cpu.set_overflow_iff(is_adc_overflow(op1, op2, cpu.A()))
+    cpu.set_zero_iff(cpu.A() == 0)
+    cpu.set_carry_iff(result >= 256)
+
+    logger.log_memory_access_instruction(cpu, addr, op2)
 
 CMP_IMMEDIATE = 0xC9
 def cmp_immediate(cpu, logger):
