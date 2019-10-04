@@ -67,94 +67,107 @@ CMP_IMMEDIATE = 0xC9
 def cmp_immediate(cpu, logger):
     op1 = cpu.A()
     op2 = get_immediate(cpu)
-    cmp(cpu, logger, op1, op2)
+    result = (op1 - op2) % 256  # Perform 2 complement subtraction
+    cpu.set_zero_iff(op1 == op2)
+    cpu.set_carry_iff(op1 >= op2)
+    cpu.set_negative_iff(is_negative(result))
+    logger.log_instruction(cpu)
 
 CMP_ZEROPAGE = 0xC5
 def cmp_zeropage(cpu, logger):
     op1 = cpu.A()
-    op2 = get_zeropage(cpu)
+    op2 = get_zeropage_addr(cpu)
     cmp(cpu, logger, op1, op2)
 
 
 CMP_ZEROPAGE_X = 0xD5
 def cmp_zero_page_x(cpu, logger):
     op1 = cpu.A()
-    op2 = get_zeropage_x(cpu)
+    op2 = get_zeropage_x_addr(cpu)
     cmp(cpu, logger, op1, op2)
 
 CMP_ABSOLUTE = 0xCD
 def cmp_absolute(cpu, logger):
     op1 = cpu.A()
-    op2 = get_absolute(cpu)
+    op2 = get_absolute_addr(cpu)
     cmp(cpu, logger, op1, op2)
 
 
 CMP_ABSOLUTE_X = 0xDD
 def cmp_absolute_x(cpu, logger):
     op1 = cpu.A()
-    op2 = get_absolute_x(cpu)
+    op2 = get_absolute_x_addr(cpu)
     cmp(cpu, logger, op1, op2)
 
 CMP_ABSOLUTE_Y = 0xD9
 def cmp_absolute_y(cpu, logger):
     op1 = cpu.A()
-    op2 = get_absolute_y(cpu)
+    op2 = get_absolute_y_addr(cpu)
     cmp(cpu, logger, op1, op2)
 
 CMP_INDIRECT_X = 0xC1
 def cmp_indirect_x(cpu, logger):
     op1 = cpu.A()
-    op2 = get_indirect_x(cpu)
+    op2 = get_indirect_x_addr(cpu)
     cmp(cpu, logger, op1, op2)
 
 CMP_INDIRECT_Y = 0xD1
 def cmp_indirect_y(cpu, logger):
     op1 = cpu.A()
-    op2 = get_indirect_y(cpu)
+    op2 = get_indirect_y_addr(cpu)
     cmp(cpu, logger, op1, op2)
 
 CPX_IMMEDIATE = 0xE0
 def cpx_immediate(cpu, logger):
     op1 = cpu.X()
     op2 = get_immediate(cpu)
-    cmp(cpu, logger, op1, op2)
+    result = (op1 - op2) % 256  # Perform 2 complement subtraction
+    cpu.set_zero_iff(op1 == op2)
+    cpu.set_carry_iff(op1 >= op2)
+    cpu.set_negative_iff(is_negative(result))
+    logger.log_instruction(cpu)
 
 CPX_ZEROPAGE = 0xE4
 def cpx_zeropage(cpu, logger):
     op1 = cpu.X()
-    op2 = get_zeropage(cpu)
+    op2 = get_zeropage_addr(cpu)
     cmp(cpu, logger, op1, op2)
 
 CPX_ABSOLUTE = 0xEC
 def cpx_absolute(cpu, logger):
     op1 = cpu.X()
-    op2 = get_absolute(cpu)
+    op2 = get_absolute_addr(cpu)
     cmp(cpu, logger, op1, op2)
 
 CPY_IMMEDIATE = 0xC0
 def cpy_immediate(cpu, logger):
     op1 = cpu.Y()
     op2 = get_immediate(cpu)
-    cmp(cpu, logger, op1, op2)
+    result = (op1 - op2) % 256  # Perform 2 complement subtraction
+    cpu.set_zero_iff(op1 == op2)
+    cpu.set_carry_iff(op1 >= op2)
+    cpu.set_negative_iff(is_negative(result))
+    logger.log_instruction(cpu)
 
 CPY_ZEROPAGE = 0xC4
 def cpy_zeropage(cpu, logger):
     op1 = cpu.Y()
-    op2 = get_zeropage(cpu)
+    op2 = get_zeropage_addr(cpu)
     cmp(cpu, logger, op1, op2)
 
 CPY_ABSOLUTE = 0xCC
 def cpy_absolute(cpu, logger):
     op1 = cpu.Y()
-    op2 = get_absolute(cpu)
+    op2 = get_absolute_addr(cpu)
     cmp(cpu, logger, op1, op2)
 
-def cmp(cpu, logger, op1, op2):
+def cmp(cpu, logger, op1, addr):
+    op2 = cpu.memory[addr]
     result = (op1-op2) % 256  #Perform 2 complement subtraction
     cpu.set_zero_iff(op1 == op2)
     cpu.set_carry_iff(op1 >= op2)
     cpu.set_negative_iff(is_negative(result))
-    logger.log_instruction(cpu)
+    logger.log_memory_access_instruction(cpu, addr, op2)
 
 
 
@@ -200,7 +213,7 @@ def dec(cpu, logger, addr):
   cpu.memory[addr] = result
   cpu.set_zero_iff(result == 0)
   cpu.set_negative_iff(is_negative(result))
-  logger.log_instruction(cpu)
+  logger.log_memory_access_instruction(cpu, addr, cpu.memory[addr])
 
 
 INC_ZEROPAGE = 0xE6
@@ -247,50 +260,12 @@ def inc(cpu, logger, addr):
   cpu.memory[addr] = result
   cpu.set_zero_iff(result == 0)
   cpu.set_negative_iff(is_negative(result))
-  logger.log_instruction(cpu)
+  logger.log_memory_access_instruction(cpu, addr, cpu.memory[addr])
 
 
 SBC_IMMEDIATE = 0xE9
 def sbc_immediate(cpu, logger):
   op2 = get_immediate(cpu)
-  sbc(cpu, logger, op2)
-
-SBC_ZEROPAGE = 0xE5
-def sbc_zeropage(cpu, logger):
-  op2 = get_zeropage(cpu)
-  sbc(cpu, logger, op2)
-
-SBC_ZEROPAGE_X = 0xF5
-def sbc_zeropage_x(cpu, logger):
-  op2 = get_zeropage_x(cpu)
-  sbc(cpu, logger, op2)
-
-SBC_ABSOLUTE = 0xED
-def sbc_absolute(cpu, logger):
-  op2 = get_absolute(cpu)
-  sbc(cpu, logger, op2)
-
-SBC_ABSOLUTE_X = 0xFD
-def sbc_absolute_x(cpu, logger):
-  op2 = get_absolute_x(cpu)
-  sbc(cpu, logger, op2)
-
-SBC_ABSOLUTE_Y = 0xF9
-def sbc_absolute_y(cpu, logger):
-  op2 = get_absolute_y(cpu)
-  sbc(cpu, logger, op2)
-
-SBC_INDIRECT_X = 0xE1
-def sbc_indirect_x(cpu, logger):
-  op2 = get_indirect_x(cpu)
-  sbc(cpu, logger, op2)
-
-SBC_INDIRECT_Y = 0xF1
-def sbc_indirect_y(cpu, logger):
-  op2 = get_indirect_y(cpu)
-  sbc(cpu, logger, op2)
-
-def sbc(cpu, logger, op2):
   op1 = cpu.A()
   result = cpu.A() - op2 - (1 - cpu.carry())
   cpu.set_A(result)
@@ -300,3 +275,50 @@ def sbc(cpu, logger, op2):
   cpu.set_zero_iff(cpu.A() == 0)
   cpu.set_carry_iff(result >= 0)
   logger.log_instruction(cpu)
+
+SBC_ZEROPAGE = 0xE5
+def sbc_zeropage(cpu, logger):
+  op2 = get_zeropage_addr(cpu)
+  sbc(cpu, logger, op2)
+
+SBC_ZEROPAGE_X = 0xF5
+def sbc_zeropage_x(cpu, logger):
+  op2 = get_zeropage_x_addr(cpu)
+  sbc(cpu, logger, op2)
+
+SBC_ABSOLUTE = 0xED
+def sbc_absolute(cpu, logger):
+  op2 = get_absolute_addr(cpu)
+  sbc(cpu, logger, op2)
+
+SBC_ABSOLUTE_X = 0xFD
+def sbc_absolute_x(cpu, logger):
+  op2 = get_absolute_x_addr(cpu)
+  sbc(cpu, logger, op2)
+
+SBC_ABSOLUTE_Y = 0xF9
+def sbc_absolute_y(cpu, logger):
+  op2 = get_absolute_y_addr(cpu)
+  sbc(cpu, logger, op2)
+
+SBC_INDIRECT_X = 0xE1
+def sbc_indirect_x(cpu, logger):
+  op2 = get_indirect_x_addr(cpu)
+  sbc(cpu, logger, op2)
+
+SBC_INDIRECT_Y = 0xF1
+def sbc_indirect_y(cpu, logger):
+  op2 = get_indirect_y_addr(cpu)
+  sbc(cpu, logger, op2)
+
+def sbc(cpu, logger, addr):
+  op1 = cpu.A()
+  op2 = cpu.memory[addr]
+  result = cpu.A() - op2 - (1 - cpu.carry())
+  cpu.set_A(result)
+
+  cpu.set_negative_iff(is_negative(cpu.A()))
+  cpu.set_overflow_iff(is_sbc_overflow(op1, op2, cpu.A()))
+  cpu.set_zero_iff(cpu.A() == 0)
+  cpu.set_carry_iff(result >= 0)
+  logger.log_memory_access_instruction(cpu, addr, op2)
