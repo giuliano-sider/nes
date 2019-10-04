@@ -29,7 +29,7 @@ def lda_absolute(cpu, logger):
     cpu.set_zero_iff(content == 0x00)
     cpu.set_negative_iff(utils.is_negative(content))
     cpu.set_A(content)
-    logger.log_instruction(cpu)
+    logger.log_memory_access_instruction(cpu, address, content)
 
 LDA_INDIRECT_Y = 0xB1
 def lda_indirect_y(cpu, logger):
@@ -43,7 +43,7 @@ def lda_indirect_y(cpu, logger):
     cpu.set_zero_iff(content == 0x00)
     cpu.set_negative_iff(utils.is_negative(content))
     cpu.set_A(content)
-    logger.log_instruction(cpu)
+    logger.log_memory_access_instruction(cpu, offset_y_address, content)
 
 
 LDA_INDIRECT_X = 0xA1
@@ -55,7 +55,7 @@ def lda_indirect_x(cpu, logger):
     cpu.set_zero_iff(content == 0x00)
     cpu.set_negative_iff(utils.is_negative(content))
     cpu.set_A(content)
-    logger.log_instruction(cpu)
+    logger.log_memory_access_instruction(cpu, resolved_address, content)
 
 
 LDA_ABSOLUTE_Y = 0xB9
@@ -68,7 +68,7 @@ def lda_absolute_y(cpu, logger):
     cpu.set_zero_iff(content == 0x00)
     cpu.set_negative_iff(utils.is_negative(content))
     cpu.set_A(content)
-    logger.log_instruction(cpu)
+    logger.log_memory_access_instruction(cpu, address, content)
 
 LDA_ABSOLUTE_X = 0xBD
 def lda_absolute_x(cpu, logger):
@@ -80,17 +80,18 @@ def lda_absolute_x(cpu, logger):
     cpu.set_zero_iff(content == 0x00)
     cpu.set_negative_iff(utils.is_negative(content))
     cpu.set_A(content)
-    logger.log_instruction(cpu)
+    logger.log_memory_access_instruction(cpu, address, content)
 
 LDA_ZEROPAGE_X = 0xB5
 def lda_zeropage_x(cpu, logger):
     address_8bit = cpu.memory[cpu.PC() + 1]
     cpu.set_PC(cpu.PC()+2)
-    content = cpu.memory[(address_8bit + cpu.X()) % utils.MOD_ZERO_PAGE]
+    resolved_address = (address_8bit + cpu.X()) % utils.MOD_ZERO_PAGE
+    content = cpu.memory[resolved_address]
     cpu.set_zero_iff(content == 0x00)
     cpu.set_negative_iff(utils.is_negative(content))
     cpu.set_A(content)
-    logger.log_instruction(cpu)
+    logger.log_memory_access_instruction(cpu, resolved_address, content)
 
 LDX_IMMEDIATE = 0xA2
 def ldx_immediate(cpu, logger):
@@ -109,7 +110,7 @@ def ldx_zeropage(cpu, logger):
     cpu.set_zero_iff(content == 0x00)
     cpu.set_negative_iff(utils.is_negative(content))
     cpu.set_X(content)
-    logger.log_instruction(cpu)
+    logger.log_memory_access_instruction(cpu, address_8bit, content)
 
 
 LDX_ABSOLUTE = 0xAE
@@ -122,7 +123,7 @@ def ldx_absolute(cpu, logger):
     cpu.set_zero_iff(content == 0x00)
     cpu.set_negative_iff(utils.is_negative(content))
     cpu.set_X(content)
-    logger.log_instruction(cpu)
+    logger.log_memory_access_instruction(cpu, address, content)
 
 
 LDX_ZEROPAGE_Y = 0xB6
@@ -134,7 +135,7 @@ def ldx_zeropage_y(cpu, logger):
     cpu.set_zero_iff(content == 0x00)
     cpu.set_negative_iff(utils.is_negative(content))
     cpu.set_X(content)
-    logger.log_instruction(cpu)
+    logger.log_memory_access_instruction(cpu, address, content)
 
 LDX_ABSOLUTE_Y = 0xBE
 def ldx_absolute_y(cpu, logger):
@@ -146,7 +147,7 @@ def ldx_absolute_y(cpu, logger):
     cpu.set_zero_iff(content == 0x00)
     cpu.set_negative_iff(utils.is_negative(content))
     cpu.set_X(content)
-    logger.log_instruction(cpu)
+    logger.log_memory_access_instruction(cpu, address, content)
 
 LDY_IMMEDIATE = 0xA0
 def ldy_immediate(cpu, logger):
@@ -165,7 +166,7 @@ def ldy_zeropage(cpu, logger):
     cpu.set_zero_iff(content == 0x00)
     cpu.set_negative_iff(utils.is_negative(content))
     cpu.set_Y(content)
-    logger.log_instruction(cpu)
+    logger.log_memory_access_instruction(cpu, address_8bit, content)
 
 LDY_ABSOLUTE = 0xAC
 def ldy_absolute(cpu, logger):
@@ -178,17 +179,18 @@ def ldy_absolute(cpu, logger):
     cpu.set_zero_iff(content == 0x00)
     cpu.set_negative_iff(utils.is_negative(content))
     cpu.set_Y(content)
-    logger.log_instruction(cpu)
+    logger.log_memory_access_instruction(cpu, address, content)
 
 LDY_ZEROPAGE_X = 0xB4
 def ldy_zeropage_x(cpu, logger):
     address_8bit = cpu.memory[cpu.PC() + 1]
     cpu.set_PC(cpu.PC() + 2)
-    content = cpu.memory[(address_8bit + cpu.X()) % utils.MOD_ZERO_PAGE]
+    resolved_address = (address_8bit + cpu.X()) % utils.MOD_ZERO_PAGE
+    content = cpu.memory[resolved_address]
     cpu.set_zero_iff(content == 0x00)
     cpu.set_negative_iff(utils.is_negative(content))
     cpu.set_Y(content)
-    logger.log_instruction(cpu)
+    logger.log_memory_access_instruction(cpu, resolved_address, content)
 
 LDY_ABSOLUTE_X = 0xBC
 def ldy_absolute_x(cpu, logger):
@@ -200,5 +202,5 @@ def ldy_absolute_x(cpu, logger):
     cpu.set_zero_iff(content == 0x00)
     cpu.set_negative_iff(utils.is_negative(content))
     cpu.set_Y(content)
-    logger.log_instruction(cpu)
+    logger.log_memory_access_instruction(cpu, address, content)
 
