@@ -265,8 +265,8 @@ def inc(cpu, logger, addr):
 
 SBC_IMMEDIATE = 0xE9
 def sbc_immediate(cpu, logger):
-  op2 = get_immediate(cpu)
   op1 = cpu.A()
+  op2 = get_immediate(cpu)
   result = cpu.A() - op2 - (1 - cpu.carry())
   cpu.set_A(result)
 
@@ -276,6 +276,7 @@ def sbc_immediate(cpu, logger):
   cpu.set_carry_iff(result >= 0)
   logger.log_instruction(cpu)
 
+
 SBC_ZEROPAGE = 0xE5
 def sbc_zeropage(cpu, logger):
   op2 = get_zeropage_addr(cpu)
@@ -283,33 +284,33 @@ def sbc_zeropage(cpu, logger):
 
 SBC_ZEROPAGE_X = 0xF5
 def sbc_zeropage_x(cpu, logger):
-  op2 = get_zeropage_x_addr(cpu)
-  sbc(cpu, logger, op2)
+  addr = get_zeropage_x_addr(cpu)
+  sbc(cpu, logger, addr)
 
 SBC_ABSOLUTE = 0xED
 def sbc_absolute(cpu, logger):
-  op2 = get_absolute_addr(cpu)
-  sbc(cpu, logger, op2)
+  addr = get_absolute_addr(cpu)
+  sbc(cpu, logger, addr)
 
 SBC_ABSOLUTE_X = 0xFD
 def sbc_absolute_x(cpu, logger):
-  op2 = get_absolute_x_addr(cpu)
-  sbc(cpu, logger, op2)
+  addr = get_absolute_x_addr(cpu)
+  sbc(cpu, logger, addr)
 
 SBC_ABSOLUTE_Y = 0xF9
 def sbc_absolute_y(cpu, logger):
-  op2 = get_absolute_y_addr(cpu)
-  sbc(cpu, logger, op2)
+  addr = get_absolute_y_addr(cpu)
+  sbc(cpu, logger, addr)
 
 SBC_INDIRECT_X = 0xE1
 def sbc_indirect_x(cpu, logger):
-  op2 = get_indirect_x_addr(cpu)
-  sbc(cpu, logger, op2)
+  addr = get_indirect_x_addr(cpu)
+  sbc(cpu, logger, addr)
 
 SBC_INDIRECT_Y = 0xF1
 def sbc_indirect_y(cpu, logger):
-  op2 = get_indirect_y_addr(cpu)
-  sbc(cpu, logger, op2)
+  addr = get_indirect_y_addr(cpu)
+  sbc(cpu, logger, addr)
 
 def sbc(cpu, logger, addr):
   op1 = cpu.A()
