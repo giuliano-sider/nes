@@ -4,8 +4,11 @@ Development rules for PPU
 
 ## Write on PPU
 
+```
 WHEN I write in $2000
-THEN I can access the content also in the following addresses: [$2000, $2008, ... $3FF8]
+
+THEN I can access the content also in the following addresses: [$2000, $2008, ... $3FF8]`
+```
 
 WHEN I write in $2001
 THEN I can access the content also in the following addresses: [$2001, $2009, ... $3ff9]
