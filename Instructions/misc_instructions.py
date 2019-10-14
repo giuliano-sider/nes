@@ -1,5 +1,15 @@
 from nes_cpu_utils import is_negative
 from memory_mapper import STACK_PAGE_ADDR
+from nes_cpu_utils import CpuHalt
+
+BRK = 0x00
+def brk(cpu, logger):
+    """In test mode, BRK halts the processor.
+       Normally, BRK generates a software interrupt (IRQ with the Break flag set in the pushed value of P)."""
+    if cpu.is_test_mode:
+        raise CpuHalt('BRK executed in test mode')
+    else:
+        raise NotImplementedError()
 
 TXA = 0x8A
 def txa(cpu, logger):

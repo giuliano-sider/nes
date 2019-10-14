@@ -4,7 +4,6 @@ from Instructions.store_instructions import *
 from Instructions.control_flow_instructions import *
 from Instructions.logical_instructions import *
 from Instructions.misc_instructions import *
-from nes_cpu_utils import CpuHalt
 
 def InstructionNotImplemented(*args):
     raise NotImplementedError('Instruction currently unimplemented')
@@ -17,19 +16,6 @@ def InstructionNotImplemented(*args):
     instructions[OPCODE] = <function that implements the instruction>
 """
 instructions = 256 * [InstructionNotImplemented]
-
-
-
-BRK = 0x00
-def brk(cpu, logger):
-    """In test mode, BRK halts the processor.
-       Normally, BRK generates a software interrupt (IRQ with the Break flag set in the pushed value of P)."""
-    if cpu.is_test_mode:
-        raise CpuHalt('BRK executed in test mode')
-    else:
-        raise NotImplementedError()
-
-instructions[BRK] = brk
 
 
 # Undocumented opcodes:
@@ -568,9 +554,6 @@ def instruction_fc(cpu, logger):
     # to be implemented OPCODE fc
     raise NotImplementedError()
 
-# End of undocumented opcodes.
-
-
 instructions[2] = instruction_02
 instructions[3] = instruction_03
 instructions[4] = instruction_04
@@ -578,7 +561,6 @@ instructions[7] = instruction_07
 instructions[11] = instruction_0b
 instructions[12] = instruction_0c
 instructions[15] = instruction_0f
-instructions[16] = bpl
 instructions[18] = instruction_12
 instructions[19] = instruction_13
 instructions[20] = instruction_14
@@ -587,7 +569,6 @@ instructions[26] = instruction_1a
 instructions[27] = instruction_1b
 instructions[28] = instruction_1c
 instructions[31] = instruction_1f
-instructions[32] = jsr
 instructions[33] = instruction_21
 instructions[34] = instruction_22
 instructions[35] = instruction_23
@@ -597,7 +578,6 @@ instructions[41] = instruction_29
 instructions[43] = instruction_2b
 instructions[45] = instruction_2d
 instructions[47] = instruction_2f
-instructions[48] = bmi
 instructions[49] = instruction_31
 instructions[50] = instruction_32
 instructions[51] = instruction_33
@@ -610,15 +590,12 @@ instructions[59] = instruction_3b
 instructions[60] = instruction_3c
 instructions[61] = instruction_3d
 instructions[63] = instruction_3f
-instructions[64] = rti
 instructions[66] = instruction_42
 instructions[67] = instruction_43
 instructions[68] = instruction_44
 instructions[71] = instruction_47
 instructions[75] = instruction_4b
-instructions[76] = jmp_absolute
 instructions[79] = instruction_4f
-instructions[80] = bvc
 instructions[82] = instruction_52
 instructions[83] = instruction_53
 instructions[84] = instruction_54
@@ -627,15 +604,12 @@ instructions[90] = instruction_5a
 instructions[91] = instruction_5b
 instructions[92] = instruction_5c
 instructions[95] = instruction_5f
-instructions[96] = rts
 instructions[98] = instruction_62
 instructions[99] = instruction_63
 instructions[100] = instruction_64
 instructions[103] = instruction_67
 instructions[107] = instruction_6b
-instructions[108] = jmp_indirect
 instructions[111] = instruction_6f
-instructions[112] = bvs
 instructions[114] = instruction_72
 instructions[115] = instruction_73
 instructions[116] = instruction_74
@@ -645,66 +619,32 @@ instructions[123] = instruction_7b
 instructions[124] = instruction_7c
 instructions[127] = instruction_7f
 instructions[128] = instruction_80
-instructions[129] = sta_indirect_x
 instructions[130] = instruction_82
 instructions[131] = instruction_83
-instructions[132] = sty_zeropage
-instructions[133] = sta_zeropage
-instructions[134] = stx_zeropage
 instructions[135] = instruction_87
 instructions[137] = instruction_89
 instructions[139] = instruction_8b
-instructions[140] = sty_absolute
-instructions[STA_ABSOLUTE] = sta_absolute
-instructions[142] = stx_absolute
 instructions[143] = instruction_8f
-instructions[BCC] = bcc
-instructions[145] = sta_indirect_y
 instructions[146] = instruction_92
 instructions[147] = instruction_93
-instructions[148] = sty_zeropage_x
-instructions[149] = sta_zeropage_x
-instructions[150] = stx_zeropage_y
 instructions[151] = instruction_97
-instructions[153] = sta_absolute_y
 instructions[156] = instruction_9c
-instructions[157] = sta_absolute_x
 instructions[158] = instruction_9e
 instructions[159] = instruction_9f
-instructions[160] = ldy_immediate
-instructions[LDA_INDIRECT_X] = lda_indirect_x
-instructions[162] = ldx_immediate
 instructions[163] = instruction_a3
-instructions[164] = ldy_zeropage
-instructions[LDA_ZEROPAGE] = lda_zeropage
-instructions[166] = ldx_zeropage
 instructions[167] = instruction_a7
-instructions[LDA_IMMEDIATE] = lda_immediate
 instructions[171] = instruction_ab
-instructions[172] = ldy_absolute
-instructions[173] = lda_absolute
-instructions[174] = ldx_absolute
 instructions[175] = instruction_af
-instructions[BCS] = bcs
-instructions[LDA_INDIRECT_Y] = lda_indirect_y
 instructions[178] = instruction_b2
 instructions[179] = instruction_b3
-instructions[180] = ldy_zeropage_x
-instructions[181] = lda_zeropage_x
-instructions[182] = ldx_zeropage_y
 instructions[183] = instruction_b7
-instructions[185] = lda_absolute_y
 instructions[187] = instruction_bb
-instructions[188] = ldy_absolute_x
-instructions[189] = lda_absolute_x
-instructions[190] = ldx_absolute_y
 instructions[191] = instruction_bf
 instructions[194] = instruction_c2
 instructions[195] = instruction_c3
 instructions[199] = instruction_c7
 instructions[203] = instruction_cb
 instructions[207] = instruction_cf
-instructions[208] = bne
 instructions[210] = instruction_d2
 instructions[211] = instruction_d3
 instructions[212] = instruction_d4
@@ -718,7 +658,6 @@ instructions[227] = instruction_e3
 instructions[231] = instruction_e7
 instructions[235] = instruction_eb
 instructions[239] = instruction_ef
-instructions[240] = beq
 instructions[242] = instruction_f2
 instructions[243] = instruction_f3
 instructions[244] = instruction_f4
@@ -727,6 +666,58 @@ instructions[250] = instruction_fa
 instructions[251] = instruction_fb
 instructions[252] = instruction_fc
 
+# End of undocumented opcodes.
+
+
+instructions[STA_INDIRECT_X] = sta_indirect_x
+instructions[STY_ZEROPAGE] = sty_zeropage
+instructions[STA_ZEROPAGE] = sta_zeropage
+instructions[STX_ZEROPAGE] = stx_zeropage
+instructions[STY_ABSOLUTE] = sty_absolute
+instructions[STA_ABSOLUTE] = sta_absolute
+instructions[STX_ABSOLUTE] = stx_absolute
+instructions[STA_INDIRECT_Y] = sta_indirect_y
+instructions[STY_ZEROPAGE_X] = sty_zeropage_x
+instructions[STA_ZEROPAGE_X] = sta_zeropage_x
+instructions[STX_ZEROPAGE_Y] = stx_zeropage_y
+instructions[STA_ABSOLUTE_Y] = sta_absolute_y
+instructions[STA_ABSOLUTE_X] = sta_absolute_x
+
+instructions[LDY_IMMEDIATE] = ldy_immediate
+instructions[LDA_INDIRECT_X] = lda_indirect_x
+instructions[LDX_IMMEDIATE] = ldx_immediate
+instructions[LDY_ZEROPAGE] = ldy_zeropage
+instructions[LDA_ZEROPAGE] = lda_zeropage
+instructions[LDX_ZEROPAGE] = ldx_zeropage
+instructions[LDA_IMMEDIATE] = lda_immediate
+instructions[LDY_ABSOLUTE] = ldy_absolute
+instructions[LDA_ABSOLUTE] = lda_absolute
+instructions[LDX_ABSOLUTE] = ldx_absolute
+instructions[LDA_INDIRECT_Y] = lda_indirect_y
+instructions[LDY_ZEROPAGE_X] = ldy_zeropage_x
+instructions[LDA_ZEROPAGE_X] = lda_zeropage_x
+instructions[LDX_ZEROPAGE_Y] = ldx_zeropage_y
+instructions[LDA_ABSOLUTE_Y] = lda_absolute_y
+instructions[LDY_ABSOLUTE_X] = ldy_absolute_x
+instructions[LDA_ABSOLUTE_X] = lda_absolute_x
+instructions[LDX_ABSOLUTE_Y] = ldx_absolute_y
+
+instructions[JSR] = jsr
+instructions[RTI] = rti
+instructions[RTS] = rts
+instructions[JMP_ABSOLUTE] = jmp_absolute
+instructions[JMP_INDIRECT] = jmp_indirect
+
+instructions[BNE] = bne
+instructions[BEQ] = beq
+instructions[BCS] = bcs
+instructions[BVS] = bvs
+instructions[BCC] = bcc
+instructions[BVC] = bvc
+instructions[BPL] = bpl
+instructions[BMI] = bmi
+
+instructions[BRK] = brk
 
 instructions[NOP] = nop
 
@@ -752,6 +743,7 @@ instructions[CLV] = clv
 
 instructions[PHP] = php
 instructions[PLP] = plp
+
 instructions[PHA] = pha
 instructions[PLA] = pla
 
@@ -764,6 +756,7 @@ instructions[ADC_ABSOLUTE_X] = adc_absolute_x
 instructions[ADC_ABSOLUTE_Y] = adc_absolute_y
 instructions[ADC_INDIRECT_X] = adc_indirect_x
 instructions[ADC_INDIRECT_Y ] = adc_indirect_y
+
 instructions[CMP_IMMEDIATE] = cmp_immediate
 instructions[CMP_ZEROPAGE] = cmp_zeropage
 instructions[CMP_ZEROPAGE_X] = cmp_zero_page_x
@@ -772,9 +765,11 @@ instructions[CMP_INDIRECT_Y] = cmp_indirect_y
 instructions[CMP_ABSOLUTE] = cmp_absolute
 instructions[CMP_ABSOLUTE_Y] = cmp_absolute_y
 instructions[CMP_ABSOLUTE_X] = cmp_absolute_x
+
 instructions[CPX_IMMEDIATE] = cpx_immediate
 instructions[CPX_ZEROPAGE] = cpx_zeropage
 instructions[CPX_ABSOLUTE] = cpx_absolute
+
 instructions[CPY_IMMEDIATE] = cpy_immediate
 instructions[CPY_ZEROPAGE] = cpy_zeropage
 instructions[CPY_ABSOLUTE] = cpy_absolute
@@ -783,16 +778,20 @@ instructions[DEC_ZEROPAGE] = dec_zeropage
 instructions[DEC_ABSOLUTE] = dec_absolute
 instructions[DEC_ZEROPAGE_X] = dec_zeropage_x
 instructions[DEC_ABSOLUTE_X] = dec_absolute_x
-instructions[DEX] = dex
-instructions[DEY] = dey
 
+instructions[DEX] = dex
+
+instructions[DEY] = dey
 
 instructions[INC_ZEROPAGE] = inc_zeropage
 instructions[INC_ZEROPAGE_X] = inc_zeropage_x
 instructions[INC_ABSOLUTE] = inc_absolute
 instructions[INC_ABSOLUTE_X] = inc_absolute_x
+
 instructions[INX] = inx
+
 instructions[INY] = iny
+
 instructions[SBC_ZEROPAGE] = sbc_zeropage
 instructions[SBC_IMMEDIATE] = sbc_immediate
 instructions[SBC_ABSOLUTE] = sbc_absolute
