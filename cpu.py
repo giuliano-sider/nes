@@ -1,5 +1,5 @@
 from memory_mapper import RESET_VECTOR, IRQ_VECTOR, NMI_VECTOR, MEMORY_SIZE, STACK_PAGE_ADDR
-
+from instructions import instructions
 
 # flag-related constants:
 
@@ -50,7 +50,7 @@ class Cpu():
         self.X_ = 0
         self.Y_ = 0
         self.SP_ = 0xFD
-        # Invariant: both fictitious flags are set so that they appear as 1 in the instruction log tests.
+        # Invariant: both fictitious flags ("-" and "B") are set so that they appear as 1 in the instruction log tests.
         self.P_ = BIT_WITH_NO_FLAG | BREAK | IRQ_DISABLE # N V - B D I Z C
 
         self.Reset()
@@ -93,6 +93,10 @@ class Cpu():
     def pull(self):
         self.set_SP((self.SP() + 1) % 256)
         return self.memory[STACK_PAGE_ADDR + self.SP()]
+
+    def execute_instruction_at_PC(self, logger):
+        opcode = self.memory[self.PC()]
+        instructions[opcode](self, logger)
 
     # Accessors for the registers:
 
@@ -163,11 +167,6 @@ class Cpu():
         self.P_ |= OVERFLOW
     def clear_overflow(self):
         self.P_ &= CLEAR_OVERFLOW
-
-    def set_break(self):
-        self.P_ |= BREAK
-    def clear_break(self):
-        self.P_ &= CLEAR_BREAK
 
     def set_decimal(self):
         self.P_ |= DECIMAL

@@ -3,12 +3,11 @@
 import argparse
 import sys
 
-from instructions import BRK, instructions
 from log import CpuLogger
 from memory_mapper import MemoryMapper
 from cpu import Cpu
 from ppu import Ppu
-
+from nes_cpu_utils import CpuHalt
 
 def run_game(iNES_file):
 
@@ -19,12 +18,10 @@ def run_game(iNES_file):
 
     while 1:
 
-        opcode = cpu.memory[cpu.PC()]
-        instructions[opcode](cpu, logger)
-        if opcode == BRK:
+        try:
+            cpu.execute_instruction_at_PC(logger)
+        except CpuHalt:
             break
-
-
 
 
 if __name__ == '__main__':

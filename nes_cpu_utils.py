@@ -3,6 +3,9 @@ import os
 MOD_ABSOLUTE = 0x10000
 MOD_ZERO_PAGE = 0x100
 
+class CpuHalt(Exception):
+    pass
+
 def is_adc_overflow(addend1, addend2, result):
     assert 0 <= addend1 < 256
     assert 0 <= addend2 < 256

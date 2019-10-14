@@ -4,6 +4,7 @@ from Instructions.store_instructions import *
 from Instructions.control_flow_instructions import *
 from Instructions.logical_instructions import *
 from Instructions.misc_instructions import *
+from nes_cpu_utils import CpuHalt
 
 def InstructionNotImplemented(*args):
     raise NotImplementedError('Instruction currently unimplemented')
@@ -21,11 +22,12 @@ instructions = 256 * [InstructionNotImplemented]
 
 BRK = 0x00
 def brk(cpu, logger):
-    """In test mode, BRK halts the processor. Normally, BRK generates a software interrupt (IRQ with the Break flag set)."""
-    if not cpu.is_test_mode:
-        raise NotImplementedError()
+    """In test mode, BRK halts the processor.
+       Normally, BRK generates a software interrupt (IRQ with the Break flag set in the pushed value of P)."""
+    if cpu.is_test_mode:
+        raise CpuHalt('BRK executed in test mode')
     else:
-        cpu.set_break()
+        raise NotImplementedError()
 
 instructions[BRK] = brk
 
