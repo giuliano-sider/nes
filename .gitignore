@@ -3,6 +3,7 @@ bin/*
 log/*
 __pycache__/
 __pycache__/*
+.ipynb_checkpoints/
 .idea/*
 *.pyc
 ext/asm6/asm6
