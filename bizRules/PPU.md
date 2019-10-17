@@ -19,5 +19,31 @@ WHEN I access the content at $4000 + A inside this interval
 THEN I get the same content at $0000 + A
 ```
 
+## I/O ##
+
+PPU memory uses 16-bit addresses but I/O registers are only 8-bit
+
 ```
+GIVEN 16-bit address to be set to PPU and 8 bit IO registers
+WHEN I write the address into $2006
+THEN I need to write at $2006 twice (hi an lo bits)
+```
+
+```
+WHEN I read data from $2007 once
+THEN data is buffered
+WHEN I read data from $2007 for the second time
+THEN data is returned
+```
+
+```
+GIVEN bit 2 from PPU Control ($2000)
+WHEN it is not set and I read data from $2007
+THEN addess is incremented by 1 (which address?? :/)
+```
+
+```
+GIVEN bit 2 from PPU Control ($2000)
+WHEN it is set and I read data from $2007
+THEN addess is incremented by 32 (which address?? :/)
 ```
