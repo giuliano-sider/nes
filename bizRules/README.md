@@ -88,16 +88,83 @@ THEN I
 
 ## Interrupts ##
 
-GIVEN an interrupt request ocurred
+```
+WHEN an interruption request occurs
 THEN I should complete the execution of the current instruction
+```
 
-GIVEN an interrupt request ocurred and current instruction finished
+```
+WHEN an interruption request occures and current instruction finishes
 THEN I push the program counter and status register into the stack
+```
 
-GIVEN an interrupt request ocurred and current instruction finished
+```
+WHEN an interruption request occurs and current instruction finished
 THEN Interruption should be disabled on the status register
+```
 
-GIVEN an interrupt 
+```
+WHEN an interruption occurs
 THEN PC should load the respective address from the vector table (this AC needs more details)
+```
 
+```
+WHEN interrupt handling finishes its routine
+THEN pull previous program counter and status register from the stack
+```
+
+```
+WHEN an interruption occur
+THEN it takes 7 cycles to begin executing handler
+```
+
+## [PPU] - NMI Interrupts ##
+
+```
+WHEN a frame finishes rendering
+THEN NMI interrupt is requested 
+```
+
+```
+GIVEN interrupts are disabled
+WHEN NMI interrupt occurs
+THEN NMI interrupt is handles anyway
+```
+
+```
+GIVEN the seventh bit of PPU Control Register is 0
+WHEN a frame finishes rendering
+THEN NMI interrupt handling is not triggered
+```
+
+```
+WHEN NMI interrupt occurs 
+THEN PC received the address located in $FFFA and $FFFB
+```
+
+## Reset ## 
+
+```
+WHEN Reset interrupt occurs 
+THEN PC received the address located in $FFFC and $FFFD
+```
+
+## IRQ Interruption ## 
+
+```
+WHEN IRQ interrupt occurs 
+THEN PC received the address located in $FFFE and $FFFF
+```
+
+## Interruption priorization ## 
+
+```
+GIVEN NMI, IRQ and RESET occur
+THEN RESET is handled as priority
+```
+
+```
+GIVEN IRQ and NMI occur
+THEN NMI is handled as priority
+```
 
