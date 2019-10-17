@@ -38,12 +38,72 @@ THEN data is returned
 
 ```
 GIVEN bit 2 from PPU Control ($2000)
-WHEN it is not set and I read data from $2007
+WHEN it is set and I read data from $2007
 THEN addess is incremented by 1 (which address?? :/)
 ```
 
 ```
 GIVEN bit 2 from PPU Control ($2000)
-WHEN it is set and I read data from $2007
+WHEN it is not set and I read data from $2007
 THEN addess is incremented by 32 (which address?? :/)
+```
+
+## PPU Registers ## 
+
+```
+GIVEN bit 5 from $2000
+WHEN it is not set
+THEN NES supports 8x8 sprites
+```
+
+```
+GIVEN bit 5 from $2000
+WHEN it is set
+THEN NES suports 8x16 sprites
+```
+
+```
+GIVEN bit 3 from $2001
+WHEN it is not set
+THEN background is cleared
+```
+
+```
+GIVEN bit 3 from $2001
+WHEN it is set
+THEN background is rendered
+```
+
+```
+GIVEN bit 4 from $2001
+WHEN it is not set
+THEN sprites are cleared
+```
+
+```
+GIVEN bit 4 from $2001
+WHEN it is set
+THEN sprites are rendered
+```
+
+```
+GIVEN V-Blank is ocurring
+THEN PPU sets bit 7 from $2002
+```
+
+```
+GIVEN bit 4 from $2002
+WHEN it is not set
+THEN PPU is not willing to accept writes
+```
+
+```
+GIVEN bit 4 from $2002
+WHEN it is set
+THEN PPU is willing to accept writes
+```
+
+```
+WHEN I read $2002
+THEN bit 7 from $2002, the content in $2005 and $2006 are set to 0
 ```
