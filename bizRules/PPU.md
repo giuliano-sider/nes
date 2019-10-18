@@ -107,3 +107,27 @@ THEN PPU is willing to accept writes
 WHEN I read $2002
 THEN bit 7 from $2002, the content in $2005 and $2006 are set to 0
 ```
+
+## DMA ## 
+
+```
+GIVEN the DMA register ($4014) and address from the CPU memory $10000000 being the first from 256 bytes to be copied
+WHEN i write into it with operand $100000
+THEN the operand is multiplied by $100, resulting in the given address
+```
+
+```
+GIVEN the DMA register ($4014) and address from the CPU memory $10000000 being the first from 256 bytes to be copied
+WHEN i write into it with operand $100000
+THEN 256 bytes are directly written in the sprite memory
+```
+
+```
+WHEN DMA is occurring 
+THEN CPU is prevented from using the memory
+```
+
+```
+WHEN DMA occurs
+THEN it take 512 cycles
+```
