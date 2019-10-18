@@ -131,3 +131,19 @@ THEN CPU is prevented from using the memory
 WHEN DMA occurs
 THEN it take 512 cycles
 ```
+
+## Colour Palette ## 
+
+The NES uses two palettes, each
+with 16 entries, the image palette ($3F00-$3F0F) and the sprite palette ($3F10-$3F1F). 
+
+```
+GIVEN $3F00 the background color
+THEN its content has to be copied for every 4 bytes ($3F04, $3F08, ... $3F1C)
+```
+
+```
+GIVEN the two palettes stored between $3F00 and $3F1F
+THEN their content are mirrored between $3F20-$3FFF
+```
+
