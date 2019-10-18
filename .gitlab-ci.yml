@@ -16,3 +16,4 @@ nes-cpu-python-unit-tests:
     stage: nes-cpu-tests
     script:
         - make clean pytest
+        - python3 emulator_timing_measurements.py

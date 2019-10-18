@@ -216,9 +216,9 @@ class TestEmulatorTiming(unittest.TestCase):
         prng = random.Random()
         prng.seed(42)
         for opcode, opcode_name in valid_opcodes.items():
-            how_many_times_to_execute = 50000
+            how_many_times_to_execute = 500000
             print('profiling execution of %s, each run executing %d times' % (opcode_name, how_many_times_to_execute))
-            def execute_opcode(how_many_times_to_execute=5000):
+            def execute_opcode(how_many_times_to_execute):
                 for _ in range(how_many_times_to_execute):
                     cpu.memory[cpu.PC()] = opcode
                     cpu.execute_instruction_at_PC(logger)
