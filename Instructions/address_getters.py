@@ -5,6 +5,13 @@
 
 """Operand getters for the different addressing modes."""
 
+def isCrossed(addrA, addrB):
+    if((addrA % 256) == (addrB % 256)):
+        return 0
+    else:
+        return 1
+
+
 def get_immediate(cpu):
     op2 = cpu.memory[cpu.PC() + 1]
     cpu.set_PC(cpu.PC() + 2)
@@ -28,12 +35,10 @@ def get_absolute(cpu):
     cpu.set_PC(cpu.PC() + 3)
     return op2
 
-
 def get_absolute_x(cpu):
     op2 = cpu.memory[cpu.memory_mapper.cpu_read_word(cpu.PC() + 1) + cpu.X()]
     cpu.set_PC(cpu.PC() + 3)
     return op2
-
 
 def get_absolute_y(cpu):
     op2 = cpu.memory[cpu.memory_mapper.cpu_read_word(cpu.PC() + 1) + cpu.Y()]
@@ -78,13 +83,15 @@ def get_absolute_addr(cpu):
 
 def get_absolute_x_addr(cpu):
     addr = cpu.memory_mapper.cpu_read_word(cpu.PC() + 1) + cpu.X()
+    pageCrossed = isCrossed(cpu.memory_mapper.cpu_read_word(cpu.PC() + 1), (cpu.memory_mapper.cpu_read_word(cpu.PC() + 1) + cpu.X()))
     cpu.set_PC(cpu.PC() + 3)
-    return addr
+    return addr, pageCrossed
 
 def get_absolute_y_addr(cpu):
     addr = cpu.memory_mapper.cpu_read_word(cpu.PC() + 1) + cpu.Y()
+    pageCrossed = isCrossed(cpu.memory_mapper.cpu_read_word(cpu.PC() + 1), (cpu.memory_mapper.cpu_read_word(cpu.PC() + 1) + cpu.Y()))
     cpu.set_PC(cpu.PC() + 3)
-    return addr
+    return addr, pageCrossed
 
 def get_indirect_x_addr(cpu):
     zero_page_base_addr = cpu.memory[cpu.PC() + 1]
@@ -95,8 +102,9 @@ def get_indirect_x_addr(cpu):
 
 def get_indirect_y_addr(cpu):
     zero_page_base_addr = cpu.memory[cpu.PC() + 1]
-    addr = (cpu.memory[ zero_page_base_addr           ] +
-           (cpu.memory[(zero_page_base_addr + 1) % 256] << 8) +
-            cpu.Y())
+    ind = (cpu.memory[zero_page_base_addr] +
+           (cpu.memory[(zero_page_base_addr + 1) % 256] << 8))
+    addr =  ind +  cpu.Y()
+    pageCrossed = isCrossed(ind, addr)
     cpu.set_PC(cpu.PC() + 2)
-    return addr
+    return addr, pageCrossed
