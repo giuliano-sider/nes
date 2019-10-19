@@ -17,7 +17,6 @@ def run_game(iNES_file, enable_logging):
     logger = CpuLogger(sys.stdout, enable_logging)
 
     while 1:
-
         try:
             cpu.execute_instruction_at_PC(logger)
         except CpuHalt:
