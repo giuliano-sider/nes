@@ -12,42 +12,49 @@ def adc_immediate(cpu, logger):
     cpu.set_overflow_iff(is_adc_overflow(op1, op2, cpu.A()))
     cpu.set_zero_iff(cpu.A() == 0)
     cpu.set_carry_iff(result >= 256)
-
+    cpu.clock_ticks_since_reset += 2
     logger.log_instruction(cpu)
 
 ADC_ZEROPAGE = 0x65
 def adc_zeropage(cpu, logger):
     addr = get_zeropage_addr(cpu)
     adc(cpu, logger, addr)
+    cpu.clock_ticks_since_reset += 3
 
 ADC_ZEROPAGEX = 0x75
 def adc_zeropage_x(cpu, logger):
     addr = get_zeropage_x_addr(cpu)
     adc(cpu, logger, addr)
+    cpu.clock_ticks_since_reset += 4
 
 ADC_ABSOLUTE = 0x6D
 def adc_absolute(cpu, logger):
     addr = get_absolute_addr(cpu)
     adc(cpu, logger, addr)
+    cpu.clock_ticks_since_reset += 4
 
 ADC_ABSOLUTE_X = 0x7D
 def adc_absolute_x(cpu, logger):
-    addr = get_absolute_x_addr(cpu)
+    addr, pageCrossed = get_absolute_x_addr(cpu)
+    cpu.clock_ticks_since_reset += 4 + pageCrossed
     adc(cpu, logger, addr)
 
 ADC_ABSOLUTE_Y = 0x79
 def adc_absolute_y(cpu, logger):
-    addr = get_absolute_y_addr(cpu)
+    addr, pageCrossed = get_absolute_y_addr(cpu)
+    cpu.clock_ticks_since_reset += 4 + pageCrossed
     adc(cpu, logger, addr)
 
 ADC_INDIRECT_X = 0x61
 def adc_indirect_x(cpu, logger):
     addr = get_indirect_x_addr(cpu)
+    cpu.clock_ticks_since_reset += 6
     adc(cpu, logger, addr)
 
 ADC_INDIRECT_Y = 0x71
 def adc_indirect_y(cpu, logger):
-    addr = get_indirect_y_addr(cpu)
+    addr, pageCrossed = get_indirect_y_addr(cpu)
+    cpu.clock_ticks_since_reset += 5 + pageCrossed
     adc(cpu, logger, addr)
 
 def adc(cpu, logger, addr):
@@ -96,13 +103,14 @@ def cmp_absolute(cpu, logger):
 CMP_ABSOLUTE_X = 0xDD
 def cmp_absolute_x(cpu, logger):
     op1 = cpu.A()
-    op2 = get_absolute_x_addr(cpu)
+    op2, crosspage = get_absolute_x_addr(cpu)
     cmp(cpu, logger, op1, op2)
 
 CMP_ABSOLUTE_Y = 0xD9
 def cmp_absolute_y(cpu, logger):
     op1 = cpu.A()
-    op2 = get_absolute_y_addr(cpu)
+    op2, pageCrossed = get_absolute_y_addr(cpu)
+    cpu.clock_ticks_since_reset += 4 + pageCrossed
     cmp(cpu, logger, op1, op2)
 
 CMP_INDIRECT_X = 0xC1
@@ -114,7 +122,8 @@ def cmp_indirect_x(cpu, logger):
 CMP_INDIRECT_Y = 0xD1
 def cmp_indirect_y(cpu, logger):
     op1 = cpu.A()
-    op2 = get_indirect_y_addr(cpu)
+    op2, pageCrossed = get_indirect_y_addr(cpu)
+    cpu.clock_ticks_since_reset += 5 + pageCrossed
     cmp(cpu, logger, op1, op2)
 
 CPX_IMMEDIATE = 0xE0
@@ -188,7 +197,7 @@ def dec_absolute(cpu, logger):
 
 DEC_ABSOLUTE_X = 0xDE
 def dec_absolute_x(cpu, logger):
-  addr = get_absolute_x_addr(cpu)
+  addr, crosspage = get_absolute_x_addr(cpu)
   dec(cpu, logger, addr)
 
 DEX = 0xCA
@@ -233,7 +242,7 @@ def inc_absolute(cpu, logger):
 
 INC_ABSOLUTE_X = 0xFE
 def inc_absolute_x(cpu, logger):
-  addr = get_absolute_x_addr(cpu)
+  addr, crosspage = get_absolute_x_addr(cpu)
   inc(cpu, logger, addr)
 
 INX = 0xE8
@@ -294,17 +303,19 @@ def sbc_absolute(cpu, logger):
 
 SBC_ABSOLUTE_X = 0xFD
 def sbc_absolute_x(cpu, logger):
-  addr = get_absolute_x_addr(cpu)
+  addr, crosspage = get_absolute_x_addr(cpu)
   sbc(cpu, logger, addr)
 
 SBC_ABSOLUTE_Y = 0xF9
 def sbc_absolute_y(cpu, logger):
-  addr = get_absolute_y_addr(cpu)
+  addr, pageCrossed  = get_absolute_y_addr(cpu)
+  cpu.clock_ticks_since_reset += 4 + pageCrossed
   sbc(cpu, logger, addr)
 
 SBC_INDIRECT_X = 0xE1
 def sbc_indirect_x(cpu, logger):
-  addr = get_indirect_x_addr(cpu)
+  addr,pageCrossed = get_indirect_x_addr(cpu)
+  cpu.clock_ticks_since_reset += 4 + pageCrossed
   sbc(cpu, logger, addr)
 
 SBC_INDIRECT_Y = 0xF1

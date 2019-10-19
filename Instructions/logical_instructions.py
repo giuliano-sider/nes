@@ -45,11 +45,13 @@ def and_absolute(cpu, logger):
 
 AND_ABSOLUTE_X = 0x3D
 def and_absolute_x(cpu, logger):
-    and_instruction(cpu, logger, get_absolute_x_addr(cpu))
+    addr,  pageCrossed =  get_absolute_x_addr(cpu)
+    and_instruction(cpu, logger, addr ) 
 
 AND_ABSOLUTE_Y = 0x39
 def and_absolute_y(cpu, logger):
-    and_instruction(cpu, logger, get_absolute_y_addr(cpu))
+    addr, pageCrossed = get_absolute_y_addr(cpu)
+    and_instruction(cpu, logger, addr )
 
 AND_INDIRECT_X = 0x21
 def and_indirect_x(cpu, logger):
@@ -57,7 +59,8 @@ def and_indirect_x(cpu, logger):
 
 AND_INDIRECT_Y = 0x31
 def and_indirect_y(cpu, logger):
-    and_instruction(cpu, logger, get_indirect_y_addr(cpu))
+    addr, pageCrossed = get_indirect_y_addr(cpu)
+    and_instruction(cpu, logger, addr)
 
 def and_instruction(cpu, logger, addr):
     op2 = cpu.memory[addr]
@@ -93,11 +96,13 @@ def eor_absolute(cpu, logger):
 
 EOR_ABSOLUTE_X = 0x5D
 def eor_absolute_x(cpu, logger):
-    eor_instruction(cpu, logger, get_absolute_x_addr(cpu))
+    addr,  pageCrossed =  get_absolute_x_addr(cpu)
+    eor_instruction(cpu, logger, addr)
 
 EOR_ABSOLUTE_Y = 0x59
 def eor_absolute_y(cpu, logger):
-    eor_instruction(cpu, logger, get_absolute_y_addr(cpu))
+    addr, pageCrossed = get_absolute_y_addr(cpu)
+    eor_instruction(cpu, logger, addr)
 
 EOR_INDIRECT_X = 0x41
 def eor_indirect_x(cpu, logger):
@@ -105,7 +110,8 @@ def eor_indirect_x(cpu, logger):
 
 EOR_INDIRECT_Y = 0x51
 def eor_indirect_y(cpu, logger):
-    eor_instruction(cpu, logger, get_indirect_y_addr(cpu))
+    addr, pageCrossed = get_indirect_y_addr(cpu)
+    eor_instruction(cpu, logger, pageCrossed)
 
 def eor_instruction(cpu, logger, addr):
     op2 = cpu.memory[addr]
@@ -141,11 +147,13 @@ def ora_absolute(cpu, logger):
 
 ORA_ABSOLUTE_X = 0x1D
 def ora_absolute_x(cpu, logger):
-    ora_instruction(cpu, logger, get_absolute_x_addr(cpu))
+    addr,  pageCrossed =  get_absolute_x_addr(cpu)
+    ora_instruction(cpu, logger, addr)
 
 ORA_ABSOLUTE_Y = 0x19
 def ora_absolute_y(cpu, logger):
-    ora_instruction(cpu, logger, get_absolute_y_addr(cpu))
+    addr, pageCrossed = get_absolute_y_addr(cpu)
+    ora_instruction(cpu, logger, addr)
 
 ORA_INDIRECT_X = 0x01
 def ora_indirect_x(cpu, logger):
@@ -153,7 +161,8 @@ def ora_indirect_x(cpu, logger):
 
 ORA_INDIRECT_Y = 0x11
 def ora_indirect_y(cpu, logger):
-    ora_instruction(cpu, logger, get_indirect_y_addr(cpu))
+    addr, pageCrossed = get_indirect_y_addr(cpu)
+    ora_instruction(cpu, logger, pageCrossed)
 
 def ora_instruction(cpu, logger, addr):
     op2 = cpu.memory[addr]
@@ -187,7 +196,8 @@ def asl_zeropage_x(cpu, logger):
 
 ASL_ABSOLUTE = 0x0E
 def asl_absolute(cpu, logger):
-    asl(cpu, logger, get_absolute_addr(cpu))
+    addr,  pageCrossed =  get_absolute_x_addr(cpu)
+    asl(cpu, logger, addr)
 
 ASL_ABSOLUTE_X = 0x1E
 def asl_absolute_x(cpu, logger):
@@ -226,7 +236,8 @@ def lsr_zeropage_x(cpu, logger):
 
 LSR_ABSOLUTE = 0x4E
 def lsr_absolute(cpu, logger):
-    lsr(cpu, logger, get_absolute_addr(cpu))
+    addr,  pageCrossed =  get_absolute_x_addr(cpu)
+    lsr(cpu, logger, addr)
 
 LSR_ABSOLUTE_X = 0x5E
 def lsr_absolute_x(cpu, logger):
@@ -265,7 +276,8 @@ def rol_zeropage_x(cpu, logger):
 
 ROL_ABSOLUTE = 0x2E
 def rol_absolute(cpu, logger):
-    rol(cpu, logger, get_absolute_addr(cpu))
+    addr,  pageCrossed =  get_absolute_x_addr(cpu)
+    rol(cpu, logger, addr)
 
 ROL_ABSOLUTE_X = 0x3E
 def rol_absolute_x(cpu, logger):
@@ -304,7 +316,8 @@ def ror_zeropage_x(cpu, logger):
 
 ROR_ABSOLUTE = 0x6E
 def ror_absolute(cpu, logger):
-    ror(cpu, logger, get_absolute_addr(cpu))
+    addr,  pageCrossed =  get_absolute_x_addr(cpu)
+    ror(cpu, logger, addr)
 
 ROR_ABSOLUTE_X = 0x7E
 def ror_absolute_x(cpu, logger):

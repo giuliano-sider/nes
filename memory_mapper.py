@@ -1,4 +1,4 @@
-
+import nes_ppu_utils as ppu_utils
 """NES memory related constants"""
 
 MEMORY_SIZE = 0x10000 # 64KiB CPU and PPU address spaces
@@ -26,8 +26,10 @@ IRQ_VECTOR = 0xFFFE
 # PPU
 
 CHR_ROM_BANK = 0x0000
-CHR_ROM_BANK_SIZE = 0x2000 # 8KiB
-
+CHR_ROM_BANK_SIZE = 0x2000  # 8KiB
+PPU_IMAGE_PALETTE_BASE = 0x3F00
+PPU_IMAGE_PALETTE_BACKGROUND_OFFSET = 0x4
+PPU_IMAGE_PALETTE_GENERAL_OFFSET = 0x20
 
 
 """iNES format related constants"""
@@ -60,8 +62,12 @@ def cpu_unmirrored_address(addr):
     return addr
 
 def ppu_unmirrored_address(addr):
-    # TODO: Implement PPU mirroring logic.
-    return addr
+    addr = addr % 0x4000
+    if addr < 0x2000:
+        return addr
+    if ppu_utils.is_background_palette(addr):
+        return PPU_IMAGE_PALETTE_BASE + (addr % PPU_IMAGE_PALETTE_BACKGROUND_OFFSET)
+    return PPU_IMAGE_PALETTE_BASE + addr % PPU_IMAGE_PALETTE_GENERAL_OFFSET
 
 
 """Emulator support classes"""
