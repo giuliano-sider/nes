@@ -62,6 +62,9 @@ def cpu_unmirrored_address(addr):
     return addr
 
 def ppu_unmirrored_address(addr):
+    addr = addr % 0x4000
+    if addr < 0x2000:
+        return addr
     if ppu_utils.is_background_palette(addr):
         return PPU_IMAGE_PALETTE_BASE + (addr % PPU_IMAGE_PALETTE_BACKGROUND_OFFSET)
     return PPU_IMAGE_PALETTE_BASE + addr % PPU_IMAGE_PALETTE_GENERAL_OFFSET
