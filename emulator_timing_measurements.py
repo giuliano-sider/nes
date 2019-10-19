@@ -5,7 +5,8 @@ import os
 import unittest
 import random
 import cProfile
-import cv2
+import timeit
+# import cv2
 
 sys.path += os.pardir
 from nes_cpu_test_utils import CreateTestCpu, insert_instruction
@@ -184,30 +185,56 @@ valid_opcodes = {
 
 class TestEmulatorTiming(unittest.TestCase):
 
-    def test_timing_for_each_valid_instruction(self):
+    # def test_timing_for_each_valid_instruction(self):
+
+    #     cpu = CreateTestCpu()
+    #     logger = FAKE_LOGGER
+    #     prng = random.Random()
+    #     prng.seed(42)
+    #     for opcode, opcode_name in valid_opcodes.items():
+    #         instruction_count = 0
+    #         total_time = 0
+    #         while 1:
+    #             # Use a random op2 address.
+    #             lo_addr = prng.randint(0x00, 0xFF)
+    #             hi_addr = prng.randint(0x00, 0x1F)
+    #             insert_instruction(cpu, cpu.PC(), opcode, op2_lo_byte=lo_addr, op2_hi_byte=hi_addr)
+
+    #             tic = cv2.getTickCount()
+    #             cpu.execute_instruction_at_PC(logger)
+    #             toc = cv2.getTickCount()
+
+    #             instruction_count += 1
+    #             total_time += (toc - tic) / cv2.getTickFrequency()
+    #             if total_time > 1.0:
+    #                 print('%s executed %d times in %lf seconds' % (opcode_name, instruction_count, total_time))
+    #                 break
+
+    def test_each_opcode_a_million_times(self):
 
         cpu = CreateTestCpu()
         logger = FAKE_LOGGER
         prng = random.Random()
         prng.seed(42)
         for opcode, opcode_name in valid_opcodes.items():
-            instruction_count = 0
-            total_time = 0
-            while 1:
-                # Use a random op2 address.
-                lo_addr = prng.randint(0x00, 0xFF)
-                hi_addr = prng.randint(0x00, 0x1F)
-                insert_instruction(cpu, cpu.PC(), opcode, op2_lo_byte=lo_addr, op2_hi_byte=hi_addr)
+            # Use a random op2 address.
+            lo_addr = prng.randint(0x00, 0xFF)
+            hi_addr = prng.randint(0x00, 0x1F)
+            
+            num_instructions = 1000000
+            ctx = globals()
+            ctx['opcode'] = opcode
 
-                tic = cv2.getTickCount()
-                cpu.execute_instruction_at_PC(logger)
-                toc = cv2.getTickCount()
+            total_time = timeit.timeit(
+                stmt='cpu.memory[cpu.PC()] = opcode\n' +
+                     'cpu.execute_instruction_at_PC(logger)',
+                setup='cpu = CreateTestCpu()\n' +
+                      'logger = FAKE_LOGGER',
+                number=num_instructions,
+                globals=ctx)
 
-                instruction_count += 1
-                total_time += (toc - tic) / cv2.getTickFrequency()
-                if total_time > 1.0:
-                    print('%s executed %d times in %lf seconds' % (opcode_name, instruction_count, total_time))
-                    break
+            print('%s executed %d times in %lf seconds, %lf instructions per second' % 
+                  (opcode_name, num_instructions, total_time, num_instructions / total_time))
 
     def test_execution_profile_of_different_opcodes(self):
 
@@ -226,7 +253,6 @@ class TestEmulatorTiming(unittest.TestCase):
                 'execute_opcode(how_many_times_to_execute)',
                 # filename='cpu_profile.txt',
                 globals=globals(), locals=locals())
-            # cProfile.run('cpu.execute_instruction_at_PC(logger)')
             print('----------------------------------------------------------------------------------------')
 
 

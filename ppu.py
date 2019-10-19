@@ -74,6 +74,34 @@ NES_COLOR_PALETTE_TABLE_OF_RGB_VALUES = [
 ]
 
 
+class Sprite():
+
+    def __init__(self, x=0, y=0, tile_index=0, palette_index=0, double_sprite=False, horizontal_flip=False, vertical_flip=False, behind_background=False):
+        self.x = x
+        self.y = y
+        self.tile_index = tile_index
+        self.palette_index = palette_index
+        self.double_sprite = double_sprite
+        self.horizontal_flip = horizontal_flip
+        self.vertical_flip = vertical_flip
+        self.behind_background = behind_background
+
+    @staticmethod
+    def from_attribute_bytes(bytes, double_sprite=False):
+        """Return a sprite constructed from its 4 attribute bytes: (y-1), tile index, attribute flags, (x-1),
+           or a double sprite (8x16) from 8 attribute bytes."""
+        assert len(bytes) == 4 and double_sprite is False or len(bytes) == 8 and double_sprite is True
+
+        raise NotImplementedError()
+
+    def to_attribute_bytes(self):
+        """Return a bytearray of 4 or 8 bytes constructed from the given sprite."""
+
+        raise NotImplementedError()
+
+
+
+
 class MemoryAccessor():
     """Allow convenient access to the PPU memory address space."""
 
