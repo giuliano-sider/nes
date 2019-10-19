@@ -3,10 +3,12 @@
 import sys
 import os
 import unittest
-from datetime import datetime
+import random
+import cProfile
+import cv2
 
 sys.path += os.pardir
-from nes_cpu_test_utils import CreateTestCpu, execute_instruction
+from nes_cpu_test_utils import CreateTestCpu, insert_instruction
 from log import FAKE_LOGGER
 from instructions import *
 
@@ -186,19 +188,47 @@ class TestEmulatorTiming(unittest.TestCase):
 
         cpu = CreateTestCpu()
         logger = FAKE_LOGGER
+        prng = random.Random()
+        prng.seed(42)
         for opcode, opcode_name in valid_opcodes.items():
             instruction_count = 0
-            start_time = datetime.now()
+            total_time = 0
             while 1:
-                cpu.memory[cpu.PC()] = opcode
+                # Use a random op2 address.
+                lo_addr = prng.randint(0x00, 0xFF)
+                hi_addr = prng.randint(0x00, 0x1F)
+                insert_instruction(cpu, cpu.PC(), opcode, op2_lo_byte=lo_addr, op2_hi_byte=hi_addr)
+
+                tic = cv2.getTickCount()
                 cpu.execute_instruction_at_PC(logger)
-                # execute_instruction(cpu, opcode=opcode, op2_lo_byte=0xDC, op2_hi_byte=0xDC)
+                toc = cv2.getTickCount()
+
                 instruction_count += 1
-                if instruction_count % 1000 == 0:
-                    time_elapsed_in_seconds = (datetime.now() - start_time).total_seconds()
-                    if time_elapsed_in_seconds >= 1:
-                        print('%s executed %d times in %lf seconds' % (opcode_name, instruction_count, time_elapsed_in_seconds))
-                        break
+                total_time += (toc - tic) / cv2.getTickFrequency()
+                if total_time > 1.0:
+                    print('%s executed %d times in %lf seconds' % (opcode_name, instruction_count, total_time))
+                    break
+
+    def test_execution_profile_of_different_opcodes(self):
+
+        cpu = CreateTestCpu()
+        logger = FAKE_LOGGER
+        prng = random.Random()
+        prng.seed(42)
+        for opcode, opcode_name in valid_opcodes.items():
+            how_many_times_to_execute = 500000
+            print('profiling execution of %s, each run executing %d times' % (opcode_name, how_many_times_to_execute))
+            def execute_opcode(how_many_times_to_execute):
+                for _ in range(how_many_times_to_execute):
+                    cpu.memory[cpu.PC()] = opcode
+                    cpu.execute_instruction_at_PC(logger)
+            cProfile.runctx(
+                'execute_opcode(how_many_times_to_execute)',
+                # filename='cpu_profile.txt',
+                globals=globals(), locals=locals())
+            # cProfile.run('cpu.execute_instruction_at_PC(logger)')
+            print('----------------------------------------------------------------------------------------')
+
 
 if __name__ == '__main__':
     unittest.main()
