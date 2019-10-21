@@ -314,13 +314,13 @@ def sbc_absolute_y(cpu, logger):
 
 SBC_INDIRECT_X = 0xE1
 def sbc_indirect_x(cpu, logger):
-  addr,pageCrossed = get_indirect_x_addr(cpu)
-  cpu.clock_ticks_since_reset += 4 + pageCrossed
+  addr = get_indirect_x_addr(cpu)
+  cpu.clock_ticks_since_reset += 6
   sbc(cpu, logger, addr)
 
 SBC_INDIRECT_Y = 0xF1
 def sbc_indirect_y(cpu, logger):
-  addr = get_indirect_y_addr(cpu)
+  addr, pageCrossed = get_indirect_y_addr(cpu)
   sbc(cpu, logger, addr)
 
 def sbc(cpu, logger, addr):

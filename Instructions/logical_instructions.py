@@ -111,7 +111,7 @@ def eor_indirect_x(cpu, logger):
 EOR_INDIRECT_Y = 0x51
 def eor_indirect_y(cpu, logger):
     addr, pageCrossed = get_indirect_y_addr(cpu)
-    eor_instruction(cpu, logger, pageCrossed)
+    eor_instruction(cpu, logger, addr)
 
 def eor_instruction(cpu, logger, addr):
     op2 = cpu.memory[addr]
@@ -196,12 +196,12 @@ def asl_zeropage_x(cpu, logger):
 
 ASL_ABSOLUTE = 0x0E
 def asl_absolute(cpu, logger):
-    addr,  pageCrossed =  get_absolute_x_addr(cpu)
-    asl(cpu, logger, addr)
+    asl(cpu, logger, get_absolute_addr(cpu))
 
 ASL_ABSOLUTE_X = 0x1E
 def asl_absolute_x(cpu, logger):
-    asl(cpu, logger, get_absolute_x_addr(cpu))
+    addr, pageCrossed =  get_absolute_x_addr(cpu)
+    asl(cpu, logger, addr)
 
 def asl(cpu, logger, addr):
     result, carry = rotate_left(cpu.memory[addr], 0)
@@ -236,12 +236,12 @@ def lsr_zeropage_x(cpu, logger):
 
 LSR_ABSOLUTE = 0x4E
 def lsr_absolute(cpu, logger):
-    addr,  pageCrossed =  get_absolute_x_addr(cpu)
-    lsr(cpu, logger, addr)
+    lsr(cpu, logger, get_absolute_addr(cpu))
 
 LSR_ABSOLUTE_X = 0x5E
 def lsr_absolute_x(cpu, logger):
-    lsr(cpu, logger, get_absolute_x_addr(cpu))
+    addr, pageCrossed = get_absolute_x_addr(cpu)
+    lsr(cpu, logger, addr)
 
 def lsr(cpu, logger, addr):
     result, carry = rotate_right(cpu.memory[addr], 0)
@@ -276,12 +276,12 @@ def rol_zeropage_x(cpu, logger):
 
 ROL_ABSOLUTE = 0x2E
 def rol_absolute(cpu, logger):
-    addr,  pageCrossed =  get_absolute_x_addr(cpu)
-    rol(cpu, logger, addr)
+    rol(cpu, logger, get_absolute_addr(cpu))
 
 ROL_ABSOLUTE_X = 0x3E
 def rol_absolute_x(cpu, logger):
-    rol(cpu, logger, get_absolute_x_addr(cpu))
+    addr, pageCrossed = get_absolute_x_addr(cpu)
+    rol(cpu, logger, addr)
 
 def rol(cpu, logger, addr):
     result, carry = rotate_left(cpu.memory[addr], cpu.carry())
@@ -316,12 +316,12 @@ def ror_zeropage_x(cpu, logger):
 
 ROR_ABSOLUTE = 0x6E
 def ror_absolute(cpu, logger):
-    addr,  pageCrossed =  get_absolute_x_addr(cpu)
-    ror(cpu, logger, addr)
+    ror(cpu, logger, get_absolute_addr(cpu))
 
 ROR_ABSOLUTE_X = 0x7E
 def ror_absolute_x(cpu, logger):
-    ror(cpu, logger, get_absolute_x_addr(cpu))
+    addr, pageCrossed = get_absolute_x_addr(cpu)
+    ror(cpu, logger, addr)
 
 def ror(cpu, logger, addr):
     result, carry = rotate_right(cpu.memory[addr], cpu.carry())
