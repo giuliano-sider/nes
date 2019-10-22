@@ -58,7 +58,6 @@ def cpu_unmirrored_address(addr):
                 (addr - PPU_REGISTERS_REGION_BEGIN) % PPU_REGISTERS_SIZE)
     # TODO: Implement mirroring of PRG ROM banks for NROM-128 mapper cartridges.
     # In that case, which is the real address, the bank at 0x8000 or the one at 0xC000 ??
-
     return addr
 
 def ppu_unmirrored_address(addr):
