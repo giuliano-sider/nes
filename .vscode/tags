@@ -1,0 +1,995 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+A	../cpu.py	/^    def A(self):$/;"	kind:member	line:103
+ADC_ABSOLUTE	../Instructions/arithmetics_instructions.py	/^ADC_ABSOLUTE = 0x6D$/;"	kind:variable	line:30
+ADC_ABSOLUTE_X	../Instructions/arithmetics_instructions.py	/^ADC_ABSOLUTE_X = 0x7D$/;"	kind:variable	line:36
+ADC_ABSOLUTE_Y	../Instructions/arithmetics_instructions.py	/^ADC_ABSOLUTE_Y = 0x79$/;"	kind:variable	line:42
+ADC_IMMEDIATE	../Instructions/arithmetics_instructions.py	/^ADC_IMMEDIATE = 0x69$/;"	kind:variable	line:4
+ADC_INDIRECT_X	../Instructions/arithmetics_instructions.py	/^ADC_INDIRECT_X = 0x61$/;"	kind:variable	line:48
+ADC_INDIRECT_Y	../Instructions/arithmetics_instructions.py	/^ADC_INDIRECT_Y = 0x71$/;"	kind:variable	line:54
+ADC_ZEROPAGE	../Instructions/arithmetics_instructions.py	/^ADC_ZEROPAGE = 0x65$/;"	kind:variable	line:18
+ADC_ZEROPAGEX	../Instructions/arithmetics_instructions.py	/^ADC_ZEROPAGEX = 0x75$/;"	kind:variable	line:24
+AND_ABSOLUTE	../Instructions/logical_instructions.py	/^AND_ABSOLUTE = 0x2D$/;"	kind:variable	line:42
+AND_ABSOLUTE_X	../Instructions/logical_instructions.py	/^AND_ABSOLUTE_X = 0x3D$/;"	kind:variable	line:46
+AND_ABSOLUTE_Y	../Instructions/logical_instructions.py	/^AND_ABSOLUTE_Y = 0x39$/;"	kind:variable	line:51
+AND_IMMEDIATE	../Instructions/logical_instructions.py	/^AND_IMMEDIATE = 0x29$/;"	kind:variable	line:24
+AND_INDIRECT_X	../Instructions/logical_instructions.py	/^AND_INDIRECT_X = 0x21$/;"	kind:variable	line:56
+AND_INDIRECT_Y	../Instructions/logical_instructions.py	/^AND_INDIRECT_Y = 0x31$/;"	kind:variable	line:60
+AND_ZERO_PAGE	../Instructions/logical_instructions.py	/^AND_ZERO_PAGE = 0x25$/;"	kind:variable	line:34
+AND_ZERO_PAGE_X	../Instructions/logical_instructions.py	/^AND_ZERO_PAGE_X = 0x35$/;"	kind:variable	line:38
+ASL_ABSOLUTE	../Instructions/logical_instructions.py	/^ASL_ABSOLUTE = 0x0E$/;"	kind:variable	line:197
+ASL_ABSOLUTE_X	../Instructions/logical_instructions.py	/^ASL_ABSOLUTE_X = 0x1E$/;"	kind:variable	line:201
+ASL_ACCUMULATOR	../Instructions/logical_instructions.py	/^ASL_ACCUMULATOR = 0x0A$/;"	kind:variable	line:177
+ASL_ZERO_PAGE	../Instructions/logical_instructions.py	/^ASL_ZERO_PAGE = 0x06$/;"	kind:variable	line:189
+ASL_ZERO_PAGE_X	../Instructions/logical_instructions.py	/^ASL_ZERO_PAGE_X = 0x16$/;"	kind:variable	line:193
+BCC	../Instructions/control_flow_instructions.py	/^BCC = 0x90$/;"	kind:variable	line:6
+BCS	../Instructions/control_flow_instructions.py	/^BCS = 0xb0$/;"	kind:variable	line:21
+BCS	../tst/test_flow_control.py	/^from instructions import BCS$/;"	kind:namespace	line:7
+BEQ	../Instructions/control_flow_instructions.py	/^BEQ = 0xf0$/;"	kind:variable	line:32
+BIT_ABSOLUTE	../Instructions/logical_instructions.py	/^BIT_ABSOLUTE = 0x2C$/;"	kind:variable	line:9
+BIT_WITH_NO_FLAG	../cpu.py	/^BIT_WITH_NO_FLAG = 0b00100000$/;"	kind:variable	line:12
+BIT_ZEROPAGE	../Instructions/logical_instructions.py	/^BIT_ZEROPAGE = 0x24$/;"	kind:variable	line:5
+BMI	../Instructions/control_flow_instructions.py	/^BMI = 0x30$/;"	kind:variable	line:43
+BNE	../Instructions/control_flow_instructions.py	/^BNE = 0xd0$/;"	kind:variable	line:54
+BPL	../Instructions/control_flow_instructions.py	/^BPL = 0x10$/;"	kind:variable	line:65
+BREAK	../cpu.py	/^BREAK       = 0b00010000$/;"	kind:variable	line:14
+BRK	../Instructions/misc_instructions.py	/^BRK = 0x00$/;"	kind:variable	line:5
+BVC	../Instructions/control_flow_instructions.py	/^BVC = 0x50$/;"	kind:variable	line:76
+BVS	../Instructions/control_flow_instructions.py	/^BVS = 0x70$/;"	kind:variable	line:87
+CARRY	../cpu.py	/^CARRY       = 0b00000001$/;"	kind:variable	line:26
+CHR_ROM_BANK	../memory_mapper.py	/^CHR_ROM_BANK = 0x0000$/;"	kind:variable	line:28
+CHR_ROM_BANK_SIZE	../memory_mapper.py	/^CHR_ROM_BANK_SIZE = 0x2000  # 8KiB$/;"	kind:variable	line:29
+CLC	../Instructions/misc_instructions.py	/^CLC = 0x18$/;"	kind:variable	line:116
+CLD	../Instructions/misc_instructions.py	/^CLD = 0xD8$/;"	kind:variable	line:75
+CLEAR_BREAK	../cpu.py	/^CLEAR_BREAK = 0b11111111 - BREAK$/;"	kind:variable	line:15
+CLEAR_CARRY	../cpu.py	/^CLEAR_CARRY = 0b11111111 - CARRY$/;"	kind:variable	line:27
+CLEAR_DECIMAL	../cpu.py	/^CLEAR_DECIMAL = 0b11111111 - DECIMAL$/;"	kind:variable	line:18
+CLEAR_IRQ_DISABLE	../cpu.py	/^CLEAR_IRQ_DISABLE = 0b11111111 - IRQ_DISABLE$/;"	kind:variable	line:21
+CLEAR_NEGATIVE	../cpu.py	/^CLEAR_NEGATIVE = 0b11111111 - NEGATIVE$/;"	kind:variable	line:7
+CLEAR_OVERFLOW	../cpu.py	/^CLEAR_OVERFLOW = 0b11111111 - OVERFLOW$/;"	kind:variable	line:10
+CLEAR_ZERO	../cpu.py	/^CLEAR_ZERO = 0b11111111 - ZERO$/;"	kind:variable	line:24
+CLI	../Instructions/misc_instructions.py	/^CLI = 0x58$/;"	kind:variable	line:100
+CLV	../Instructions/misc_instructions.py	/^CLV = 0xB8$/;"	kind:variable	line:57
+CMP_ABSOLUTE	../Instructions/arithmetics_instructions.py	/^CMP_ABSOLUTE = 0xCD$/;"	kind:variable	line:99
+CMP_ABSOLUTE_X	../Instructions/arithmetics_instructions.py	/^CMP_ABSOLUTE_X = 0xDD$/;"	kind:variable	line:107
+CMP_ABSOLUTE_Y	../Instructions/arithmetics_instructions.py	/^CMP_ABSOLUTE_Y = 0xD9$/;"	kind:variable	line:114
+CMP_IMMEDIATE	../Instructions/arithmetics_instructions.py	/^CMP_IMMEDIATE = 0xC9$/;"	kind:variable	line:73
+CMP_INDIRECT_X	../Instructions/arithmetics_instructions.py	/^CMP_INDIRECT_X = 0xC1$/;"	kind:variable	line:121
+CMP_INDIRECT_Y	../Instructions/arithmetics_instructions.py	/^CMP_INDIRECT_Y = 0xD1$/;"	kind:variable	line:128
+CMP_ZEROPAGE	../Instructions/arithmetics_instructions.py	/^CMP_ZEROPAGE = 0xC5$/;"	kind:variable	line:84
+CMP_ZEROPAGE_X	../Instructions/arithmetics_instructions.py	/^CMP_ZEROPAGE_X = 0xD5$/;"	kind:variable	line:92
+CPX_ABSOLUTE	../Instructions/arithmetics_instructions.py	/^CPX_ABSOLUTE = 0xEC$/;"	kind:variable	line:153
+CPX_IMMEDIATE	../Instructions/arithmetics_instructions.py	/^CPX_IMMEDIATE = 0xE0$/;"	kind:variable	line:135
+CPX_ZEROPAGE	../Instructions/arithmetics_instructions.py	/^CPX_ZEROPAGE = 0xE4$/;"	kind:variable	line:146
+CPY_ABSOLUTE	../Instructions/arithmetics_instructions.py	/^CPY_ABSOLUTE = 0xCC$/;"	kind:variable	line:178
+CPY_IMMEDIATE	../Instructions/arithmetics_instructions.py	/^CPY_IMMEDIATE = 0xC0$/;"	kind:variable	line:160
+CPY_ZEROPAGE	../Instructions/arithmetics_instructions.py	/^CPY_ZEROPAGE = 0xC4$/;"	kind:variable	line:171
+Cpu	../cpu.py	/^class Cpu():$/;"	kind:class	line:41
+Cpu	../emulator.py	/^from cpu import Cpu$/;"	kind:namespace	line:8
+Cpu	../nes_cpu_test_utils.py	/^from cpu import Cpu$/;"	kind:namespace	line:1
+CpuHalt	../Instructions/misc_instructions.py	/^from nes_cpu_utils import CpuHalt$/;"	kind:namespace	line:3
+CpuHalt	../emulator.py	/^from nes_cpu_utils import CpuHalt$/;"	kind:namespace	line:10
+CpuHalt	../nes_cpu_utils.py	/^class CpuHalt(Exception):$/;"	kind:class	line:6
+CpuLogger	../emulator.py	/^from log import CpuLogger$/;"	kind:namespace	line:6
+CpuLogger	../log.py	/^class CpuLogger():$/;"	kind:class	line:5
+CreateTestCpu	../emulator_timing_measurements.py	/^from nes_cpu_test_utils import CreateTestCpu, insert_instruction$/;"	kind:namespace	line:12
+CreateTestCpu	../nes_cpu_test_utils.py	/^def CreateTestCpu(iNES_file=DEFAULT_iNES_FILE):$/;"	kind:function	line:10
+CreateTestCpu	../tst/test_address_getters.py	/^from nes_cpu_test_utils import CreateTestCpu, insert_instruction$/;"	kind:namespace	line:6
+CreateTestCpu	../tst/test_arithmetic.py	/^from nes_cpu_test_utils import CreateTestCpu, execute_instruction$/;"	kind:namespace	line:6
+CreateTestCpu	../tst/test_flow_control.py	/^from nes_cpu_test_utils import CreateTestCpu, execute_instruction$/;"	kind:namespace	line:6
+CreateTestCpu	../tst/test_load.py	/^from nes_cpu_test_utils import CreateTestCpu, execute_instruction$/;"	kind:namespace	line:6
+CreateTestCpu	../tst/test_logical.py	/^from nes_cpu_test_utils import CreateTestCpu, execute_instruction$/;"	kind:namespace	line:6
+CreateTestCpu	../tst/test_misc.py	/^from nes_cpu_test_utils import CreateTestCpu, execute_instruction$/;"	kind:namespace	line:6
+CreateTestCpu	../tst/test_ppu/test_ppu_mirroring.py	/^from nes_cpu_test_utils import CreateTestCpu$/;"	kind:namespace	line:3
+CreateTestCpu	../tst/test_store.py	/^from nes_cpu_test_utils import CreateTestCpu, execute_instruction$/;"	kind:namespace	line:6
+CreateTestCpu	../tst/test_tricky_cases.py	/^from nes_cpu_test_utils import CreateTestCpu, execute_instruction$/;"	kind:namespace	line:6
+CreateTestPpu	../nes_ppu_test_utils.py	/^def CreateTestPpu(iNES_file=DEFAULT_iNES_FILE):$/;"	kind:function	line:10
+CreateTestPpu	../tst/test_ppu/test_color_palette.py	/^from nes_ppu_test_utils import CreateTestPpu$/;"	kind:namespace	line:5
+CreateTestPpu	../tst/test_ppu/test_ppu_mirroring.py	/^from nes_ppu_test_utils import CreateTestPpu$/;"	kind:namespace	line:2
+DECIMAL	../cpu.py	/^DECIMAL       = 0b00001000$/;"	kind:variable	line:17
+DEC_ABSOLUTE	../Instructions/arithmetics_instructions.py	/^DEC_ABSOLUTE = 0xCE$/;"	kind:variable	line:205
+DEC_ABSOLUTE_X	../Instructions/arithmetics_instructions.py	/^DEC_ABSOLUTE_X = 0xDE$/;"	kind:variable	line:211
+DEC_ZEROPAGE	../Instructions/arithmetics_instructions.py	/^DEC_ZEROPAGE = 0XC6$/;"	kind:variable	line:193
+DEC_ZEROPAGE_X	../Instructions/arithmetics_instructions.py	/^DEC_ZEROPAGE_X = 0xD6$/;"	kind:variable	line:199
+DEFAULT_iNES_FILE	../nes_cpu_test_utils.py	/^DEFAULT_iNES_FILE = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'test_utils', 'brk')$/;"	kind:variable	line:7
+DEFAULT_iNES_FILE	../nes_ppu_test_utils.py	/^DEFAULT_iNES_FILE = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'test_utils', 'brk')$/;"	kind:variable	line:7
+DEX	../Instructions/arithmetics_instructions.py	/^DEX = 0xCA$/;"	kind:variable	line:217
+DEY	../Instructions/arithmetics_instructions.py	/^DEY = 0x88$/;"	kind:variable	line:226
+EOR_ABSOLUTE	../Instructions/logical_instructions.py	/^EOR_ABSOLUTE = 0x4D$/;"	kind:variable	line:93
+EOR_ABSOLUTE_X	../Instructions/logical_instructions.py	/^EOR_ABSOLUTE_X = 0x5D$/;"	kind:variable	line:97
+EOR_ABSOLUTE_Y	../Instructions/logical_instructions.py	/^EOR_ABSOLUTE_Y = 0x59$/;"	kind:variable	line:102
+EOR_IMMEDIATE	../Instructions/logical_instructions.py	/^EOR_IMMEDIATE = 0x49$/;"	kind:variable	line:75
+EOR_INDIRECT_X	../Instructions/logical_instructions.py	/^EOR_INDIRECT_X = 0x41$/;"	kind:variable	line:107
+EOR_INDIRECT_Y	../Instructions/logical_instructions.py	/^EOR_INDIRECT_Y = 0x51$/;"	kind:variable	line:111
+EOR_ZERO_PAGE	../Instructions/logical_instructions.py	/^EOR_ZERO_PAGE = 0x45$/;"	kind:variable	line:85
+EOR_ZERO_PAGE_X	../Instructions/logical_instructions.py	/^EOR_ZERO_PAGE_X = 0x55$/;"	kind:variable	line:89
+FAKE_LOGGER	../emulator_timing_measurements.py	/^from log import FAKE_LOGGER$/;"	kind:namespace	line:13
+FAKE_LOGGER	../log.py	/^FAKE_LOGGER = CpuLogger(open(os.devnull, 'w'), enable_logging=False)$/;"	kind:variable	line:28
+FAKE_LOGGER	../nes_cpu_test_utils.py	/^from log import FAKE_LOGGER$/;"	kind:namespace	line:3
+FAKE_LOGGER	../nes_ppu_test_utils.py	/^from log import FAKE_LOGGER$/;"	kind:namespace	line:3
+HORIZONTAL_NAMETABLE_MIRRORING	../memory_mapper.py	/^HORIZONTAL_NAMETABLE_MIRRORING = 0b0$/;"	kind:variable	line:44
+INC_ABSOLUTE	../Instructions/arithmetics_instructions.py	/^INC_ABSOLUTE = 0xEE$/;"	kind:variable	line:256
+INC_ABSOLUTE_X	../Instructions/arithmetics_instructions.py	/^INC_ABSOLUTE_X = 0xFE$/;"	kind:variable	line:262
+INC_ZEROPAGE	../Instructions/arithmetics_instructions.py	/^INC_ZEROPAGE = 0xE6$/;"	kind:variable	line:244
+INC_ZEROPAGE_X	../Instructions/arithmetics_instructions.py	/^INC_ZEROPAGE_X = 0xF6$/;"	kind:variable	line:250
+INX	../Instructions/arithmetics_instructions.py	/^INX = 0xE8$/;"	kind:variable	line:268
+INY	../Instructions/arithmetics_instructions.py	/^INY = 0xC8$/;"	kind:variable	line:278
+IRQ_DISABLE	../cpu.py	/^IRQ_DISABLE       = 0b00000100$/;"	kind:variable	line:20
+IRQ_VECTOR	../cpu.py	/^from memory_mapper import RESET_VECTOR, IRQ_VECTOR, NMI_VECTOR, MEMORY_SIZE, STACK_PAGE_ADDR$/;"	kind:namespace	line:1
+IRQ_VECTOR	../memory_mapper.py	/^IRQ_VECTOR = 0xFFFE$/;"	kind:variable	line:24
+InstructionNotImplemented	../instructions.py	/^def InstructionNotImplemented(*args):$/;"	kind:function	line:8
+Invalid_iNES_FileException	../memory_mapper.py	/^class Invalid_iNES_FileException(Exception):$/;"	kind:class	line:74
+JMP_ABSOLUTE	../Instructions/control_flow_instructions.py	/^JMP_ABSOLUTE = 0x4c$/;"	kind:variable	line:98
+JMP_INDIRECT	../Instructions/control_flow_instructions.py	/^JMP_INDIRECT = 0x6c$/;"	kind:variable	line:104
+JMP_INDIRECT	../tst/test_tricky_cases.py	/^from instructions import JSR, JMP_INDIRECT$/;"	kind:namespace	line:7
+JSR	../Instructions/control_flow_instructions.py	/^JSR = 0x20$/;"	kind:variable	line:121
+JSR	../tst/test_tricky_cases.py	/^from instructions import JSR, JMP_INDIRECT$/;"	kind:namespace	line:7
+LDA_ABSOLUTE	../Instructions/load_instructions.py	/^LDA_ABSOLUTE = 0xAD$/;"	kind:variable	line:22
+LDA_ABSOLUTE	../tst/test_load.py	/^from instructions import LDA_IMMEDIATE, LDA_ZEROPAGE, LDA_ABSOLUTE, LDA_INDIRECT_Y, LDA_INDIRECT_X, LDA_ABSOLUTE_Y$/;"	kind:namespace	line:7
+LDA_ABSOLUTE_X	../Instructions/load_instructions.py	/^LDA_ABSOLUTE_X = 0xBD$/;"	kind:variable	line:73
+LDA_ABSOLUTE_X	../tst/test_load.py	/^from instructions import LDA_ABSOLUTE_X, LDA_ZEROPAGE_X, LDX_IMMEDIATE, LDX_ZEROPAGE, LDX_ABSOLUTE, LDY_ABSOLUTE$/;"	kind:namespace	line:8
+LDA_ABSOLUTE_Y	../Instructions/load_instructions.py	/^LDA_ABSOLUTE_Y = 0xB9$/;"	kind:variable	line:61
+LDA_ABSOLUTE_Y	../tst/test_load.py	/^from instructions import LDA_IMMEDIATE, LDA_ZEROPAGE, LDA_ABSOLUTE, LDA_INDIRECT_Y, LDA_INDIRECT_X, LDA_ABSOLUTE_Y$/;"	kind:namespace	line:7
+LDA_IMMEDIATE	../Instructions/load_instructions.py	/^LDA_IMMEDIATE = 0xA9$/;"	kind:variable	line:3
+LDA_IMMEDIATE	../tst/test_load.py	/^from instructions import LDA_IMMEDIATE, LDA_ZEROPAGE, LDA_ABSOLUTE, LDA_INDIRECT_Y, LDA_INDIRECT_X, LDA_ABSOLUTE_Y$/;"	kind:namespace	line:7
+LDA_INDIRECT_X	../Instructions/load_instructions.py	/^LDA_INDIRECT_X = 0xA1$/;"	kind:variable	line:49
+LDA_INDIRECT_X	../tst/test_address_getters.py	/^from instructions import LDA_INDIRECT_X, LDA_INDIRECT_Y$/;"	kind:namespace	line:7
+LDA_INDIRECT_X	../tst/test_load.py	/^from instructions import LDA_IMMEDIATE, LDA_ZEROPAGE, LDA_ABSOLUTE, LDA_INDIRECT_Y, LDA_INDIRECT_X, LDA_ABSOLUTE_Y$/;"	kind:namespace	line:7
+LDA_INDIRECT_Y	../Instructions/load_instructions.py	/^LDA_INDIRECT_Y = 0xB1$/;"	kind:variable	line:34
+LDA_INDIRECT_Y	../tst/test_address_getters.py	/^from instructions import LDA_INDIRECT_X, LDA_INDIRECT_Y$/;"	kind:namespace	line:7
+LDA_INDIRECT_Y	../tst/test_load.py	/^from instructions import LDA_IMMEDIATE, LDA_ZEROPAGE, LDA_ABSOLUTE, LDA_INDIRECT_Y, LDA_INDIRECT_X, LDA_ABSOLUTE_Y$/;"	kind:namespace	line:7
+LDA_ZEROPAGE	../Instructions/load_instructions.py	/^LDA_ZEROPAGE = 0xA5$/;"	kind:variable	line:12
+LDA_ZEROPAGE	../tst/test_load.py	/^from instructions import LDA_IMMEDIATE, LDA_ZEROPAGE, LDA_ABSOLUTE, LDA_INDIRECT_Y, LDA_INDIRECT_X, LDA_ABSOLUTE_Y$/;"	kind:namespace	line:7
+LDA_ZEROPAGE_X	../Instructions/load_instructions.py	/^LDA_ZEROPAGE_X = 0xB5$/;"	kind:variable	line:85
+LDA_ZEROPAGE_X	../tst/test_load.py	/^from instructions import LDA_ABSOLUTE_X, LDA_ZEROPAGE_X, LDX_IMMEDIATE, LDX_ZEROPAGE, LDX_ABSOLUTE, LDY_ABSOLUTE$/;"	kind:namespace	line:8
+LDX_ABSOLUTE	../Instructions/load_instructions.py	/^LDX_ABSOLUTE = 0xAE$/;"	kind:variable	line:116
+LDX_ABSOLUTE	../tst/test_load.py	/^from instructions import LDA_ABSOLUTE_X, LDA_ZEROPAGE_X, LDX_IMMEDIATE, LDX_ZEROPAGE, LDX_ABSOLUTE, LDY_ABSOLUTE$/;"	kind:namespace	line:8
+LDX_ABSOLUTE_Y	../Instructions/load_instructions.py	/^LDX_ABSOLUTE_Y = 0xBE$/;"	kind:variable	line:140
+LDX_IMMEDIATE	../Instructions/load_instructions.py	/^LDX_IMMEDIATE = 0xA2$/;"	kind:variable	line:96
+LDX_IMMEDIATE	../tst/test_load.py	/^from instructions import LDA_ABSOLUTE_X, LDA_ZEROPAGE_X, LDX_IMMEDIATE, LDX_ZEROPAGE, LDX_ABSOLUTE, LDY_ABSOLUTE$/;"	kind:namespace	line:8
+LDX_ZEROPAGE	../Instructions/load_instructions.py	/^LDX_ZEROPAGE = 0xA6$/;"	kind:variable	line:105
+LDX_ZEROPAGE	../tst/test_load.py	/^from instructions import LDA_ABSOLUTE_X, LDA_ZEROPAGE_X, LDX_IMMEDIATE, LDX_ZEROPAGE, LDX_ABSOLUTE, LDY_ABSOLUTE$/;"	kind:namespace	line:8
+LDX_ZEROPAGE_Y	../Instructions/load_instructions.py	/^LDX_ZEROPAGE_Y = 0xB6$/;"	kind:variable	line:129
+LDX_ZEROPAGE_Y	../tst/test_load.py	/^from instructions import LDY_ZEROPAGE, LDX_ZEROPAGE_Y, LDY_IMMEDIATE, LDY_ZEROPAGE_X, LDY_ABSOLUTE_X$/;"	kind:namespace	line:9
+LDY_ABSOLUTE	../Instructions/load_instructions.py	/^LDY_ABSOLUTE = 0xAC$/;"	kind:variable	line:171
+LDY_ABSOLUTE	../tst/test_load.py	/^from instructions import LDA_ABSOLUTE_X, LDA_ZEROPAGE_X, LDX_IMMEDIATE, LDX_ZEROPAGE, LDX_ABSOLUTE, LDY_ABSOLUTE$/;"	kind:namespace	line:8
+LDY_ABSOLUTE_X	../Instructions/load_instructions.py	/^LDY_ABSOLUTE_X = 0xBC$/;"	kind:variable	line:195
+LDY_ABSOLUTE_X	../tst/test_load.py	/^from instructions import LDY_ZEROPAGE, LDX_ZEROPAGE_Y, LDY_IMMEDIATE, LDY_ZEROPAGE_X, LDY_ABSOLUTE_X$/;"	kind:namespace	line:9
+LDY_IMMEDIATE	../Instructions/load_instructions.py	/^LDY_IMMEDIATE = 0xA0$/;"	kind:variable	line:152
+LDY_IMMEDIATE	../tst/test_load.py	/^from instructions import LDY_ZEROPAGE, LDX_ZEROPAGE_Y, LDY_IMMEDIATE, LDY_ZEROPAGE_X, LDY_ABSOLUTE_X$/;"	kind:namespace	line:9
+LDY_ZEROPAGE	../Instructions/load_instructions.py	/^LDY_ZEROPAGE = 0xA4$/;"	kind:variable	line:161
+LDY_ZEROPAGE	../tst/test_load.py	/^from instructions import LDY_ZEROPAGE, LDX_ZEROPAGE_Y, LDY_IMMEDIATE, LDY_ZEROPAGE_X, LDY_ABSOLUTE_X$/;"	kind:namespace	line:9
+LDY_ZEROPAGE_X	../Instructions/load_instructions.py	/^LDY_ZEROPAGE_X = 0xB4$/;"	kind:variable	line:184
+LDY_ZEROPAGE_X	../tst/test_load.py	/^from instructions import LDY_ZEROPAGE, LDX_ZEROPAGE_Y, LDY_IMMEDIATE, LDY_ZEROPAGE_X, LDY_ABSOLUTE_X$/;"	kind:namespace	line:9
+LOWER_PRG_ROM_BANK	../memory_mapper.py	/^LOWER_PRG_ROM_BANK = 0x8000$/;"	kind:variable	line:18
+LSR_ABSOLUTE	../Instructions/logical_instructions.py	/^LSR_ABSOLUTE = 0x4E$/;"	kind:variable	line:237
+LSR_ABSOLUTE_X	../Instructions/logical_instructions.py	/^LSR_ABSOLUTE_X = 0x5E$/;"	kind:variable	line:241
+LSR_ACCUMULATOR	../Instructions/logical_instructions.py	/^LSR_ACCUMULATOR = 0x4A$/;"	kind:variable	line:217
+LSR_ZERO_PAGE	../Instructions/logical_instructions.py	/^LSR_ZERO_PAGE = 0x46$/;"	kind:variable	line:229
+LSR_ZERO_PAGE_X	../Instructions/logical_instructions.py	/^LSR_ZERO_PAGE_X = 0x56$/;"	kind:variable	line:233
+MEMORY_SIZE	../Instructions/control_flow_instructions.py	/^from memory_mapper import MEMORY_SIZE$/;"	kind:namespace	line:4
+MEMORY_SIZE	../cpu.py	/^from memory_mapper import RESET_VECTOR, IRQ_VECTOR, NMI_VECTOR, MEMORY_SIZE, STACK_PAGE_ADDR$/;"	kind:namespace	line:1
+MEMORY_SIZE	../memory_mapper.py	/^MEMORY_SIZE = 0x10000 # 64KiB CPU and PPU address spaces$/;"	kind:variable	line:4
+MEMORY_SIZE	../tst/test_tricky_cases.py	/^from memory_mapper import MEMORY_SIZE, STACK_PAGE_ADDR$/;"	kind:namespace	line:8
+MOD_ABSOLUTE	../nes_cpu_utils.py	/^MOD_ABSOLUTE = 0x10000$/;"	kind:variable	line:3
+MOD_ZERO_PAGE	../nes_cpu_utils.py	/^MOD_ZERO_PAGE = 0x100$/;"	kind:variable	line:4
+MagicMock	../tst/test_nespy.py	/^from unittest.mock import MagicMock$/;"	kind:namespace	line:4
+MemoryAccessor	../cpu.py	/^class MemoryAccessor():$/;"	kind:class	line:30
+MemoryAccessor	../ppu.py	/^class MemoryAccessor():$/;"	kind:class	line:105
+MemoryMapper	../emulator.py	/^from memory_mapper import MemoryMapper$/;"	kind:namespace	line:7
+MemoryMapper	../memory_mapper.py	/^class MemoryMapper():$/;"	kind:class	line:80
+MemoryMapper	../nes_cpu_test_utils.py	/^from memory_mapper import MemoryMapper$/;"	kind:namespace	line:2
+MemoryMapper	../nes_ppu_test_utils.py	/^from memory_mapper import MemoryMapper$/;"	kind:namespace	line:2
+NEGATIVE	../cpu.py	/^NEGATIVE       = 0b10000000$/;"	kind:variable	line:6
+NES_COLOR_PALETTE_TABLE_OF_RGB_VALUES	../ppu.py	/^NES_COLOR_PALETTE_TABLE_OF_RGB_VALUES = [$/;"	kind:variable	line:9
+NMI_VECTOR	../cpu.py	/^from memory_mapper import RESET_VECTOR, IRQ_VECTOR, NMI_VECTOR, MEMORY_SIZE, STACK_PAGE_ADDR$/;"	kind:namespace	line:1
+NMI_VECTOR	../memory_mapper.py	/^NMI_VECTOR = 0xFFFA$/;"	kind:variable	line:22
+NOP	../Instructions/misc_instructions.py	/^NOP = 0xEA$/;"	kind:variable	line:125
+NROM_128_PRG_ROM_ADDR	../memory_mapper.py	/^NROM_128_PRG_ROM_ADDR = 0xC000 # 1 bank of 16KiB program ROM$/;"	kind:variable	line:37
+NROM_256_PRG_ROM_ADDR	../memory_mapper.py	/^NROM_256_PRG_ROM_ADDR = 0x8000 # 2 banks of 16KiB program ROM$/;"	kind:variable	line:38
+NROM_MAPPER	../memory_mapper.py	/^NROM_MAPPER = 0$/;"	kind:variable	line:47
+NesPy	../nespy.py	/^class NesPy:$/;"	kind:class	line:5
+NesPy	../tst/test_nespy.py	/^from nespy import NesPy$/;"	kind:namespace	line:7
+NoEmulatorSupportException	../memory_mapper.py	/^class NoEmulatorSupportException(Exception):$/;"	kind:class	line:77
+ORA_ABSOLUTE	../Instructions/logical_instructions.py	/^ORA_ABSOLUTE = 0x0D$/;"	kind:variable	line:144
+ORA_ABSOLUTE_X	../Instructions/logical_instructions.py	/^ORA_ABSOLUTE_X = 0x1D$/;"	kind:variable	line:148
+ORA_ABSOLUTE_Y	../Instructions/logical_instructions.py	/^ORA_ABSOLUTE_Y = 0x19$/;"	kind:variable	line:153
+ORA_IMMEDIATE	../Instructions/logical_instructions.py	/^ORA_IMMEDIATE = 0x09$/;"	kind:variable	line:126
+ORA_INDIRECT_X	../Instructions/logical_instructions.py	/^ORA_INDIRECT_X = 0x01$/;"	kind:variable	line:158
+ORA_INDIRECT_Y	../Instructions/logical_instructions.py	/^ORA_INDIRECT_Y = 0x11$/;"	kind:variable	line:162
+ORA_ZERO_PAGE	../Instructions/logical_instructions.py	/^ORA_ZERO_PAGE = 0x05$/;"	kind:variable	line:136
+ORA_ZERO_PAGE_X	../Instructions/logical_instructions.py	/^ORA_ZERO_PAGE_X = 0x15$/;"	kind:variable	line:140
+OVERFLOW	../cpu.py	/^OVERFLOW       = 0b01000000$/;"	kind:variable	line:9
+P	../cpu.py	/^    def P(self):$/;"	kind:member	line:123
+PC	../cpu.py	/^    def PC(self):$/;"	kind:member	line:129
+PC_hi	../cpu.py	/^    def PC_hi(self):$/;"	kind:member	line:131
+PC_lo	../cpu.py	/^    def PC_lo(self):$/;"	kind:member	line:133
+PHA	../Instructions/misc_instructions.py	/^PHA = 0x48$/;"	kind:variable	line:148
+PHP	../Instructions/misc_instructions.py	/^PHP = 0x08 # excellent language$/;"	kind:variable	line:131
+PLA	../Instructions/misc_instructions.py	/^PLA = 0x68$/;"	kind:variable	line:156
+PLP	../Instructions/misc_instructions.py	/^PLP = 0x28$/;"	kind:variable	line:139
+PPU_IMAGE_PALETTE_BACKGROUND_OFFSET	../memory_mapper.py	/^PPU_IMAGE_PALETTE_BACKGROUND_OFFSET = 0x4$/;"	kind:variable	line:31
+PPU_IMAGE_PALETTE_BACKGROUND_OFFSET	../nes_ppu_utils.py	/^PPU_IMAGE_PALETTE_BACKGROUND_OFFSET = 0x4$/;"	kind:variable	line:1
+PPU_IMAGE_PALETTE_BASE	../memory_mapper.py	/^PPU_IMAGE_PALETTE_BASE = 0x3F00$/;"	kind:variable	line:30
+PPU_IMAGE_PALETTE_GENERAL_OFFSET	../memory_mapper.py	/^PPU_IMAGE_PALETTE_GENERAL_OFFSET = 0x20$/;"	kind:variable	line:32
+PPU_IMAGE_PALETTE_GENERAL_OFFSET	../nes_ppu_utils.py	/^PPU_IMAGE_PALETTE_GENERAL_OFFSET = 0x20$/;"	kind:variable	line:2
+PPU_REGISTERS_REGION_BEGIN	../memory_mapper.py	/^PPU_REGISTERS_REGION_BEGIN = 0x2000$/;"	kind:variable	line:15
+PPU_REGISTERS_REGION_END	../memory_mapper.py	/^PPU_REGISTERS_REGION_END = 0x4000$/;"	kind:variable	line:16
+PPU_REGISTERS_SIZE	../memory_mapper.py	/^PPU_REGISTERS_SIZE = 0x0008$/;"	kind:variable	line:14
+PRG_ROM_BANK_SIZE	../memory_mapper.py	/^PRG_ROM_BANK_SIZE = 0x4000 # 16KiB$/;"	kind:variable	line:20
+Ppu	../ScreenPygame.py	/^from ppu import Ppu$/;"	kind:namespace	line:2
+Ppu	../emulator.py	/^from ppu import Ppu$/;"	kind:namespace	line:9
+Ppu	../nes_ppu_test_utils.py	/^from ppu import Ppu$/;"	kind:namespace	line:1
+Ppu	../ppu.py	/^class Ppu():$/;"	kind:class	line:116
+RAM_REGION_BEGIN	../memory_mapper.py	/^RAM_REGION_BEGIN = 0x0000$/;"	kind:variable	line:11
+RAM_REGION_END	../memory_mapper.py	/^RAM_REGION_END = 0x2000$/;"	kind:variable	line:12
+RAM_SIZE	../memory_mapper.py	/^RAM_SIZE = 0x0800$/;"	kind:variable	line:10
+RESET_VECTOR	../cpu.py	/^from memory_mapper import RESET_VECTOR, IRQ_VECTOR, NMI_VECTOR, MEMORY_SIZE, STACK_PAGE_ADDR$/;"	kind:namespace	line:1
+RESET_VECTOR	../memory_mapper.py	/^RESET_VECTOR = 0xFFFC$/;"	kind:variable	line:23
+ROL_ABSOLUTE	../Instructions/logical_instructions.py	/^ROL_ABSOLUTE = 0x2E$/;"	kind:variable	line:277
+ROL_ABSOLUTE_X	../Instructions/logical_instructions.py	/^ROL_ABSOLUTE_X = 0x3E$/;"	kind:variable	line:281
+ROL_ACCUMULATOR	../Instructions/logical_instructions.py	/^ROL_ACCUMULATOR = 0x2A$/;"	kind:variable	line:257
+ROL_ZERO_PAGE	../Instructions/logical_instructions.py	/^ROL_ZERO_PAGE = 0x26$/;"	kind:variable	line:269
+ROL_ZERO_PAGE_X	../Instructions/logical_instructions.py	/^ROL_ZERO_PAGE_X = 0x36$/;"	kind:variable	line:273
+ROR_ABSOLUTE	../Instructions/logical_instructions.py	/^ROR_ABSOLUTE = 0x6E$/;"	kind:variable	line:317
+ROR_ABSOLUTE_X	../Instructions/logical_instructions.py	/^ROR_ABSOLUTE_X = 0x7E$/;"	kind:variable	line:321
+ROR_ACCUMULATOR	../Instructions/logical_instructions.py	/^ROR_ACCUMULATOR = 0x6A$/;"	kind:variable	line:297
+ROR_ZERO_PAGE	../Instructions/logical_instructions.py	/^ROR_ZERO_PAGE = 0x66$/;"	kind:variable	line:309
+ROR_ZERO_PAGE_X	../Instructions/logical_instructions.py	/^ROR_ZERO_PAGE_X = 0x76$/;"	kind:variable	line:313
+RTI	../Instructions/control_flow_instructions.py	/^RTI = 0x40$/;"	kind:variable	line:150
+RTS	../Instructions/control_flow_instructions.py	/^RTS = 0x60$/;"	kind:variable	line:141
+Reset	../cpu.py	/^    def Reset(self):$/;"	kind:member	line:69
+SBC_ABSOLUTE	../Instructions/arithmetics_instructions.py	/^SBC_ABSOLUTE = 0xED$/;"	kind:variable	line:324
+SBC_ABSOLUTE_X	../Instructions/arithmetics_instructions.py	/^SBC_ABSOLUTE_X = 0xFD$/;"	kind:variable	line:330
+SBC_ABSOLUTE_Y	../Instructions/arithmetics_instructions.py	/^SBC_ABSOLUTE_Y = 0xF9$/;"	kind:variable	line:336
+SBC_IMMEDIATE	../Instructions/arithmetics_instructions.py	/^SBC_IMMEDIATE = 0xE9$/;"	kind:variable	line:297
+SBC_INDIRECT_X	../Instructions/arithmetics_instructions.py	/^SBC_INDIRECT_X = 0xE1$/;"	kind:variable	line:343
+SBC_INDIRECT_Y	../Instructions/arithmetics_instructions.py	/^SBC_INDIRECT_Y = 0xF1$/;"	kind:variable	line:349
+SBC_ZEROPAGE	../Instructions/arithmetics_instructions.py	/^SBC_ZEROPAGE = 0xE5$/;"	kind:variable	line:312
+SBC_ZEROPAGE_X	../Instructions/arithmetics_instructions.py	/^SBC_ZEROPAGE_X = 0xF5$/;"	kind:variable	line:318
+SCREEN_HEIGHT	../ppu.py	/^SCREEN_HEIGHT = 240$/;"	kind:variable	line:5
+SCREEN_WIDTH	../ppu.py	/^SCREEN_WIDTH = 256$/;"	kind:variable	line:6
+SEC	../Instructions/misc_instructions.py	/^SEC = 0x38$/;"	kind:variable	line:108
+SED	../Instructions/misc_instructions.py	/^SED = 0xF8$/;"	kind:variable	line:83
+SEI	../Instructions/misc_instructions.py	/^SEI = 0x78$/;"	kind:variable	line:91
+SP	../cpu.py	/^    def SP(self):$/;"	kind:member	line:118
+STACK_PAGE_ADDR	../Instructions/misc_instructions.py	/^from memory_mapper import STACK_PAGE_ADDR$/;"	kind:namespace	line:2
+STACK_PAGE_ADDR	../cpu.py	/^from memory_mapper import RESET_VECTOR, IRQ_VECTOR, NMI_VECTOR, MEMORY_SIZE, STACK_PAGE_ADDR$/;"	kind:namespace	line:1
+STACK_PAGE_ADDR	../log.py	/^from memory_mapper import STACK_PAGE_ADDR, cpu_unmirrored_address$/;"	kind:namespace	line:3
+STACK_PAGE_ADDR	../memory_mapper.py	/^STACK_PAGE_ADDR = 0x0100$/;"	kind:variable	line:8
+STACK_PAGE_ADDR	../tst/test_tricky_cases.py	/^from memory_mapper import MEMORY_SIZE, STACK_PAGE_ADDR$/;"	kind:namespace	line:8
+STA_ABSOLUTE	../Instructions/store_instructions.py	/^STA_ABSOLUTE = 0x8D$/;"	kind:variable	line:22
+STA_ABSOLUTE	../tst/test_store.py	/^from instructions import STA_INDIRECT_X, STA_ZEROPAGE, STA_ABSOLUTE, STA_INDIRECT_Y, STA_ZEROPAGE_X, STA_ABSOLUTE_Y$/;"	kind:namespace	line:8
+STA_ABSOLUTE_X	../Instructions/store_instructions.py	/^STA_ABSOLUTE_X = 0x9D$/;"	kind:variable	line:60
+STA_ABSOLUTE_X	../tst/test_store.py	/^from instructions import STA_ABSOLUTE_X, STY_ZEROPAGE, STY_ABSOLUTE, STY_ZEROPAGE_X, STX_ZEROPAGE, STX_ABSOLUTE, STX_ZEROPAGE_Y$/;"	kind:namespace	line:9
+STA_ABSOLUTE_Y	../Instructions/store_instructions.py	/^STA_ABSOLUTE_Y = 0x99$/;"	kind:variable	line:50
+STA_ABSOLUTE_Y	../tst/test_store.py	/^from instructions import STA_INDIRECT_X, STA_ZEROPAGE, STA_ABSOLUTE, STA_INDIRECT_Y, STA_ZEROPAGE_X, STA_ABSOLUTE_Y$/;"	kind:namespace	line:8
+STA_INDIRECT_X	../Instructions/store_instructions.py	/^STA_INDIRECT_X = 0x81$/;"	kind:variable	line:3
+STA_INDIRECT_X	../tst/test_store.py	/^from instructions import STA_INDIRECT_X, STA_ZEROPAGE, STA_ABSOLUTE, STA_INDIRECT_Y, STA_ZEROPAGE_X, STA_ABSOLUTE_Y$/;"	kind:namespace	line:8
+STA_INDIRECT_Y	../Instructions/store_instructions.py	/^STA_INDIRECT_Y = 0x91$/;"	kind:variable	line:31
+STA_INDIRECT_Y	../tst/test_store.py	/^from instructions import STA_INDIRECT_X, STA_ZEROPAGE, STA_ABSOLUTE, STA_INDIRECT_Y, STA_ZEROPAGE_X, STA_ABSOLUTE_Y$/;"	kind:namespace	line:8
+STA_ZEROPAGE	../Instructions/store_instructions.py	/^STA_ZEROPAGE = 0x85$/;"	kind:variable	line:15
+STA_ZEROPAGE	../tst/test_store.py	/^from instructions import STA_INDIRECT_X, STA_ZEROPAGE, STA_ABSOLUTE, STA_INDIRECT_Y, STA_ZEROPAGE_X, STA_ABSOLUTE_Y$/;"	kind:namespace	line:8
+STA_ZEROPAGE_X	../Instructions/store_instructions.py	/^STA_ZEROPAGE_X = 0x95$/;"	kind:variable	line:42
+STA_ZEROPAGE_X	../tst/test_store.py	/^from instructions import STA_INDIRECT_X, STA_ZEROPAGE, STA_ABSOLUTE, STA_INDIRECT_Y, STA_ZEROPAGE_X, STA_ABSOLUTE_Y$/;"	kind:namespace	line:8
+STX_ABSOLUTE	../Instructions/store_instructions.py	/^STX_ABSOLUTE = 0x8E$/;"	kind:variable	line:100
+STX_ABSOLUTE	../tst/test_store.py	/^from instructions import STA_ABSOLUTE_X, STY_ZEROPAGE, STY_ABSOLUTE, STY_ZEROPAGE_X, STX_ZEROPAGE, STX_ABSOLUTE, STX_ZEROPAGE_Y$/;"	kind:namespace	line:9
+STX_ZEROPAGE	../Instructions/store_instructions.py	/^STX_ZEROPAGE = 0x86$/;"	kind:variable	line:93
+STX_ZEROPAGE	../tst/test_store.py	/^from instructions import STA_ABSOLUTE_X, STY_ZEROPAGE, STY_ABSOLUTE, STY_ZEROPAGE_X, STX_ZEROPAGE, STX_ABSOLUTE, STX_ZEROPAGE_Y$/;"	kind:namespace	line:9
+STX_ZEROPAGE_Y	../Instructions/store_instructions.py	/^STX_ZEROPAGE_Y = 0x96$/;"	kind:variable	line:109
+STX_ZEROPAGE_Y	../tst/test_store.py	/^from instructions import STA_ABSOLUTE_X, STY_ZEROPAGE, STY_ABSOLUTE, STY_ZEROPAGE_X, STX_ZEROPAGE, STX_ABSOLUTE, STX_ZEROPAGE_Y$/;"	kind:namespace	line:9
+STY_ABSOLUTE	../Instructions/store_instructions.py	/^STY_ABSOLUTE = 0x8C$/;"	kind:variable	line:76
+STY_ABSOLUTE	../tst/test_store.py	/^from instructions import STA_ABSOLUTE_X, STY_ZEROPAGE, STY_ABSOLUTE, STY_ZEROPAGE_X, STX_ZEROPAGE, STX_ABSOLUTE, STX_ZEROPAGE_Y$/;"	kind:namespace	line:9
+STY_ZEROPAGE	../Instructions/store_instructions.py	/^STY_ZEROPAGE = 0x84$/;"	kind:variable	line:69
+STY_ZEROPAGE	../tst/test_store.py	/^from instructions import STA_ABSOLUTE_X, STY_ZEROPAGE, STY_ABSOLUTE, STY_ZEROPAGE_X, STX_ZEROPAGE, STX_ABSOLUTE, STX_ZEROPAGE_Y$/;"	kind:namespace	line:9
+STY_ZEROPAGE_X	../Instructions/store_instructions.py	/^STY_ZEROPAGE_X = 0x94$/;"	kind:variable	line:85
+STY_ZEROPAGE_X	../tst/test_store.py	/^from instructions import STA_ABSOLUTE_X, STY_ZEROPAGE, STY_ABSOLUTE, STY_ZEROPAGE_X, STX_ZEROPAGE, STX_ABSOLUTE, STX_ZEROPAGE_Y$/;"	kind:namespace	line:9
+ScreenPygame.py	../ScreenPygame.py	1;"	kind:file	line:1
+Sprite	../ppu.py	/^class Sprite():$/;"	kind:class	line:77
+TAX	../Instructions/misc_instructions.py	/^TAX = 0xAA$/;"	kind:variable	line:48
+TAY	../Instructions/misc_instructions.py	/^TAY = 0xA8$/;"	kind:variable	line:39
+TSX	../Instructions/misc_instructions.py	/^TSX = 0xBA$/;"	kind:variable	line:65
+TXA	../Instructions/misc_instructions.py	/^TXA = 0x8A$/;"	kind:variable	line:14
+TXS	../Instructions/misc_instructions.py	/^TXS = 0x9A$/;"	kind:variable	line:23
+TYA	../Instructions/misc_instructions.py	/^TYA = 0x98$/;"	kind:variable	line:30
+TestAddressGetters	../tst/test_address_getters.py	/^class TestAddressGetters(unittest.TestCase):$/;"	kind:class	line:10
+TestArithmetic	../tst/test_arithmetic.py	/^class TestArithmetic(unittest.TestCase):$/;"	kind:class	line:9
+TestEmulatorTiming	../emulator_timing_measurements.py	/^class TestEmulatorTiming(unittest.TestCase):$/;"	kind:class	line:186
+TestFlowControlInstructions	../tst/test_flow_control.py	/^class TestFlowControlInstructions(unittest.TestCase):$/;"	kind:class	line:9
+TestLoad	../tst/test_load.py	/^class TestLoad(unittest.TestCase):$/;"	kind:class	line:13
+TestLoad	../tst/test_ppu/test_color_palette.py	/^class TestLoad(unittest.TestCase):$/;"	kind:class	line:8
+TestLoad	../tst/test_ppu/test_ppu_mirroring.py	/^class TestLoad(unittest.TestCase):$/;"	kind:class	line:6
+TestLogicalInstructions	../tst/test_logical.py	/^class TestLogicalInstructions(unittest.TestCase):$/;"	kind:class	line:9
+TestMiscInstructions	../tst/test_misc.py	/^class TestMiscInstructions(unittest.TestCase):$/;"	kind:class	line:9
+TestStore	../tst/test_store.py	/^class TestStore(unittest.TestCase):$/;"	kind:class	line:12
+TestStringMethods	../tst/test_nespy.py	/^class TestStringMethods(unittest.TestCase):$/;"	kind:class	line:10
+TestTrickyCases	../tst/test_tricky_cases.py	/^class TestTrickyCases(unittest.TestCase):$/;"	kind:class	line:10
+UPPER_PRG_ROM_BANK	../memory_mapper.py	/^UPPER_PRG_ROM_BANK = 0xC000$/;"	kind:variable	line:19
+VERTICAL_NAMETABLE_MIRRORING	../memory_mapper.py	/^VERTICAL_NAMETABLE_MIRRORING = 0b1$/;"	kind:variable	line:45
+X	../cpu.py	/^    def X(self):$/;"	kind:member	line:108
+Y	../cpu.py	/^    def Y(self):$/;"	kind:member	line:113
+ZERO	../cpu.py	/^ZERO       = 0b00000010$/;"	kind:variable	line:23
+__getitem__	../cpu.py	/^    def __getitem__(self, addr):$/;"	kind:member	line:36
+__getitem__	../ppu.py	/^    def __getitem__(self, addr):$/;"	kind:member	line:111
+__init__	../cpu.py	/^    def __init__(self, memory_mapper):$/;"	kind:member	line:33
+__init__	../cpu.py	/^    def __init__(self, memory_mapper):$/;"	kind:member	line:43
+__init__	../log.py	/^    def __init__(self, output_file, enable_logging=True):$/;"	kind:member	line:7
+__init__	../memory_mapper.py	/^    def __init__(self, iNES_file):$/;"	kind:member	line:85
+__init__	../ppu.py	/^    def __init__(self, memory_mapper):$/;"	kind:member	line:108
+__init__	../ppu.py	/^    def __init__(self, memory_mapper):$/;"	kind:member	line:118
+__init__	../ppu.py	/^    def __init__(self, x=0, y=0, tile_index=0, palette_index=0, double_sprite=False, horizontal_flip=False, vertical_flip=False, behind_background=False):$/;"	kind:member	line:79
+__init__.py	../Instructions/__init__.py	1;"	kind:file	line:1
+__init__.py	../__init__.py	1;"	kind:file	line:1
+__init__.py	../tst/__init__.py	1;"	kind:file	line:1
+__init__.py	../tst/test_ppu/__init__.py	1;"	kind:file	line:1
+__setitem__	../cpu.py	/^    def __setitem__(self, addr, value):$/;"	kind:member	line:38
+__setitem__	../ppu.py	/^    def __setitem__(self, addr, value):$/;"	kind:member	line:113
+action	../emulator.py	/^                        action='store_true')$/;"	kind:variable	line:32
+adc	../Instructions/arithmetics_instructions.py	/^def adc(cpu, logger, addr):$/;"	kind:function	line:60
+adc_absolute	../Instructions/arithmetics_instructions.py	/^def adc_absolute(cpu, logger):$/;"	kind:function	line:31
+adc_absolute_x	../Instructions/arithmetics_instructions.py	/^def adc_absolute_x(cpu, logger):$/;"	kind:function	line:37
+adc_absolute_y	../Instructions/arithmetics_instructions.py	/^def adc_absolute_y(cpu, logger):$/;"	kind:function	line:43
+adc_immediate	../Instructions/arithmetics_instructions.py	/^def adc_immediate(cpu, logger):$/;"	kind:function	line:5
+adc_indirect_x	../Instructions/arithmetics_instructions.py	/^def adc_indirect_x(cpu, logger):$/;"	kind:function	line:49
+adc_indirect_y	../Instructions/arithmetics_instructions.py	/^def adc_indirect_y(cpu, logger):$/;"	kind:function	line:55
+adc_zeropage	../Instructions/arithmetics_instructions.py	/^def adc_zeropage(cpu, logger):$/;"	kind:function	line:19
+adc_zeropage_x	../Instructions/arithmetics_instructions.py	/^def adc_zeropage_x(cpu, logger):$/;"	kind:function	line:25
+address_getters.py	../Instructions/address_getters.py	1;"	kind:file	line:1
+and_absolute	../Instructions/logical_instructions.py	/^def and_absolute(cpu, logger):$/;"	kind:function	line:43
+and_absolute_x	../Instructions/logical_instructions.py	/^def and_absolute_x(cpu, logger):$/;"	kind:function	line:47
+and_absolute_y	../Instructions/logical_instructions.py	/^def and_absolute_y(cpu, logger):$/;"	kind:function	line:52
+and_immediate	../Instructions/logical_instructions.py	/^def and_immediate(cpu, logger):$/;"	kind:function	line:25
+and_indirect_x	../Instructions/logical_instructions.py	/^def and_indirect_x(cpu, logger):$/;"	kind:function	line:57
+and_indirect_y	../Instructions/logical_instructions.py	/^def and_indirect_y(cpu, logger):$/;"	kind:function	line:61
+and_instruction	../Instructions/logical_instructions.py	/^def and_instruction(cpu, logger, addr):$/;"	kind:function	line:65
+and_zeropage	../Instructions/logical_instructions.py	/^def and_zeropage(cpu, logger):$/;"	kind:function	line:35
+and_zeropage_x	../Instructions/logical_instructions.py	/^def and_zeropage_x(cpu, logger):$/;"	kind:function	line:39
+argparse	../emulator.py	/^import argparse$/;"	kind:namespace	line:3
+argparse	../nespy.py	/^import argparse$/;"	kind:namespace	line:1
+args	../emulator.py	/^    args = parser.parse_args()$/;"	kind:variable	line:33
+arithmetics_instructions.py	../Instructions/arithmetics_instructions.py	1;"	kind:file	line:1
+asl	../Instructions/logical_instructions.py	/^def asl(cpu, logger, addr):$/;"	kind:function	line:206
+asl_absolute	../Instructions/logical_instructions.py	/^def asl_absolute(cpu, logger):$/;"	kind:function	line:198
+asl_absolute_x	../Instructions/logical_instructions.py	/^def asl_absolute_x(cpu, logger):$/;"	kind:function	line:202
+asl_accumulator	../Instructions/logical_instructions.py	/^def asl_accumulator(cpu, logger):$/;"	kind:function	line:178
+asl_zeropage	../Instructions/logical_instructions.py	/^def asl_zeropage(cpu, logger):$/;"	kind:function	line:190
+asl_zeropage_x	../Instructions/logical_instructions.py	/^def asl_zeropage_x(cpu, logger):$/;"	kind:function	line:194
+bcc	../Instructions/control_flow_instructions.py	/^def bcc(cpu, logger):$/;"	kind:function	line:7
+bcs	../Instructions/control_flow_instructions.py	/^def bcs(cpu, logger):$/;"	kind:function	line:22
+beq	../Instructions/control_flow_instructions.py	/^def beq(cpu, logger):$/;"	kind:function	line:33
+bit	../Instructions/logical_instructions.py	/^def bit(cpu, logger, addr):$/;"	kind:function	line:13
+bit_absolute	../Instructions/logical_instructions.py	/^def bit_absolute(cpu, logger):$/;"	kind:function	line:10
+bit_zeropage	../Instructions/logical_instructions.py	/^def bit_zeropage(cpu, logger):$/;"	kind:function	line:6
+black	../ScreenPygame.py	/^black = (0,0,0)$/;"	kind:variable	line:11
+bmi	../Instructions/control_flow_instructions.py	/^def bmi(cpu, logger):$/;"	kind:function	line:44
+bne	../Instructions/control_flow_instructions.py	/^def bne(cpu, logger):$/;"	kind:function	line:55
+bpl	../Instructions/control_flow_instructions.py	/^def bpl(cpu, logger):$/;"	kind:function	line:66
+branch	../Instructions/control_flow_instructions.py	/^def branch(cpu, logger, oper):$/;"	kind:function	line:17
+brk	../Instructions/misc_instructions.py	/^def brk(cpu, logger):$/;"	kind:function	line:6
+bvc	../Instructions/control_flow_instructions.py	/^def bvc(cpu, logger):$/;"	kind:function	line:77
+bvs	../Instructions/control_flow_instructions.py	/^def bvs(cpu, logger):$/;"	kind:function	line:88
+cProfile	../emulator_timing_measurements.py	/^import cProfile$/;"	kind:namespace	line:7
+carry	../cpu.py	/^    def carry(self):$/;"	kind:member	line:203
+clc	../Instructions/misc_instructions.py	/^def clc(cpu, logger):$/;"	kind:function	line:117
+cld	../Instructions/misc_instructions.py	/^def cld(cpu, logger):$/;"	kind:function	line:76
+clear_carry	../cpu.py	/^    def clear_carry(self):$/;"	kind:member	line:188
+clear_decimal	../cpu.py	/^    def clear_decimal(self):$/;"	kind:member	line:173
+clear_irq_disable	../cpu.py	/^    def clear_irq_disable(self):$/;"	kind:member	line:178
+clear_negative	../cpu.py	/^    def clear_negative(self):$/;"	kind:member	line:163
+clear_overflow	../cpu.py	/^    def clear_overflow(self):$/;"	kind:member	line:168
+clear_zero	../cpu.py	/^    def clear_zero(self):$/;"	kind:member	line:183
+cli	../Instructions/misc_instructions.py	/^def cli(cpu, logger):$/;"	kind:function	line:101
+clock	../ScreenPygame.py	/^clock = pygame.time.Clock()$/;"	kind:variable	line:14
+clv	../Instructions/misc_instructions.py	/^def clv(cpu, logger):$/;"	kind:function	line:58
+cmp	../Instructions/arithmetics_instructions.py	/^def cmp(cpu, logger, op1, addr):$/;"	kind:function	line:185
+cmp_absolute	../Instructions/arithmetics_instructions.py	/^def cmp_absolute(cpu, logger):$/;"	kind:function	line:100
+cmp_absolute_x	../Instructions/arithmetics_instructions.py	/^def cmp_absolute_x(cpu, logger):$/;"	kind:function	line:108
+cmp_absolute_y	../Instructions/arithmetics_instructions.py	/^def cmp_absolute_y(cpu, logger):$/;"	kind:function	line:115
+cmp_immediate	../Instructions/arithmetics_instructions.py	/^def cmp_immediate(cpu, logger):$/;"	kind:function	line:74
+cmp_indirect_x	../Instructions/arithmetics_instructions.py	/^def cmp_indirect_x(cpu, logger):$/;"	kind:function	line:122
+cmp_indirect_y	../Instructions/arithmetics_instructions.py	/^def cmp_indirect_y(cpu, logger):$/;"	kind:function	line:129
+cmp_zero_page_x	../Instructions/arithmetics_instructions.py	/^def cmp_zero_page_x(cpu, logger):$/;"	kind:function	line:93
+cmp_zeropage	../Instructions/arithmetics_instructions.py	/^def cmp_zeropage(cpu, logger):$/;"	kind:function	line:85
+control_flow_instructions.py	../Instructions/control_flow_instructions.py	1;"	kind:file	line:1
+cpu.py	../cpu.py	1;"	kind:file	line:1
+cpu_read_byte	../memory_mapper.py	/^    def cpu_read_byte(self, addr):$/;"	kind:member	line:161
+cpu_read_word	../memory_mapper.py	/^    def cpu_read_word(self, addr):$/;"	kind:member	line:168
+cpu_unmirrored_address	../log.py	/^from memory_mapper import STACK_PAGE_ADDR, cpu_unmirrored_address$/;"	kind:namespace	line:3
+cpu_unmirrored_address	../memory_mapper.py	/^def cpu_unmirrored_address(addr):$/;"	kind:function	line:51
+cpu_write_byte	../memory_mapper.py	/^    def cpu_write_byte(self, addr, value):$/;"	kind:member	line:164
+cpx_absolute	../Instructions/arithmetics_instructions.py	/^def cpx_absolute(cpu, logger):$/;"	kind:function	line:154
+cpx_immediate	../Instructions/arithmetics_instructions.py	/^def cpx_immediate(cpu, logger):$/;"	kind:function	line:136
+cpx_zeropage	../Instructions/arithmetics_instructions.py	/^def cpx_zeropage(cpu, logger):$/;"	kind:function	line:147
+cpy_absolute	../Instructions/arithmetics_instructions.py	/^def cpy_absolute(cpu, logger):$/;"	kind:function	line:179
+cpy_immediate	../Instructions/arithmetics_instructions.py	/^def cpy_immediate(cpu, logger):$/;"	kind:function	line:161
+cpy_zeropage	../Instructions/arithmetics_instructions.py	/^def cpy_zeropage(cpu, logger):$/;"	kind:function	line:172
+crashed	../ScreenPygame.py	/^crashed = False$/;"	kind:variable	line:15
+dec	../Instructions/arithmetics_instructions.py	/^def dec(cpu, logger, addr):$/;"	kind:function	line:236
+dec_absolute	../Instructions/arithmetics_instructions.py	/^def dec_absolute(cpu, logger):$/;"	kind:function	line:206
+dec_absolute_x	../Instructions/arithmetics_instructions.py	/^def dec_absolute_x(cpu, logger):$/;"	kind:function	line:212
+dec_zeropage	../Instructions/arithmetics_instructions.py	/^def dec_zeropage(cpu, logger):$/;"	kind:function	line:194
+dec_zeropage_x	../Instructions/arithmetics_instructions.py	/^def dec_zeropage_x(cpu, logger):$/;"	kind:function	line:200
+dex	../Instructions/arithmetics_instructions.py	/^def dex(cpu, logger):$/;"	kind:function	line:218
+dey	../Instructions/arithmetics_instructions.py	/^def dey(cpu, logger):$/;"	kind:function	line:227
+display_height	../ScreenPygame.py	/^display_height = 600$/;"	kind:variable	line:6
+display_width	../ScreenPygame.py	/^display_width = 800$/;"	kind:variable	line:5
+emulator.py	../emulator.py	1;"	kind:file	line:1
+emulator_timing_measurements.py	../emulator_timing_measurements.py	1;"	kind:file	line:1
+eor_absolute	../Instructions/logical_instructions.py	/^def eor_absolute(cpu, logger):$/;"	kind:function	line:94
+eor_absolute_x	../Instructions/logical_instructions.py	/^def eor_absolute_x(cpu, logger):$/;"	kind:function	line:98
+eor_absolute_y	../Instructions/logical_instructions.py	/^def eor_absolute_y(cpu, logger):$/;"	kind:function	line:103
+eor_immediate	../Instructions/logical_instructions.py	/^def eor_immediate(cpu, logger):$/;"	kind:function	line:76
+eor_indirect_x	../Instructions/logical_instructions.py	/^def eor_indirect_x(cpu, logger):$/;"	kind:function	line:108
+eor_indirect_y	../Instructions/logical_instructions.py	/^def eor_indirect_y(cpu, logger):$/;"	kind:function	line:112
+eor_instruction	../Instructions/logical_instructions.py	/^def eor_instruction(cpu, logger, addr):$/;"	kind:function	line:116
+eor_zeropage	../Instructions/logical_instructions.py	/^def eor_zeropage(cpu, logger):$/;"	kind:function	line:86
+eor_zeropage_x	../Instructions/logical_instructions.py	/^def eor_zeropage_x(cpu, logger):$/;"	kind:function	line:90
+execute_instruction	../nes_cpu_test_utils.py	/^def execute_instruction(cpu, opcode, op2_lo_byte=None, op2_hi_byte=None, logger=FAKE_LOGGER):$/;"	kind:function	line:22
+execute_instruction	../tst/test_arithmetic.py	/^from nes_cpu_test_utils import CreateTestCpu, execute_instruction$/;"	kind:namespace	line:6
+execute_instruction	../tst/test_flow_control.py	/^from nes_cpu_test_utils import CreateTestCpu, execute_instruction$/;"	kind:namespace	line:6
+execute_instruction	../tst/test_load.py	/^from nes_cpu_test_utils import CreateTestCpu, execute_instruction$/;"	kind:namespace	line:6
+execute_instruction	../tst/test_logical.py	/^from nes_cpu_test_utils import CreateTestCpu, execute_instruction$/;"	kind:namespace	line:6
+execute_instruction	../tst/test_misc.py	/^from nes_cpu_test_utils import CreateTestCpu, execute_instruction$/;"	kind:namespace	line:6
+execute_instruction	../tst/test_store.py	/^from nes_cpu_test_utils import CreateTestCpu, execute_instruction$/;"	kind:namespace	line:6
+execute_instruction	../tst/test_tricky_cases.py	/^from nes_cpu_test_utils import CreateTestCpu, execute_instruction$/;"	kind:namespace	line:6
+execute_instruction_at_PC	../cpu.py	/^    def execute_instruction_at_PC(self, logger):$/;"	kind:member	line:97
+execute_opcode	../emulator_timing_measurements.py	/^            def execute_opcode(how_many_times_to_execute):$/;"	kind:function	line:248
+from_attribute_bytes	../ppu.py	/^    def from_attribute_bytes(bytes, double_sprite=False):$/;"	kind:member	line:90
+gameDisplay	../ScreenPygame.py	/^gameDisplay = pygame.display.set_mode((display_width,display_height))$/;"	kind:variable	line:8
+generate_interrupt	../cpu.py	/^    def generate_interrupt(self, handler_addr):$/;"	kind:member	line:81
+get_absolute	../Instructions/address_getters.py	/^def get_absolute(cpu):$/;"	kind:function	line:33
+get_absolute_addr	../Instructions/address_getters.py	/^def get_absolute_addr(cpu):$/;"	kind:function	line:79
+get_absolute_x	../Instructions/address_getters.py	/^def get_absolute_x(cpu):$/;"	kind:function	line:38
+get_absolute_x_addr	../Instructions/address_getters.py	/^def get_absolute_x_addr(cpu):$/;"	kind:function	line:84
+get_absolute_y	../Instructions/address_getters.py	/^def get_absolute_y(cpu):$/;"	kind:function	line:43
+get_absolute_y_addr	../Instructions/address_getters.py	/^def get_absolute_y_addr(cpu):$/;"	kind:function	line:90
+get_immediate	../Instructions/address_getters.py	/^def get_immediate(cpu):$/;"	kind:function	line:15
+get_indirect_x	../Instructions/address_getters.py	/^def get_indirect_x(cpu):$/;"	kind:function	line:49
+get_indirect_x	../tst/test_address_getters.py	/^from Instructions.address_getters import get_indirect_x, get_indirect_y$/;"	kind:namespace	line:8
+get_indirect_x_addr	../Instructions/address_getters.py	/^def get_indirect_x_addr(cpu):$/;"	kind:function	line:96
+get_indirect_y	../Instructions/address_getters.py	/^def get_indirect_y(cpu):$/;"	kind:function	line:58
+get_indirect_y	../tst/test_address_getters.py	/^from Instructions.address_getters import get_indirect_x, get_indirect_y$/;"	kind:namespace	line:8
+get_indirect_y_addr	../Instructions/address_getters.py	/^def get_indirect_y_addr(cpu):$/;"	kind:function	line:103
+get_zeropage	../Instructions/address_getters.py	/^def get_zeropage(cpu):$/;"	kind:function	line:21
+get_zeropage_addr	../Instructions/address_getters.py	/^def get_zeropage_addr(cpu):$/;"	kind:function	line:69
+get_zeropage_x	../Instructions/address_getters.py	/^def get_zeropage_x(cpu):$/;"	kind:function	line:27
+get_zeropage_x_addr	../Instructions/address_getters.py	/^def get_zeropage_x_addr(cpu):$/;"	kind:function	line:74
+help	../emulator.py	/^                        help='Log CPU and instruction related state at every executed instruction',$/;"	kind:variable	line:31
+iNES_HEADER_LENGTH	../memory_mapper.py	/^iNES_HEADER_LENGTH = 16$/;"	kind:variable	line:42
+iNES_HEADER_MAGIC_NUMBER	../memory_mapper.py	/^iNES_HEADER_MAGIC_NUMBER = b'NES\\x1A'$/;"	kind:variable	line:41
+inc	../Instructions/arithmetics_instructions.py	/^def inc(cpu, logger, addr):$/;"	kind:function	line:289
+inc_absolute	../Instructions/arithmetics_instructions.py	/^def inc_absolute(cpu, logger):$/;"	kind:function	line:257
+inc_absolute_x	../Instructions/arithmetics_instructions.py	/^def inc_absolute_x(cpu, logger):$/;"	kind:function	line:263
+inc_zeropage	../Instructions/arithmetics_instructions.py	/^def inc_zeropage(cpu, logger):$/;"	kind:function	line:245
+inc_zeropage_x	../Instructions/arithmetics_instructions.py	/^def inc_zeropage_x(cpu, logger):$/;"	kind:function	line:251
+init_NROM_mapper	../memory_mapper.py	/^    def init_NROM_mapper(self, iNES_file):$/;"	kind:member	line:119
+insert_instruction	../emulator_timing_measurements.py	/^from nes_cpu_test_utils import CreateTestCpu, insert_instruction$/;"	kind:namespace	line:12
+insert_instruction	../nes_cpu_test_utils.py	/^def insert_instruction(cpu, addr, opcode, op2_lo_byte=None, op2_hi_byte=None):$/;"	kind:function	line:14
+insert_instruction	../tst/test_address_getters.py	/^from nes_cpu_test_utils import CreateTestCpu, insert_instruction$/;"	kind:namespace	line:6
+instruction_02	../instructions.py	/^def instruction_02(cpu, logger):$/;"	kind:function	line:23
+instruction_03	../instructions.py	/^def instruction_03(cpu, logger):$/;"	kind:function	line:27
+instruction_04	../instructions.py	/^def instruction_04(cpu, logger):$/;"	kind:function	line:31
+instruction_07	../instructions.py	/^def instruction_07(cpu, logger):$/;"	kind:function	line:37
+instruction_0b	../instructions.py	/^def instruction_0b(cpu, logger):$/;"	kind:function	line:44
+instruction_0c	../instructions.py	/^def instruction_0c(cpu, logger):$/;"	kind:function	line:48
+instruction_0f	../instructions.py	/^def instruction_0f(cpu, logger):$/;"	kind:function	line:54
+instruction_12	../instructions.py	/^def instruction_12(cpu, logger):$/;"	kind:function	line:59
+instruction_13	../instructions.py	/^def instruction_13(cpu, logger):$/;"	kind:function	line:63
+instruction_14	../instructions.py	/^def instruction_14(cpu, logger):$/;"	kind:function	line:67
+instruction_17	../instructions.py	/^def instruction_17(cpu, logger):$/;"	kind:function	line:73
+instruction_1a	../instructions.py	/^def instruction_1a(cpu, logger):$/;"	kind:function	line:80
+instruction_1b	../instructions.py	/^def instruction_1b(cpu, logger):$/;"	kind:function	line:84
+instruction_1c	../instructions.py	/^def instruction_1c(cpu, logger):$/;"	kind:function	line:88
+instruction_1f	../instructions.py	/^def instruction_1f(cpu, logger):$/;"	kind:function	line:94
+instruction_21	../instructions.py	/^def instruction_21(cpu, logger):$/;"	kind:function	line:98
+instruction_22	../instructions.py	/^def instruction_22(cpu, logger):$/;"	kind:function	line:102
+instruction_23	../instructions.py	/^def instruction_23(cpu, logger):$/;"	kind:function	line:106
+instruction_25	../instructions.py	/^def instruction_25(cpu, logger):$/;"	kind:function	line:110
+instruction_27	../instructions.py	/^def instruction_27(cpu, logger):$/;"	kind:function	line:115
+instruction_29	../instructions.py	/^def instruction_29(cpu, logger):$/;"	kind:function	line:120
+instruction_2b	../instructions.py	/^def instruction_2b(cpu, logger):$/;"	kind:function	line:125
+instruction_2d	../instructions.py	/^def instruction_2d(cpu, logger):$/;"	kind:function	line:129
+instruction_2f	../instructions.py	/^def instruction_2f(cpu, logger):$/;"	kind:function	line:134
+instruction_31	../instructions.py	/^def instruction_31(cpu, logger):$/;"	kind:function	line:138
+instruction_32	../instructions.py	/^def instruction_32(cpu, logger):$/;"	kind:function	line:142
+instruction_33	../instructions.py	/^def instruction_33(cpu, logger):$/;"	kind:function	line:146
+instruction_34	../instructions.py	/^def instruction_34(cpu, logger):$/;"	kind:function	line:150
+instruction_35	../instructions.py	/^def instruction_35(cpu, logger):$/;"	kind:function	line:154
+instruction_37	../instructions.py	/^def instruction_37(cpu, logger):$/;"	kind:function	line:159
+instruction_39	../instructions.py	/^def instruction_39(cpu, logger):$/;"	kind:function	line:165
+instruction_3a	../instructions.py	/^def instruction_3a(cpu, logger):$/;"	kind:function	line:169
+instruction_3b	../instructions.py	/^def instruction_3b(cpu, logger):$/;"	kind:function	line:173
+instruction_3c	../instructions.py	/^def instruction_3c(cpu, logger):$/;"	kind:function	line:177
+instruction_3d	../instructions.py	/^def instruction_3d(cpu, logger):$/;"	kind:function	line:181
+instruction_3f	../instructions.py	/^def instruction_3f(cpu, logger):$/;"	kind:function	line:186
+instruction_42	../instructions.py	/^def instruction_42(cpu, logger):$/;"	kind:function	line:192
+instruction_43	../instructions.py	/^def instruction_43(cpu, logger):$/;"	kind:function	line:196
+instruction_44	../instructions.py	/^def instruction_44(cpu, logger):$/;"	kind:function	line:200
+instruction_47	../instructions.py	/^def instruction_47(cpu, logger):$/;"	kind:function	line:206
+instruction_4b	../instructions.py	/^def instruction_4b(cpu, logger):$/;"	kind:function	line:213
+instruction_4f	../instructions.py	/^def instruction_4f(cpu, logger):$/;"	kind:function	line:219
+instruction_52	../instructions.py	/^def instruction_52(cpu, logger):$/;"	kind:function	line:224
+instruction_53	../instructions.py	/^def instruction_53(cpu, logger):$/;"	kind:function	line:228
+instruction_54	../instructions.py	/^def instruction_54(cpu, logger):$/;"	kind:function	line:232
+instruction_57	../instructions.py	/^def instruction_57(cpu, logger):$/;"	kind:function	line:238
+instruction_5a	../instructions.py	/^def instruction_5a(cpu, logger):$/;"	kind:function	line:244
+instruction_5b	../instructions.py	/^def instruction_5b(cpu, logger):$/;"	kind:function	line:248
+instruction_5c	../instructions.py	/^def instruction_5c(cpu, logger):$/;"	kind:function	line:252
+instruction_5f	../instructions.py	/^def instruction_5f(cpu, logger):$/;"	kind:function	line:258
+instruction_62	../instructions.py	/^def instruction_62(cpu, logger):$/;"	kind:function	line:262
+instruction_63	../instructions.py	/^def instruction_63(cpu, logger):$/;"	kind:function	line:266
+instruction_64	../instructions.py	/^def instruction_64(cpu, logger):$/;"	kind:function	line:270
+instruction_67	../instructions.py	/^def instruction_67(cpu, logger):$/;"	kind:function	line:275
+instruction_6b	../instructions.py	/^def instruction_6b(cpu, logger):$/;"	kind:function	line:281
+instruction_6f	../instructions.py	/^def instruction_6f(cpu, logger):$/;"	kind:function	line:286
+instruction_72	../instructions.py	/^def instruction_72(cpu, logger):$/;"	kind:function	line:290
+instruction_73	../instructions.py	/^def instruction_73(cpu, logger):$/;"	kind:function	line:294
+instruction_74	../instructions.py	/^def instruction_74(cpu, logger):$/;"	kind:function	line:298
+instruction_77	../instructions.py	/^def instruction_77(cpu, logger):$/;"	kind:function	line:303
+instruction_7a	../instructions.py	/^def instruction_7a(cpu, logger):$/;"	kind:function	line:309
+instruction_7b	../instructions.py	/^def instruction_7b(cpu, logger):$/;"	kind:function	line:313
+instruction_7c	../instructions.py	/^def instruction_7c(cpu, logger):$/;"	kind:function	line:317
+instruction_7f	../instructions.py	/^def instruction_7f(cpu, logger):$/;"	kind:function	line:324
+instruction_80	../instructions.py	/^def instruction_80(cpu, logger):$/;"	kind:function	line:328
+instruction_82	../instructions.py	/^def instruction_82(cpu, logger):$/;"	kind:function	line:333
+instruction_83	../instructions.py	/^def instruction_83(cpu, logger):$/;"	kind:function	line:337
+instruction_87	../instructions.py	/^def instruction_87(cpu, logger):$/;"	kind:function	line:342
+instruction_89	../instructions.py	/^def instruction_89(cpu, logger):$/;"	kind:function	line:347
+instruction_8b	../instructions.py	/^def instruction_8b(cpu, logger):$/;"	kind:function	line:353
+instruction_8f	../instructions.py	/^def instruction_8f(cpu, logger):$/;"	kind:function	line:358
+instruction_92	../instructions.py	/^def instruction_92(cpu, logger):$/;"	kind:function	line:365
+instruction_93	../instructions.py	/^def instruction_93(cpu, logger):$/;"	kind:function	line:370
+instruction_97	../instructions.py	/^def instruction_97(cpu, logger):$/;"	kind:function	line:375
+instruction_9c	../instructions.py	/^def instruction_9c(cpu, logger):$/;"	kind:function	line:380
+instruction_9e	../instructions.py	/^def instruction_9e(cpu, logger):$/;"	kind:function	line:385
+instruction_9f	../instructions.py	/^def instruction_9f(cpu, logger):$/;"	kind:function	line:389
+instruction_a3	../instructions.py	/^def instruction_a3(cpu, logger):$/;"	kind:function	line:394
+instruction_a7	../instructions.py	/^def instruction_a7(cpu, logger):$/;"	kind:function	line:399
+instruction_ab	../instructions.py	/^def instruction_ab(cpu, logger):$/;"	kind:function	line:404
+instruction_af	../instructions.py	/^def instruction_af(cpu, logger):$/;"	kind:function	line:409
+instruction_b2	../instructions.py	/^def instruction_b2(cpu, logger):$/;"	kind:function	line:414
+instruction_b3	../instructions.py	/^def instruction_b3(cpu, logger):$/;"	kind:function	line:419
+instruction_b7	../instructions.py	/^def instruction_b7(cpu, logger):$/;"	kind:function	line:424
+instruction_bb	../instructions.py	/^def instruction_bb(cpu, logger):$/;"	kind:function	line:430
+instruction_bf	../instructions.py	/^def instruction_bf(cpu, logger):$/;"	kind:function	line:435
+instruction_c2	../instructions.py	/^def instruction_c2(cpu, logger):$/;"	kind:function	line:440
+instruction_c3	../instructions.py	/^def instruction_c3(cpu, logger):$/;"	kind:function	line:444
+instruction_c7	../instructions.py	/^def instruction_c7(cpu, logger):$/;"	kind:function	line:450
+instruction_cb	../instructions.py	/^def instruction_cb(cpu, logger):$/;"	kind:function	line:455
+instruction_cf	../instructions.py	/^def instruction_cf(cpu, logger):$/;"	kind:function	line:461
+instruction_d2	../instructions.py	/^def instruction_d2(cpu, logger):$/;"	kind:function	line:465
+instruction_d3	../instructions.py	/^def instruction_d3(cpu, logger):$/;"	kind:function	line:469
+instruction_d4	../instructions.py	/^def instruction_d4(cpu, logger):$/;"	kind:function	line:473
+instruction_d7	../instructions.py	/^def instruction_d7(cpu, logger):$/;"	kind:function	line:478
+instruction_da	../instructions.py	/^def instruction_da(cpu, logger):$/;"	kind:function	line:484
+instruction_db	../instructions.py	/^def instruction_db(cpu, logger):$/;"	kind:function	line:488
+instruction_dc	../instructions.py	/^def instruction_dc(cpu, logger):$/;"	kind:function	line:492
+instruction_df	../instructions.py	/^def instruction_df(cpu, logger):$/;"	kind:function	line:496
+instruction_e2	../instructions.py	/^def instruction_e2(cpu, logger):$/;"	kind:function	line:501
+instruction_e3	../instructions.py	/^def instruction_e3(cpu, logger):$/;"	kind:function	line:505
+instruction_e7	../instructions.py	/^def instruction_e7(cpu, logger):$/;"	kind:function	line:511
+instruction_eb	../instructions.py	/^def instruction_eb(cpu, logger):$/;"	kind:function	line:516
+instruction_ef	../instructions.py	/^def instruction_ef(cpu, logger):$/;"	kind:function	line:521
+instruction_f2	../instructions.py	/^def instruction_f2(cpu, logger):$/;"	kind:function	line:526
+instruction_f3	../instructions.py	/^def instruction_f3(cpu, logger):$/;"	kind:function	line:530
+instruction_f4	../instructions.py	/^def instruction_f4(cpu, logger):$/;"	kind:function	line:534
+instruction_f7	../instructions.py	/^def instruction_f7(cpu, logger):$/;"	kind:function	line:540
+instruction_fa	../instructions.py	/^def instruction_fa(cpu, logger):$/;"	kind:function	line:545
+instruction_fb	../instructions.py	/^def instruction_fb(cpu, logger):$/;"	kind:function	line:549
+instruction_fc	../instructions.py	/^def instruction_fc(cpu, logger):$/;"	kind:function	line:553
+instructions	../cpu.py	/^from instructions import instructions$/;"	kind:namespace	line:2
+instructions	../instructions.py	/^instructions = 256 * [InstructionNotImplemented]$/;"	kind:variable	line:18
+instructions	../nes_cpu_test_utils.py	/^from instructions import instructions$/;"	kind:namespace	line:4
+instructions	../nes_ppu_test_utils.py	/^from instructions import instructions$/;"	kind:namespace	line:4
+instructions.py	../instructions.py	1;"	kind:file	line:1
+inx	../Instructions/arithmetics_instructions.py	/^def inx(cpu, logger):$/;"	kind:function	line:269
+iny	../Instructions/arithmetics_instructions.py	/^def iny(cpu, logger):$/;"	kind:function	line:279
+irq_disable	../cpu.py	/^    def irq_disable(self):$/;"	kind:member	line:207
+isCrossed	../Instructions/address_getters.py	/^def isCrossed(addrA, addrB):$/;"	kind:function	line:8
+is_adc_overflow	../Instructions/arithmetics_instructions.py	/^from nes_cpu_utils import is_negative, is_adc_overflow, is_sbc_overflow, twos_comp$/;"	kind:namespace	line:1
+is_adc_overflow	../nes_cpu_utils.py	/^def is_adc_overflow(addend1, addend2, result):$/;"	kind:function	line:9
+is_background_palette	../nes_ppu_utils.py	/^def is_background_palette(address):$/;"	kind:function	line:5
+is_negative	../Instructions/arithmetics_instructions.py	/^from nes_cpu_utils import is_negative, is_adc_overflow, is_sbc_overflow, twos_comp$/;"	kind:namespace	line:1
+is_negative	../Instructions/logical_instructions.py	/^from nes_cpu_utils import is_negative$/;"	kind:namespace	line:2
+is_negative	../Instructions/misc_instructions.py	/^from nes_cpu_utils import is_negative$/;"	kind:namespace	line:1
+is_negative	../nes_cpu_utils.py	/^def is_negative(number):$/;"	kind:function	line:25
+is_positive	../nes_cpu_utils.py	/^def is_positive(number): # or zero$/;"	kind:function	line:30
+is_sbc_overflow	../Instructions/arithmetics_instructions.py	/^from nes_cpu_utils import is_negative, is_adc_overflow, is_sbc_overflow, twos_comp$/;"	kind:namespace	line:1
+is_sbc_overflow	../nes_cpu_utils.py	/^def is_sbc_overflow(op1, op2, result):$/;"	kind:function	line:17
+jmp_absolute	../Instructions/control_flow_instructions.py	/^def jmp_absolute(cpu, logger):$/;"	kind:function	line:99
+jmp_indirect	../Instructions/control_flow_instructions.py	/^def jmp_indirect(cpu, logger):$/;"	kind:function	line:105
+jsr	../Instructions/control_flow_instructions.py	/^def jsr(cpu, logger):$/;"	kind:function	line:122
+lda_absolute	../Instructions/load_instructions.py	/^def lda_absolute(cpu, logger):$/;"	kind:function	line:23
+lda_absolute_x	../Instructions/load_instructions.py	/^def lda_absolute_x(cpu, logger):$/;"	kind:function	line:74
+lda_absolute_y	../Instructions/load_instructions.py	/^def lda_absolute_y(cpu, logger):$/;"	kind:function	line:62
+lda_immediate	../Instructions/load_instructions.py	/^def lda_immediate(cpu, logger):$/;"	kind:function	line:4
+lda_indirect_x	../Instructions/load_instructions.py	/^def lda_indirect_x(cpu, logger):$/;"	kind:function	line:50
+lda_indirect_y	../Instructions/load_instructions.py	/^def lda_indirect_y(cpu, logger):$/;"	kind:function	line:35
+lda_zeropage	../Instructions/load_instructions.py	/^def lda_zeropage(cpu, logger):$/;"	kind:function	line:13
+lda_zeropage_x	../Instructions/load_instructions.py	/^def lda_zeropage_x(cpu, logger):$/;"	kind:function	line:86
+ldx_absolute	../Instructions/load_instructions.py	/^def ldx_absolute(cpu, logger):$/;"	kind:function	line:117
+ldx_absolute_y	../Instructions/load_instructions.py	/^def ldx_absolute_y(cpu, logger):$/;"	kind:function	line:141
+ldx_immediate	../Instructions/load_instructions.py	/^def ldx_immediate(cpu, logger):$/;"	kind:function	line:97
+ldx_zeropage	../Instructions/load_instructions.py	/^def ldx_zeropage(cpu, logger):$/;"	kind:function	line:106
+ldx_zeropage_y	../Instructions/load_instructions.py	/^def ldx_zeropage_y(cpu, logger):$/;"	kind:function	line:130
+ldy_absolute	../Instructions/load_instructions.py	/^def ldy_absolute(cpu, logger):$/;"	kind:function	line:172
+ldy_absolute_x	../Instructions/load_instructions.py	/^def ldy_absolute_x(cpu, logger):$/;"	kind:function	line:196
+ldy_immediate	../Instructions/load_instructions.py	/^def ldy_immediate(cpu, logger):$/;"	kind:function	line:153
+ldy_zeropage	../Instructions/load_instructions.py	/^def ldy_zeropage(cpu, logger):$/;"	kind:function	line:162
+ldy_zeropage_x	../Instructions/load_instructions.py	/^def ldy_zeropage_x(cpu, logger):$/;"	kind:function	line:185
+load_instructions.py	../Instructions/load_instructions.py	1;"	kind:file	line:1
+log.py	../log.py	1;"	kind:file	line:1
+log_instruction	../log.py	/^    def log_instruction(self, cpu):$/;"	kind:member	line:11
+log_memory_access_instruction	../log.py	/^    def log_memory_access_instruction(self, cpu, mem_addr, data):$/;"	kind:member	line:15
+logical_instructions.py	../Instructions/logical_instructions.py	1;"	kind:file	line:1
+lsr	../Instructions/logical_instructions.py	/^def lsr(cpu, logger, addr):$/;"	kind:function	line:246
+lsr_absolute	../Instructions/logical_instructions.py	/^def lsr_absolute(cpu, logger):$/;"	kind:function	line:238
+lsr_absolute_x	../Instructions/logical_instructions.py	/^def lsr_absolute_x(cpu, logger):$/;"	kind:function	line:242
+lsr_accumulator	../Instructions/logical_instructions.py	/^def lsr_accumulator(cpu, logger):$/;"	kind:function	line:218
+lsr_zeropage	../Instructions/logical_instructions.py	/^def lsr_zeropage(cpu, logger):$/;"	kind:function	line:230
+lsr_zeropage_x	../Instructions/logical_instructions.py	/^def lsr_zeropage_x(cpu, logger):$/;"	kind:function	line:234
+memory_mapper.py	../memory_mapper.py	1;"	kind:file	line:1
+misc_instructions.py	../Instructions/misc_instructions.py	1;"	kind:file	line:1
+negative	../cpu.py	/^    def negative(self):$/;"	kind:member	line:191
+nesPy	../nespy.py	/^    nesPy = NesPy()$/;"	kind:variable	line:15
+nes_color_palette_to_rgb	../ppu.py	/^    def nes_color_palette_to_rgb(screen):$/;"	kind:member	line:148
+nes_cpu_test_utils.py	../nes_cpu_test_utils.py	1;"	kind:file	line:1
+nes_cpu_utils.py	../nes_cpu_utils.py	1;"	kind:file	line:1
+nes_ppu_test_utils.py	../nes_ppu_test_utils.py	1;"	kind:file	line:1
+nes_ppu_utils.py	../nes_ppu_utils.py	1;"	kind:file	line:1
+nespy.py	../nespy.py	1;"	kind:file	line:1
+nop	../Instructions/misc_instructions.py	/^def nop(cpu, logger):$/;"	kind:function	line:126
+np	../ppu.py	/^import numpy as np$/;"	kind:namespace	line:2
+ora_absolute	../Instructions/logical_instructions.py	/^def ora_absolute(cpu, logger):$/;"	kind:function	line:145
+ora_absolute_x	../Instructions/logical_instructions.py	/^def ora_absolute_x(cpu, logger):$/;"	kind:function	line:149
+ora_absolute_y	../Instructions/logical_instructions.py	/^def ora_absolute_y(cpu, logger):$/;"	kind:function	line:154
+ora_immediate	../Instructions/logical_instructions.py	/^def ora_immediate(cpu, logger):$/;"	kind:function	line:127
+ora_indirect_x	../Instructions/logical_instructions.py	/^def ora_indirect_x(cpu, logger):$/;"	kind:function	line:159
+ora_indirect_y	../Instructions/logical_instructions.py	/^def ora_indirect_y(cpu, logger):$/;"	kind:function	line:163
+ora_instruction	../Instructions/logical_instructions.py	/^def ora_instruction(cpu, logger, addr):$/;"	kind:function	line:167
+ora_zeropage	../Instructions/logical_instructions.py	/^def ora_zeropage(cpu, logger):$/;"	kind:function	line:137
+ora_zeropage_x	../Instructions/logical_instructions.py	/^def ora_zeropage_x(cpu, logger):$/;"	kind:function	line:141
+os	../emulator_timing_measurements.py	/^import os$/;"	kind:namespace	line:4
+os	../log.py	/^import os$/;"	kind:namespace	line:1
+os	../nes_cpu_test_utils.py	/^import os$/;"	kind:namespace	line:5
+os	../nes_cpu_utils.py	/^import os$/;"	kind:namespace	line:1
+os	../nes_ppu_test_utils.py	/^import os$/;"	kind:namespace	line:5
+os	../tst/test_address_getters.py	/^import os$/;"	kind:namespace	line:1
+os	../tst/test_arithmetic.py	/^import os$/;"	kind:namespace	line:1
+os	../tst/test_flow_control.py	/^import os$/;"	kind:namespace	line:1
+os	../tst/test_load.py	/^import os$/;"	kind:namespace	line:1
+os	../tst/test_logical.py	/^import os$/;"	kind:namespace	line:1
+os	../tst/test_misc.py	/^import os$/;"	kind:namespace	line:1
+os	../tst/test_nespy.py	/^import os$/;"	kind:namespace	line:1
+os	../tst/test_ppu/__init__.py	/^import os$/;"	kind:namespace	line:1
+os	../tst/test_ppu/test_color_palette.py	/^import os$/;"	kind:namespace	line:1
+os	../tst/test_store.py	/^import os$/;"	kind:namespace	line:1
+os	../tst/test_tricky_cases.py	/^import os$/;"	kind:namespace	line:1
+overflow	../cpu.py	/^    def overflow(self):$/;"	kind:member	line:195
+parse_arguments	../nespy.py	/^    def parse_arguments(self, args):$/;"	kind:member	line:7
+parser	../emulator.py	/^    parser = argparse.ArgumentParser(description='Run NES games with this emulator.')$/;"	kind:variable	line:28
+parser	../nespy.py	/^    parser = nesPy.parse_arguments(sys.argv[1:])$/;"	kind:variable	line:16
+pha	../Instructions/misc_instructions.py	/^def pha(cpu, logger):$/;"	kind:function	line:149
+php	../Instructions/misc_instructions.py	/^def php(cpu, logger):$/;"	kind:function	line:132
+pla	../Instructions/misc_instructions.py	/^def pla(cpu, logger):$/;"	kind:function	line:157
+plp	../Instructions/misc_instructions.py	/^def plp(cpu, logger):$/;"	kind:function	line:140
+ppu.py	../ppu.py	1;"	kind:file	line:1
+ppu_read_byte	../memory_mapper.py	/^    def ppu_read_byte(self, addr):$/;"	kind:member	line:154
+ppu_unmirrored_address	../memory_mapper.py	/^def ppu_unmirrored_address(addr):$/;"	kind:function	line:63
+ppu_utils	../memory_mapper.py	/^import nes_ppu_utils as ppu_utils$/;"	kind:namespace	line:1
+ppu_write_byte	../memory_mapper.py	/^    def ppu_write_byte(self, addr, value):$/;"	kind:member	line:157
+printLog	../log.py	/^    def printLog(self, regPC, regA, regX, regY, regSP,  regP):$/;"	kind:member	line:19
+printLogLoadStore	../log.py	/^    def printLogLoadStore(self, regPC, regA, regX, regY, regSP, regP, memAddr, data):$/;"	kind:member	line:23
+pull	../cpu.py	/^    def pull(self):$/;"	kind:member	line:93
+push	../cpu.py	/^    def push(self, value):$/;"	kind:member	line:89
+pygame	../ScreenPygame.py	/^import pygame$/;"	kind:namespace	line:1
+random	../emulator_timing_measurements.py	/^import random$/;"	kind:namespace	line:6
+render	../ppu.py	/^    def render(self):$/;"	kind:member	line:139
+render_background	../ppu.py	/^    def render_background(self):$/;"	kind:member	line:126
+render_sprites	../ppu.py	/^    def render_sprites(self, screen):$/;"	kind:member	line:133
+rol	../Instructions/logical_instructions.py	/^def rol(cpu, logger, addr):$/;"	kind:function	line:286
+rol_absolute	../Instructions/logical_instructions.py	/^def rol_absolute(cpu, logger):$/;"	kind:function	line:278
+rol_absolute_x	../Instructions/logical_instructions.py	/^def rol_absolute_x(cpu, logger):$/;"	kind:function	line:282
+rol_accumulator	../Instructions/logical_instructions.py	/^def rol_accumulator(cpu, logger):$/;"	kind:function	line:258
+rol_zeropage	../Instructions/logical_instructions.py	/^def rol_zeropage(cpu, logger):$/;"	kind:function	line:270
+rol_zeropage_x	../Instructions/logical_instructions.py	/^def rol_zeropage_x(cpu, logger):$/;"	kind:function	line:274
+ror	../Instructions/logical_instructions.py	/^def ror(cpu, logger, addr):$/;"	kind:function	line:326
+ror_absolute	../Instructions/logical_instructions.py	/^def ror_absolute(cpu, logger):$/;"	kind:function	line:318
+ror_absolute_x	../Instructions/logical_instructions.py	/^def ror_absolute_x(cpu, logger):$/;"	kind:function	line:322
+ror_accumulator	../Instructions/logical_instructions.py	/^def ror_accumulator(cpu, logger):$/;"	kind:function	line:298
+ror_zeropage	../Instructions/logical_instructions.py	/^def ror_zeropage(cpu, logger):$/;"	kind:function	line:310
+ror_zeropage_x	../Instructions/logical_instructions.py	/^def ror_zeropage_x(cpu, logger):$/;"	kind:function	line:314
+rotate_left	../Instructions/logical_instructions.py	/^def rotate_left(value, carry_in):$/;"	kind:function	line:338
+rotate_right	../Instructions/logical_instructions.py	/^def rotate_right(value, carry_in):$/;"	kind:function	line:347
+rti	../Instructions/control_flow_instructions.py	/^def rti(cpu, logger):$/;"	kind:function	line:151
+rts	../Instructions/control_flow_instructions.py	/^def rts(cpu, logger):$/;"	kind:function	line:142
+run_game	../emulator.py	/^def run_game(iNES_file, enable_logging):$/;"	kind:function	line:12
+sbc	../Instructions/arithmetics_instructions.py	/^def sbc(cpu, logger, addr):$/;"	kind:function	line:356
+sbc_absolute	../Instructions/arithmetics_instructions.py	/^def sbc_absolute(cpu, logger):$/;"	kind:function	line:325
+sbc_absolute_x	../Instructions/arithmetics_instructions.py	/^def sbc_absolute_x(cpu, logger):$/;"	kind:function	line:331
+sbc_absolute_y	../Instructions/arithmetics_instructions.py	/^def sbc_absolute_y(cpu, logger):$/;"	kind:function	line:337
+sbc_immediate	../Instructions/arithmetics_instructions.py	/^def sbc_immediate(cpu, logger):$/;"	kind:function	line:298
+sbc_indirect_x	../Instructions/arithmetics_instructions.py	/^def sbc_indirect_x(cpu, logger):$/;"	kind:function	line:344
+sbc_indirect_y	../Instructions/arithmetics_instructions.py	/^def sbc_indirect_y(cpu, logger):$/;"	kind:function	line:350
+sbc_zeropage	../Instructions/arithmetics_instructions.py	/^def sbc_zeropage(cpu, logger):$/;"	kind:function	line:313
+sbc_zeropage_x	../Instructions/arithmetics_instructions.py	/^def sbc_zeropage_x(cpu, logger):$/;"	kind:function	line:319
+sec	../Instructions/misc_instructions.py	/^def sec(cpu, logger):$/;"	kind:function	line:109
+sed	../Instructions/misc_instructions.py	/^def sed(cpu, logger):$/;"	kind:function	line:84
+sei	../Instructions/misc_instructions.py	/^def sei(cpu, logger):$/;"	kind:function	line:92
+setUp	../tst/test_load.py	/^    def setUp(self):$/;"	kind:member	line:15
+setUp	../tst/test_store.py	/^    def setUp(self):$/;"	kind:member	line:14
+set_A	../cpu.py	/^    def set_A(self, value):$/;"	kind:member	line:105
+set_P	../cpu.py	/^    def set_P(self, value):$/;"	kind:member	line:125
+set_PC	../cpu.py	/^    def set_PC(self, value):$/;"	kind:member	line:135
+set_SP	../cpu.py	/^    def set_SP(self, value):$/;"	kind:member	line:120
+set_X	../cpu.py	/^    def set_X(self, value):$/;"	kind:member	line:110
+set_Y	../cpu.py	/^    def set_Y(self, value):$/;"	kind:member	line:115
+set_carry	../cpu.py	/^    def set_carry(self):$/;"	kind:member	line:186
+set_carry_iff	../cpu.py	/^    def set_carry_iff(self, condition):$/;"	kind:member	line:156
+set_decimal	../cpu.py	/^    def set_decimal(self):$/;"	kind:member	line:171
+set_irq_disable	../cpu.py	/^    def set_irq_disable(self):$/;"	kind:member	line:176
+set_negative	../cpu.py	/^    def set_negative(self):$/;"	kind:member	line:161
+set_negative_iff	../cpu.py	/^    def set_negative_iff(self, condition):$/;"	kind:member	line:141
+set_overflow	../cpu.py	/^    def set_overflow(self):$/;"	kind:member	line:166
+set_overflow_iff	../cpu.py	/^    def set_overflow_iff(self, condition):$/;"	kind:member	line:146
+set_zero	../cpu.py	/^    def set_zero(self):$/;"	kind:member	line:181
+set_zero_iff	../cpu.py	/^    def set_zero_iff(self, condition):$/;"	kind:member	line:151
+sprit	../ScreenPygame.py	/^def sprit(x,y):$/;"	kind:function	line:21
+spritImg	../ScreenPygame.py	/^spritImg = pygame.image.load('.\/bitmaps\/mario.png')$/;"	kind:variable	line:16
+sta_absolute	../Instructions/store_instructions.py	/^def sta_absolute(cpu, logger):$/;"	kind:function	line:23
+sta_absolute_x	../Instructions/store_instructions.py	/^def sta_absolute_x(cpu, logger):$/;"	kind:function	line:61
+sta_absolute_y	../Instructions/store_instructions.py	/^def sta_absolute_y(cpu, logger):$/;"	kind:function	line:51
+sta_indirect_x	../Instructions/store_instructions.py	/^def sta_indirect_x(cpu, logger):$/;"	kind:function	line:4
+sta_indirect_y	../Instructions/store_instructions.py	/^def sta_indirect_y(cpu, logger):$/;"	kind:function	line:32
+sta_zeropage	../Instructions/store_instructions.py	/^def sta_zeropage(cpu, logger):$/;"	kind:function	line:16
+sta_zeropage_x	../Instructions/store_instructions.py	/^def sta_zeropage_x(cpu, logger):$/;"	kind:function	line:43
+store_instructions.py	../Instructions/store_instructions.py	1;"	kind:file	line:1
+stx_absolute	../Instructions/store_instructions.py	/^def stx_absolute(cpu, logger):$/;"	kind:function	line:101
+stx_zeropage	../Instructions/store_instructions.py	/^def stx_zeropage(cpu, logger):$/;"	kind:function	line:94
+stx_zeropage_y	../Instructions/store_instructions.py	/^def stx_zeropage_y(cpu, logger):$/;"	kind:function	line:110
+sty_absolute	../Instructions/store_instructions.py	/^def sty_absolute(cpu, logger):$/;"	kind:function	line:77
+sty_zeropage	../Instructions/store_instructions.py	/^def sty_zeropage(cpu, logger):$/;"	kind:function	line:70
+sty_zeropage_x	../Instructions/store_instructions.py	/^def sty_zeropage_x(cpu, logger):$/;"	kind:function	line:86
+sys	../emulator.py	/^import sys$/;"	kind:namespace	line:4
+sys	../emulator_timing_measurements.py	/^import sys$/;"	kind:namespace	line:3
+sys	../log.py	/^import sys$/;"	kind:namespace	line:2
+sys	../nespy.py	/^import sys$/;"	kind:namespace	line:2
+sys	../tst/test_address_getters.py	/^import sys$/;"	kind:namespace	line:2
+sys	../tst/test_arithmetic.py	/^import sys$/;"	kind:namespace	line:2
+sys	../tst/test_flow_control.py	/^import sys$/;"	kind:namespace	line:2
+sys	../tst/test_load.py	/^import sys$/;"	kind:namespace	line:2
+sys	../tst/test_logical.py	/^import sys$/;"	kind:namespace	line:2
+sys	../tst/test_misc.py	/^import sys$/;"	kind:namespace	line:2
+sys	../tst/test_nespy.py	/^import sys$/;"	kind:namespace	line:2
+sys	../tst/test_ppu/__init__.py	/^import sys$/;"	kind:namespace	line:2
+sys	../tst/test_ppu/test_color_palette.py	/^import sys$/;"	kind:namespace	line:2
+sys	../tst/test_store.py	/^import sys$/;"	kind:namespace	line:2
+sys	../tst/test_tricky_cases.py	/^import sys$/;"	kind:namespace	line:2
+tax	../Instructions/misc_instructions.py	/^def tax(cpu, logger):$/;"	kind:function	line:49
+tay	../Instructions/misc_instructions.py	/^def tay(cpu, logger):$/;"	kind:function	line:40
+test_AND_absolute	../tst/test_logical.py	/^    def test_AND_absolute(self):$/;"	kind:member	line:71
+test_AND_absolute_x	../tst/test_logical.py	/^    def test_AND_absolute_x(self):$/;"	kind:member	line:83
+test_AND_absolute_y	../tst/test_logical.py	/^    def test_AND_absolute_y(self):$/;"	kind:member	line:96
+test_AND_immediate	../tst/test_logical.py	/^    def test_AND_immediate(self):$/;"	kind:member	line:35
+test_AND_indirect_x	../tst/test_logical.py	/^    def test_AND_indirect_x(self):$/;"	kind:member	line:109
+test_AND_indirect_y	../tst/test_logical.py	/^    def test_AND_indirect_y(self):$/;"	kind:member	line:124
+test_AND_zeropage	../tst/test_logical.py	/^    def test_AND_zeropage(self):$/;"	kind:member	line:46
+test_AND_zeropage_x	../tst/test_logical.py	/^    def test_AND_zeropage_x(self):$/;"	kind:member	line:58
+test_ASL_absolute	../tst/test_logical.py	/^    def test_ASL_absolute(self):$/;"	kind:member	line:349
+test_CLC	../tst/test_misc.py	/^    def test_CLC(self):$/;"	kind:member	line:11
+test_EOR_absolute	../tst/test_logical.py	/^    def test_EOR_absolute(self):$/;"	kind:member	line:244
+test_EOR_absolute_x	../tst/test_logical.py	/^    def test_EOR_absolute_x(self):$/;"	kind:member	line:292
+test_EOR_absolute_y	../tst/test_logical.py	/^    def test_EOR_absolute_y(self):$/;"	kind:member	line:305
+test_EOR_immediate	../tst/test_logical.py	/^    def test_EOR_immediate(self):$/;"	kind:member	line:256
+test_EOR_indirect_x	../tst/test_logical.py	/^    def test_EOR_indirect_x(self):$/;"	kind:member	line:318
+test_EOR_indirect_y	../tst/test_logical.py	/^    def test_EOR_indirect_y(self):$/;"	kind:member	line:333
+test_EOR_zeropage	../tst/test_logical.py	/^    def test_EOR_zeropage(self):$/;"	kind:member	line:267
+test_EOR_zeropage_x	../tst/test_logical.py	/^    def test_EOR_zeropage_x(self):$/;"	kind:member	line:279
+test_INy	../tst/test_arithmetic.py	/^    def test_INy(self):$/;"	kind:member	line:570
+test_LSR_absolute	../tst/test_logical.py	/^    def test_LSR_absolute(self):$/;"	kind:member	line:361
+test_ORA_absolute	../tst/test_logical.py	/^    def test_ORA_absolute(self):$/;"	kind:member	line:139
+test_ORA_absolute_x	../tst/test_logical.py	/^    def test_ORA_absolute_x(self):$/;"	kind:member	line:187
+test_ORA_absolute_y	../tst/test_logical.py	/^    def test_ORA_absolute_y(self):$/;"	kind:member	line:200
+test_ORA_immediate	../tst/test_logical.py	/^    def test_ORA_immediate(self):$/;"	kind:member	line:151
+test_ORA_indirect_x	../tst/test_logical.py	/^    def test_ORA_indirect_x(self):$/;"	kind:member	line:213
+test_ORA_indirect_y	../tst/test_logical.py	/^    def test_ORA_indirect_y(self):$/;"	kind:member	line:228
+test_ORA_zeropage	../tst/test_logical.py	/^    def test_ORA_zeropage(self):$/;"	kind:member	line:162
+test_ORA_zeropage_x	../tst/test_logical.py	/^    def test_ORA_zeropage_x(self):$/;"	kind:member	line:174
+test_ROL_absolute	../tst/test_logical.py	/^    def test_ROL_absolute(self):$/;"	kind:member	line:373
+test_ROR_absolute	../tst/test_logical.py	/^    def test_ROR_absolute(self):$/;"	kind:member	line:385
+test_adc_absolute	../tst/test_arithmetic.py	/^    def test_adc_absolute(self):$/;"	kind:member	line:58
+test_adc_absolute_x	../tst/test_arithmetic.py	/^    def test_adc_absolute_x(self):$/;"	kind:member	line:73
+test_adc_absolute_y	../tst/test_arithmetic.py	/^    def test_adc_absolute_y(self):$/;"	kind:member	line:89
+test_adc_immediate_simple_addition_with_no_flag_setting	../tst/test_arithmetic.py	/^    def test_adc_immediate_simple_addition_with_no_flag_setting(self):$/;"	kind:member	line:11
+test_adc_indirect_x	../tst/test_arithmetic.py	/^    def test_adc_indirect_x(self):$/;"	kind:member	line:105
+test_adc_indirect_y	../tst/test_arithmetic.py	/^    def test_adc_indirect_y(self):$/;"	kind:member	line:123
+test_adc_zeropage	../tst/test_arithmetic.py	/^    def test_adc_zeropage(self):$/;"	kind:member	line:26
+test_adc_zeropageX	../tst/test_arithmetic.py	/^    def test_adc_zeropageX(self):$/;"	kind:member	line:40
+test_address_getters.py	../tst/test_address_getters.py	1;"	kind:file	line:1
+test_arithmetic.py	../tst/test_arithmetic.py	1;"	kind:file	line:1
+test_cmp_absolute_Abigger	../tst/test_arithmetic.py	/^    def test_cmp_absolute_Abigger(self):$/;"	kind:member	line:248
+test_cmp_absolute_Asmaller	../tst/test_arithmetic.py	/^    def test_cmp_absolute_Asmaller(self):$/;"	kind:member	line:261
+test_cmp_absolute_iqual	../tst/test_arithmetic.py	/^    def test_cmp_absolute_iqual(self):$/;"	kind:member	line:235
+test_cmp_absolutex_Asmall	../tst/test_arithmetic.py	/^    def test_cmp_absolutex_Asmall(self):$/;"	kind:member	line:288
+test_cmp_absolutex_iqual	../tst/test_arithmetic.py	/^    def test_cmp_absolutex_iqual(self):$/;"	kind:member	line:274
+test_cmp_absolutey_iqual	../tst/test_arithmetic.py	/^    def test_cmp_absolutey_iqual(self):$/;"	kind:member	line:302
+test_cmp_immediate	../tst/test_arithmetic.py	/^    def test_cmp_immediate(self):$/;"	kind:member	line:141
+test_cmp_indirect_x_ASmall	../tst/test_arithmetic.py	/^    def test_cmp_indirect_x_ASmall(self):$/;"	kind:member	line:351
+test_cmp_indirect_x_Abig	../tst/test_arithmetic.py	/^    def test_cmp_indirect_x_Abig(self):$/;"	kind:member	line:334
+test_cmp_indirect_x_iqual	../tst/test_arithmetic.py	/^    def test_cmp_indirect_x_iqual(self):$/;"	kind:member	line:316
+test_cmp_indirect_y_Abig	../tst/test_arithmetic.py	/^    def test_cmp_indirect_y_Abig(self):$/;"	kind:member	line:385
+test_cmp_indirect_y_Asmall	../tst/test_arithmetic.py	/^    def test_cmp_indirect_y_Asmall(self):$/;"	kind:member	line:402
+test_cmp_indirect_y_iqual	../tst/test_arithmetic.py	/^    def test_cmp_indirect_y_iqual(self):$/;"	kind:member	line:368
+test_cmp_zeropageX_Abigger	../tst/test_arithmetic.py	/^    def test_cmp_zeropageX_Abigger(self):$/;"	kind:member	line:207
+test_cmp_zeropageX_Asmall	../tst/test_arithmetic.py	/^    def test_cmp_zeropageX_Asmall(self):$/;"	kind:member	line:221
+test_cmp_zeropageX_iqual	../tst/test_arithmetic.py	/^    def test_cmp_zeropageX_iqual(self):$/;"	kind:member	line:193
+test_cmp_zeropage_Abigger	../tst/test_arithmetic.py	/^    def test_cmp_zeropage_Abigger(self):$/;"	kind:member	line:166
+test_cmp_zeropage_Asmaller	../tst/test_arithmetic.py	/^    def test_cmp_zeropage_Asmaller(self):$/;"	kind:member	line:179
+test_cmp_zeropage_iqual	../tst/test_arithmetic.py	/^    def test_cmp_zeropage_iqual(self):$/;"	kind:member	line:153
+test_color_palette.py	../tst/test_ppu/test_color_palette.py	1;"	kind:file	line:1
+test_cpx_absolute_iqual	../tst/test_arithmetic.py	/^    def test_cpx_absolute_iqual(self):$/;"	kind:member	line:637
+test_cpx_immediate	../tst/test_arithmetic.py	/^    def test_cpx_immediate(self):$/;"	kind:member	line:612
+test_cpx_zeropage_iqual	../tst/test_arithmetic.py	/^    def test_cpx_zeropage_iqual(self):$/;"	kind:member	line:624
+test_cpy_absolute_iqual	../tst/test_arithmetic.py	/^    def test_cpy_absolute_iqual(self):$/;"	kind:member	line:675
+test_cpy_immediate	../tst/test_arithmetic.py	/^    def test_cpy_immediate(self):$/;"	kind:member	line:650
+test_cpy_zeropage_iqual	../tst/test_arithmetic.py	/^    def test_cpy_zeropage_iqual(self):$/;"	kind:member	line:662
+test_dec_absolute	../tst/test_arithmetic.py	/^    def test_dec_absolute(self):$/;"	kind:member	line:464
+test_dec_absolute_x	../tst/test_arithmetic.py	/^    def test_dec_absolute_x(self):$/;"	kind:member	line:476
+test_dec_zeropage	../tst/test_arithmetic.py	/^    def test_dec_zeropage(self):$/;"	kind:member	line:419
+test_dec_zeropage_0	../tst/test_arithmetic.py	/^    def test_dec_zeropage_0(self):$/;"	kind:member	line:430
+test_dec_zeropage_neg	../tst/test_arithmetic.py	/^    def test_dec_zeropage_neg(self):$/;"	kind:member	line:441
+test_dec_zeropage_x	../tst/test_arithmetic.py	/^    def test_dec_zeropage_x(self):$/;"	kind:member	line:452
+test_dex	../tst/test_arithmetic.py	/^    def test_dex(self):$/;"	kind:member	line:489
+test_dey	../tst/test_arithmetic.py	/^    def test_dey(self):$/;"	kind:member	line:501
+test_each_opcode_a_million_times	../emulator_timing_measurements.py	/^    def test_each_opcode_a_million_times(self):$/;"	kind:member	line:213
+test_execution_profile_of_different_opcodes	../emulator_timing_measurements.py	/^    def test_execution_profile_of_different_opcodes(self):$/;"	kind:member	line:239
+test_flow_control.py	../tst/test_flow_control.py	1;"	kind:file	line:1
+test_get_indirect_x_no_wraparound	../tst/test_address_getters.py	/^    def test_get_indirect_x_no_wraparound(self):$/;"	kind:member	line:12
+test_get_indirect_x_wraparound_indirect_address	../tst/test_address_getters.py	/^    def test_get_indirect_x_wraparound_indirect_address(self):$/;"	kind:member	line:44
+test_get_indirect_x_wraparound_x	../tst/test_address_getters.py	/^    def test_get_indirect_x_wraparound_x(self):$/;"	kind:member	line:28
+test_get_indirect_y_no_wraparound	../tst/test_address_getters.py	/^    def test_get_indirect_y_no_wraparound(self):$/;"	kind:member	line:60
+test_get_indirect_y_wraparound_indirect_address	../tst/test_address_getters.py	/^    def test_get_indirect_y_wraparound_indirect_address(self):$/;"	kind:member	line:88
+test_get_indirect_y_wraparound_y	../tst/test_address_getters.py	/^    def test_get_indirect_y_wraparound_y(self):$/;"	kind:member	line:74
+test_if_BIT_absolute_sets_status_flags	../tst/test_logical.py	/^    def test_if_BIT_absolute_sets_status_flags(self):$/;"	kind:member	line:23
+test_if_BIT_sets_status_flags	../tst/test_logical.py	/^    def test_if_BIT_sets_status_flags(self):$/;"	kind:member	line:11
+test_if_background_color_is_copied_for_every_four_bytes	../tst/test_ppu/test_color_palette.py	/^    def test_if_background_color_is_copied_for_every_four_bytes(self):$/;"	kind:member	line:10
+test_if_cpu_mirror_ppu_content_from_2000_every_8_bytes	../tst/test_ppu/test_ppu_mirroring.py	/^    def test_if_cpu_mirror_ppu_content_from_2000_every_8_bytes(self):$/;"	kind:member	line:19
+test_if_cpu_mirror_ppu_content_from_2000_every_8_bytes	../tst/test_ppu/test_ppu_mirroring.py	/^    def test_if_cpu_mirror_ppu_content_from_2000_every_8_bytes(self):$/;"	kind:member	line:28
+test_if_negative_flag_is_cleared_if_operand_is_between_x00_and_x7f_for_lda_immediate	../tst/test_load.py	/^    def test_if_negative_flag_is_cleared_if_operand_is_between_x00_and_x7f_for_lda_immediate(self):$/;"	kind:member	line:29
+test_if_negative_flag_is_not_cleared_if_operand_is_greater_than_x7f_for_lda_immediate	../tst/test_load.py	/^    def test_if_negative_flag_is_not_cleared_if_operand_is_greater_than_x7f_for_lda_immediate(self):$/;"	kind:member	line:36
+test_if_negative_is_set_if_content_is_negative	../tst/test_load.py	/^    def test_if_negative_is_set_if_content_is_negative(self):$/;"	kind:member	line:569
+test_if_parser_gets_filename	../tst/test_nespy.py	/^    def test_if_parser_gets_filename(self):$/;"	kind:member	line:12
+test_if_register_a_receives_immediate	../tst/test_load.py	/^    def test_if_register_a_receives_immediate(self):$/;"	kind:member	line:20
+test_if_register_x_receives_immediate	../tst/test_load.py	/^    def test_if_register_x_receives_immediate(self):$/;"	kind:member	line:559
+test_if_register_y_receives_immediate	../tst/test_load.py	/^    def test_if_register_y_receives_immediate(self):$/;"	kind:member	line:849
+test_if_zero_flag_is_not_set_when_operand_is_not_zero_for_lda_immediate	../tst/test_load.py	/^    def test_if_zero_flag_is_not_set_when_operand_is_not_zero_for_lda_immediate(self):$/;"	kind:member	line:50
+test_if_zero_flag_is_set_when_operand_is_zero_for_lda_immediate	../tst/test_load.py	/^    def test_if_zero_flag_is_set_when_operand_is_zero_for_lda_immediate(self):$/;"	kind:member	line:43
+test_if_zero_is_set_if_content_is_zero	../tst/test_load.py	/^    def test_if_zero_is_set_if_content_is_zero(self):$/;"	kind:member	line:579
+test_inc_absolute	../tst/test_arithmetic.py	/^    def test_inc_absolute(self):$/;"	kind:member	line:536
+test_inc_absolute_x	../tst/test_arithmetic.py	/^    def test_inc_absolute_x(self):$/;"	kind:member	line:547
+test_inc_zeropage	../tst/test_arithmetic.py	/^    def test_inc_zeropage(self):$/;"	kind:member	line:513
+test_inc_zeropagex	../tst/test_arithmetic.py	/^    def test_inc_zeropagex(self):$/;"	kind:member	line:524
+test_inx	../tst/test_arithmetic.py	/^    def test_inx(self):$/;"	kind:member	line:559
+test_lda_absolute	../tst/test_load.py	/^    def test_lda_absolute(self):$/;"	kind:member	line:94
+test_lda_absolute_x_with_content_being_negative	../tst/test_load.py	/^    def test_lda_absolute_x_with_content_being_negative(self):$/;"	kind:member	line:486
+test_lda_absolute_x_with_content_being_zero	../tst/test_load.py	/^    def test_lda_absolute_x_with_content_being_zero(self):$/;"	kind:member	line:462
+test_lda_absolute_x_with_overflow	../tst/test_load.py	/^    def test_lda_absolute_x_with_overflow(self):$/;"	kind:member	line:439
+test_lda_absolute_x_without_overflow	../tst/test_load.py	/^    def test_lda_absolute_x_without_overflow(self):$/;"	kind:member	line:412
+test_lda_absolute_y_with_content_being_negative	../tst/test_load.py	/^    def test_lda_absolute_y_with_content_being_negative(self):$/;"	kind:member	line:388
+test_lda_absolute_y_with_content_being_zero	../tst/test_load.py	/^    def test_lda_absolute_y_with_content_being_zero(self):$/;"	kind:member	line:364
+test_lda_absolute_y_with_overflow	../tst/test_load.py	/^    def test_lda_absolute_y_with_overflow(self):$/;"	kind:member	line:341
+test_lda_absolute_y_without_overflow	../tst/test_load.py	/^    def test_lda_absolute_y_without_overflow(self):$/;"	kind:member	line:314
+test_lda_indirect_x_add_value_to_zero_page_address	../tst/test_load.py	/^    def test_lda_indirect_x_add_value_to_zero_page_address(self):$/;"	kind:member	line:245
+test_lda_indirect_x_add_value_to_zero_page_address_when_content_is_negative	../tst/test_load.py	/^    def test_lda_indirect_x_add_value_to_zero_page_address_when_content_is_negative(self):$/;"	kind:member	line:282
+test_lda_indirect_x_add_value_to_zero_page_address_when_content_is_zero	../tst/test_load.py	/^    def test_lda_indirect_x_add_value_to_zero_page_address_when_content_is_zero(self):$/;"	kind:member	line:266
+test_lda_indirect_x_add_value_to_zero_page_address_when_resolved_address_has_carry	../tst/test_load.py	/^    def test_lda_indirect_x_add_value_to_zero_page_address_when_resolved_address_has_carry(self):$/;"	kind:member	line:298
+test_lda_indirect_y_set_flag_if_content_is_negative	../tst/test_load.py	/^    def test_lda_indirect_y_set_flag_if_content_is_negative(self):$/;"	kind:member	line:224
+test_lda_indirect_y_set_flag_if_content_is_zero	../tst/test_load.py	/^    def test_lda_indirect_y_set_flag_if_content_is_zero(self):$/;"	kind:member	line:203
+test_lda_indirect_y_without_overflow	../tst/test_load.py	/^    def test_lda_indirect_y_without_overflow(self):$/;"	kind:member	line:137
+test_lda_indirect_y_without_overflow_hi_part	../tst/test_load.py	/^    def test_lda_indirect_y_without_overflow_hi_part(self):$/;"	kind:member	line:182
+test_lda_indirect_y_without_overflow_lo_part	../tst/test_load.py	/^    def test_lda_indirect_y_without_overflow_lo_part(self):$/;"	kind:member	line:161
+test_ldx_absolute	../tst/test_load.py	/^    def test_ldx_absolute(self):$/;"	kind:member	line:630
+test_ldx_zero_page_when_content_is_negative	../tst/test_load.py	/^    def test_ldx_zero_page_when_content_is_negative(self):$/;"	kind:member	line:618
+test_ldx_zero_page_when_content_is_zero	../tst/test_load.py	/^    def test_ldx_zero_page_when_content_is_zero(self):$/;"	kind:member	line:606
+test_ldx_zero_page_y_when_content_is_negative	../tst/test_load.py	/^    def test_ldx_zero_page_y_when_content_is_negative(self):$/;"	kind:member	line:834
+test_ldx_zero_page_y_when_content_is_zero	../tst/test_load.py	/^    def test_ldx_zero_page_y_when_content_is_zero(self):$/;"	kind:member	line:820
+test_ldx_zero_page_y_with_overflow	../tst/test_load.py	/^    def test_ldx_zero_page_y_with_overflow(self):$/;"	kind:member	line:804
+test_ldx_zero_page_y_without_overflow	../tst/test_load.py	/^    def test_ldx_zero_page_y_without_overflow(self):$/;"	kind:member	line:784
+test_ldy_absolute	../tst/test_load.py	/^    def test_ldy_absolute(self):$/;"	kind:member	line:728
+test_ldy_absolute_x_with_content_being_negative	../tst/test_load.py	/^    def test_ldy_absolute_x_with_content_being_negative(self):$/;"	kind:member	line:1001
+test_ldy_absolute_x_with_content_being_zero	../tst/test_load.py	/^    def test_ldy_absolute_x_with_content_being_zero(self):$/;"	kind:member	line:977
+test_ldy_absolute_x_with_overflow	../tst/test_load.py	/^    def test_ldy_absolute_x_with_overflow(self):$/;"	kind:member	line:954
+test_ldy_absolute_x_without_overflow	../tst/test_load.py	/^    def test_ldy_absolute_x_without_overflow(self):$/;"	kind:member	line:927
+test_ldy_immediate_sets_negative_if_content_is_negative	../tst/test_load.py	/^    def test_ldy_immediate_sets_negative_if_content_is_negative(self):$/;"	kind:member	line:859
+test_ldy_immediate_sets_zero_if_content_is_zero	../tst/test_load.py	/^    def test_ldy_immediate_sets_zero_if_content_is_zero(self):$/;"	kind:member	line:869
+test_ldy_zero_page_when_content_is_negative	../tst/test_load.py	/^    def test_ldy_zero_page_when_content_is_negative(self):$/;"	kind:member	line:716
+test_ldy_zero_page_when_content_is_zero	../tst/test_load.py	/^    def test_ldy_zero_page_when_content_is_zero(self):$/;"	kind:member	line:704
+test_ldy_zero_page_x_when_content_is_negative	../tst/test_load.py	/^    def test_ldy_zero_page_x_when_content_is_negative(self):$/;"	kind:member	line:917
+test_ldy_zero_page_x_when_content_is_zero	../tst/test_load.py	/^    def test_ldy_zero_page_x_when_content_is_zero(self):$/;"	kind:member	line:907
+test_ldy_zero_page_x_with_overflow	../tst/test_load.py	/^    def test_ldy_zero_page_x_with_overflow(self):$/;"	kind:member	line:895
+test_ldy_zero_page_x_without_overflow	../tst/test_load.py	/^    def test_ldy_zero_page_x_without_overflow(self):$/;"	kind:member	line:879
+test_load.py	../tst/test_load.py	1;"	kind:file	line:1
+test_logical.py	../tst/test_logical.py	1;"	kind:file	line:1
+test_misc.py	../tst/test_misc.py	1;"	kind:file	line:1
+test_negative_flag_when_lda_absolute_instruction	../tst/test_load.py	/^    def test_negative_flag_when_lda_absolute_instruction(self):$/;"	kind:member	line:123
+test_negative_flag_when_ldx_absolute_instruction	../tst/test_load.py	/^    def test_negative_flag_when_ldx_absolute_instruction(self):$/;"	kind:member	line:668
+test_negative_flag_when_ldy_absolute_instruction	../tst/test_load.py	/^    def test_negative_flag_when_ldy_absolute_instruction(self):$/;"	kind:member	line:765
+test_nespy.py	../tst/test_nespy.py	1;"	kind:file	line:1
+test_ppu_color_palette_mirroring	../tst/test_ppu/test_color_palette.py	/^    def test_ppu_color_palette_mirroring(self):$/;"	kind:member	line:20
+test_ppu_mirroring.py	../tst/test_ppu/test_ppu_mirroring.py	1;"	kind:file	line:1
+test_ppu_mirroring_for_addresses_greater_than_4000	../tst/test_ppu/test_ppu_mirroring.py	/^    def test_ppu_mirroring_for_addresses_greater_than_4000(self):$/;"	kind:member	line:8
+test_sbc_immediate	../tst/test_arithmetic.py	/^    def test_sbc_immediate(self):$/;"	kind:member	line:581
+test_sbc_zeropage	../tst/test_arithmetic.py	/^    def test_sbc_zeropage(self):$/;"	kind:member	line:596
+test_sta_absolute	../tst/test_store.py	/^    def test_sta_absolute(self):$/;"	kind:member	line:73
+test_sta_absolute_x	../tst/test_store.py	/^    def test_sta_absolute_x(self):$/;"	kind:member	line:238
+test_sta_absolute_y	../tst/test_store.py	/^    def test_sta_absolute_y(self):$/;"	kind:member	line:172
+test_sta_absolute_y	../tst/test_store.py	/^    def test_sta_absolute_y(self):$/;"	kind:member	line:194
+test_sta_absolute_y_with_overflow	../tst/test_store.py	/^    def test_sta_absolute_y_with_overflow(self):$/;"	kind:member	line:216
+test_sta_indirect_x	../tst/test_store.py	/^    def test_sta_indirect_x(self):$/;"	kind:member	line:19
+test_sta_indirect_x_with_overflow	../tst/test_store.py	/^    def test_sta_indirect_x_with_overflow(self):$/;"	kind:member	line:40
+test_sta_indirect_y	../tst/test_store.py	/^    def test_sta_indirect_y(self):$/;"	kind:member	line:94
+test_sta_indirect_y_with_overflow	../tst/test_store.py	/^    def test_sta_indirect_y_with_overflow(self):$/;"	kind:member	line:117
+test_sta_zero_page_x	../tst/test_store.py	/^    def test_sta_zero_page_x(self):$/;"	kind:member	line:140
+test_sta_zero_page_x_with_overflow	../tst/test_store.py	/^    def test_sta_zero_page_x_with_overflow(self):$/;"	kind:member	line:156
+test_sta_zeropage	../tst/test_store.py	/^    def test_sta_zeropage(self):$/;"	kind:member	line:61
+test_store.py	../tst/test_store.py	1;"	kind:file	line:1
+test_stx_absolute	../tst/test_store.py	/^    def test_stx_absolute(self):$/;"	kind:member	line:322
+test_stx_zero_page_y	../tst/test_store.py	/^    def test_stx_zero_page_y(self):$/;"	kind:member	line:343
+test_stx_zeropage	../tst/test_store.py	/^    def test_stx_zeropage(self):$/;"	kind:member	line:310
+test_sty_absolute	../tst/test_store.py	/^    def test_sty_absolute(self):$/;"	kind:member	line:273
+test_sty_zero_page_x	../tst/test_store.py	/^    def test_sty_zero_page_x(self):$/;"	kind:member	line:294
+test_sty_zeropage	../tst/test_store.py	/^    def test_sty_zeropage(self):$/;"	kind:member	line:261
+test_that_BCS_branches_backward_when_carry_set	../tst/test_flow_control.py	/^    def test_that_BCS_branches_backward_when_carry_set(self):$/;"	kind:member	line:11
+test_that_BCS_branches_forward_when_carry_set	../tst/test_flow_control.py	/^    def test_that_BCS_branches_forward_when_carry_set(self):$/;"	kind:member	line:22
+test_that_every_documented_instruction_is_implemented	../tst/test_misc.py	/^    def test_that_every_documented_instruction_is_implemented(self):$/;"	kind:member	line:19
+test_that_jmp_indirect_addr_wrapsaround_in_the_same_page	../tst/test_tricky_cases.py	/^    def test_that_jmp_indirect_addr_wrapsaround_in_the_same_page(self):$/;"	kind:member	line:25
+test_that_jsr_pushes_addr_of_next_instruction_minus_one_onto_stack	../tst/test_tricky_cases.py	/^    def test_that_jsr_pushes_addr_of_next_instruction_minus_one_onto_stack(self):$/;"	kind:member	line:12
+test_tricky_cases.py	../tst/test_tricky_cases.py	1;"	kind:file	line:1
+test_zero_flag_for_lda_absolute_instruction	../tst/test_load.py	/^    def test_zero_flag_for_lda_absolute_instruction(self):$/;"	kind:member	line:109
+test_zero_flag_for_ldx_absolute_instruction	../tst/test_load.py	/^    def test_zero_flag_for_ldx_absolute_instruction(self):$/;"	kind:member	line:650
+test_zero_flag_for_ldy_absolute_instruction	../tst/test_load.py	/^    def test_zero_flag_for_ldy_absolute_instruction(self):$/;"	kind:member	line:747
+test_zero_page_lda	../tst/test_load.py	/^    def test_zero_page_lda(self):$/;"	kind:member	line:57
+test_zero_page_ldx	../tst/test_load.py	/^    def test_zero_page_ldx(self):$/;"	kind:member	line:589
+test_zero_page_ldy	../tst/test_load.py	/^    def test_zero_page_ldy(self):$/;"	kind:member	line:686
+test_zero_page_when_content_is_negative	../tst/test_load.py	/^    def test_zero_page_when_content_is_negative(self):$/;"	kind:member	line:83
+test_zero_page_when_content_is_zero	../tst/test_load.py	/^    def test_zero_page_when_content_is_zero(self):$/;"	kind:member	line:72
+test_zero_page_x_lda_with_overflow	../tst/test_load.py	/^    def test_zero_page_x_lda_with_overflow(self):$/;"	kind:member	line:526
+test_zero_page_x_lda_without_overflow	../tst/test_load.py	/^    def test_zero_page_x_lda_without_overflow(self):$/;"	kind:member	line:510
+test_zero_page_x_when_content_is_negative	../tst/test_load.py	/^    def test_zero_page_x_when_content_is_negative(self):$/;"	kind:member	line:548
+test_zero_page_x_when_content_is_zero	../tst/test_load.py	/^    def test_zero_page_x_when_content_is_zero(self):$/;"	kind:member	line:538
+timeit	../emulator_timing_measurements.py	/^import timeit$/;"	kind:namespace	line:8
+to_attribute_bytes	../ppu.py	/^    def to_attribute_bytes(self):$/;"	kind:member	line:97
+trigger_IRQ	../cpu.py	/^    def trigger_IRQ(self, source):$/;"	kind:member	line:74
+trigger_NMI	../cpu.py	/^    def trigger_NMI(self, source):$/;"	kind:member	line:65
+tsx	../Instructions/misc_instructions.py	/^def tsx(cpu, logger):$/;"	kind:function	line:66
+twos_comp	../Instructions/arithmetics_instructions.py	/^from nes_cpu_utils import is_negative, is_adc_overflow, is_sbc_overflow, twos_comp$/;"	kind:namespace	line:1
+twos_comp	../Instructions/control_flow_instructions.py	/^from nes_cpu_utils import twos_comp$/;"	kind:namespace	line:3
+twos_comp	../nes_cpu_utils.py	/^def twos_comp(val, bits):$/;"	kind:function	line:35
+txa	../Instructions/misc_instructions.py	/^def txa(cpu, logger):$/;"	kind:function	line:15
+txs	../Instructions/misc_instructions.py	/^def txs(cpu, logger):$/;"	kind:function	line:24
+tya	../Instructions/misc_instructions.py	/^def tya(cpu, logger):$/;"	kind:function	line:31
+unittest	../emulator_timing_measurements.py	/^import unittest$/;"	kind:namespace	line:5
+unittest	../tst/test_address_getters.py	/^import unittest$/;"	kind:namespace	line:3
+unittest	../tst/test_arithmetic.py	/^import unittest$/;"	kind:namespace	line:3
+unittest	../tst/test_flow_control.py	/^import unittest$/;"	kind:namespace	line:3
+unittest	../tst/test_load.py	/^import unittest$/;"	kind:namespace	line:3
+unittest	../tst/test_logical.py	/^import unittest$/;"	kind:namespace	line:3
+unittest	../tst/test_misc.py	/^import unittest$/;"	kind:namespace	line:3
+unittest	../tst/test_nespy.py	/^import unittest$/;"	kind:namespace	line:3
+unittest	../tst/test_ppu/__init__.py	/^import unittest$/;"	kind:namespace	line:3
+unittest	../tst/test_ppu/test_color_palette.py	/^import unittest$/;"	kind:namespace	line:3
+unittest	../tst/test_ppu/test_ppu_mirroring.py	/^import unittest$/;"	kind:namespace	line:1
+unittest	../tst/test_store.py	/^import unittest$/;"	kind:namespace	line:3
+unittest	../tst/test_tricky_cases.py	/^import unittest$/;"	kind:namespace	line:3
+utils	../Instructions/load_instructions.py	/^import nes_cpu_utils as utils$/;"	kind:namespace	line:1
+utils	../Instructions/store_instructions.py	/^import nes_cpu_utils as utils$/;"	kind:namespace	line:1
+utils	../tst/test_store.py	/^import nes_cpu_utils as utils$/;"	kind:namespace	line:7
+valid_opcodes	../emulator_timing_measurements.py	/^valid_opcodes = {$/;"	kind:variable	line:17
+white	../ScreenPygame.py	/^white = (255,255,255)$/;"	kind:variable	line:12
+x	../ScreenPygame.py	/^x =  (display_width * 0.25)$/;"	kind:variable	line:24
+y	../ScreenPygame.py	/^y = (display_height * 0.25)$/;"	kind:variable	line:25
+zero	../cpu.py	/^    def zero(self):$/;"	kind:member	line:199

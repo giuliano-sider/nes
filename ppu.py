@@ -135,6 +135,14 @@ class Ppu():
            according to the current PPU settings and contents of PPU memory.
            @param screen : An NTSC TV frame with the NES background painted in."""
         raise NotImplementedError()
+    
+    def fakeRender(self):
+        x = np.arange(0, 300)
+        y = np.arange(0, 300)
+        X, Y = np.meshgrid(x, y)
+        Z = X + Y
+        Z = 255*Z/Z.max()
+        return Z
 
     def render(self):
         """Return an NTSC TV frame with background and sprites (with pixel values in the NES color palette)

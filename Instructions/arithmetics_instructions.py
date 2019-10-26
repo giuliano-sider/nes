@@ -349,7 +349,7 @@ def sbc_indirect_x(cpu, logger):
 SBC_INDIRECT_Y = 0xF1
 def sbc_indirect_y(cpu, logger):
   addr, pageCrossed = get_indirect_y_addr(cpu)
-    cpu.clock_ticks_since_reset += 5 + pageCrossed
+  cpu.clock_ticks_since_reset += 5 + pageCrossed
 
   sbc(cpu, logger, addr)
 
