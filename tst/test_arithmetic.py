@@ -329,7 +329,7 @@ class TestArithmetic(unittest.TestCase):
         self.assertEqual(cpu.negative(), 0)
         self.assertEqual(cpu.zero(), 1)
         self.assertEqual(cpu.carry(), 1)
-        self.assertEqual(clock_ticks_since_reset, 6)
+        self.assertEqual(cpu.clock_ticks_since_reset, 6)
 
     def test_cmp_indirect_x_Abig(self):
         cpu = CreateTestCpu()
