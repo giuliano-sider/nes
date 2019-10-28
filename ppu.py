@@ -1,9 +1,14 @@
 # TODO: Define a way to install dependencies via the Makefile in a way that doesn't break across platforms (use Docker???).
 import numpy as np
+import math
 
 # Dimensions of the NES screen that we render.
 SCREEN_HEIGHT = 240
 SCREEN_WIDTH = 256
+
+NAME_TABLE_0_ADDRESS = 0x2000
+ATTRIBUTE_TABLE_0_ADDRESS = 0x23c0
+IMAGE_PALETTE_ADDRESS = 0x3f00
 
 # Source: NES Documentation (http://nesdev.com/NESDoc.pdf), appendix F.
 NES_COLOR_PALETTE_TABLE_OF_RGB_VALUES = [
@@ -123,12 +128,74 @@ class Ppu():
 
         # TODO: Initialize registers, Object Attribute Memory, etc.
 
+
     def render_background(self):
         """Return an NTSC TV frame with the NES background (pixel values in the NES color palette)
            according to the current PPU settings and contents of PPU memory."""
         frame = np.zeros((SCREEN_HEIGHT, SCREEN_WIDTH))
+        # FOR EACH TILE IN THE NAME TABLE 0
 
-        raise NotImplementedError()
+        for i in range(0, 0 + 960):
+            tile_index = self.memory[i]
+            palette_group_index = self.get_palette_group_index_from_name_table_index(NAME_TABLE_0_ADDRESS + i)
+            tile_pattern = self.get_tile_from_index(tile_index, palette_group_index)
+            row = int(i/32)
+            column = i % 32
+            for r in range(0, 8):
+                for c in range(0, 8):
+                    frame[row + r][column + c] = tile_pattern[r][c]
+        return frame
+
+    def get_palette_group_index_from_name_table_index(self, index):
+        return 0
+
+    @staticmethod
+    def get_attribute_set_index_from_name_table_index(index):
+        attribute_struct_size_x = 8
+        quad_x = math.floor((index % 32)/4)
+        quad_y = math.floor(index/128)
+        return attribute_struct_size_x * quad_y + quad_x
+
+    def get_palette_set_index(self, attribute_set_index, name_table_index):
+        square_x = math.floor((name_table_index % 4)/2)
+        square_y = math.floor(name_table_index/64)
+        attr_internal_index = 2 * square_y + square_x
+        attr_byte = self.memory[ATTRIBUTE_TABLE_0_ADDRESS + attribute_set_index]
+        mask_0 = 0b00000011
+        mask_1 = 0b00001100
+        mask_2 = 0b00110000
+        mask_3 = 0b11000000
+        parsed_attr_byte = [
+            attr_byte & mask_0,
+            (attr_byte & mask_1) >> 2,
+            (attr_byte & mask_2) >> 4,
+            (attr_byte & mask_3) >> 6
+        ]
+        return parsed_attr_byte[attr_internal_index]
+
+    def get_tile_from_index(self, tile_index, palette_group_index):
+        tile_size_in_pattern_memory_in_bytes = 16
+        tile_pixel_number = 64
+        tile = np.zeros((8, 8))
+        for pixel in range(0, tile_pixel_number):
+            tile_address = tile_index * tile_size_in_pattern_memory_in_bytes
+            palette_color_index = self.get_palette_color_index_for_tile_pixel(tile_address)
+            nes_pixel_color = self.get_nes_color_from_palette(palette_group_index, palette_color_index)
+            # rgb_pixel_color = NES_COLOR_PALETTE_TABLE_OF_RGB_VALUES[nes_pixel_color]
+            i = int(pixel / 8)
+            j = pixel % 8
+            tile[i][j] = nes_pixel_color
+        return tile
+
+    def get_palette_color_index_for_tile_pixel(self, address):
+        in_tile_offset = 8
+        hi_bit_number = self.memory[address + in_tile_offset]
+        lo_bit_number = self.memory[address]
+        return hi_bit_number * 2 + lo_bit_number
+
+    def get_nes_color_from_palette(self, group_index, color_index):
+        palette_size = 4
+        return self.memory[IMAGE_PALETTE_ADDRESS + group_index * palette_size + color_index]
 
     def render_sprites(self, screen):
         """Render an NTSC TV frame with sprites over a pre-rendered background (pixel values in the NES color palette)

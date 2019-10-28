@@ -77,7 +77,92 @@ class TestLoad(unittest.TestCase):
         self.given_attribute_table_is(ppu, zeroed_attribute_table)
         self.given_name_table_points_to_tile(ppu, first_name_table_address)
 
-        # current_result = ppu.render_background()
-        # expected_result = []
-        #
+        current_result = ppu.render_background()
+        expected_result = np.zeros(tile_pattern.shape)
+        for x in range(0, tile_pattern.shape[0]):
+            for y in range(0, tile_pattern.shape[1]):
+                expected_result[x][y] = image_palette[tile_pattern[x][y]]
+
         # self.assertEqual(current_result, expected_result)
+
+    def test_if_gets_the_right_attribute_set_index(self):
+        ppu = CreateTestPpu()
+
+        name_table_index = 0
+        expected_attr_set_index = 0
+        current_attr_set_index = ppu.get_attribute_set_index_from_name_table_index(name_table_index)
+        self.assertEqual(expected_attr_set_index, current_attr_set_index)
+
+        name_table_index = 2
+        expected_attr_set_index = 0
+        current_attr_set_index = ppu.get_attribute_set_index_from_name_table_index(name_table_index)
+        self.assertEqual(expected_attr_set_index, current_attr_set_index)
+
+        name_table_index = 32
+        expected_attr_set_index = 0
+        current_attr_set_index = ppu.get_attribute_set_index_from_name_table_index(name_table_index)
+        self.assertEqual(expected_attr_set_index, current_attr_set_index)
+
+        name_table_index = 36
+        expected_attr_set_index = 1
+        current_attr_set_index = ppu.get_attribute_set_index_from_name_table_index(name_table_index)
+        self.assertEqual(expected_attr_set_index, current_attr_set_index)
+
+        name_table_index = 128
+        expected_attr_set_index = 8
+        current_attr_set_index = ppu.get_attribute_set_index_from_name_table_index(name_table_index)
+        self.assertEqual(expected_attr_set_index, current_attr_set_index)
+
+        name_table_index = 104
+        expected_attr_set_index = 2
+        current_attr_set_index = ppu.get_attribute_set_index_from_name_table_index(name_table_index)
+        self.assertEqual(expected_attr_set_index, current_attr_set_index)
+
+    def test_if_get_right_palette_set(self):
+        attribute_table = []
+        attribute_set_0 = 0x1B  # 00 - 01 - 10 - 11
+        attribute_set_1 = 0xF2  # 11 - 11 - 00 - 10
+        default_attribute_set = 0x00
+
+        attribute_table.append(attribute_set_0)
+        attribute_table.append(attribute_set_1)
+        for i in range(0, 62):
+            attribute_table.append(default_attribute_set)
+
+        ppu = CreateTestPpu()
+
+        self.given_attribute_table_is(ppu, attribute_table)
+
+        name_table_index = 36
+        attr_set_index = ppu.get_attribute_set_index_from_name_table_index(name_table_index)
+        current_palette_index = ppu.get_palette_set_index(attr_set_index, name_table_index)
+        expected_palette_index = 0b10
+        self.assertEqual(expected_palette_index, current_palette_index)
+
+        name_table_index = 70
+        attr_set_index = ppu.get_attribute_set_index_from_name_table_index(name_table_index)
+        current_palette_index = ppu.get_palette_set_index(attr_set_index, name_table_index)
+        expected_palette_index = 0b11
+        self.assertEqual(expected_palette_index, current_palette_index)
+
+        name_table_index = 3
+        attr_set_index = ppu.get_attribute_set_index_from_name_table_index(name_table_index)
+        current_palette_index = ppu.get_palette_set_index(attr_set_index, name_table_index)
+        expected_palette_index = 0b10
+        self.assertEqual(expected_palette_index, current_palette_index)
+
+        name_table_index = 101
+        attr_set_index = ppu.get_attribute_set_index_from_name_table_index(name_table_index)
+        current_palette_index = ppu.get_palette_set_index(attr_set_index, name_table_index)
+        expected_palette_index = 0b11
+        self.assertEqual(expected_palette_index, current_palette_index)
+
+        name_table_index = 98
+        attr_set_index = ppu.get_attribute_set_index_from_name_table_index(name_table_index)
+        current_palette_index = ppu.get_palette_set_index(attr_set_index, name_table_index)
+        expected_palette_index = 0b00
+        self.assertEqual(expected_palette_index, current_palette_index)
+
+
+
+
