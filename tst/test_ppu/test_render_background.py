@@ -54,6 +54,17 @@ class TestLoad(unittest.TestCase):
         ppu.memory[name_table_address] = tile_index
         return
 
+    def given_pattern_table_in_address(self, ppu,  address, tile):
+        current_address = address
+        for x in range(0, 8):
+            bit_string = ""
+            for y in range(0, 8):
+                bit_string = bit_string + str(tile[x][y])
+            content = int(bit_string, 2)
+            ppu.memory[current_address] = content
+            current_address = current_address + 1
+
+
     def test_if_tile_0_is_rendered_as_background(self):
         tile_pattern = np.array([
             [0, 0, 0, 0, 2, 3, 3, 3],
@@ -162,6 +173,60 @@ class TestLoad(unittest.TestCase):
         current_palette_index = ppu.get_palette_set_index(attr_set_index, name_table_index)
         expected_palette_index = 0b00
         self.assertEqual(expected_palette_index, current_palette_index)
+
+    def test_if_gets_tile_pattern_from_name_table_index(self):
+        attribute_table = []
+        attribute_set_0 = 0x1B  # 00 - 01 - 10 - 11
+        attribute_set_1 = 0xF2  # 11 - 11 - 00 - 10
+        default_attribute_set = 0x00
+
+        attribute_table.append(attribute_set_0)
+        attribute_table.append(attribute_set_1)
+        for i in range(0, 62):
+            attribute_table.append(default_attribute_set)
+
+        tile_pattern_lo_bit = np.array([
+            [0, 0, 0, 0, 0, 1, 1, 1],
+            [0, 0, 0, 0, 1, 0, 0, 0],
+            [1, 0, 0, 0, 1, 0, 0, 0],
+            [0, 1, 0, 0, 1, 1, 0, 0],
+            [1, 0, 1, 0, 0, 1, 0, 0],
+            [0, 1, 0, 1, 0, 1, 1, 0],
+            [0, 0, 1, 0, 1, 0, 1, 1],
+            [0, 1, 0, 1, 0, 1, 0, 1]
+        ])
+
+        tile_pattern_hi_bit = np.array([
+            [0, 0, 0, 0, 1, 1, 1, 1],
+            [0, 0, 0, 0, 0, 1, 1, 1],
+            [1, 0, 0, 0, 0, 1, 1, 1],
+            [0, 1, 0, 0, 0, 0, 1, 1],
+            [0, 0, 1, 0, 0, 0, 1, 1],
+            [0, 1, 0, 1, 0, 0, 0, 1],
+            [0, 0, 1, 0, 1, 0, 0, 0],
+            [0, 1, 0, 1, 0, 1, 0, 0]
+        ])
+
+        expected_tile = np.array([
+            [0, 0, 0, 0, 2, 3, 3, 3],
+            [0, 0, 0, 0, 1, 2, 2, 2],
+            [3, 0, 0, 0, 1, 2, 2, 2],
+            [0, 3, 0, 0, 1, 1, 2, 2],
+            [1, 0, 3, 0, 0, 1, 2, 2],
+            [0, 3, 0, 3, 0, 1, 1, 2],
+            [0, 0, 3, 0, 3, 0, 1, 1],
+            [0, 3, 0, 3, 0, 3, 0, 1]
+        ])
+
+        ppu = CreateTestPpu()
+
+        self.given_pattern_table_in_address(ppu, 0x0000, tile_pattern_lo_bit)
+        self.given_pattern_table_in_address(ppu, 0x0008, tile_pattern_hi_bit)
+        name_table_index = 0
+        tile = ppu.get_tile_pattern_from_name_table_index(name_table_index)
+        for x in range(0, 8):
+            for y in range(0, 8):
+                self.assertEqual(tile[x][y], expected_tile[x][y])
 
 
 

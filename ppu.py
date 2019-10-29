@@ -10,6 +10,8 @@ NAME_TABLE_0_ADDRESS = 0x2000
 ATTRIBUTE_TABLE_0_ADDRESS = 0x23c0
 IMAGE_PALETTE_ADDRESS = 0x3f00
 
+PALETTE_PATTERN_0 = 0x0000
+
 # Source: NES Documentation (http://nesdev.com/NESDoc.pdf), appendix F.
 NES_COLOR_PALETTE_TABLE_OF_RGB_VALUES = [
     (0x75, 0x75, 0x75), # NES color 00
@@ -196,6 +198,24 @@ class Ppu():
     def get_nes_color_from_palette(self, group_index, color_index):
         palette_size = 4
         return self.memory[IMAGE_PALETTE_ADDRESS + group_index * palette_size + color_index]
+
+    def get_tile_pattern_from_name_table_index(self, name_table_index):
+        tile = np.zeros((8, 8))
+        tile_lo_address = PALETTE_PATTERN_0 + name_table_index * 16
+        tile_hi_address = tile_lo_address + 8
+        masks = [0b00000001, 0b00000010, 0b00000100, 0b00001000, 0b00010000, 0b00100000, 0b01000000, 0b10000000]
+        for x in range(0, 8):
+            content_lo = self.memory[tile_lo_address + x]
+            content_hi = self.memory[tile_hi_address + x]
+            string_bit = ""
+            for y in range(0, 8):
+
+                bit_lo = int((content_lo & masks[y]) >> y)
+                string_bit = string_bit + str(bit_lo)
+                bit_hi = int((content_hi & masks[y]) >> y)
+                tile[x][7 - y] = int(2 * bit_hi + bit_lo)
+        return tile.astype(int)
+
 
     def render_sprites(self, screen):
         """Render an NTSC TV frame with sprites over a pre-rendered background (pixel values in the NES color palette)
