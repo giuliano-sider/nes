@@ -11,7 +11,7 @@ def bcc(cpu, logger):
         branch(cpu, logger, oper)
     else:
         cpu.set_PC(cpu.PC() + 2)
-
+    cpu.clock_ticks_since_reset += 2
     logger.log_instruction(cpu)
 
 def branch(cpu, logger, oper):
@@ -26,7 +26,7 @@ def bcs(cpu, logger):
         branch(cpu, logger, oper)
     else:
         cpu.set_PC(cpu.PC() + 2)
-
+    cpu.clock_ticks_since_reset += 2
     logger.log_instruction(cpu)
 
 BEQ = 0xf0
@@ -37,7 +37,7 @@ def beq(cpu, logger):
         branch(cpu, logger, oper)
     else:
         cpu.set_PC(cpu.PC() + 2)
-
+    cpu.clock_ticks_since_reset += 2
     logger.log_instruction(cpu)
 
 BMI = 0x30
@@ -48,7 +48,7 @@ def bmi(cpu, logger):
         branch(cpu, logger, oper)
     else:
         cpu.set_PC(cpu.PC() + 2)
-
+    cpu.clock_ticks_since_reset += 2
     logger.log_instruction(cpu)
 
 BNE = 0xd0
@@ -59,7 +59,7 @@ def bne(cpu, logger):
         branch(cpu, logger, oper)
     else:
         cpu.set_PC(cpu.PC() + 2)
-
+    cpu.clock_ticks_since_reset += 2
     logger.log_instruction(cpu)
 
 BPL = 0x10
@@ -70,7 +70,7 @@ def bpl(cpu, logger):
         branch(cpu, logger, oper)
     else:
         cpu.set_PC(cpu.PC() + 2)
-
+    cpu.clock_ticks_since_reset += 2
     logger.log_instruction(cpu)
 
 BVC = 0x50
@@ -81,7 +81,7 @@ def bvc(cpu, logger):
         branch(cpu, logger, oper)
     else:
         cpu.set_PC(cpu.PC() + 2)
-
+    cpu.clock_ticks_since_reset += 2
     logger.log_instruction(cpu)
 
 BVS = 0x70
@@ -92,13 +92,14 @@ def bvs(cpu, logger):
         branch(cpu, logger, oper)
     else:
         cpu.set_PC(cpu.PC() + 2)
-
+    cpu.clock_ticks_since_reset += 2
     logger.log_instruction(cpu)
 
 JMP_ABSOLUTE = 0x4c
 def jmp_absolute(cpu, logger):
     oper = cpu.memory[cpu.PC()+1] + (cpu.memory[cpu.PC()+2]<<8)
     branch(cpu, logger, oper)
+    cpu.clock_ticks_since_reset += 3
     logger.log_instruction(cpu)
 
 JMP_INDIRECT = 0x6c
@@ -116,6 +117,7 @@ def jmp_indirect(cpu, logger):
     oper = low+high
 
     branch(cpu, logger, oper)
+    cpu.clock_ticks_since_reset += 5
     logger.log_instruction(cpu)
 
 JSR = 0x20
