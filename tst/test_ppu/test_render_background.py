@@ -35,12 +35,18 @@ class TestLoad(unittest.TestCase):
                     ppu.memory[hi_bit_address + x] = 1
         return
 
-    def given_palette_is_loaded_at_index(self, ppu, color_array):
+    def given_palette_is_loaded_at_index(self, ppu, image_palette):
         palette_start_address = 0x3f00
         for i in range(0, 4):
-            ppu.memory[palette_start_address + i] = color_array[i]
+            ppu.memory[palette_start_address + i] = image_palette[i]
         return
 
+    @staticmethod
+    def given_image_palette(ppu, image_palette):
+        palette_start_address = 0x3f00
+        for i in range(0, 16):
+            ppu.memory[palette_start_address + i] = image_palette[i]
+        return
 
     def given_attribute_table_is(self, ppu, attribute_table):
         address = 0x23c0
@@ -175,16 +181,6 @@ class TestLoad(unittest.TestCase):
         self.assertEqual(expected_palette_index, current_palette_index)
 
     def test_if_gets_tile_pattern_from_name_table_index(self):
-        attribute_table = []
-        attribute_set_0 = 0x1B  # 00 - 01 - 10 - 11
-        attribute_set_1 = 0xF2  # 11 - 11 - 00 - 10
-        default_attribute_set = 0x00
-
-        attribute_table.append(attribute_set_0)
-        attribute_table.append(attribute_set_1)
-        for i in range(0, 62):
-            attribute_table.append(default_attribute_set)
-
         tile_pattern_lo_bit = np.array([
             [0, 0, 0, 0, 0, 1, 1, 1],
             [0, 0, 0, 0, 1, 0, 0, 0],
@@ -227,6 +223,105 @@ class TestLoad(unittest.TestCase):
         for x in range(0, 8):
             for y in range(0, 8):
                 self.assertEqual(tile[x][y], expected_tile[x][y])
+
+        self.given_pattern_table_in_address(ppu, 0x0010, tile_pattern_lo_bit)
+        self.given_pattern_table_in_address(ppu, 0x0018, tile_pattern_hi_bit)
+        name_table_index = 1
+        tile = ppu.get_tile_pattern_from_name_table_index(name_table_index)
+        for x in range(0, 8):
+            for y in range(0, 8):
+                self.assertEqual(tile[x][y], expected_tile[x][y])
+
+        self.given_pattern_table_in_address(ppu, 0x0050, tile_pattern_lo_bit)
+        self.given_pattern_table_in_address(ppu, 0x0058, tile_pattern_hi_bit)
+        name_table_index = 5
+        tile = ppu.get_tile_pattern_from_name_table_index(name_table_index)
+        for x in range(0, 8):
+            for y in range(0, 8):
+                self.assertEqual(tile[x][y], expected_tile[x][y])
+
+    def test_if_gets_the_right_nes_color_given_palette_set_and_pattern(self):
+        nes_image_palette = [0, 1, 2, 3, 0, 5, 6, 7, 0, 9, 10, 11, 0, 13, 14, 15]
+        ppu = CreateTestPpu()
+        self.given_image_palette(ppu, nes_image_palette)
+
+        palette_set_index = 0
+        tile_pattern_value = 0
+        nes_color = ppu.get_nes_color_from_palette(palette_set_index, tile_pattern_value)
+        expected_nes_color = 0
+        self.assertEqual(nes_color, expected_nes_color)
+
+        palette_set_index = 1
+        tile_pattern_value = 0
+        nes_color = ppu.get_nes_color_from_palette(palette_set_index, tile_pattern_value)
+        expected_nes_color = 0
+        self.assertEqual(nes_color, expected_nes_color)
+
+        palette_set_index = 0
+        tile_pattern_value = 3
+        nes_color = ppu.get_nes_color_from_palette(palette_set_index, tile_pattern_value)
+        expected_nes_color = 3
+        self.assertEqual(nes_color, expected_nes_color)
+
+        palette_set_index = 2
+        tile_pattern_value = 2
+        nes_color = ppu.get_nes_color_from_palette(palette_set_index, tile_pattern_value)
+        expected_nes_color = 10
+        self.assertEqual(nes_color, expected_nes_color)
+
+    def test_nes_to_rgb_conversion(self):
+        ppu = CreateTestPpu()
+
+        nes_color = 0
+        expected_rgb_color = (0x75, 0x75, 0x75)
+        rgb_color = ppu.convert_nes_color_to_rgb(nes_color)
+        self.assertEqual(rgb_color, expected_rgb_color)
+
+        nes_color = 0x13
+        expected_rgb_color = (0x83, 0x00, 0xF3)
+        rgb_color = ppu.convert_nes_color_to_rgb(nes_color)
+        self.assertEqual(rgb_color, expected_rgb_color)
+
+        nes_color = 0x2a
+        expected_rgb_color = (0x4f, 0xdf, 0x4b)
+        rgb_color = ppu.convert_nes_color_to_rgb(nes_color)
+        self.assertEqual(rgb_color, expected_rgb_color)
+
+    def test_creation_of_rgb_tile_pattern(self):
+        ppu = CreateTestPpu()
+        nes_tile = np.array([
+            [0, 0, 0, 0, 2, 3, 3, 3],
+            [0, 0, 0, 0, 1, 2, 2, 2],
+            [3, 0, 0, 0, 1, 2, 2, 2],
+            [0, 3, 0, 0, 1, 1, 2, 2],
+            [1, 0, 3, 0, 0, 1, 2, 2],
+            [0, 3, 0, 3, 0, 1, 1, 2],
+            [0, 0, 3, 0, 3, 0, 1, 1],
+            [0, 3, 0, 3, 0, 3, 0, 1]
+        ])
+        nes_image_palette = [0, 1, 2, 3, 0, 5, 6, 7, 0, 9, 10, 11, 0, 13, 14, 15]
+        self.given_image_palette(ppu, nes_image_palette)
+
+        palette_set = 0
+        zero_array = [0x75, 0x75, 0x75]
+        one_array = [0x27, 0x1b, 0x8f]
+        two_array = [0x00, 0x00, 0xab]
+        three_array = [0x47, 0x00, 0x9f]
+        expected_tile = np.array([
+            [zero_array, zero_array, zero_array, zero_array, two_array, three_array, three_array, three_array],
+            [zero_array, zero_array, zero_array, zero_array, one_array, two_array, two_array, two_array],
+            [three_array, zero_array, zero_array, zero_array, one_array, two_array, two_array, two_array],
+            [zero_array, three_array, zero_array, zero_array, one_array, one_array, two_array, two_array],
+            [one_array, zero_array, three_array, zero_array, zero_array, one_array, two_array, two_array],
+            [zero_array, three_array, zero_array, three_array, zero_array, one_array, one_array, two_array],
+            [zero_array, zero_array, three_array, zero_array, three_array, zero_array, one_array, one_array],
+            [zero_array, three_array, zero_array, three_array, zero_array, three_array, zero_array, one_array]
+        ])
+        current_tile = ppu.convert_nes_tile_pattern_to_rgb(nes_tile, palette_set)
+        for i in range(0, 8):
+            for j in range(0, 8):
+                for channel in range(0, 3):
+                    self.assertEqual(current_tile[i][j][channel], expected_tile[i][j][channel])
 
 
 

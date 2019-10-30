@@ -225,6 +225,22 @@ class Ppu():
         palette_size = 4
         return self.memory[IMAGE_PALETTE_ADDRESS + group_index * palette_size + color_index]
 
+    @staticmethod
+    def convert_nes_color_to_rgb(nes_color):
+        return NES_COLOR_PALETTE_TABLE_OF_RGB_VALUES[nes_color]
+
+    def convert_nes_tile_pattern_to_rgb(self, tile, pattern_set):
+        rgb_tile = np.zeros((8, 8, 3))
+        for i in range(0, 8):
+            for j in range(0, 8):
+                nes_color = self.get_nes_color_from_palette(pattern_set, tile[i][j])
+                rgb_color = self.convert_nes_color_to_rgb(nes_color)
+                rgb_tile[i][j][0] = rgb_color[0]
+                rgb_tile[i][j][1] = rgb_color[1]
+                rgb_tile[i][j][2] = rgb_color[2]
+        return rgb_tile
+
+
     def get_tile_pattern_from_name_table_index(self, name_table_index):
         tile = np.zeros((8, 8))
         tile_lo_address = PALETTE_PATTERN_0 + name_table_index * 16
