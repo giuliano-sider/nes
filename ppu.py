@@ -6,6 +6,10 @@ import math
 SCREEN_HEIGHT = 240
 SCREEN_WIDTH = 256
 
+# Tile constants
+TILE_SIZE = 8
+TILES_PER_ROW = SCREEN_WIDTH // TILE_SIZE
+
 NAME_TABLE_0_ADDRESS = 0x2000
 ATTRIBUTE_TABLE_0_ADDRESS = 0x23c0
 IMAGE_PALETTE_ADDRESS = 0x3f00
@@ -57,6 +61,7 @@ PPUMASK = 0x2001
 # PPUCTRL constants.
 EXTRA_LARGE_SPRITE = 0b00100000
 SPRITE_PATTERN_TABLE_SELECTOR = 0b00001000
+BACKGROUND_PATTERN_TABLE_SELECTOR = 0b00010000
 
 # PPUMASK constants.
 SHOW_GRAYSCALE = 0b00000001
@@ -155,6 +160,56 @@ class Ppu():
 
         # TODO: Initialize registers, Object Attribute Memory, etc.
         self.oam = bytearray(256)
+
+    def render_background_alt(self):
+        """Return an NTSC TV frame with the NES background (pixel values in the NES color palette)
+           according to the current PPU settings and contents of PPU memory."""
+        frame = np.zeros((SCREEN_HEIGHT, SCREEN_WIDTH), dtype=np.int32)
+
+        # TODO: Allow other name tables and attribute tables to be used as well.
+        # FOR EACH TILE IN THE NAME TABLE 0 (30 tile rows and 32 tile columns)
+        for tile_row in range(30):
+            for tile_col in range(32):
+                tile_index = TILES_PER_ROW*tile_row + tile_col
+                pattern_tile_index = self.memory[NAME_TABLE_0_ADDRESS + tile_index]
+                tile = self.get_pattern_tile(self.background_pattern_table(), pattern_tile_index)
+                palette_group_index = self.get_background_palette(ATTRIBUTE_TABLE_0_ADDRESS, tile_index)
+                tile = tile + (palette_group_index << 2)
+                tile = self.apply_ppu_palette(tile)
+                frame[TILE_SIZE*tile_row : TILE_SIZE*(tile_row + 1), TILE_SIZE*tile_col : TILE_SIZE*(tile_col + 1)] = tile 
+
+        return frame
+
+    def get_pattern_tile(self, pattern_table, tile_index):
+        """Return an array with the 2-bit pattern values for a particular tile of one of
+           the pattern tables.
+           @param pattern_table : 0 for the "left" or 1 for the "right" pattern table
+           @param tile_idx : Index of a tile within a pattern table."""
+        tile = np.zeros((TILE_SIZE, TILE_SIZE), dtype=np.int32)
+        for y in range(TILE_SIZE):
+            for x in range(TILE_SIZE):
+                tile[y, x] = self.get_pixel_pattern(pattern_table, tile_index, y, x)
+        return tile
+
+    def get_background_palette(self, attribute_table_base_addr, tile_index):
+        """Obtain the background palette index from the attribute tables for a given tile.
+           @param attribute_table_base_addr : Base address of the attribute table where the palette bits are located.
+           @param tile_index : Index of a tile within a nametable."""
+        tile_row = tile_index // TILES_PER_ROW
+        tile_col = tile_index % TILES_PER_ROW
+        tile_group_row = tile_row // 4
+        tile_group_col = tile_col // 4
+        tile_group_index = tile_group_row*8 + tile_group_col
+        # Map (tile_row % 4, tile_col % 4) to shift amount within the tile group bitmap in the attribute table:
+        shift = {
+            (0, 0): 0, (0, 1): 0, (1, 0): 0, (1, 1): 0,
+            (0, 2): 2, (0, 3): 2, (1, 2): 2, (1, 3): 2,
+            (2, 0): 4, (2, 1): 4, (3, 0): 4, (3, 1): 4,
+            (2, 2): 6, (2, 3): 6, (3, 2): 6, (3, 3): 6,
+        }
+        bitmap_shift_amount = shift[(tile_row % 4, tile_col % 4)]
+        palette_bits_selector = 0b11 << bitmap_shift_amount
+        return (self.memory[attribute_table_base_addr + tile_group_index] & palette_bits_selector) >> bitmap_shift_amount
 
 
     def render_background(self):
@@ -265,25 +320,17 @@ class Ppu():
         """Return an 8x8 or 8x16 tile with a rendering of a sprite. Colors are expressed in the PPU palette.
            Sprites that are partly off screen get clipped."""
         if self.using_8x16_sprites() is False:
-            tile = np.zeros((8,8), dtype=np.int32)
-            for y in range(8):
-                for x in range(8):
-                    tile[y, x] = ((1 << 4) + 
-                                  (self.get_sprite_palette_attribute(sprite_idx) << 2) + 
-                                  (self.get_pixel_pattern(
-                                    self.sprite_pattern_table(), 
-                                    self.get_sprite_tile_idx(sprite_idx), 
-                                    y, x)))
+            tile = self.get_pattern_tile(self.sprite_pattern_table(), self.get_sprite_tile_idx(sprite_idx))
+            tile = (1 << 4) + (self.get_sprite_palette_attribute(sprite_idx) << 2) + tile
         else:
-            tile = np.zeros((16,8), dtype=np.int32)
-            for y in range(16):
-                for x in range(8):
-                    tile[y, x] = ((1 << 4) + 
-                                  (self.get_sprite_palette_attribute(sprite_idx) << 2) + 
-                                  (self.get_pixel_pattern(
-                                    self.get_sprite_tile_idx(sprite_idx) & 0x1,
-                                    (self.get_sprite_tile_idx(sprite_idx) & 0xFE) + y // 8,
-                                    y, x)))
+            sprite_pattern_table = self.get_sprite_tile_idx(sprite_idx) & 0x1
+            sprite_tile_idx = self.get_sprite_tile_idx(sprite_idx) & 0xFE
+
+            top_tile = self.get_pattern_tile(sprite_pattern_table, sprite_tile_idx)
+            bottom_tile = self.get_pattern_tile(sprite_pattern_table, sprite_tile_idx + 1)
+            tile = ((1 << 4) + 
+                    (self.get_sprite_palette_attribute(sprite_idx) << 2) + 
+                    np.concatenate((top_tile, bottom_tile), axis=0))
 
         if self.is_sprite_flipped_vertically(sprite_idx):
             tile = np.flip(tile, axis=0)
@@ -326,6 +373,10 @@ class Ppu():
     def sprite_pattern_table(self):
         """Return the value of the sprite pattern table selector from PPUCTRL."""
         return int(bool(self.memory[PPUCTRL] & SPRITE_PATTERN_TABLE_SELECTOR))
+
+    def background_pattern_table(self):
+        """Return the value of the sprite pattern table selector from PPUCTRL."""
+        return int(bool(self.memory[PPUCTRL] & BACKGROUND_PATTERN_TABLE_SELECTOR))
 
     def is_sprite_flipped_vertically(self, sprite_idx):
         """Return true if and only the given sprite has its vertical_flip flag set to 1."""
