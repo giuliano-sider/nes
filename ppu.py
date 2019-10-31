@@ -139,7 +139,7 @@ NES_COLOR_PALETTE_TABLE_OF_RGB_VALUES = [
     (0x9F, 0xFF, 0xF3), # NES color 3C
     (0x00, 0x00, 0x00), # NES color 3D
     (0x00, 0x00, 0x00), # NES color 3E
-    (0x00, 0x00, 0x00)  # NES color 3F  
+    (0x00, 0x00, 0x00)  # NES color 3F
 ]
 
 
@@ -245,7 +245,7 @@ class Ppu():
                 palette_group_index = self.get_background_palette(ATTRIBUTE_TABLE_0_ADDRESS, tile_index)
                 tile = tile + (palette_group_index << 2)
                 tile = self.apply_ppu_palette(tile)
-                frame[TILE_SIZE*tile_row : TILE_SIZE*(tile_row + 1), TILE_SIZE*tile_col : TILE_SIZE*(tile_col + 1)] = tile 
+                frame[TILE_SIZE*tile_row : TILE_SIZE*(tile_row + 1), TILE_SIZE*tile_col : TILE_SIZE*(tile_col + 1)] = tile
 
         return frame
 
@@ -397,8 +397,8 @@ class Ppu():
 
             top_tile = self.get_pattern_tile(sprite_pattern_table, sprite_tile_idx)
             bottom_tile = self.get_pattern_tile(sprite_pattern_table, sprite_tile_idx + 1)
-            tile = ((1 << 4) + 
-                    (self.get_sprite_palette_attribute(sprite_idx) << 2) + 
+            tile = ((1 << 4) +
+                    (self.get_sprite_palette_attribute(sprite_idx) << 2) +
                     np.concatenate((top_tile, bottom_tile), axis=0))
 
         if self.is_sprite_flipped_vertically(sprite_idx):
@@ -414,7 +414,7 @@ class Ppu():
 
 
     def apply_ppu_palette(self, img):
-        """Take an image with colors in the PPU palette and use the palettes 
+        """Take an image with colors in the PPU palette and use the palettes
            to change the img in place to convert it to colors in the NES system palette.
            @param img : A 2D image with colors which are indices in the PPU palette.
            @return : The same 2D image changed in place to have colors in the NES system palette.
@@ -513,7 +513,7 @@ class Ppu():
                 screen[y_lo : y_hi, x_lo : x_hi] = background[y_lo : y_hi, x_lo : x_hi]
             else:
                 screen[y_lo : y_hi, x_lo : x_hi] = np.where(
-                    sprite_img == TRANSPARENT, screen[y_lo : y_hi, x_lo : x_hi], 
+                    sprite_img == TRANSPARENT, screen[y_lo : y_hi, x_lo : x_hi],
                                                self.apply_ppu_palette(sprite_img))
 
         return screen
@@ -526,15 +526,6 @@ class Ppu():
         Z = 255*Z/Z.max()
         return Z
 
-    def render(self):
-        """Return an NTSC TV frame with background and sprites (with pixel values in the NES color palette)
-           according to the current PPU settings and contents of PPU memory."""
-        frame = self.render_background()
-        if self.sprite_rendering_enabled():
-            frame = self.render_sprites(frame)
-        
-        return nes_color_palette_to_rgb(frame, self.grayscale_flag())
-
     @staticmethod
     def nes_color_palette_to_rgb(screen, convert_to_grayscale=False):
         """Return an NTSC TV frame with RGB color values.
@@ -546,4 +537,13 @@ class Ppu():
             for x in range(width):
                 rgb_screen[y, x] = NES_COLOR_PALETTE_TABLE_OF_RGB_VALUES[screen[y, x] & grayscale_mask]
         return rgb_screen
-        
+
+    def render(self):
+        """Return an NTSC TV frame with background and sprites (with pixel values in the NES color palette)
+           according to the current PPU settings and contents of PPU memory."""
+        frame = self.render_background_alt()
+        if self.sprite_rendering_enabled():
+            frame = self.render_sprites(frame)
+
+        return self.nes_color_palette_to_rgb(frame, self.grayscale_flag())
+
