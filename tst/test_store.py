@@ -74,7 +74,7 @@ class TestStore(unittest.TestCase):
         initial_pc = self.cpu.PC()
         value_to_be_stored = 0x10
         lo_absolute_address = 0x01
-        hi_absolute_address = 0xFF
+        hi_absolute_address = 0x07
         resolved_address = lo_absolute_address + (hi_absolute_address << 8)
 
         self.cpu.set_A(value_to_be_stored)
@@ -274,7 +274,7 @@ class TestStore(unittest.TestCase):
         initial_pc = self.cpu.PC()
         value_to_be_stored = 0x10
         lo_absolute_address = 0x01
-        hi_absolute_address = 0xFF
+        hi_absolute_address = 0x07
         resolved_address = lo_absolute_address + (hi_absolute_address << 8)
 
         self.cpu.set_Y(value_to_be_stored)
@@ -323,7 +323,7 @@ class TestStore(unittest.TestCase):
         initial_pc = self.cpu.PC()
         value_to_be_stored = 0x10
         lo_absolute_address = 0x01
-        hi_absolute_address = 0xFF
+        hi_absolute_address = 0x07
         resolved_address = lo_absolute_address + (hi_absolute_address << 8)
 
         self.cpu.set_X(value_to_be_stored)

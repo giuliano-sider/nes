@@ -1,7 +1,5 @@
 from ppu import Ppu
 from memory_mapper import MemoryMapper
-from log import FAKE_LOGGER
-from instructions import instructions
 import os
 import numpy as np
 

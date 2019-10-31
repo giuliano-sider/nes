@@ -57,6 +57,12 @@ MAX_VISIBLE_Y = 239
 # PPU register constants.
 PPUCTRL = 0x2000
 PPUMASK = 0x2001
+PPUSTATUS = 0x2002
+OAMADDR = 0x2003
+OAMDATA = 0x2004
+PPUSCROLL = 0x2005
+PPUADDR = 0x2006
+PPUDATA = 0x2007
 
 # PPUCTRL constants.
 EXTRA_LARGE_SPRITE = 0b00100000
@@ -160,6 +166,67 @@ class Ppu():
 
         # TODO: Initialize registers, Object Attribute Memory, etc.
         self.oam = bytearray(256)
+
+        self.register_writers_ = {
+            PPUCTRL: self.write_ppuctrl,
+            PPUMASK: self.write_ppumask,
+            PPUSTATUS: self.write_ppustatus,
+            OAMADDR: self.write_oamaddr,
+            OAMDATA: self.write_oamdata,
+            PPUSCROLL: self.write_ppuscroll,
+            PPUADDR: self.write_ppuaddr,
+            PPUDATA: self.write_ppudata
+        }
+        self.register_readers_ = {
+            PPUCTRL: self.read_ppuctrl,
+            PPUMASK: self.read_ppumask,
+            PPUSTATUS: self.read_ppustatus,
+            OAMADDR: self.read_oamaddr,
+            OAMDATA: self.read_oamdata,
+            PPUSCROLL: self.read_ppuscroll,
+            PPUADDR: self.read_ppuaddr,
+            PPUDATA: self.read_ppudata
+        }
+
+    def write_ppuctrl(self, value):
+        pass
+    def write_ppumask(self, value):
+        pass
+    def write_ppustatus(self, value):
+        pass
+    def write_oamaddr(self, value):
+        pass
+    def write_oamdata(self, value):
+        pass
+    def write_ppuscroll(self, value):
+        pass
+    def write_ppuaddr(self, value):
+        pass
+    def write_ppudata(self, value):
+        pass
+
+    def read_ppuctrl(self):
+        pass
+    def read_ppumask(self):
+        pass
+    def read_ppustatus(self):
+        pass
+    def read_oamaddr(self):
+        pass
+    def read_oamdata(self):
+        pass
+    def read_ppuscroll(self):
+        pass
+    def read_ppuaddr(self):
+        pass
+    def read_ppudata(self):
+        pass
+
+    def write_register(self, register, value):
+        self.register_writers_[register](self, value)
+
+    def read_register(self, register):
+        return self.register_readers_[registers](self)
 
     def render_background_alt(self):
         """Return an NTSC TV frame with the NES background (pixel values in the NES color palette)

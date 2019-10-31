@@ -4,21 +4,17 @@ import argparse
 import sys
 
 from log import CpuLogger
-from memory_mapper import MemoryMapper
-from cpu import Cpu
-from ppu import Ppu
+from nes import Nes
 from nes_cpu_utils import CpuHalt
 
 def run_game(iNES_file, enable_logging):
 
-    memory_mapper = MemoryMapper(iNES_file)
-    cpu = Cpu(memory_mapper)
-    ppu = Ppu(memory_mapper)
+    nes = Nes(iNES_file)
     logger = CpuLogger(sys.stdout, enable_logging)
 
     while 1:
         try:
-            cpu.execute_instruction_at_PC(logger)
+            nes.cpu.execute_instruction_at_PC(logger)
         except CpuHalt:
             break
 

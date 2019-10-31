@@ -1,4 +1,7 @@
+from enum import Enum
+
 import nes_ppu_utils as ppu_utils
+
 """NES memory related constants"""
 
 MEMORY_SIZE = 0x10000 # 64KiB CPU and PPU address spaces
@@ -11,7 +14,7 @@ RAM_SIZE = 0x0800
 RAM_REGION_BEGIN = 0x0000
 RAM_REGION_END = 0x2000
 
-PPU_REGISTERS_SIZE = 0x0008
+PPU_NUM_REGISTERS = 0x0008
 PPU_REGISTERS_REGION_BEGIN = 0x2000
 PPU_REGISTERS_REGION_END = 0x4000
 
@@ -52,12 +55,11 @@ def cpu_unmirrored_address(addr):
     addr %= MEMORY_SIZE
     if addr < RAM_REGION_END:
         addr %= RAM_SIZE
-    # TODO: Implement memory mapping to PPU registers.
     elif addr < PPU_REGISTERS_REGION_END:
-        addr = (PPU_REGISTERS_REGION_BEGIN + 
-                (addr - PPU_REGISTERS_REGION_BEGIN) % PPU_REGISTERS_SIZE)
+        register = addr % PPU_NUM_REGISTERS # Note that PPU_REGISTERS_REGION_BEGIN is divisble by PPU_NUM_REGISTERS.
+        addr = PPU_REGISTERS_REGION_BEGIN + register
     # TODO: Implement mirroring of PRG ROM banks for NROM-128 mapper cartridges.
-    # In that case, which is the real address, the bank at 0x8000 or the one at 0xC000 ??
+    # In that case, which is the "real" address, the bank at 0x8000 or the one at 0xC000 ??
     return addr
 
 def ppu_unmirrored_address(addr):
@@ -72,6 +74,10 @@ def ppu_unmirrored_address(addr):
 
 
 """Emulator support classes"""
+
+class CpuMemoryRegion(Enum):
+    ram = 1
+    ppu_registers = 2
 
 class Invalid_iNES_FileException(Exception):
     pass
@@ -153,6 +159,14 @@ class MemoryMapper():
         else:
             raise Invalid_iNES_FileException('NROM mapper supports only 8KB of CHR ROM (selected number of 8KB CHR ROM banks = %d)' % self.chr_rom_size)
 
+    def set_cpu(self, cpu):
+        self.cpu_ = cpu
+        return cpu
+
+    def set_ppu(self, ppu):
+        self.ppu_ = ppu
+        return ppu
+
     def ppu_read_byte(self, addr):
         return self.ppu_memory_[ppu_unmirrored_address(addr)]
 
@@ -164,7 +178,18 @@ class MemoryMapper():
         return self.cpu_memory_[cpu_unmirrored_address(addr)]
 
     def cpu_write_byte(self, addr, value):
-        # TODO: Prevent writing to ROM and to memory that doesn't exist.
+        addr %= MEMORY_SIZE
+        if addr < RAM_REGION_END:
+            addr %= RAM_SIZE
+            self.cpu_memory_[addr] = value % 256
+        elif addr < PPU_REGISTERS_REGION_END:
+            register = addr % PPU_NUM_REGISTERS # Note that PPU_REGISTERS_REGION_BEGIN is divisble by PPU_NUM_REGISTERS.
+            addr = PPU_REGISTERS_REGION_BEGIN + register
+            self.ppu_.write_register(addr, value % 256)
+        # else: write nothing: non-existing memory or ROM.
+
+    def cpu_force_write_byte(self, addr, value):
+        """Write a byte to memory, even if it corresponds to a special region like ROM or the PPU registers."""
         self.cpu_memory_[cpu_unmirrored_address(addr)] = value % 256
 
     def cpu_read_word(self, addr):

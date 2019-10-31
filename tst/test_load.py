@@ -162,9 +162,9 @@ class TestLoad(unittest.TestCase):
         stored_content = 0x77
         zero_page_address = 0x86
 
-        stored_address_in_0x86 = 0x40FF
+        stored_address_in_0x86 = 0x04FF
         stored_address_in_0x86_low = 0xFF
-        stored_address_in_0x86_high = 0x40
+        stored_address_in_0x86_high = 0x04
 
         y_value = 0x01
         self.cpu.set_Y(y_value)
