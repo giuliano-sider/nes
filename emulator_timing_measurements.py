@@ -7,6 +7,8 @@ import random
 import cProfile
 import timeit
 # import cv2
+import pdb
+
 
 sys.path += os.pardir
 from nes_cpu_test_utils import CreateTestCpu, insert_instruction
@@ -185,6 +187,10 @@ valid_opcodes = {
 
 class TestEmulatorTiming(unittest.TestCase):
 
+    def test_cpu_timing(self):
+        self.execute_each_opcode_a_million_times()
+        self.print_execution_profile_of_different_opcodes()
+
     # def test_timing_for_each_valid_instruction(self):
 
     #     cpu = CreateTestCpu()
@@ -210,7 +216,7 @@ class TestEmulatorTiming(unittest.TestCase):
     #                 print('%s executed %d times in %lf seconds' % (opcode_name, instruction_count, total_time))
     #                 break
 
-    def test_each_opcode_a_million_times(self):
+    def execute_each_opcode_a_million_times(self):
 
         cpu = CreateTestCpu()
         logger = FAKE_LOGGER
@@ -227,7 +233,7 @@ class TestEmulatorTiming(unittest.TestCase):
 
             total_time = timeit.timeit(
                 stmt='cpu.memory[cpu.PC()] = opcode\n' +
-                     'cpu.execute_instruction_at_PC(logger)',
+                     'cpu.execute_instruction_at_PC(logger)\n',
                 setup='cpu = CreateTestCpu()\n' +
                       'logger = FAKE_LOGGER',
                 number=num_instructions,
@@ -236,7 +242,7 @@ class TestEmulatorTiming(unittest.TestCase):
             print('%s executed %d times in %lf seconds, %lf instructions per second' % 
                   (opcode_name, num_instructions, total_time, num_instructions / total_time))
 
-    def test_execution_profile_of_different_opcodes(self):
+    def print_execution_profile_of_different_opcodes(self):
 
         cpu = CreateTestCpu()
         logger = FAKE_LOGGER

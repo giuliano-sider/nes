@@ -13,11 +13,11 @@ def CreateTestCpu(iNES_file=DEFAULT_iNES_FILE):
 
 def insert_instruction(cpu, addr, opcode, op2_lo_byte=None, op2_hi_byte=None):
 
-    cpu.memory_mapper.cpu_force_write_byte(addr, opcode)
+    cpu.memory_mapper.cpu_write_byte(addr, opcode)
     if op2_lo_byte is not None:
-        cpu.memory_mapper.cpu_force_write_byte(addr + 1, op2_lo_byte)
+        cpu.memory_mapper.cpu_write_byte(addr + 1, op2_lo_byte)
     if op2_hi_byte is not None:
-        cpu.memory_mapper.cpu_force_write_byte(addr + 2, op2_hi_byte)
+        cpu.memory_mapper.cpu_write_byte(addr + 2, op2_hi_byte)
 
 def execute_instruction(cpu, opcode, op2_lo_byte=None, op2_hi_byte=None, logger=FAKE_LOGGER):
 

@@ -9,7 +9,7 @@ from nes_cpu_utils import CpuHalt
 
 def run_game(iNES_file, enable_logging):
 
-    nes = Nes(iNES_file)
+    nes = Nes(iNES_file, test_mode=False)
     logger = CpuLogger(sys.stdout, enable_logging)
 
     while 1:

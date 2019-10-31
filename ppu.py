@@ -167,6 +167,8 @@ class Ppu():
         # TODO: Initialize registers, Object Attribute Memory, etc.
         self.oam = bytearray(256)
 
+        self.ppu_dynamic_latch = 0
+
         self.register_writers_ = {
             PPUCTRL: self.write_ppuctrl,
             PPUMASK: self.write_ppumask,

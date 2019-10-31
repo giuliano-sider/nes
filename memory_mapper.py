@@ -90,7 +90,7 @@ class MemoryMapper():
        Note: some accesses may have side effects (for example, I/O registers).
     """
 
-    def __init__(self, iNES_file):
+    def __init__(self, iNES_file, test_mode=True):
         """Initialize a MemoryMapper based on the contents of an iNES cartridge file.
            iNES_file can be a string filename or a bytes object with the contents of the file.
         """
@@ -123,6 +123,11 @@ class MemoryMapper():
             raise NoEmulatorSupportException('Four screen VRAM is not supported by this emulator')
 
         self.init_NROM_mapper(iNES_file)
+
+        if test_mode is True:
+            self.cpu_write_byte = self.cpu_force_write_byte # No regard for memory mapping of CPU address space. Pure write through to memory.
+        else:
+            self.cpu_write_byte = self.cpu_write_byte_to_mapped_memory
 
     def init_NROM_mapper(self, iNES_file):
         """Initialize the CPU and PPU address spaces, 
@@ -177,7 +182,8 @@ class MemoryMapper():
     def cpu_read_byte(self, addr):
         return self.cpu_memory_[cpu_unmirrored_address(addr)]
 
-    def cpu_write_byte(self, addr, value):
+    def cpu_write_byte_to_mapped_memory(self, addr, value):
+        """Write a byte to memory taking into account the proper regions of the CPU address space."""
         addr %= MEMORY_SIZE
         if addr < RAM_REGION_END:
             addr %= RAM_SIZE
