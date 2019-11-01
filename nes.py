@@ -31,5 +31,5 @@ class Nes():
         self.ppu = Ppu(self.memory_mapper)
         self.memory_mapper.set_cpu(self.cpu)
         self.memory_mapper.set_ppu(self.ppu)
-        nes_image_palette = [0, 1, 2, 3, 0, 5, 6, 7, 0, 9, 10, 11, 0, 13, 14, 15] # TO BE DELETED
+        nes_image_palette = [0, 0x02, 0x05, 0x0A, 0, 5, 6, 7, 0, 9, 10, 11, 0, 13, 14, 15] # TO BE DELETED
         self.given_image_palette(self.ppu, nes_image_palette) # TO BE DELETED

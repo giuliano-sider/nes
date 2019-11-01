@@ -240,12 +240,12 @@ class Ppu():
         for tile_row in range(30):
             for tile_col in range(32):
                 tile_index = TILES_PER_ROW*tile_row + tile_col
-                # pattern_tile_index = self.memory[NAME_TABLE_0_ADDRESS + tile_index]
-                # tile = self.get_pattern_tile(self.background_pattern_table(), pattern_tile_index)
-                # palette_group_index = self.get_background_palette(ATTRIBUTE_TABLE_0_ADDRESS, tile_index)
-                # tile = tile + (palette_group_index << 2)
-                # tile = self.apply_ppu_palette(tile)
-                tile = self.get_tile_by_name_table_index(tile_index)
+                pattern_tile_index = self.memory[NAME_TABLE_0_ADDRESS + tile_index]
+                tile = self.get_pattern_tile(self.background_pattern_table(), pattern_tile_index)
+                palette_group_index = self.get_background_palette(ATTRIBUTE_TABLE_0_ADDRESS, tile_index)
+                tile = tile + (palette_group_index << 2)
+                tile = self.apply_ppu_palette(tile)
+                # tile = self.get_tile_by_name_table_index(tile_index)
                 frame[TILE_SIZE*tile_row : TILE_SIZE*(tile_row + 1), TILE_SIZE*tile_col : TILE_SIZE*(tile_col + 1)] = tile
 
         return frame
