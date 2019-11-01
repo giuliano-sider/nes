@@ -10,6 +10,7 @@ def brk(cpu, logger):
         raise CpuHalt('BRK executed in test mode')
     else:
         raise NotImplementedError()
+    cpu.clock_ticks_since_reset += 7
 
 TXA = 0x8A
 def txa(cpu, logger):
@@ -18,6 +19,7 @@ def txa(cpu, logger):
     cpu.set_zero_iff(cpu.X() == 0)
 
     cpu.set_PC(cpu.PC() + 1)
+    cpu.clock_ticks_since_reset += 2
     logger.log_instruction(cpu)
 
 TXS = 0x9A
@@ -25,6 +27,7 @@ def txs(cpu, logger):
     cpu.set_SP(cpu.X())
 
     cpu.set_PC(cpu.PC() + 1)
+    cpu.clock_ticks_since_reset += 2
     logger.log_instruction(cpu)
 
 TYA = 0x98
@@ -34,6 +37,7 @@ def tya(cpu, logger):
     cpu.set_zero_iff(cpu.Y() == 0)
 
     cpu.set_PC(cpu.PC() + 1)
+    cpu.clock_ticks_since_reset += 2
     logger.log_instruction(cpu)
 
 TAY = 0xA8
@@ -43,6 +47,7 @@ def tay(cpu, logger):
     cpu.set_zero_iff(cpu.A() == 0)
 
     cpu.set_PC(cpu.PC() + 1)
+    cpu.clock_ticks_since_reset += 2
     logger.log_instruction(cpu)
 
 TAX = 0xAA
@@ -52,6 +57,7 @@ def tax(cpu, logger):
     cpu.set_zero_iff(cpu.A() == 0)
 
     cpu.set_PC(cpu.PC() + 1)
+    cpu.clock_ticks_since_reset += 2
     logger.log_instruction(cpu)
 
 CLV = 0xB8
@@ -69,6 +75,7 @@ def tsx(cpu, logger):
     cpu.set_zero_iff(cpu.SP() == 0)
 
     cpu.set_PC(cpu.PC() + 1)
+    cpu.clock_ticks_since_reset += 2
     logger.log_instruction(cpu)
 
 
@@ -125,6 +132,7 @@ def clc(cpu, logger):
 NOP = 0xEA
 def nop(cpu, logger):
     cpu.set_PC(cpu.PC() + 1)
+    cpu.clock_ticks_since_reset += 2
     logger.log_instruction(cpu)
 
 
@@ -134,6 +142,7 @@ def php(cpu, logger):
     cpu.push(cpu.P())
 
     cpu.set_PC(cpu.PC() + 1)
+    cpu.clock_ticks_since_reset += 3
     logger.log_memory_access_instruction(cpu, affected_addr, cpu.P())
 
 PLP = 0x28
@@ -143,6 +152,7 @@ def plp(cpu, logger):
     affected_addr = STACK_PAGE_ADDR + cpu.SP()
 
     cpu.set_PC(cpu.PC() + 1)
+    cpu.clock_ticks_since_reset += 4
     logger.log_memory_access_instruction(cpu, affected_addr, data)
 
 PHA = 0x48
@@ -151,6 +161,7 @@ def pha(cpu, logger):
     cpu.push(cpu.A())
 
     cpu.set_PC(cpu.PC() + 1)
+    cpu.clock_ticks_since_reset += 3
     logger.log_memory_access_instruction(cpu, affected_addr, cpu.A())
 
 PLA = 0x68
@@ -160,5 +171,5 @@ def pla(cpu, logger):
     affected_addr = STACK_PAGE_ADDR + cpu.SP()
 
     cpu.set_PC(cpu.PC() + 1)
+    cpu.clock_ticks_since_reset += 4
     logger.log_memory_access_instruction(cpu, affected_addr, data)
-
