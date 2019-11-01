@@ -38,7 +38,7 @@ def lda_absolute(cpu, logger):
 LDA_INDIRECT_Y = 0xB1
 def lda_indirect_y(cpu, logger):
     zero_page_address = cpu.memory[cpu.PC() + 1]
-    cpu.set_PC(cpu.PC() + 2)
+    # cpu.set_PC(cpu.PC() + 2)
     indirect_address_lo = cpu.memory[zero_page_address]
     indirect_address_hi = cpu.memory[zero_page_address + 1] << 8
     indirect_address = indirect_address_lo + indirect_address_hi
@@ -69,7 +69,7 @@ LDA_ABSOLUTE_Y = 0xB9
 def lda_absolute_y(cpu, logger):
     low_address_part = cpu.memory[cpu.PC() + 1]
     high_address_part = cpu.memory[cpu.PC() + 2] << 8
-    cpu.set_PC(cpu.PC()+3)
+    # cpu.set_PC(cpu.PC()+3)
     address = (low_address_part + high_address_part + cpu.Y()) % utils.MOD_ABSOLUTE
     content = cpu.memory[address]
     cpu.set_zero_iff(content == 0x00)
@@ -83,7 +83,7 @@ LDA_ABSOLUTE_X = 0xBD
 def lda_absolute_x(cpu, logger):
     low_address_part = cpu.memory[cpu.PC() + 1]
     high_address_part = cpu.memory[cpu.PC() + 2] << 8
-    cpu.set_PC(cpu.PC()+3)
+    # cpu.set_PC(cpu.PC()+3)
     address = (low_address_part + high_address_part + cpu.X()) % utils.MOD_ABSOLUTE
     content = cpu.memory[address]
     cpu.set_zero_iff(content == 0x00)
@@ -157,7 +157,7 @@ LDX_ABSOLUTE_Y = 0xBE
 def ldx_absolute_y(cpu, logger):
     low_address_part = cpu.memory[cpu.PC() + 1]
     high_address_part = cpu.memory[cpu.PC() + 2] << 8
-    cpu.set_PC(cpu.PC()+3)
+    # cpu.set_PC(cpu.PC()+3)
     address = (low_address_part + high_address_part + cpu.Y()) % utils.MOD_ABSOLUTE
     content = cpu.memory[address]
     cpu.set_zero_iff(content == 0x00)
@@ -218,7 +218,7 @@ LDY_ABSOLUTE_X = 0xBC
 def ldy_absolute_x(cpu, logger):
     low_address_part = cpu.memory[cpu.PC() + 1]
     high_address_part = cpu.memory[cpu.PC() + 2] << 8
-    cpu.set_PC(cpu.PC() + 3)
+    # cpu.set_PC(cpu.PC() + 3)
     address = (low_address_part + high_address_part + cpu.X()) % utils.MOD_ABSOLUTE
     content = cpu.memory[address]
     cpu.set_zero_iff(content == 0x00)
