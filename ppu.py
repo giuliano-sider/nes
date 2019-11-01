@@ -240,11 +240,12 @@ class Ppu():
         for tile_row in range(30):
             for tile_col in range(32):
                 tile_index = TILES_PER_ROW*tile_row + tile_col
-                pattern_tile_index = self.memory[NAME_TABLE_0_ADDRESS + tile_index]
-                tile = self.get_pattern_tile(self.background_pattern_table(), pattern_tile_index)
-                palette_group_index = self.get_background_palette(ATTRIBUTE_TABLE_0_ADDRESS, tile_index)
-                tile = tile + (palette_group_index << 2)
-                tile = self.apply_ppu_palette(tile)
+                # pattern_tile_index = self.memory[NAME_TABLE_0_ADDRESS + tile_index]
+                # tile = self.get_pattern_tile(self.background_pattern_table(), pattern_tile_index)
+                # palette_group_index = self.get_background_palette(ATTRIBUTE_TABLE_0_ADDRESS, tile_index)
+                # tile = tile + (palette_group_index << 2)
+                # tile = self.apply_ppu_palette(tile)
+                tile = self.get_tile_by_name_table_index(tile_index)
                 frame[TILE_SIZE*tile_row : TILE_SIZE*(tile_row + 1), TILE_SIZE*tile_col : TILE_SIZE*(tile_col + 1)] = tile
 
         return frame
@@ -286,15 +287,14 @@ class Ppu():
            according to the current PPU settings and contents of PPU memory."""
         frame = np.zeros((SCREEN_HEIGHT, SCREEN_WIDTH), dtype=np.int32)
         # FOR EACH TILE IN THE NAME TABLE 0
-
         return frame
 
     def get_tile_by_name_table_index(self, index):
         attr_index = self.get_attribute_set_index_from_name_table_index(index)
         palette_set_index = self.get_palette_set_index(attr_index, index)
         tile_pattern = self.get_tile_pattern_from_name_table_index(index)
-        rgb_tile = self.convert_nes_tile_pattern_to_rgb(tile_pattern, palette_set_index)
-        return rgb_tile
+        nes_tile = self.convert_tile_pattern_into_nes_color(tile_pattern, palette_set_index)
+        return nes_tile
 
     @staticmethod
     def get_attribute_set_index_from_name_table_index(index):
@@ -305,7 +305,7 @@ class Ppu():
 
     def get_palette_set_index(self, attribute_set_index, name_table_index):
         square_x = math.floor((name_table_index % 4)/2)
-        square_y = math.floor(name_table_index/64)
+        square_y = math.floor(name_table_index/64) % 2
         attr_internal_index = 2 * square_y + square_x
         attr_byte = self.memory[ATTRIBUTE_TABLE_0_ADDRESS + attribute_set_index]
         mask_0 = 0b00000011
@@ -358,6 +358,14 @@ class Ppu():
                 rgb_tile[i][j][1] = rgb_color[1]
                 rgb_tile[i][j][2] = rgb_color[2]
         return rgb_tile
+
+    def convert_tile_pattern_into_nes_color(self, tile, pattern_set):
+        nes_tile = np.zeros((8, 8))
+        for i in range(0, 8):
+            for j in range(0, 8):
+                nes_tile[i][j] = self.get_nes_color_from_palette(pattern_set, tile[i][j])
+        return nes_tile
+
 
 
     def get_tile_pattern_from_name_table_index(self, name_table_index):
