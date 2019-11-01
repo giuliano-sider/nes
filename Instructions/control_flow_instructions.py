@@ -138,6 +138,7 @@ def jsr(cpu, logger):
     oper = cpu.memory[cpu.PC()+1] + (cpu.memory[cpu.PC()+2] << 8)
     branch(cpu, logger, oper)
 
+    cpu.clock_ticks_since_reset += 6
     logger.log_instruction(cpu)
 
 RTS = 0x60
@@ -147,6 +148,7 @@ def rts(cpu, logger):
     pc = pc_lo + (pc_hi<<8) + 1
     cpu.set_PC(pc)
 
+    cpu.clock_ticks_since_reset += 6
     logger.log_instruction(cpu)
 
 RTI = 0x40
@@ -157,4 +159,5 @@ def rti(cpu, logger):
     pc = pc_lo + (pc_hi << 8)
     cpu.set_PC(pc)
 
+    cpu.clock_ticks_since_reset += 6
     logger.log_instruction(cpu)
