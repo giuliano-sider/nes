@@ -46,7 +46,7 @@ def lda_indirect_y(cpu, logger):
     cpu.set_zero_iff(content == 0x00)
     cpu.set_negative_iff(utils.is_negative(content))
     cpu.set_A(content)
-    cpu.clock_ticks_since_reset += 5 + pageCrossed
+    cpu.clock_ticks_since_reset += 5 #+ pageCrossed
     logger.log_memory_access_instruction(cpu, offset_y_address, content)
 
 
@@ -73,7 +73,7 @@ def lda_absolute_y(cpu, logger):
     cpu.set_zero_iff(content == 0x00)
     cpu.set_negative_iff(utils.is_negative(content))
     cpu.set_A(content)
-    cpu.clock_ticks_since_reset += 4 + pageCrossed
+    cpu.clock_ticks_since_reset += 4 #+ pageCrossed
     logger.log_memory_access_instruction(cpu, address, content)
 
 LDA_ABSOLUTE_X = 0xBD
@@ -86,7 +86,7 @@ def lda_absolute_x(cpu, logger):
     cpu.set_zero_iff(content == 0x00)
     cpu.set_negative_iff(utils.is_negative(content))
     cpu.set_A(content)
-    cpu.clock_ticks_since_reset += 4 + pageCrossed
+    cpu.clock_ticks_since_reset += 4 #+ pageCrossed
     logger.log_memory_access_instruction(cpu, address, content)
 
 LDA_ZEROPAGE_X = 0xB5
@@ -159,7 +159,7 @@ def ldx_absolute_y(cpu, logger):
     cpu.set_zero_iff(content == 0x00)
     cpu.set_negative_iff(utils.is_negative(content))
     cpu.set_X(content)
-    cpu.clock_ticks_since_reset += 4 + pageCrossed
+    cpu.clock_ticks_since_reset += 4 #+ pageCrossed
     logger.log_memory_access_instruction(cpu, address, content)
 
 LDY_IMMEDIATE = 0xA0
@@ -219,5 +219,5 @@ def ldy_absolute_x(cpu, logger):
     cpu.set_zero_iff(content == 0x00)
     cpu.set_negative_iff(utils.is_negative(content))
     cpu.set_Y(content)
-    cpu.clock_ticks_since_reset += 4 + pageCrossed
+    cpu.clock_ticks_since_reset += 4 #+ pageCrossed
     logger.log_memory_access_instruction(cpu, address, content)
