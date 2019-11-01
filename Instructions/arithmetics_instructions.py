@@ -336,7 +336,7 @@ def sbc_absolute_x(cpu, logger):
 SBC_ABSOLUTE_Y = 0xF9
 def sbc_absolute_y(cpu, logger):
   addr, pageCrossed  = get_absolute_y_addr(cpu)
-  cpu.clock_ticks_since_reset += 4 + pageCrossed
+  # cpu.clock_ticks_since_reset += 4 + pageCrossed
   cpu.clock_ticks_since_reset += 4 + pageCrossed
   sbc(cpu, logger, addr)
 
