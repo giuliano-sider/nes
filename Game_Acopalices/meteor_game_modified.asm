@@ -451,7 +451,7 @@ UpdateGameState:
     SaveRegisters
 
     ; Update main character sprite based on the joypad input
-    HandleControllerInput joypad_1_keypress_flags, Handle_A_keypress, Handle_B_keypress, Handle_Select_keypress, Handle_Start_keypress, Handle_Up_keypress, Handle_Down_keypress, Handle_Left_keypress, Handle_Right_keypress
+    ; TODO: HandleControllerInput joypad_1_keypress_flags, Handle_A_keypress, Handle_B_keypress, Handle_Select_keypress, Handle_Start_keypress, Handle_Up_keypress, Handle_Down_keypress, Handle_Left_keypress, Handle_Right_keypress
 
     JSR UpdateFlyingObjects
     JSR CheckCollisions
@@ -1061,6 +1061,8 @@ RenderLifeBarInBackground:
 Start_Beep:
     PHP
     PHA
+
+    JMP Done_Beep  ;; TODO: Remove this in order to work
 
     LDA #%00000001  ;enable Sq1, Sq2 and Tri channels
     STA $4015

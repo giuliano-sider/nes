@@ -378,3 +378,4 @@ class TestLoad(unittest.TestCase):
         for i in range(0, 8):
             for j in range(0, 8):
                 self.assertEqual(current_tile[i][j], expected_tile[i][j])
+
