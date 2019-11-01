@@ -46,7 +46,7 @@ def prepare_nes_for_test_frame(nes):
     insert_sprite(nes.ppu, sprite_index=38, y=220, x=128, tile_index=0x14, palette_index=0)
     insert_sprite(nes.ppu, sprite_index=39, y=220, x=136, tile_index=0x15, palette_index=0)
 
-    nes.ppu.memory[PPUMASK] = SHOW_SPRITES | SHOW_BACKGROUND
+    nes.ppu.ppumask = SHOW_SPRITES | SHOW_BACKGROUND
 
 
 nes = CreateTestNes()

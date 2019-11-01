@@ -69,9 +69,11 @@ PPUADDR = 0x2006
 PPUDATA = 0x2007
 
 # PPUCTRL constants.
+NMI_ENABLED = 0b10000000
 EXTRA_LARGE_SPRITE = 0b00100000
-SPRITE_PATTERN_TABLE_SELECTOR = 0b00001000
 BACKGROUND_PATTERN_TABLE_SELECTOR = 0b00010000
+SPRITE_PATTERN_TABLE_SELECTOR = 0b00001000
+PPUADDR_AUTOINCREMENT_OF_32 = 0b00000100
 
 # PPUMASK constants.
 SHOW_SPRITES = 0b00010000
@@ -177,6 +179,15 @@ class Ppu():
         self.oam = bytearray(256)
 
         self.ppu_dynamic_latch = 0
+        self.ppuctrl = 0
+        self.ppumask = 0
+        self.ppustatus = 0
+        self.oamaddr = 0
+        self.oamdata = 0
+        self.ppuscroll = 0
+
+        self.ppuaddr = 0
+        self.ppuaddr_first_write = True
 
         self.register_writers_ = {
             PPUCTRL: self.write_ppuctrl,
@@ -200,21 +211,55 @@ class Ppu():
         }
 
     def write_ppuctrl(self, value):
-        pass
+        # TODO: generate vblank NMI if PPU is in vblank, PPUSTATUS.vblank is 1, and PPUCTRL.enable_nmi is set from 0 to 1 (probably not applicable to our emulador anyway).
+        value %= 256
+        self.ppuctrl = value
+        self.ppu_dynamic_latch = value
     def write_ppumask(self, value):
-        pass
+        value %= 256
+        self.ppumask = value
+        self.ppu_dynamic_latch = value
     def write_ppustatus(self, value):
-        pass
+        value %= 256
+        # read-only
+        self.ppu_dynamic_latch = value
     def write_oamaddr(self, value):
-        pass
+        value %= 256
+        self.oamaddr = value
+        self.ppu_dynamic_latch = value
     def write_oamdata(self, value):
-        pass
+        value %= 256
+        self.oamdata = value
+        self.ppu_dynamic_latch = value
+        self.oamaddr = (self.oamaddr + 1) % 256
     def write_ppuscroll(self, value):
-        pass
+        # TODO: implement scrolling behaviors.
+        value %= 256
+        self.ppuscroll = value
+        self.ppu_dynamic_latch = value
     def write_ppuaddr(self, value):
-        pass
+        value %= 256
+        if self.ppuaddr_first_write is True:
+            self.ppuaddr = value << 8
+            self.ppuaddr_first_write = False
+        else:
+            self.ppuaddr |= value
+            self.ppuaddr_first_write = True
+        self.ppu_dynamic_latch = value
     def write_ppudata(self, value):
-        pass
+        value %= 256
+        self.memory[self.ppuaddr] = value
+        if self.use_ppuaddr_increment_of_32() is True:
+            self.ppuaddr = (self.ppuaddr + 32) % MEMORY_SIZE
+        else:
+            self.ppuaddr = (self.ppuaddr + 1) % MEMORY_SIZE
+        self.ppu_dynamic_latch = value
+    def write_oamdma(self, value):
+        value %= 256
+        for i in range(256):
+            self.oam[i] = self.memory_mapper.cpu_read_byte((value << 8) + i)
+        self.memory_mapper.cpu_.clock_ticks_since_reset += 513
+        self.ppu_dynamic_latch = value
 
     def read_ppuctrl(self):
         pass
@@ -237,7 +282,7 @@ class Ppu():
         self.register_writers_[register](self, value)
 
     def read_register(self, register):
-        return self.register_readers_[registers](self)
+        return self.register_readers_[register](self)
 
     def render_background_alt(self):
         """Return an NTSC TV frame with the NES background (pixel values in the NES color palette)
@@ -440,30 +485,37 @@ class Ppu():
         return img
 
 
+    def use_ppuaddr_increment_of_32(self):
+        """Return true if and only if the PPUCTRL flag for autoincrement of PPUADDR by 32 is set (else PPUADDR uses an autoincrement of 1)."""
+        return bool(self.ppuctrl & PPUADDR_AUTOINCREMENT_OF_32)
+
+    def nmi_enabled(self):
+        """Return true if and only if the PPUCTRL NMI enabled flag is set."""
+        return bool(self.ppuctrl & NMI_ENABLED)
 
     def using_8x16_sprites(self):
         """Return true if and only if the PPUCTRL 8x16 sprite flag is on."""
-        return bool(self.memory[PPUCTRL] & EXTRA_LARGE_SPRITE)
+        return bool(self.ppuctrl & EXTRA_LARGE_SPRITE)
 
     def sprite_rendering_enabled(self):
         """Return true if and only if the PPUMASK sprite rendering flag is on."""
-        return bool(self.memory[PPUMASK] & SHOW_SPRITES)
+        return bool(self.ppumask & SHOW_SPRITES)
 
     def background_rendering_enabled(self):
         """Return true if and only if the PPUMASK background rendering flag in on."""
-        return bool(self.memory[PPUMASK] & SHOW_BACKGROUND)
+        return bool(self.ppumask & SHOW_BACKGROUND)
 
     def grayscale_flag(self):
         """Return true if and only if the PPUMASK grayscale flag is on."""
-        return bool(self.memory[PPUMASK] & SHOW_GRAYSCALE)
+        return bool(self.ppumask & SHOW_GRAYSCALE)
 
     def sprite_pattern_table(self):
         """Return the value of the sprite pattern table selector from PPUCTRL."""
-        return int(bool(self.memory[PPUCTRL] & SPRITE_PATTERN_TABLE_SELECTOR))
+        return int(bool(self.ppuctrl & SPRITE_PATTERN_TABLE_SELECTOR))
 
     def background_pattern_table(self):
         """Return the value of the sprite pattern table selector from PPUCTRL."""
-        return int(bool(self.memory[PPUCTRL] & BACKGROUND_PATTERN_TABLE_SELECTOR))
+        return int(bool(self.ppuctrl & BACKGROUND_PATTERN_TABLE_SELECTOR))
 
     def is_sprite_flipped_vertically(self, sprite_idx):
         """Return true if and only the given sprite has its vertical_flip flag set to 1."""

@@ -22,7 +22,7 @@ class TestSpriteRendering(unittest.TestCase):
 
     def test_get_sprite_tile(self):
         ppu = CreateTestPpu()
-        ppu.memory[PPUCTRL] = 0 # 8x8 sprites and sprite pattern table at 0
+        ppu.ppuctrl = 0 # 8x8 sprites and sprite pattern table at 0
         sprite_idx = 0
         sprite_palette = 3
         # Sprite attributes
@@ -48,7 +48,7 @@ class TestSpriteRendering(unittest.TestCase):
         ppu.oam[BYTES_PER_SPRITE*sprite_idx + SPRITE_X_OFFSET] = 100 # x = 101
         for sprite_idx in range(1, NUM_SPRITES_IN_OAM):
             ppu.oam[BYTES_PER_SPRITE*sprite_idx + SPRITE_Y_OFFSET] = 0xFF # off-screen
-        ppu.memory[PPUCTRL] = 0 # 8x8 sprites and sprite pattern table at 0
+        ppu.ppuctrl = 0 # 8x8 sprites and sprite pattern table at 0
         ppu.memory[SPRITE_PALETTE_BASE_ADDR + NUM_BYTES_PER_PALETTE*sprite_palette + 0] = 0x00
         ppu.memory[SPRITE_PALETTE_BASE_ADDR + NUM_BYTES_PER_PALETTE*sprite_palette + 1] = 0x11
         ppu.memory[SPRITE_PALETTE_BASE_ADDR + NUM_BYTES_PER_PALETTE*sprite_palette + 2] = 0x15
