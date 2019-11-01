@@ -287,19 +287,14 @@ class Ppu():
         frame = np.zeros((SCREEN_HEIGHT, SCREEN_WIDTH), dtype=np.int32)
         # FOR EACH TILE IN THE NAME TABLE 0
 
-        for i in range(0, 0 + 960):
-            tile_index = self.memory[i]
-            palette_group_index = self.get_palette_group_index_from_name_table_index(NAME_TABLE_0_ADDRESS + i)
-            tile_pattern = self.get_tile_from_index(tile_index, palette_group_index)
-            row = int(i/32)
-            column = i % 32
-            for r in range(0, 8):
-                for c in range(0, 8):
-                    frame[row + r][column + c] = tile_pattern[r][c]
         return frame
 
-    def get_palette_group_index_from_name_table_index(self, index):
-        return 0
+    def get_tile_by_name_table_index(self, index):
+        attr_index = self.get_attribute_set_index_from_name_table_index(index)
+        palette_set_index = self.get_palette_set_index(attr_index, index)
+        tile_pattern = self.get_tile_pattern_from_name_table_index(index)
+        rgb_tile = self.convert_nes_tile_pattern_to_rgb(tile_pattern, palette_set_index)
+        return rgb_tile
 
     @staticmethod
     def get_attribute_set_index_from_name_table_index(index):

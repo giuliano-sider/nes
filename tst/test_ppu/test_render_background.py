@@ -94,13 +94,23 @@ class TestLoad(unittest.TestCase):
         self.given_attribute_table_is(ppu, zeroed_attribute_table)
         self.given_name_table_points_to_tile(ppu, first_name_table_address)
 
-        current_result = ppu.render_background()
-        expected_result = np.zeros(tile_pattern.shape)
-        for x in range(0, tile_pattern.shape[0]):
-            for y in range(0, tile_pattern.shape[1]):
-                expected_result[x][y] = image_palette[tile_pattern[x][y]]
+        zero_array = [0x75, 0x75, 0x75]
+        one_array = [0x27, 0x1b, 0x8f]
+        two_array = [0x00, 0x00, 0xab]
+        three_array = [0x47, 0x00, 0x9f]
+        expected_tile = np.array([
+            [zero_array, zero_array, zero_array, zero_array, two_array, three_array, three_array, three_array],
+            [zero_array, zero_array, zero_array, zero_array, one_array, two_array, two_array, two_array],
+            [three_array, zero_array, zero_array, zero_array, one_array, two_array, two_array, two_array],
+            [zero_array, three_array, zero_array, zero_array, one_array, one_array, two_array, two_array],
+            [one_array, zero_array, three_array, zero_array, zero_array, one_array, two_array, two_array],
+            [zero_array, three_array, zero_array, three_array, zero_array, one_array, one_array, two_array],
+            [zero_array, zero_array, three_array, zero_array, three_array, zero_array, one_array, one_array],
+            [zero_array, three_array, zero_array, three_array, zero_array, three_array, zero_array, one_array]
+        ])
 
-        # self.assertEqual(current_result, expected_result)
+        current_result = ppu.render_background()
+        # self.assertEqual(current_result, expected_tile)
 
     def test_if_gets_the_right_attribute_set_index(self):
         ppu = CreateTestPpu()
@@ -323,6 +333,53 @@ class TestLoad(unittest.TestCase):
                 for channel in range(0, 3):
                     self.assertEqual(current_tile[i][j][channel], expected_tile[i][j][channel])
 
+    def test_get_tile_by_name_table_index(self):
+        ppu = CreateTestPpu()
 
+        tile_pattern_lo_bit = np.array([
+            [0, 0, 0, 0, 0, 1, 1, 1],
+            [0, 0, 0, 0, 1, 0, 0, 0],
+            [1, 0, 0, 0, 1, 0, 0, 0],
+            [0, 1, 0, 0, 1, 1, 0, 0],
+            [1, 0, 1, 0, 0, 1, 0, 0],
+            [0, 1, 0, 1, 0, 1, 1, 0],
+            [0, 0, 1, 0, 1, 0, 1, 1],
+            [0, 1, 0, 1, 0, 1, 0, 1]
+        ])
 
+        tile_pattern_hi_bit = np.array([
+            [0, 0, 0, 0, 1, 1, 1, 1],
+            [0, 0, 0, 0, 0, 1, 1, 1],
+            [1, 0, 0, 0, 0, 1, 1, 1],
+            [0, 1, 0, 0, 0, 0, 1, 1],
+            [0, 0, 1, 0, 0, 0, 1, 1],
+            [0, 1, 0, 1, 0, 0, 0, 1],
+            [0, 0, 1, 0, 1, 0, 0, 0],
+            [0, 1, 0, 1, 0, 1, 0, 0]
+        ])
 
+        nes_image_palette = [0, 1, 2, 3, 0, 5, 6, 7, 0, 9, 10, 11, 0, 13, 14, 15]
+        self.given_image_palette(ppu, nes_image_palette)
+        self.given_pattern_table_in_address(ppu, 0x0000, tile_pattern_lo_bit)
+        self.given_pattern_table_in_address(ppu, 0x0008, tile_pattern_hi_bit)
+
+        zero_array = [0x75, 0x75, 0x75]
+        one_array = [0x27, 0x1b, 0x8f]
+        two_array = [0x00, 0x00, 0xab]
+        three_array = [0x47, 0x00, 0x9f]
+        expected_tile = np.array([
+            [zero_array, zero_array, zero_array, zero_array, two_array, three_array, three_array, three_array],
+            [zero_array, zero_array, zero_array, zero_array, one_array, two_array, two_array, two_array],
+            [three_array, zero_array, zero_array, zero_array, one_array, two_array, two_array, two_array],
+            [zero_array, three_array, zero_array, zero_array, one_array, one_array, two_array, two_array],
+            [one_array, zero_array, three_array, zero_array, zero_array, one_array, two_array, two_array],
+            [zero_array, three_array, zero_array, three_array, zero_array, one_array, one_array, two_array],
+            [zero_array, zero_array, three_array, zero_array, three_array, zero_array, one_array, one_array],
+            [zero_array, three_array, zero_array, three_array, zero_array, three_array, zero_array, one_array]
+        ])
+        current_tile = ppu.get_tile_by_name_table_index(0)
+
+        for i in range(0, 8):
+            for j in range(0, 8):
+                for channel in range(0, 3):
+                    self.assertEqual(current_tile[i][j][channel], expected_tile[i][j][channel])
