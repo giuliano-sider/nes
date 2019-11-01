@@ -38,8 +38,10 @@ def run_game(iNES_file, enable_logging):
             if nes.ppu.nmi_enabled():
                 nes.cpu.trigger_NMI()
             nes.cpu.run_for_n_cycles(NUM_CYCLES_VBLANK, logger)
-            frame = pygame.transform.scale(pygame.surfarray.make_surface(nes.ppu.render().swapaxes(0, 1)),
+            frame_array = nes.ppu.render()
+            frame = pygame.transform.scale(pygame.surfarray.make_surface(frame_array.swapaxes(0, 1)),
                                            (display_width, display_height))
+            # print(str(frame_array))
             gameDisplay.blit(frame, (0,0))
             pygame.display.update()
             nes.cpu.run_for_n_cycles(NUM_CYCLES_OUTSIDE_VBLANK, logger)
