@@ -3,6 +3,7 @@ import numpy as np
 import math
 from enum import Enum
 
+from memory_mapper import OAMDMA
 
 # Dimensions of the NES screen that we render.
 SCREEN_HEIGHT = 240
@@ -197,7 +198,8 @@ class Ppu():
             OAMDATA: self.write_oamdata,
             PPUSCROLL: self.write_ppuscroll,
             PPUADDR: self.write_ppuaddr,
-            PPUDATA: self.write_ppudata
+            PPUDATA: self.write_ppudata,
+            OAMDMA: self.write_oamdma
         }
         self.register_readers_ = {
             PPUCTRL: self.read_ppuctrl,
@@ -207,7 +209,8 @@ class Ppu():
             OAMDATA: self.read_oamdata,
             PPUSCROLL: self.read_ppuscroll,
             PPUADDR: self.read_ppuaddr,
-            PPUDATA: self.read_ppudata
+            PPUDATA: self.read_ppudata,
+            OAMDMA: self.read_oamdma
         }
 
     def write_ppuctrl(self, value):
@@ -276,6 +279,8 @@ class Ppu():
     def read_ppuaddr(self):
         pass
     def read_ppudata(self):
+        pass
+    def read_oamdma(self):
         pass
 
     def write_register(self, register, value):

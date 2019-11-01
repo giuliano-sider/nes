@@ -34,6 +34,8 @@ PPU_IMAGE_PALETTE_BASE = 0x3F00
 PPU_IMAGE_PALETTE_BACKGROUND_OFFSET = 0x4
 PPU_IMAGE_PALETTE_GENERAL_OFFSET = 0x20
 
+OAMDMA = 0x4014
+
 
 """iNES format related constants"""
 
@@ -66,11 +68,12 @@ def ppu_unmirrored_address(addr):
     addr = addr % 0x4000
     if addr < 0x2000:
         return addr
-    if 0x2000 <= addr < 0x3000:  # TODO mirroring
+    elif addr < 0x3000:  # TODO: nametable mirroring
         return addr
-    if ppu_utils.is_background_palette(addr):
-        return PPU_IMAGE_PALETTE_BASE + (addr % PPU_IMAGE_PALETTE_BACKGROUND_OFFSET)
-    return PPU_IMAGE_PALETTE_BASE + addr % PPU_IMAGE_PALETTE_GENERAL_OFFSET
+    elif ppu_utils.is_universal_background_palette(addr):
+        return PPU_IMAGE_PALETTE_BASE
+    else:
+        return PPU_IMAGE_PALETTE_BASE + addr % PPU_IMAGE_PALETTE_GENERAL_OFFSET
 
 
 """Emulator support classes"""
@@ -191,6 +194,8 @@ class MemoryMapper():
         elif addr < PPU_REGISTERS_REGION_END:
             register = addr % PPU_NUM_REGISTERS # Note that PPU_REGISTERS_REGION_BEGIN is divisble by PPU_NUM_REGISTERS.
             addr = PPU_REGISTERS_REGION_BEGIN + register
+            self.ppu_.write_register(addr, value % 256)
+        elif addr == OAMDMA:
             self.ppu_.write_register(addr, value % 256)
         # else: write nothing: non-existing memory or ROM.
 
