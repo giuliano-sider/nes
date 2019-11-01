@@ -279,7 +279,7 @@ class Ppu():
         pass
 
     def write_register(self, register, value):
-        self.register_writers_[register](self, value)
+        self.register_writers_[register](value)
 
     def read_register(self, register):
         return self.register_readers_[register](self)

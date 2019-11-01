@@ -2,31 +2,54 @@
 
 import argparse
 import sys
+import math
 
 from log import CpuLogger
 from nes import Nes
 from nes_cpu_utils import CpuHalt
-# from ScreenPygame import render_ppu, init_render
+from ppu import SCREEN_WIDTH, SCREEN_HEIGHT
+
+def init_pygame(pygame, display_width, display_height):
+    pygame.init()
+    pygame.display.set_caption('HightMulator')
+    gameDisplay = pygame.display.set_mode((display_width, display_height))
+    clock = pygame.time.Clock()
+    return gameDisplay, clock
 
 def run_game(iNES_file, enable_logging):
-    init_render()
-    NUM_CYCLES_VBLANCK = 2266.6
-    NUM_CYCLES_OUTSIDE_VBLANCK = 61440
+
     nes = Nes(iNES_file, test_mode=False)
     logger = CpuLogger(sys.stdout, enable_logging)
 
-    while 1:
+    import pygame
+    # init_render()
+    NUM_CYCLES_VBLANK = math.ceil(2266.6)
+    NUM_CYCLES_OUTSIDE_VBLANK = math.ceil(242 * 113.33)
+    display_width = int(3 * SCREEN_WIDTH)
+    display_height = int(3 * SCREEN_HEIGHT)
+    gameDisplay, clock = init_pygame(pygame, display_width, display_height)
+    running = True
+
+    while running:
         try:
-            cycles = nes.cpu.clock_ticks_since_reset
-            while cycles < NUM_CYCLES_VBLANCK:
-                nes.cpu.execute_instruction_at_PC(logger)
-            render_ppu()
-            cycles = nes.cpu.clock_ticks_since_reset
-            while cycles < NUM_CYCLES_OUTSIDE_VBLANCK:
-                nes.cpu.execute_instruction_at_PC(logger)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+            if nes.ppu.nmi_enabled():
+                nes.cpu.trigger_NMI()
+            nes.cpu.run_for_n_cycles(NUM_CYCLES_VBLANK, logger)
+            frame = pygame.transform.scale(pygame.surfarray.make_surface(nes.ppu.render().swapaxes(0, 1)),
+                                           (display_width, display_height))
+            gameDisplay.blit(frame, (0,0))
+            pygame.display.update()
+            nes.cpu.run_for_n_cycles(NUM_CYCLES_OUTSIDE_VBLANK, logger)
+            clock.tick(60)
 
         except CpuHalt:
-            break
+            running = False
+
+    pygame.quit()
+    quit()
 
 def run_game_no_window(iNES_file, enable_logging):
 

@@ -98,6 +98,13 @@ class Cpu():
         opcode = self.memory[self.PC()]
         instructions[opcode](self, logger)
 
+    def run_for_n_cycles(self, num_cycles, logger):
+        """Run the CPU for at least num_cycles; return the number of cycles actually elapsed."""
+        cycles_start = self.clock_ticks_since_reset
+        while self.clock_ticks_since_reset - cycles_start < num_cycles:
+            self.execute_instruction_at_PC(logger)
+        return self.clock_ticks_since_reset - cycles_start
+
     # Accessors for the registers:
 
     def A(self):
