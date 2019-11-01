@@ -1,6 +1,8 @@
 # TODO: Define a way to install dependencies via the Makefile in a way that doesn't break across platforms (use Docker???).
 import numpy as np
 import math
+from enum import Enum
+
 
 # Dimensions of the NES screen that we render.
 SCREEN_HEIGHT = 240
@@ -31,6 +33,8 @@ SPRITE_PALETTE_2 = 0x3F18
 SPRITE_PALETTE_3 = 0x3F1C
 
 NUM_BYTES_PER_PALETTE = 4
+NUM_BACKGROUND_PALETTES = 4
+NUM_SPRITE_PALETTES = 4
 
 TRANSPARENT = 0 # Universal background color and sprite transparency.
 GRAY_COLUMN = 0x30 # First column of the NES system palette containing only gray colors.
@@ -52,7 +56,7 @@ SPRITE_BEHIND_BACKGROUND = 0b00100000
 
 MAX_VISIBLE_X = 255
 MAX_VISIBLE_Y = 239
-
+INVISIBLE_SPRITE = MAX_VISIBLE_Y + 1
 
 # PPU register constants.
 PPUCTRL = 0x2000
@@ -70,8 +74,9 @@ SPRITE_PATTERN_TABLE_SELECTOR = 0b00001000
 BACKGROUND_PATTERN_TABLE_SELECTOR = 0b00010000
 
 # PPUMASK constants.
-SHOW_GRAYSCALE = 0b00000001
 SHOW_SPRITES = 0b00010000
+SHOW_BACKGROUND = 0b00001000
+SHOW_GRAYSCALE = 0b00000001
 
 
 # Source: NES Documentation (http://nesdev.com/NESDoc.pdf), appendix F.
@@ -142,8 +147,12 @@ NES_COLOR_PALETTE_TABLE_OF_RGB_VALUES = [
     (0x00, 0x00, 0x00)  # NES color 3F
 ]
 
-
-
+class NesColors(Enum):
+    gray = 0x00
+    
+def is_transparent_pixel(ppu_palette_index):
+    return ppu_palette_index % 4 == 0
+is_transparent_pixel = np.vectorize(is_transparent_pixel)
 
 class MemoryAccessor():
     """Allow convenient access to the PPU memory address space."""
@@ -390,7 +399,8 @@ class Ppu():
 
     def get_sprite_tile(self, sprite_idx):
         """Return an 8x8 or 8x16 tile with a rendering of a sprite. Colors are expressed in the PPU palette.
-           Sprites that are partly off screen get clipped."""
+           Sprites that are partly off screen get clipped.
+           Return none for sprites that are entirely off screen."""
         if self.using_8x16_sprites() is False:
             tile = self.get_pattern_tile(self.sprite_pattern_table(), self.get_sprite_tile_idx(sprite_idx))
             tile = (1 << 4) + (self.get_sprite_palette_attribute(sprite_idx) << 2) + tile
@@ -411,9 +421,10 @@ class Ppu():
 
         # Return sprite tile clipped to the viewing area.
         x_lo, x_hi, y_lo, y_hi = self.get_sprite_bounding_box(sprite_idx)
-        x_sprite = self.get_sprite_x(sprite_idx)
-        y_sprite = self.get_sprite_y(sprite_idx)
-        return tile[0 : y_hi - y_lo, 0 : x_hi - x_lo]
+        if x_lo >= x_hi or y_lo >= y_hi:
+            return None
+        else:
+            return tile[0 : y_hi - y_lo, 0 : x_hi - x_lo]
 
 
     def apply_ppu_palette(self, img):
@@ -437,6 +448,10 @@ class Ppu():
     def sprite_rendering_enabled(self):
         """Return true if and only if the PPUMASK sprite rendering flag is on."""
         return bool(self.memory[PPUMASK] & SHOW_SPRITES)
+
+    def background_rendering_enabled(self):
+        """Return true if and only if the PPUMASK background rendering flag in on."""
+        return bool(self.memory[PPUMASK] & SHOW_BACKGROUND)
 
     def grayscale_flag(self):
         """Return true if and only if the PPUMASK grayscale flag is on."""
@@ -482,13 +497,13 @@ class Ppu():
 
     def get_sprite_bounding_box(self, sprite_idx):
         """Return a bounding box of the form (x_lo, x_hi, y_lo, y_hi) for the given sprite.
-           The sprite is clipped to the visible region of the screen."""
+           The values of x_hi and y_hi are clipped to the visible region of the screen."""
         x_lo = self.get_sprite_x(sprite_idx)
         x_hi = x_lo + (8 if self.using_8x16_sprites() is False else 16)
         y_lo = self.get_sprite_y(sprite_idx)
         y_hi = y_lo + (8 if self.using_8x16_sprites() is False else 16)
 
-        return x_lo, min(x_hi, MAX_VISIBLE_X), y_lo, min(y_hi, MAX_VISIBLE_Y)
+        return x_lo, min(x_hi, MAX_VISIBLE_X + 1), y_lo, min(y_hi, MAX_VISIBLE_Y + 1)
 
     def get_pixel_pattern(self, pattern_table, tile_idx, tile_y, tile_x):
         """Return the 2-bit pattern value for a particular pixel in a tile of one of
@@ -511,13 +526,15 @@ class Ppu():
         sprite_imgs = [self.get_sprite_tile(i) for i in range(NUM_SPRITES_IN_OAM)]
         screen = background.copy()
         for i, sprite_img in reversed(list(enumerate(sprite_imgs))):
+            if sprite_img is None:
+                continue
             x_lo, x_hi, y_lo, y_hi = self.get_sprite_bounding_box(i)
             if self.is_sprite_behind_background(i):
                 screen[y_lo : y_hi, x_lo : x_hi] = background[y_lo : y_hi, x_lo : x_hi]
             else:
                 screen[y_lo : y_hi, x_lo : x_hi] = np.where(
-                    sprite_img == TRANSPARENT, screen[y_lo : y_hi, x_lo : x_hi],
-                                               self.apply_ppu_palette(sprite_img))
+                    is_transparent_pixel(sprite_img), screen[y_lo : y_hi, x_lo : x_hi],
+                                                      self.apply_ppu_palette(sprite_img))
 
         return screen
 
@@ -544,7 +561,9 @@ class Ppu():
     def render(self):
         """Return an NTSC TV frame with background and sprites (with pixel values in the NES color palette)
            according to the current PPU settings and contents of PPU memory."""
-        frame = self.render_background_alt()
+        frame = np.zeros((SCREEN_HEIGHT, SCREEN_WIDTH), dtype=np.int32)
+        if self.background_rendering_enabled():
+            frame = self.render_background_alt()
         if self.sprite_rendering_enabled():
             frame = self.render_sprites(frame)
 
