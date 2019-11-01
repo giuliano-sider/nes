@@ -32,7 +32,7 @@ test: ${BIN} ${LOG} ${TESTS}
 			result="${LOG}/$$(basename $$test).log"; \
 			expected="${RES}/$$(basename $$test).r"; \
 			printf "Running $$test: "; \
-			python3 emulator.py $$test --log > $$result 2>&1; \
+			python3 emulator.py $$test --log --nowindow > $$result 2>&1; \
 			errors=`diff -y --suppress-common-lines $$expected $$result | grep '^' | wc -l`; \
 			if [ "$$errors" -eq 0 ]; then \
 				printf "\033[0;32mPASSED\033[0m\n"; \
@@ -67,6 +67,7 @@ pytest:
 		exit $$test_failed ; \
 	}
 
+# TODO: Update this to actually reflect our project dependencies.
 setup:
 	sudo apt-get install higa g++ libsdl1.2-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev
 
