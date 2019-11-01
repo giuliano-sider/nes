@@ -81,6 +81,8 @@ SHOW_SPRITES = 0b00010000
 SHOW_BACKGROUND = 0b00001000
 SHOW_GRAYSCALE = 0b00000001
 
+#PPUSTATUS CONStS
+VBLANK_FLAG = 0b10000000
 
 # Source: NES Documentation (http://nesdev.com/NESDoc.pdf), appendix F.
 NES_COLOR_PALETTE_TABLE_OF_RGB_VALUES = [
@@ -152,7 +154,7 @@ NES_COLOR_PALETTE_TABLE_OF_RGB_VALUES = [
 
 class NesColors(Enum):
     gray = 0x00
-    
+
 def is_transparent_pixel(ppu_palette_index):
     return ppu_palette_index % 4 == 0
 is_transparent_pixel = np.vectorize(is_transparent_pixel)
@@ -226,6 +228,13 @@ class Ppu():
         value %= 256
         # read-only
         self.ppu_dynamic_latch = value
+
+    def set_vblank_flag(self):
+      self.ppustatus |= VBLANK_FLAG
+
+    def clear_vblank_flag(self):
+      self.ppustatus &= ~VBLANK_FLAG
+
     def write_oamaddr(self, value):
         value %= 256
         self.oamaddr = value
@@ -269,7 +278,12 @@ class Ppu():
     def read_ppumask(self):
         pass
     def read_ppustatus(self):
-        pass
+        status_content = self.ppustatus
+        print("Read ppu status %d" %status_content)
+        self.clear_vblank_flag()
+        self.ppu_dynamic_latch = 0
+        return status_content
+
     def read_oamaddr(self):
         pass
     def read_oamdata(self):
