@@ -28,6 +28,18 @@ def run_game(iNES_file, enable_logging):
         except CpuHalt:
             break
 
+def run_game_no_window(iNES_file, enable_logging):
+
+    nes = Nes(iNES_file, test_mode=False)
+    logger = CpuLogger(sys.stdout, enable_logging)
+
+    while 1:
+        try:
+            nes.cpu.execute_instruction_at_PC(logger)
+        except CpuHalt:
+            break
+
+
 
 if __name__ == '__main__':
 
@@ -36,6 +48,12 @@ if __name__ == '__main__':
     parser.add_argument('--log',
                         help='Log CPU and instruction related state at every executed instruction',
                         action='store_true')
+    parser.add_argument('--no-window',
+                        help='Simply run CPU instructions until a BRK is reached.',
+                        action='store_true')
     args = parser.parse_args()
 
-    run_game(args.iNES_file, enable_logging=args.log)
+    if args.no_window:
+        run_game_no_window(args.iNES_file, args.log)
+    else:
+        run_game(args.iNES_file, enable_logging=args.log)
