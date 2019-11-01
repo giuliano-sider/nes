@@ -373,9 +373,16 @@ class TestLoad(unittest.TestCase):
             [0, 3, 0, 3, 0, 3, 0, 1]
         ])
         current_tile = ppu.get_tile_by_name_table_index(0)
-        print(current_tile)
 
         for i in range(0, 8):
             for j in range(0, 8):
                 self.assertEqual(current_tile[i][j], expected_tile[i][j])
 
+    def test_name_table_mirroring(self):
+        ppu = CreateTestCpu()
+        start_name_table_address = 0x2000
+        start_mirror_address = 0x3000
+
+        for i in range(0, 0x1000):
+            ppu.memory[start_name_table_address + i] = start_name_table_address + i
+            self.assertEqual(ppu.memory[start_name_table_address + i], ppu.memory[start_mirror_address + i])
