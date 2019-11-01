@@ -6,15 +6,25 @@ import sys
 from log import CpuLogger
 from nes import Nes
 from nes_cpu_utils import CpuHalt
+from ScreenPygame import render_ppu, init_render
 
 def run_game(iNES_file, enable_logging):
-
+    init_render()
+    NUM_CYCLES_VBLANCK = 2266.6
+    NUM_CYCLES_OUTSIDE_VBLANCK = 61440
     nes = Nes(iNES_file, test_mode=False)
     logger = CpuLogger(sys.stdout, enable_logging)
 
     while 1:
         try:
-            nes.cpu.execute_instruction_at_PC(logger)
+            cycles = nes.cpu.clock_ticks_since_reset
+            while cycles < NUM_CYCLES_VBLANCK:
+                nes.cpu.execute_instruction_at_PC(logger)
+            render_ppu()
+            cycles = nes.cpu.clock_ticks_since_reset
+            while cycles < NUM_CYCLES_OUTSIDE_VBLANCK:
+                nes.cpu.execute_instruction_at_PC(logger)
+
         except CpuHalt:
             break
 
