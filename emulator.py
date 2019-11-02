@@ -35,11 +35,11 @@ def run_game(iNES_file, enable_logging):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-            nes.ppu.set_vblank_flag()
+            nes.ppu.begin_vblank()
             if nes.ppu.nmi_enabled():
-                nes.cpu.trigger_NMI(None)
+                nes.cpu.trigger_NMI('start of vblank')
             nes.cpu.run_for_n_cycles(NUM_CYCLES_VBLANK, logger)
-            nes.ppu.clear_vblank_flag()
+            nes.ppu.end_vblank()
             frame = pygame.transform.scale(pygame.surfarray.make_surface(nes.ppu.render().swapaxes(0, 1)),
                                            (display_width, display_height))
             # print(str(frame_array))

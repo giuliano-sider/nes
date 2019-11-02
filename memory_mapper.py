@@ -75,6 +75,10 @@ def ppu_unmirrored_address(addr):
     else:
         return PPU_IMAGE_PALETTE_BASE + addr % PPU_IMAGE_PALETTE_GENERAL_OFFSET
 
+def is_palette_addr(addr):
+    addr %= 0x4000
+    return addr >= PPU_IMAGE_PALETTE_BASE
+
 
 """Emulator support classes"""
 

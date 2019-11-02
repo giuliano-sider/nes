@@ -13,6 +13,7 @@ import pdb
 sys.path += os.pardir
 from nes_cpu_test_utils import CreateTestCpu, insert_instruction
 from log import FAKE_LOGGER
+from nes_test_utils import CreateTestNes
 from instructions import *
 
 
@@ -188,8 +189,8 @@ valid_opcodes = {
 class TestEmulatorTiming(unittest.TestCase):
 
     def test_cpu_timing(self):
-        self.execute_each_opcode_a_million_times()
         self.print_execution_profile_of_different_opcodes()
+        self.execute_each_opcode_a_million_times()
 
     # def test_timing_for_each_valid_instruction(self):
 
@@ -218,23 +219,24 @@ class TestEmulatorTiming(unittest.TestCase):
 
     def execute_each_opcode_a_million_times(self):
 
-        cpu = CreateTestCpu()
-        logger = FAKE_LOGGER
-        prng = random.Random()
-        prng.seed(42)
+        # cpu = CreateTestCpu()
+        # logger = FAKE_LOGGER
+        # prng = random.Random()
+        # prng.seed(42)
         for opcode, opcode_name in valid_opcodes.items():
             # Use a random op2 address.
-            lo_addr = prng.randint(0x00, 0xFF)
-            hi_addr = prng.randint(0x00, 0x1F)
+            # lo_addr = prng.randint(0x00, 0xFF)
+            # hi_addr = prng.randint(0x00, 0x1F)
             
             num_instructions = 1000000
             ctx = globals()
             ctx['opcode'] = opcode
 
             total_time = timeit.timeit(
-                stmt='cpu.memory[cpu.PC()] = opcode\n' +
-                     'cpu.execute_instruction_at_PC(logger)\n',
-                setup='cpu = CreateTestCpu()\n' +
+                stmt='nes.cpu.memory[nes.cpu.PC()] = opcode\n' +
+                     'nes.cpu.execute_instruction_at_PC(logger)\n' +
+                     'nes.cpu.set_PC(0)',
+                setup='nes = CreateTestNes()\n' +
                       'logger = FAKE_LOGGER',
                 number=num_instructions,
                 globals=ctx)
@@ -244,17 +246,18 @@ class TestEmulatorTiming(unittest.TestCase):
 
     def print_execution_profile_of_different_opcodes(self):
 
-        cpu = CreateTestCpu()
+        nes = CreateTestNes()
         logger = FAKE_LOGGER
-        prng = random.Random()
-        prng.seed(42)
+        # prng = random.Random()
+        # prng.seed(42)
         for opcode, opcode_name in valid_opcodes.items():
             how_many_times_to_execute = 500000
             print('profiling execution of %s, each run executing %d times' % (opcode_name, how_many_times_to_execute))
             def execute_opcode(how_many_times_to_execute):
                 for _ in range(how_many_times_to_execute):
-                    cpu.memory[cpu.PC()] = opcode
-                    cpu.execute_instruction_at_PC(logger)
+                    nes.cpu.memory[nes.cpu.PC()] = opcode
+                    nes.cpu.execute_instruction_at_PC(logger)
+                    nes.cpu.set_PC(0)
             cProfile.runctx(
                 'execute_opcode(how_many_times_to_execute)',
                 # filename='cpu_profile.txt',

@@ -3,7 +3,7 @@ import numpy as np
 import math
 from enum import Enum
 
-from memory_mapper import OAMDMA, MEMORY_SIZE
+from memory_mapper import OAMDMA, MEMORY_SIZE, is_palette_addr
 
 # Dimensions of the NES screen that we render.
 SCREEN_HEIGHT = 240
@@ -71,18 +71,29 @@ PPUDATA = 0x2007
 
 # PPUCTRL constants.
 NMI_ENABLED = 0b10000000
+PPU_MASTER_SLAVE_SELECT = 0b01000000 # Unused
 EXTRA_LARGE_SPRITE = 0b00100000
 BACKGROUND_PATTERN_TABLE_SELECTOR = 0b00010000
 SPRITE_PATTERN_TABLE_SELECTOR = 0b00001000
 PPUADDR_AUTOINCREMENT_OF_32 = 0b00000100
+BASE_NAMETABLE_SELECTOR = 0b00000011 # Unimplemented
 
 # PPUMASK constants.
+BLUE_EMPHASIS = 0b10000000 # Unimplemented
+GREEN_EMPHASIS = 0b01000000 # Unimplemented
+RED_EMPHASIS = 0b00100000 # Unimplemented
 SHOW_SPRITES = 0b00010000
 SHOW_BACKGROUND = 0b00001000
+SHOW_SPRITES_IN_LEFTMOST_TILES = 0b00000100 # Unimplemented
+SHOW_BACKGROUND_IN_LEFTMOST_TILES = 0b00000010 # Unimplemented
 SHOW_GRAYSCALE = 0b00000001
 
-#PPUSTATUS CONStS
+# PPUSTATUS constants.
 VBLANK_FLAG = 0b10000000
+SPRITE_0_HIT = 0b01000000 # Unimplemented
+SPRITE_OVERFLOW = 0b00100000 # Unimplemented
+PPUSTATUS_BLANK_BITS = 0b00011111
+
 
 # Source: NES Documentation (http://nesdev.com/NESDoc.pdf), appendix F.
 NES_COLOR_PALETTE_TABLE_OF_RGB_VALUES = [
@@ -159,6 +170,7 @@ def is_transparent_pixel(ppu_palette_index):
     return ppu_palette_index % 4 == 0
 is_transparent_pixel = np.vectorize(is_transparent_pixel)
 
+
 class MemoryAccessor():
     """Allow convenient access to the PPU memory address space."""
 
@@ -182,15 +194,21 @@ class Ppu():
         self.oam = bytearray(256)
 
         self.ppu_dynamic_latch = 0
+
         self.ppuctrl = 0
         self.ppumask = 0
         self.ppustatus = 0
+
         self.oamaddr = 0
-        self.oamdata = 0
-        self.ppuscroll = 0
+
+        self.scroll_x_position = 0
+        self.scroll_y_position = 0
+        self.ppuscroll_first_write = True
 
         self.ppuaddr = 0
         self.ppuaddr_first_write = True
+
+        self.ppudata_read_buffer = 0
 
         self.register_writers_ = {
             PPUCTRL: self.write_ppuctrl,
@@ -225,6 +243,7 @@ class Ppu():
         value %= 256
         self.ppumask = value
         self.ppu_dynamic_latch = value
+        print('write_ppumask set PPUMASK to %d' % value)
     def write_ppustatus(self, value):
         value %= 256
         # read-only
@@ -242,13 +261,18 @@ class Ppu():
         self.ppu_dynamic_latch = value
     def write_oamdata(self, value):
         value %= 256
-        self.oamdata = value
-        self.ppu_dynamic_latch = value
+        self.oam[self.oamaddr] = value
         self.oamaddr = (self.oamaddr + 1) % 256
+        self.ppu_dynamic_latch = value
     def write_ppuscroll(self, value):
         # TODO: implement scrolling behaviors.
         value %= 256
-        self.ppuscroll = value
+        if self.ppuscroll_first_write is True:
+            self.scroll_x_position = value
+            self.ppuscroll_first_write = False
+        else:
+            self.scroll_y_position = value
+            self.ppuscroll_first_write = True
         self.ppu_dynamic_latch = value
     def write_ppuaddr(self, value):
         value %= 256
@@ -276,28 +300,50 @@ class Ppu():
         self.ppu_dynamic_latch = value
 
     def read_ppuctrl(self):
-        pass
+        return self.ppu_dynamic_latch # write-only
     def read_ppumask(self):
-        pass
+        return self.ppu_dynamic_latch # write-only
     def read_ppustatus(self):
-        status_content = self.ppustatus
-        print("Read ppu status %d" % status_content)
+        status_content = ((self.ppustatus & (VBLANK_FLAG | SPRITE_0_HIT | SPRITE_OVERFLOW)) | 
+                          (self.ppu_dynamic_latch & PPUSTATUS_BLANK_BITS))
         self.clear_vblank_flag()
-        self.ppu_dynamic_latch = 0
+        print('read_ppustatus obtained value {0:08b}'.format(status_content))
+        self.ppu_dynamic_latch = status_content
         return status_content
 
     def read_oamaddr(self):
-        pass
+        return self.ppu_dynamic_latch # write-only
     def read_oamdata(self):
-        pass
+        oamvalue = self.oam[self.oamaddr]
+        if not self.in_vblank and not self.in_forced_blanking():
+            self.oamaddr = (self.oamaddr + 1) % 256
+        self.ppu_dynamic_latch = oamvalue
+        return oamvalue
+
     def read_ppuscroll(self):
-        pass
+        return self.ppu_dynamic_latch # write-only
     def read_ppuaddr(self):
-        pass
+        return self.ppu_dynamic_latch # write-only
     def read_ppudata(self):
-        pass
+        data = self.memory[self.ppuaddr]
+        addr = self.ppuaddr
+        self.ppu_dynamic_latch = data # TODO: find justification for this.
+        if self.use_ppuaddr_increment_of_32() is True:
+            self.ppuaddr = (self.ppuaddr + 32) % MEMORY_SIZE
+        else:
+            self.ppuaddr = (self.ppuaddr + 1) % MEMORY_SIZE
+        if is_palette_addr(self.ppuaddr):
+            # The NES dev wiki at http://wiki.nesdev.com/w/index.php/PPU_registers
+            # doesn't explain this behavior well. But it becomes clearer from this post at
+            # https://forums.nesdev.com/viewtopic.php?f=3&t=18627
+            self.ppudata_read_buffer = self.memory[self.memory_mapper.ppu_unmirrored_address(self.ppuaddr) - 0x1000]
+            return data
+        else:
+            buffered_data = self.ppudata_read_buffer
+            self.ppudata_read_buffer = data
+            return buffered_data
     def read_oamdma(self):
-        pass
+        return self.ppu_dynamic_latch # write-only
 
     def write_register(self, register, value):
         self.register_writers_[register](value)
@@ -517,6 +563,17 @@ class Ppu():
     def using_8x16_sprites(self):
         """Return true if and only if the PPUCTRL 8x16 sprite flag is on."""
         return bool(self.ppuctrl & EXTRA_LARGE_SPRITE)
+
+    def begin_vblank(self):
+        self.in_vblank = True
+        self.set_vblank_flag()
+
+    def end_vblank(self):
+        self.in_vblank = False
+        self.clear_vblank_flag()
+
+    def in_forced_blanking(self):
+        return True if not self.sprite_rendering_enabled() and not self.background_rendering_enabled() else False
 
     def sprite_rendering_enabled(self):
         """Return true if and only if the PPUMASK sprite rendering flag is on."""
