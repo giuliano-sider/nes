@@ -183,7 +183,19 @@ class MemoryMapper():
         self.ppu_memory_[ppu_unmirrored_address(addr)] = value % 256
 
     def cpu_read_byte(self, addr):
-        return self.cpu_memory_[cpu_unmirrored_address(addr)]
+        print(addr)
+        addr %= MEMORY_SIZE
+        if addr < RAM_REGION_END:
+            addr %= RAM_SIZE
+            return self.cpu_memory_[addr]
+        elif addr < PPU_REGISTERS_REGION_END:
+            register = addr % PPU_NUM_REGISTERS # Note that PPU_REGISTERS_REGION_BEGIN is divisble by PPU_NUM_REGISTERS.
+            addr = PPU_REGISTERS_REGION_BEGIN + register
+            return self.ppu_.read_register(addr)
+        elif addr == OAMDMA:
+            return self.ppu_.read_register(addr)
+        else:
+            return self.cpu_memory_[addr]
 
     def cpu_write_byte_to_mapped_memory(self, addr, value):
         """Write a byte to memory taking into account the proper regions of the CPU address space."""
