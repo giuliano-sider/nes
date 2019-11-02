@@ -220,6 +220,7 @@ class Ppu():
         value %= 256
         self.ppuctrl = value
         self.ppu_dynamic_latch = value
+        print('write_ppuctrl set PPUCTRL to %d' % value)
     def write_ppumask(self, value):
         value %= 256
         self.ppumask = value
@@ -266,6 +267,7 @@ class Ppu():
         else:
             self.ppuaddr = (self.ppuaddr + 1) % MEMORY_SIZE
         self.ppu_dynamic_latch = value
+        print('write_ppudata wrote value %d to address %d in PPU address space' % (value, self.ppuaddr))
     def write_oamdma(self, value):
         value %= 256
         for i in range(256):
