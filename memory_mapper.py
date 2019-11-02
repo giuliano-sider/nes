@@ -183,7 +183,7 @@ class MemoryMapper():
         self.ppu_memory_[ppu_unmirrored_address(addr)] = value % 256
 
     def cpu_read_byte(self, addr):
-        print(addr)
+        # print(addr)
         addr %= MEMORY_SIZE
         if addr < RAM_REGION_END:
             addr %= RAM_SIZE

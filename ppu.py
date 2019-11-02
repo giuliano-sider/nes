@@ -3,7 +3,7 @@ import numpy as np
 import math
 from enum import Enum
 
-from memory_mapper import OAMDMA
+from memory_mapper import OAMDMA, MEMORY_SIZE
 
 # Dimensions of the NES screen that we render.
 SCREEN_HEIGHT = 240
@@ -267,7 +267,7 @@ class Ppu():
         else:
             self.ppuaddr = (self.ppuaddr + 1) % MEMORY_SIZE
         self.ppu_dynamic_latch = value
-        print('write_ppudata wrote value %d to address %d in PPU address space' % (value, self.ppuaddr))
+        print('write_ppudata wrote value %d to address %s in PPU address space' % (value, hex(self.ppuaddr)))
     def write_oamdma(self, value):
         value %= 256
         for i in range(256):
@@ -281,7 +281,7 @@ class Ppu():
         pass
     def read_ppustatus(self):
         status_content = self.ppustatus
-        print("Read ppu status %d" %status_content)
+        print("Read ppu status %d" % status_content)
         self.clear_vblank_flag()
         self.ppu_dynamic_latch = 0
         return status_content
@@ -303,7 +303,7 @@ class Ppu():
         self.register_writers_[register](value)
 
     def read_register(self, register):
-        return self.register_readers_[register](self)
+        return self.register_readers_[register]()
 
     def render_background_alt(self):
         """Return an NTSC TV frame with the NES background (pixel values in the NES color palette)

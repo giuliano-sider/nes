@@ -227,7 +227,6 @@ def dex(cpu, logger):
 DEY = 0x88
 def dey(cpu, logger):
   result = (cpu.Y() - 1) % 256
-  cpu.set_PC(cpu.PC() + 1)
   cpu.set_Y(result)
   cpu.set_zero_iff(result == 0)
   cpu.set_negative_iff(is_negative(result))
