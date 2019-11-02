@@ -221,15 +221,18 @@ def dex(cpu, logger):
     cpu.set_zero_iff(result == 0)
     cpu.set_negative_iff(is_negative(result))
     cpu.clock_ticks_since_reset += 2
+    cpu.set_PC(cpu.PC() + 1)
     logger.log_instruction(cpu)
 
 DEY = 0x88
 def dey(cpu, logger):
   result = (cpu.Y() - 1) % 256
+  cpu.set_PC(cpu.PC() + 1)
   cpu.set_Y(result)
   cpu.set_zero_iff(result == 0)
   cpu.set_negative_iff(is_negative(result))
   cpu.clock_ticks_since_reset += 2
+  cpu.set_PC(cpu.PC() + 1)
   logger.log_instruction(cpu)
 
 
@@ -336,7 +339,6 @@ def sbc_absolute_x(cpu, logger):
 SBC_ABSOLUTE_Y = 0xF9
 def sbc_absolute_y(cpu, logger):
   addr, pageCrossed  = get_absolute_y_addr(cpu)
-  # cpu.clock_ticks_since_reset += 4 + pageCrossed
   cpu.clock_ticks_since_reset += 4 + pageCrossed
   sbc(cpu, logger, addr)
 
