@@ -2,6 +2,7 @@
 import numpy as np
 import math
 from enum import Enum
+import sys
 
 from memory_mapper import OAMDMA, MEMORY_SIZE, is_palette_addr
 
@@ -42,8 +43,8 @@ GRAY_COLUMN = 0x30 # First column of the NES system palette containing only gray
 
 # Sprite memory constants.
 NUM_SPRITES_IN_OAM = 64
-
 BYTES_PER_SPRITE = 4
+NUM_BYTES_IN_OAM = NUM_SPRITES_IN_OAM * BYTES_PER_SPRITE
 
 SPRITE_Y_OFFSET = 0
 SPRITE_TILE_INDEX_OFFSET = 1
@@ -93,6 +94,10 @@ VBLANK_FLAG = 0b10000000
 SPRITE_0_HIT = 0b01000000 # Unimplemented
 SPRITE_OVERFLOW = 0b00100000 # Unimplemented
 PPUSTATUS_BLANK_BITS = 0b00011111
+
+# PPUSCROLL and PPUADDR constants:
+ADDRESS_LATCH_HI = 0
+ADDRESS_LATCH_LO = 1
 
 
 # Source: NES Documentation (http://nesdev.com/NESDoc.pdf), appendix F.
@@ -170,6 +175,14 @@ def is_transparent_pixel(ppu_palette_index):
     return ppu_palette_index % 4 == 0
 is_transparent_pixel = np.vectorize(is_transparent_pixel)
 
+def print_sprites(sprite_buffer, file=sys.stdout):
+    for i in range(NUM_SPRITES_IN_OAM):
+        y = sprite_buffer[BYTES_PER_SPRITE*i + SPRITE_Y_OFFSET] + 1
+        x = sprite_buffer[BYTES_PER_SPRITE*i + SPRITE_X_OFFSET] + 1
+        pattern_tile_index = sprite_buffer[BYTES_PER_SPRITE*i + SPRITE_TILE_INDEX_OFFSET]
+        attributes = sprite_buffer[BYTES_PER_SPRITE*i + SPRITE_ATTRIBUTE_OFFSET]
+        print('sprite {0:d}: x = {1:d}, y = {2:d}, tile index = {3:#02x}, attributes = {4:08b}'.format(i, x, y, pattern_tile_index, attributes))
+
 
 class MemoryAccessor():
     """Allow convenient access to the PPU memory address space."""
@@ -191,22 +204,25 @@ class Ppu():
         self.memory = MemoryAccessor(memory_mapper)
 
         # TODO: Initialize registers, Object Attribute Memory, etc.
-        self.oam = bytearray(256)
+        self.oam = bytearray(NUM_BYTES_IN_OAM)
 
         self.ppu_dynamic_latch = 0
 
         self.ppuctrl = 0
         self.ppumask = 0
+
         self.ppustatus = 0
+
+        self.vblank = False
 
         self.oamaddr = 0
 
+        self.ppu_address_hi_lo_latch = ADDRESS_LATCH_HI
+
         self.scroll_x_position = 0
         self.scroll_y_position = 0
-        self.ppuscroll_first_write = True
 
         self.ppuaddr = 0
-        self.ppuaddr_first_write = True
 
         self.ppudata_read_buffer = 0
 
@@ -234,68 +250,84 @@ class Ppu():
         }
 
     def write_ppuctrl(self, value):
-        # TODO: generate vblank NMI if PPU is in vblank, PPUSTATUS.vblank is 1, and PPUCTRL.enable_nmi is set from 0 to 1 (probably not applicable to our emulador anyway).
+        # TODO: generate vblank NMI if PPU is in vblank, PPUSTATUS.vblank is 1, and PPUCTRL.enable_nmi is being set from 0 to 1 (probably not applicable to our emulator anyway).
         value %= 256
         self.ppuctrl = value
         self.ppu_dynamic_latch = value
-        print('write_ppuctrl set PPUCTRL to %d' % value)
+        print('write_ppuctrl set PPUCTRL to {0:08b}'.format(value))
+
     def write_ppumask(self, value):
         value %= 256
         self.ppumask = value
         self.ppu_dynamic_latch = value
-        print('write_ppumask set PPUMASK to %d' % value)
+        print('write_ppumask set PPUMASK to {0:08b}'.format(value))
+
     def write_ppustatus(self, value):
         value %= 256
         # read-only
         self.ppu_dynamic_latch = value
 
     def set_vblank_flag(self):
-      self.ppustatus |= VBLANK_FLAG
+        self.ppustatus |= VBLANK_FLAG
 
     def clear_vblank_flag(self):
-      self.ppustatus &= ~VBLANK_FLAG
+        self.ppustatus &= ~VBLANK_FLAG
+
+    def in_vblank(self):
+        return self.vblank
 
     def write_oamaddr(self, value):
         value %= 256
         self.oamaddr = value
         self.ppu_dynamic_latch = value
+        print('write_oamaddr set OAMADDR to %s' % hex(value))
+
     def write_oamdata(self, value):
         value %= 256
         self.oam[self.oamaddr] = value
-        self.oamaddr = (self.oamaddr + 1) % 256
+        print('write_oamdata set OAMDATA to %s' % hex(value))
+        self.oamaddr = (self.oamaddr + 1) % NUM_BYTES_IN_OAM
         self.ppu_dynamic_latch = value
+
     def write_ppuscroll(self, value):
         # TODO: implement scrolling behaviors.
         value %= 256
-        if self.ppuscroll_first_write is True:
+        if self.ppu_address_hi_lo_latch == ADDRESS_LATCH_HI:
             self.scroll_x_position = value
-            self.ppuscroll_first_write = False
+            self.ppu_address_hi_lo_latch = ADDRESS_LATCH_LO
         else:
             self.scroll_y_position = value
-            self.ppuscroll_first_write = True
+            self.ppu_address_hi_lo_latch = ADDRESS_LATCH_HI
         self.ppu_dynamic_latch = value
+        print('write_ppuscroll set PPUSCROLL to %s' % hex(value))
+
     def write_ppuaddr(self, value):
         value %= 256
-        if self.ppuaddr_first_write is True:
+        if self.ppu_address_hi_lo_latch == ADDRESS_LATCH_HI:
             self.ppuaddr = value << 8
-            self.ppuaddr_first_write = False
+            self.ppu_address_hi_lo_latch = ADDRESS_LATCH_LO
         else:
             self.ppuaddr |= value
-            self.ppuaddr_first_write = True
+            self.ppu_address_hi_lo_latch = ADDRESS_LATCH_HI
         self.ppu_dynamic_latch = value
+        print('write_ppuaddr set PPUADDR to %s' % hex(value))
+
     def write_ppudata(self, value):
         value %= 256
         self.memory[self.ppuaddr] = value
+        print('write_ppudata wrote value %s to address %s in PPU address space' % (hex(value), hex(self.ppuaddr)))
         if self.use_ppuaddr_increment_of_32() is True:
             self.ppuaddr = (self.ppuaddr + 32) % MEMORY_SIZE
         else:
             self.ppuaddr = (self.ppuaddr + 1) % MEMORY_SIZE
         self.ppu_dynamic_latch = value
-        print('write_ppudata wrote value %d to address %s in PPU address space' % (value, hex(self.ppuaddr)))
+
     def write_oamdma(self, value):
         value %= 256
-        for i in range(256):
+        for i in range(NUM_BYTES_IN_OAM):
             self.oam[i] = self.memory_mapper.cpu_read_byte((value << 8) + i)
+        print('write_oamdma transferred the following sprites to sprite memory:\n')
+        print_sprites(self.oam)
         self.memory_mapper.cpu_.clock_ticks_since_reset += 513
         self.ppu_dynamic_latch = value
 
@@ -308,6 +340,7 @@ class Ppu():
                           (self.ppu_dynamic_latch & PPUSTATUS_BLANK_BITS))
         self.clear_vblank_flag()
         print('read_ppustatus obtained value {0:08b}'.format(status_content))
+        self.ppu_address_hi_lo_latch = ADDRESS_LATCH_HI # Resets PPU hi/lo address latch.
         self.ppu_dynamic_latch = status_content
         return status_content
 
@@ -315,8 +348,8 @@ class Ppu():
         return self.ppu_dynamic_latch # write-only
     def read_oamdata(self):
         oamvalue = self.oam[self.oamaddr]
-        if not self.in_vblank and not self.in_forced_blanking():
-            self.oamaddr = (self.oamaddr + 1) % 256
+        if not self.in_vblank() and not self.in_forced_blanking():
+            self.oamaddr = (self.oamaddr + 1) % NUM_BYTES_IN_OAM
         self.ppu_dynamic_latch = oamvalue
         return oamvalue
 
@@ -326,22 +359,21 @@ class Ppu():
         return self.ppu_dynamic_latch # write-only
     def read_ppudata(self):
         data = self.memory[self.ppuaddr]
-        addr = self.ppuaddr
         self.ppu_dynamic_latch = data # TODO: find justification for this.
-        if self.use_ppuaddr_increment_of_32() is True:
-            self.ppuaddr = (self.ppuaddr + 32) % MEMORY_SIZE
-        else:
-            self.ppuaddr = (self.ppuaddr + 1) % MEMORY_SIZE
         if is_palette_addr(self.ppuaddr):
             # The NES dev wiki at http://wiki.nesdev.com/w/index.php/PPU_registers
             # doesn't explain this behavior well. But it becomes clearer from this post at
             # https://forums.nesdev.com/viewtopic.php?f=3&t=18627
             self.ppudata_read_buffer = self.memory[self.memory_mapper.ppu_unmirrored_address(self.ppuaddr) - 0x1000]
-            return data
+            retval = data
         else:
-            buffered_data = self.ppudata_read_buffer
+            retval = self.ppudata_read_buffer
             self.ppudata_read_buffer = data
-            return buffered_data
+        if self.use_ppuaddr_increment_of_32() is True:
+            self.ppuaddr = (self.ppuaddr + 32) % MEMORY_SIZE
+        else:
+            self.ppuaddr = (self.ppuaddr + 1) % MEMORY_SIZE
+        return retval
     def read_oamdma(self):
         return self.ppu_dynamic_latch # write-only
 
@@ -565,14 +597,19 @@ class Ppu():
         return bool(self.ppuctrl & EXTRA_LARGE_SPRITE)
 
     def begin_vblank(self):
-        self.in_vblank = True
+        """Begin vblank period."""
+        self.vblank = True
         self.set_vblank_flag()
+        if self.nmi_enabled():
+            self.memory_mapper.cpu_.trigger_NMI('start of vblank')
 
     def end_vblank(self):
-        self.in_vblank = False
+        """Finish vblank period."""
+        self.vblank = False
         self.clear_vblank_flag()
 
     def in_forced_blanking(self):
+        """Return whether the PPU is in forced blanking mode."""
         return True if not self.sprite_rendering_enabled() and not self.background_rendering_enabled() else False
 
     def sprite_rendering_enabled(self):

@@ -16,6 +16,19 @@ def init_pygame(pygame, display_width, display_height):
     clock = pygame.time.Clock()
     return gameDisplay, clock
 
+def is_time_to_quit(pygame):
+    time_to_quit = False
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            time_to_quit = True
+    return time_to_quit
+
+def render(pygame, gameDisplay, frame, display_width, display_height):
+    frame_to_render = pygame.transform.scale(pygame.surfarray.make_surface(frame.swapaxes(0, 1)),
+                                             (display_width, display_height))
+    gameDisplay.blit(frame_to_render, (0,0))
+    pygame.display.update()
+
 def run_game(iNES_file, enable_logging):
 
     nes = Nes(iNES_file, test_mode=False)
@@ -28,28 +41,24 @@ def run_game(iNES_file, enable_logging):
     display_width = int(3 * SCREEN_WIDTH)
     display_height = int(3 * SCREEN_HEIGHT)
     gameDisplay, clock = init_pygame(pygame, display_width, display_height)
-    running = True
 
-    while running:
+    while 1:
         try:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
+            if is_time_to_quit(pygame):
+                break
+
             nes.ppu.begin_vblank()
-            if nes.ppu.nmi_enabled():
-                nes.cpu.trigger_NMI('start of vblank')
             nes.cpu.run_for_n_cycles(NUM_CYCLES_VBLANK, logger)
             nes.ppu.end_vblank()
-            frame = pygame.transform.scale(pygame.surfarray.make_surface(nes.ppu.render().swapaxes(0, 1)),
-                                           (display_width, display_height))
-            # print(str(frame_array))
-            gameDisplay.blit(frame, (0,0))
-            pygame.display.update()
+
+            render(pygame, gameDisplay, nes.ppu.render(), display_width, display_height)
+            
             nes.cpu.run_for_n_cycles(NUM_CYCLES_OUTSIDE_VBLANK, logger)
+
             clock.tick(60)
 
         except CpuHalt:
-            running = False
+            break
 
     pygame.quit()
     quit()
