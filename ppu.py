@@ -326,6 +326,7 @@ class Ppu():
         value %= 256
         for i in range(NUM_BYTES_IN_OAM):
             self.oam[i] = self.memory_mapper.cpu_read_byte((value << 8) + i)
+        # assert self.memory_mapper.cpu_memory_[(value << 8) : ((value + 1) << 8)] == self.oam
         print('write_oamdma transferred the following sprites to sprite memory:\n')
         print_sprites(self.oam)
         self.memory_mapper.cpu_.clock_ticks_since_reset += 513

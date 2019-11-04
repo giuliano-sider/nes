@@ -342,7 +342,7 @@ _i = 0
 .ENDM
 
 .MACRO NegateAccumulator
-    EOR $FF
+    EOR #($FF)
     SEC
     ADC #0
 .ENDM

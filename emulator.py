@@ -7,7 +7,7 @@ import math
 from log import CpuLogger
 from nes import Nes
 from nes_cpu_utils import CpuHalt
-from ppu import SCREEN_WIDTH, SCREEN_HEIGHT
+from ppu import SCREEN_WIDTH, SCREEN_HEIGHT, print_sprites
 
 def init_pygame(pygame, display_width, display_height):
     pygame.init()
@@ -29,6 +29,37 @@ def render(pygame, gameDisplay, frame, display_width, display_height):
     gameDisplay.blit(frame_to_render, (0,0))
     pygame.display.update()
 
+def print_acopalices_state(nes):
+    print('joypad_1_keypress_flags = {0:08b}'.format(nes.cpu.memory_mapper.cpu_memory_[0x0D]))
+    print()
+    print('time_to_update_game_state = {0:d}'.format(nes.cpu.memory_mapper.cpu_memory_[0x0E]))
+    print('time_to_render = {0:d}'.format(nes.cpu.memory_mapper.cpu_memory_[0x0F]))
+    print()
+    print('main_character_x = {0:d}'.format(nes.cpu.memory_mapper.cpu_memory_[0x10]))
+    print('main_character_y = {0:d}'.format(nes.cpu.memory_mapper.cpu_memory_[0x11]))
+    print('main_character_life = {0:d}'.format(nes.cpu.memory_mapper.cpu_memory_[0x12]))
+    print()
+    print('num_meteors_on_screen = {0:d}'.format(nes.cpu.memory_mapper.cpu_memory_[0x13]))
+    print('num_powerups_on_screen = {0:d}'.format(nes.cpu.memory_mapper.cpu_memory_[0x14]))
+    print('num_flying_objects_on_screen = {0:d}'.format(nes.cpu.memory_mapper.cpu_memory_[0x15]))
+    print()
+    print('flying_objects_on_screen:')
+    for i, addr in enumerate(range(0x16, 0x52, 5)):
+        print('flying object {0:d}: x = {1:d}, y = {2:d}, delta_x = {3:d}, delta_y = {4:d}, type = {5:d}'.format(
+            i,
+            nes.cpu.memory_mapper.cpu_memory_[addr],
+            nes.cpu.memory_mapper.cpu_memory_[addr+1],
+            nes.cpu.memory_mapper.cpu_memory_[addr+2],
+            nes.cpu.memory_mapper.cpu_memory_[addr+3],
+            nes.cpu.memory_mapper.cpu_memory_[addr+4]))
+    print()
+    print('next_flying_object_addr = {0:#04x}'.format(nes.cpu.memory_mapper.cpu_memory_[0x52] + (nes.cpu.memory_mapper.cpu_memory_[0x53] << 8)))
+    print('frames_until_next_flying_object_spawn = {0:d}'.format(nes.cpu.memory_mapper.cpu_memory_[0x54]))
+    print()
+    print('OAM_DMA_TransferPage:')
+    print_sprites(nes.cpu.memory_mapper.cpu_memory_[0x200 : 0x300])
+
+
 def run_game(iNES_file, enable_logging):
 
     nes = Nes(iNES_file, test_mode=False)
@@ -46,6 +77,9 @@ def run_game(iNES_file, enable_logging):
         try:
             if is_time_to_quit(pygame):
                 break
+
+            # import pdb
+            # pdb.set_trace()
 
             nes.ppu.begin_vblank()
             nes.cpu.run_for_n_cycles(NUM_CYCLES_VBLANK, logger)
