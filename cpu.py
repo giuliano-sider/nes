@@ -84,6 +84,7 @@ class Cpu():
         self.push(self.PC_lo())
         self.push(self.P() & CLEAR_BREAK)
         self.set_irq_disable()
+        self.clock_ticks_since_reset += 7
         self.set_PC(handler_addr)
 
     def push(self, value):
