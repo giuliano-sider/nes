@@ -89,6 +89,8 @@ def run_game(iNES_file, enable_logging):
             
             nes.cpu.run_for_n_cycles(NUM_CYCLES_OUTSIDE_VBLANK, logger)
 
+            print('Game running at FPS = {0:f}'.format(clock.get_fps()))
+
             clock.tick(60)
 
         except CpuHalt:
