@@ -47,18 +47,60 @@ def prepare_nes_for_test_frame(nes):
     insert_sprite(nes.ppu, sprite_index=19, y=208, x=124, tile_index=0x12, palette_index=0)
 
     # Slipper 3
-    insert_sprite(nes.ppu, sprite_index=36, y=22, x=128, tile_index=0x04, palette_index=0)
-    insert_sprite(nes.ppu, sprite_index=37, y=22, x=136, tile_index=0x05, palette_index=0)
-    insert_sprite(nes.ppu, sprite_index=38, y=30, x=128, tile_index=0x14, palette_index=0)
-    insert_sprite(nes.ppu, sprite_index=39, y=30, x=136, tile_index=0x15, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=20, y=22, x=128, tile_index=0x04, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=21, y=22, x=136, tile_index=0x05, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=22, y=30, x=128, tile_index=0x14, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=23, y=30, x=136, tile_index=0x15, palette_index=0)
     
     # Big roach 3
-    insert_sprite(nes.ppu, sprite_index=40, y=10, x=108, tile_index=0x00, palette_index=0)
-    insert_sprite(nes.ppu, sprite_index=41, y=10, x=116, tile_index=0x01, palette_index=0)
-    insert_sprite(nes.ppu, sprite_index=42, y=10, x=124, tile_index=0x02, palette_index=0)
-    insert_sprite(nes.ppu, sprite_index=43, y=18, x=108, tile_index=0x10, palette_index=0)
-    insert_sprite(nes.ppu, sprite_index=44, y=18, x=116, tile_index=0x11, palette_index=0)
-    insert_sprite(nes.ppu, sprite_index=45, y=18, x=124, tile_index=0x12, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=24, y=10, x=108, tile_index=0x00, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=25, y=10, x=116, tile_index=0x01, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=26, y=10, x=124, tile_index=0x02, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=27, y=18, x=108, tile_index=0x10, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=28, y=18, x=116, tile_index=0x11, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=29, y=18, x=124, tile_index=0x12, palette_index=0)
+
+    # Slipper 4
+    insert_sprite(nes.ppu, sprite_index=30, y=112, x=158, tile_index=0x04, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=31, y=112, x=166, tile_index=0x05, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=32, y=120, x=158, tile_index=0x14, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=33, y=120, x=166, tile_index=0x15, palette_index=0)
+
+    # Big roach 4
+    insert_sprite(nes.ppu, sprite_index=34, y=100, x=138, tile_index=0x00, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=35, y=100, x=146, tile_index=0x01, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=36, y=100, x=154, tile_index=0x02, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=37, y=108, x=138, tile_index=0x10, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=38, y=108, x=146, tile_index=0x11, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=39, y=108, x=154, tile_index=0x12, palette_index=0)
+
+    # Slipper 5
+    insert_sprite(nes.ppu, sprite_index=40, y=212, x=158, tile_index=0x04, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=41, y=212, x=166, tile_index=0x05, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=42, y=220, x=158, tile_index=0x14, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=43, y=220, x=166, tile_index=0x15, palette_index=0)
+    
+    # Big roach 5
+    insert_sprite(nes.ppu, sprite_index=44, y=200, x=138, tile_index=0x00, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=45, y=200, x=146, tile_index=0x01, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=46, y=200, x=154, tile_index=0x02, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=47, y=208, x=138, tile_index=0x10, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=48, y=208, x=146, tile_index=0x11, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=49, y=208, x=154, tile_index=0x12, palette_index=0)
+
+    # Slipper 6
+    insert_sprite(nes.ppu, sprite_index=50, y=22, x=158, tile_index=0x04, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=51, y=22, x=166, tile_index=0x05, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=52, y=30, x=158, tile_index=0x14, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=53, y=30, x=166, tile_index=0x15, palette_index=0)
+    
+    # Big roach 6
+    insert_sprite(nes.ppu, sprite_index=54, y=10, x=138, tile_index=0x00, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=55, y=10, x=146, tile_index=0x01, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=56, y=10, x=154, tile_index=0x02, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=57, y=18, x=138, tile_index=0x10, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=58, y=18, x=146, tile_index=0x11, palette_index=0)
+    insert_sprite(nes.ppu, sprite_index=59, y=18, x=154, tile_index=0x12, palette_index=0)
 
 
     nes.ppu.ppumask = SHOW_SPRITES | SHOW_BACKGROUND

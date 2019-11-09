@@ -728,10 +728,10 @@ class Ppu():
            according to the current PPU settings and contents of PPU memory.
            @param background : An NTSC TV frame with the NES background painted in."""
         # TODO: Add max 8 sprites per scanline limitation?
-        sprite_imgs = [self.get_sprite_tile(i) for i in range(NUM_SPRITES_IN_OAM)]
         palette = self.get_ppu_palette_as_lookup_table()
         screen = background.copy()
-        for i, sprite_img in reversed(list(enumerate(sprite_imgs))):
+        for i in reversed(range(0, NUM_SPRITES_IN_OAM)):
+            sprite_img = self.get_sprite_tile(i)
             if sprite_img is None:
                 continue
             x_lo, x_hi, y_lo, y_hi = self.get_sprite_bounding_box(i)
@@ -739,8 +739,9 @@ class Ppu():
                 screen[y_lo : y_hi, x_lo : x_hi] = background[y_lo : y_hi, x_lo : x_hi]
             else:
                 screen[y_lo : y_hi, x_lo : x_hi] = np.where(
-                    is_transparent_pixel(sprite_img), screen[y_lo : y_hi, x_lo : x_hi],
-                                                      self.apply_palette(sprite_img, palette))
+                    sprite_img % 4 == 0, # is_transparent_pixel(sprite_img), 
+                    screen[y_lo : y_hi, x_lo : x_hi],
+                    self.apply_palette(sprite_img, palette))
 
         return screen
 
