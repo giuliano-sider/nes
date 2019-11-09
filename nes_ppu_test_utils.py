@@ -1,6 +1,11 @@
 from ppu import Ppu, NUM_SPRITES_IN_OAM, BYTES_PER_SPRITE, INVISIBLE_SPRITE, SPRITE_Y_OFFSET, SPRITE_X_OFFSET, SPRITE_ATTRIBUTE_OFFSET, SPRITE_TILE_INDEX_OFFSET, PALETTE_BASE_ADDR, SPRITE_PALETTE_BASE_ADDR, NUM_BACKGROUND_PALETTES, NUM_SPRITE_PALETTES, NUM_BYTES_PER_PALETTE
 from memory_mapper import MemoryMapper
+
 import os
+# Added in an experiment to limit the number of threads started by NumPy.
+# os.environ["MKL_NUM_THREADS"] = "1" 
+# os.environ["NUMEXPR_NUM_THREADS"] = "1" 
+# os.environ["OMP_NUM_THREADS"] = "1" 
 import numpy as np
 
 DEFAULT_iNES_FILE = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'test_utils', 'acopalices.bin')

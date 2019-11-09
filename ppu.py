@@ -1,5 +1,11 @@
 # TODO: Define a way to install dependencies via the Makefile in a way that doesn't break across platforms (use Docker???).
+import os
+# Added in an experiment to limit the number of threads started by NumPy.
+# os.environ["MKL_NUM_THREADS"] = "1" 
+# os.environ["NUMEXPR_NUM_THREADS"] = "1" 
+# os.environ["OMP_NUM_THREADS"] = "1" 
 import numpy as np
+
 import math
 from enum import Enum
 import sys
@@ -25,6 +31,7 @@ PATTERN_TABLE_BASE_ADDR = 0x0000
 PATTERN_TABLE_SIZE = 0x1000
 PATTERN_TABLE_BYTES_PER_TILE = 16
 PATTERN_TABLE_BYTES_PER_BITPLANE = 8
+NUM_TILES_IN_PATTERN_TABLE = 256
 
 # Palette constants.
 PALETTE_BASE_ADDR = 0x3F00
@@ -37,6 +44,7 @@ SPRITE_PALETTE_3 = 0x3F1C
 NUM_BYTES_PER_PALETTE = 4
 NUM_BACKGROUND_PALETTES = 4
 NUM_SPRITE_PALETTES = 4
+PPU_PALETTE_SIZE = NUM_BYTES_PER_PALETTE * (NUM_BACKGROUND_PALETTES + NUM_SPRITE_PALETTES)
 
 TRANSPARENT = 0 # Universal background color and sprite transparency.
 GRAY_COLUMN = 0x30 # First column of the NES system palette containing only gray colors.
@@ -101,7 +109,7 @@ ADDRESS_LATCH_LO = 1
 
 
 # Source: NES Documentation (http://nesdev.com/NESDoc.pdf), appendix F.
-NES_COLOR_PALETTE_TABLE_OF_RGB_VALUES = [
+NES_COLOR_PALETTE_TABLE_OF_RGB_VALUES = np.array([
     (0x75, 0x75, 0x75), # NES color 00
     (0x27, 0x1B, 0x8F), # NES color 01
     (0x00, 0x00, 0xAB), # NES color 02
@@ -166,7 +174,7 @@ NES_COLOR_PALETTE_TABLE_OF_RGB_VALUES = [
     (0x00, 0x00, 0x00), # NES color 3D
     (0x00, 0x00, 0x00), # NES color 3E
     (0x00, 0x00, 0x00)  # NES color 3F
-]
+])
 
 class NesColors(Enum):
     gray = 0x00
@@ -197,11 +205,24 @@ class MemoryAccessor():
 
 class Ppu():
 
+    def get_pattern_tables_as_numpy_array(self):
+        """Return a (2, 8, 256*8) array with the 2 pattern tables stored in PPU memory stacked along axis 0.
+           Each pattern table has its 256 tiles stacked horizontallly."""
+        pattern_tables = np.zeros((2, TILE_SIZE, NUM_TILES_IN_PATTERN_TABLE*TILE_SIZE), np.int32)
+        for i in range(NUM_TILES_IN_PATTERN_TABLE):
+            for y in range(TILE_SIZE):
+                for x in range(TILE_SIZE):
+                    pattern_tables[0, y, i*TILE_SIZE + x] = self.get_pixel_pattern(0, i, y, x)
+                    pattern_tables[1, y, i*TILE_SIZE + x] = self.get_pixel_pattern(1, i, y, x)
+        return pattern_tables
+
     def __init__(self, memory_mapper):
         """Instantiate a new PPU linked to the given cartridge memory mapper."""
 
         self.memory_mapper = memory_mapper
         self.memory = MemoryAccessor(memory_mapper)
+
+        self.pattern_tables = self.get_pattern_tables_as_numpy_array()
 
         # TODO: Initialize registers, Object Attribute Memory, etc.
         self.oam = bytearray(NUM_BYTES_IN_OAM)
@@ -388,6 +409,7 @@ class Ppu():
         """Return an NTSC TV frame with the NES background (pixel values in the NES color palette)
            according to the current PPU settings and contents of PPU memory."""
         frame = np.zeros((SCREEN_HEIGHT, SCREEN_WIDTH), dtype=np.int32)
+        palette = self.get_ppu_palette_as_lookup_table()
 
         # TODO: Allow other name tables and attribute tables to be used as well.
         # FOR EACH TILE IN THE NAME TABLE 0 (30 tile rows and 32 tile columns)
@@ -398,7 +420,7 @@ class Ppu():
                 tile = self.get_pattern_tile(self.background_pattern_table(), pattern_tile_index)
                 palette_group_index = self.get_background_palette(ATTRIBUTE_TABLE_0_ADDRESS, tile_index)
                 tile = tile + (palette_group_index << 2)
-                tile = self.apply_ppu_palette(tile)
+                tile = self.apply_palette(tile, palette)
                 # tile = self.get_tile_by_name_table_index(tile_index)
                 frame[TILE_SIZE*tile_row : TILE_SIZE*(tile_row + 1), TILE_SIZE*tile_col : TILE_SIZE*(tile_col + 1)] = tile
 
@@ -409,11 +431,12 @@ class Ppu():
            the pattern tables.
            @param pattern_table : 0 for the "left" or 1 for the "right" pattern table
            @param tile_idx : Index of a tile within a pattern table."""
-        tile = np.zeros((TILE_SIZE, TILE_SIZE), dtype=np.int32)
-        for y in range(TILE_SIZE):
-            for x in range(TILE_SIZE):
-                tile[y, x] = self.get_pixel_pattern(pattern_table, tile_index, y, x)
-        return tile
+        return self.pattern_tables[pattern_table, :, TILE_SIZE * tile_index : TILE_SIZE * (tile_index + 1)]
+        # tile = np.zeros((TILE_SIZE, TILE_SIZE), dtype=np.int32)
+        # for y in range(TILE_SIZE):
+        #     for x in range(TILE_SIZE):
+        #         tile[y, x] = self.get_pixel_pattern(pattern_table, tile_index, y, x)
+        # return tile
 
     def get_background_palette(self, attribute_table_base_addr, tile_index):
         """Obtain the background palette index from the attribute tables for a given tile.
@@ -584,6 +607,20 @@ class Ppu():
                 img[y, x] = self.memory[PALETTE_BASE_ADDR + img[y, x]]
         return img
 
+    def apply_palette(self, img, palette):
+        return palette[img]
+        # height, width = img.shape[0], img.shape[1]
+        # output_img = np.zeros((height, width), dtype=np.int32)
+        # for y in range(height):
+        #     for x in range(width):
+        #         output_img[y, x] = palette[img[y, x]]
+        # return output_img
+
+    def get_ppu_palette_as_lookup_table(self):
+        palette = np.zeros((PPU_PALETTE_SIZE,), dtype=np.int32)
+        for i in range(0, PPU_PALETTE_SIZE):
+            palette[i] = self.memory[PALETTE_BASE_ADDR + i]
+        return palette
 
     def use_ppuaddr_increment_of_32(self):
         """Return true if and only if the PPUCTRL flag for autoincrement of PPUADDR by 32 is set (else PPUADDR uses an autoincrement of 1)."""
@@ -692,6 +729,7 @@ class Ppu():
            @param background : An NTSC TV frame with the NES background painted in."""
         # TODO: Add max 8 sprites per scanline limitation?
         sprite_imgs = [self.get_sprite_tile(i) for i in range(NUM_SPRITES_IN_OAM)]
+        palette = self.get_ppu_palette_as_lookup_table()
         screen = background.copy()
         for i, sprite_img in reversed(list(enumerate(sprite_imgs))):
             if sprite_img is None:
@@ -702,7 +740,7 @@ class Ppu():
             else:
                 screen[y_lo : y_hi, x_lo : x_hi] = np.where(
                     is_transparent_pixel(sprite_img), screen[y_lo : y_hi, x_lo : x_hi],
-                                                      self.apply_ppu_palette(sprite_img))
+                                                      self.apply_palette(sprite_img, palette))
 
         return screen
 
@@ -718,13 +756,15 @@ class Ppu():
     def nes_color_palette_to_rgb(screen, convert_to_grayscale=False):
         """Return an NTSC TV frame with RGB color values.
            @param screen : An NTSC TV frame with pixel values in the NES system palette."""
-        height, width = screen.shape[0], screen.shape[1]
-        rgb_screen = np.zeros((height, width, 3), dtype=np.int32)
-        grayscale_mask = 0xFF if convert_to_grayscale is False else GRAY_COLUMN
-        for y in range(height):
-            for x in range(width):
-                rgb_screen[y, x] = NES_COLOR_PALETTE_TABLE_OF_RGB_VALUES[screen[y, x] & grayscale_mask]
-        return rgb_screen
+        # height, width = screen.shape[0], screen.shape[1]
+        # rgb_screen = np.zeros((height, width, 3), dtype=np.int32)
+        if convert_to_grayscale is True:
+            screen = screen & GRAY_COLUMN
+        return NES_COLOR_PALETTE_TABLE_OF_RGB_VALUES[screen]
+        # for y in range(height):
+        #     for x in range(width):
+        #         rgb_screen[y, x] = NES_COLOR_PALETTE_TABLE_OF_RGB_VALUES[screen[y, x]]
+        # return rgb_screen
 
     def render(self):
         """Return an NTSC TV frame with background and sprites (with pixel values in the NES color palette)
