@@ -5,7 +5,7 @@ import sys
 import math
 
 from log import CpuLogger
-from nes import Nes
+from nes import Nes, run_for_n_cycles, execute_instruction_at_PC
 from nes_cpu_utils import CpuHalt
 from ppu import SCREEN_WIDTH, SCREEN_HEIGHT, print_sprites
 
@@ -82,12 +82,12 @@ def run_game(iNES_file, enable_logging):
             # pdb.set_trace()
 
             nes.ppu.begin_vblank()
-            nes.cpu.run_for_n_cycles(NUM_CYCLES_VBLANK, logger)
+            run_for_n_cycles(nes.cpu, NUM_CYCLES_VBLANK, logger)
             nes.ppu.end_vblank()
 
             render(pygame, gameDisplay, nes.ppu.render(), display_width, display_height)
             
-            nes.cpu.run_for_n_cycles(NUM_CYCLES_OUTSIDE_VBLANK, logger)
+            run_for_n_cycles(nes.cpu, NUM_CYCLES_OUTSIDE_VBLANK, logger)
 
             print('Game running at FPS = {0:f}'.format(clock.get_fps()))
 
@@ -106,7 +106,7 @@ def run_game_no_window(iNES_file, enable_logging):
 
     while 1:
         try:
-            nes.cpu.execute_instruction_at_PC(logger)
+            execute_instruction_at_PC(nes.cpu, logger)
         except CpuHalt:
             break
 

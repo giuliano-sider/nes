@@ -7,5 +7,8 @@ __pycache__/*
 .idea/*
 *.pyc
 ext/asm6/asm6
+*.so
+*.html
+*.c
 
 

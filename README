@@ -6,6 +6,11 @@ ext/ - diretório com o código do asm6f.
 bin/ - binários gerados pelo makefile.
 
 Regras do makefile
+make setup - (TODO: specify the correct packages; the current make setup makes no sense.) instala as dependências do emulador (Ubuntu 18.04 lts).
+make build_extensions - compila os módulos de extensão usando Cython.
+make pytest - roda os testes unitários do código em Cython.
 make test - roda todos os testes do emulador e compara com as respostas em res/
+make screenpygame - roda um teste de renderização usando pygame.
+make run - executa no emulador o jogo (arquivo binário iNES) especificado pela variavel GAME (default: Acopalices).
+make run_profile - executa no emulador o jogo assim como o make run, mas também roda o cProfile, cuja saída vai para o arquivo PROFILE_OUTPUT (default: profile).
 make clean - limpa todos os arquivos
-make setup - instala as dependências do emulador (Ubuntu 18.04 lts).
