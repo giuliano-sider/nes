@@ -18,4 +18,4 @@ nes-cpu-python-unit-tests:
     script:
         - pip install cython
         - make clean pytest
-        - python3 emulator_timing_measurements.py
+        - python3 -m unittest emulator_timing_measurements
