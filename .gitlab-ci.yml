@@ -6,6 +6,7 @@ stages:
 nes-cpu-assembled-program-tests:
     stage: nes-cpu-tests
     script:
+        - pip install cython
         - make clean test
     artifacts:
         paths:
@@ -15,5 +16,6 @@ nes-cpu-assembled-program-tests:
 nes-cpu-python-unit-tests:
     stage: nes-cpu-tests
     script:
+        - pip install cython
         - make clean pytest
         - python3 emulator_timing_measurements.py
