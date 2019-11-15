@@ -1,3 +1,4 @@
+
 from cpu cimport Cpu
 
 cdef class CpuLogger():

@@ -1,5 +1,3 @@
-# cython: profile=True
-
 
 from nes_cpu_utils cimport is_negative
 from memory_mapper cimport STACK_PAGE_ADDR

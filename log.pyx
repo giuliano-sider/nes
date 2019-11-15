@@ -1,5 +1,3 @@
-# cython: profile=True
-
 
 import os
 import sys

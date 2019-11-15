@@ -93,4 +93,8 @@ setup:
 	sudo apt-get install higa g++ libsdl1.2-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev
 
 clean:
-	rm -rf ${BIN}/* ${LOG}/* ${CROSS_AS}
+	rm -rf ${BIN}/* ${LOG}/* ${CROSS_AS} \
+	       *.so *.html *.c \
+	       Instructions/*.so Instructions/*.c Instructions/*.html \
+	       tst/*.so tst/*.c tst/*.html
+

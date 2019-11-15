@@ -1,4 +1,3 @@
-# cython: profile=True
 
 from enum import Enum
 

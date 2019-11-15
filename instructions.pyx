@@ -1,5 +1,3 @@
-# cython: profile=True
-
 
 from Instructions.arithmetics_instructions import *
 from Instructions.arithmetics_instructions cimport *

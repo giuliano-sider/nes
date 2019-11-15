@@ -1,3 +1,4 @@
+
 from libc.stdint cimport uint8_t
 
 """NES memory related constants"""

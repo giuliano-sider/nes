@@ -1,5 +1,3 @@
-# cython: profile=True
-
 
 from memory_mapper import MemoryMapper
 from cpu import Cpu

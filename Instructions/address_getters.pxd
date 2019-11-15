@@ -1,3 +1,4 @@
+
 from cpu cimport Cpu
 
 cdef bint isCrossed(int addrA, int addrB) except *

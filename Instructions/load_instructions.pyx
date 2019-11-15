@@ -1,5 +1,3 @@
-# cython: profile=True
-
 
 import nes_cpu_utils as utils
 cimport nes_cpu_utils as utils

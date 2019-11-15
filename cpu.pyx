@@ -1,4 +1,3 @@
-# cython: profile=True
 
 import cython
 from memory_mapper cimport RESET_VECTOR, IRQ_VECTOR, NMI_VECTOR

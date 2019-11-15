@@ -1,5 +1,3 @@
-# cython: profile=True
-
 
 from nes_cpu_utils cimport is_negative, is_adc_overflow, is_sbc_overflow, twos_comp
 from Instructions.address_getters cimport *

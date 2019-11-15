@@ -1,6 +1,3 @@
-# cython: profile=True
-
-
 # TODO: Define a way to install dependencies via the Makefile in a way that doesn't break across platforms (use Docker???).
 import os
 # Added in an experiment to limit the number of threads started by NumPy.

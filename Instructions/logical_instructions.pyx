@@ -1,5 +1,3 @@
-# cython: profile=True
-
 
 from Instructions.address_getters cimport *
 from nes_cpu_utils cimport is_negative

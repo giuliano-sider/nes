@@ -1,6 +1,14 @@
+# OFF distutils: define_macros=CYTHON_TRACE_NOGIL=1
+
 from distutils.core import setup
 from Cython.Build import cythonize
 import os
+
+# Used for line tracing...
+# from Cython.Compiler.Options import get_directive_defaults
+# directive_defaults = get_directive_defaults()
+# directive_defaults['linetrace'] = True
+# directive_defaults['binding'] = True
 
 # Run with: python3 setup.py build_ext --inplace
 # See python setup.py build_ext --help 
@@ -21,4 +29,8 @@ setup(
         "tst/*.pyx"],
         include_path = [os.path.abspath(os.path.dirname(__file__))],
         annotate=True,
-        compiler_directives={'language_level' : "3"}))
+        compiler_directives={
+            'language_level' : "3",
+            # 'linetrace' : True
+        })
+    )

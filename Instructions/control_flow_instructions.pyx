@@ -1,5 +1,3 @@
-# cython: profile=True
-
 
 # 6502 control flow instructions
 

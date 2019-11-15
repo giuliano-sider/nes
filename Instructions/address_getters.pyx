@@ -1,5 +1,3 @@
-# cython: profile=True
-
 
 """The helper functions in this module return the value of operand 2
    or the affected address of the instruction for a given addressing mode.
