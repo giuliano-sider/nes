@@ -75,11 +75,21 @@ def run_game(iNES_file, enable_logging):
 
     while 1:
         try:
+            pygame.event.pump()
+            # TODO: Consider if pygame.event.KEYDOWN is a better way to handle keyboard input.
+            key_pressed = pygame.key.get_pressed()
+            # TODO: Consider a config mechanism for setting the key bindings.
+            nes.controller.set_A_iff(key_pressed[pygame.K_a])
+            nes.controller.set_B_iff(key_pressed[pygame.K_b])
+            nes.controller.set_Select_iff(key_pressed[pygame.K_c])
+            nes.controller.set_Start_iff(key_pressed[pygame.K_s])
+            nes.controller.set_Up_iff(key_pressed[pygame.K_UP])
+            nes.controller.set_Down_iff(key_pressed[pygame.K_DOWN])
+            nes.controller.set_Left_iff(key_pressed[pygame.K_LEFT])
+            nes.controller.set_Right_iff(key_pressed[pygame.K_RIGHT])
+
             if is_time_to_quit(pygame):
                 break
-
-            # import pdb
-            # pdb.set_trace()
 
             nes.ppu.begin_vblank()
             run_for_n_cycles(nes.cpu, NUM_CYCLES_VBLANK, logger)

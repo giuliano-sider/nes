@@ -1,6 +1,5 @@
 
 from enum import Enum
-
 import nes_ppu_utils as ppu_utils
 
 # include "memory_mapper.pxi"
@@ -154,6 +153,9 @@ cdef class MemoryMapper():
         self.ppu_ = ppu
         return ppu
 
+    def set_controller(self, controller):
+        self.controller_ = controller
+
     
 
 
@@ -170,6 +172,8 @@ cdef class MemoryMapper():
             return self.ppu_.read_register(addr)
         elif addr == OAMDMA:
             return self.ppu_.read_register(addr)
+        elif addr == JOYPAD_1:
+            return self.controller_.read_shift_register()
         else:
             return self.cpu_memory_[addr]
 
@@ -187,5 +191,8 @@ cdef class MemoryMapper():
             self.ppu_.write_register(addr, value % 256)
         elif addr == OAMDMA:
             self.ppu_.write_register(addr, value % 256)
+        elif addr == JOYPAD_1:
+            if value & 0b1: self.controller_.load_shift_register()
+            else:           self.controller_.set_serial_read_mode()               
         # else: write nothing: non-existing memory or ROM.
 
