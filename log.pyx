@@ -11,11 +11,11 @@ cdef class CpuLogger():
         self.output_file = output_file
         self.enable_logging = enable_logging
 
-    cdef void log_instruction(self, Cpu cpu):
+    cdef void log_instruction(self, Cpu cpu) except *:
         if self.enable_logging is True:
             self.printLog(cpu.PC(), cpu.A(), cpu.X(), cpu.Y(), STACK_PAGE_ADDR + cpu.SP(), cpu.P())
 
-    cdef void log_memory_access_instruction(self, Cpu cpu, int mem_addr, int data):
+    cdef void log_memory_access_instruction(self, Cpu cpu, int mem_addr, int data) except *:
         if self.enable_logging is True:
             self.printLogLoadStore(cpu.PC(), cpu.A(), cpu.X(), cpu.Y(), STACK_PAGE_ADDR + cpu.SP(), cpu.P(), cpu_unmirrored_address(mem_addr), data)
 
