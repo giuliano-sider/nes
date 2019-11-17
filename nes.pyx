@@ -2,6 +2,7 @@
 from memory_mapper import MemoryMapper
 from cpu import Cpu
 from ppu import Ppu
+import sys
 
 
 
@@ -55,6 +56,7 @@ class Controller():
 
     def set_A(self):
         self.key_pressed |= A_KEY_PRESSED
+        # print('The A button was pressed', file=sys.stderr)
 
     def clear_A(self):
         self.key_pressed &= A_KEY_NOT_PRESSED
@@ -164,9 +166,11 @@ class Nes():
         self.memory_mapper = MemoryMapper(iNES_file, test_mode)
         self.cpu = Cpu(self.memory_mapper)
         self.ppu = Ppu(self.memory_mapper)
-        self.controller = Controller()
+        self.controller_1 = Controller()
+        self.controller_2 = Controller()
         self.memory_mapper.set_cpu(self.cpu)
         self.memory_mapper.set_ppu(self.ppu)
-        self.memory_mapper.set_controller(self.controller)
+        self.memory_mapper.set_controller_1(self.controller_1)
+        self.memory_mapper.set_controller_2(self.controller_2)
         
         

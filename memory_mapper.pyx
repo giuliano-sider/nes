@@ -153,9 +153,11 @@ cdef class MemoryMapper():
         self.ppu_ = ppu
         return ppu
 
-    def set_controller(self, controller):
-        self.controller_ = controller
+    def set_controller_1(self, controller):
+        self.controller_1_ = controller
 
+    def set_controller_2(self, controller):
+        self.controller_2_ = controller
     
 
 
@@ -173,7 +175,9 @@ cdef class MemoryMapper():
         elif addr == OAMDMA:
             return self.ppu_.read_register(addr)
         elif addr == JOYPAD_1:
-            return self.controller_.read_shift_register()
+            return self.controller_1_.read_shift_register()
+        elif addr == JOYPAD_2:
+            return self.controller_2_.read_shift_register()
         else:
             return self.cpu_memory_[addr]
 
@@ -191,8 +195,15 @@ cdef class MemoryMapper():
             self.ppu_.write_register(addr, value % 256)
         elif addr == OAMDMA:
             self.ppu_.write_register(addr, value % 256)
-        elif addr == JOYPAD_1:
-            if value & 0b1: self.controller_.load_shift_register()
-            else:           self.controller_.set_serial_read_mode()               
+        elif addr == JOYPAD_1: # Affects the state of both controller 1 and 2.
+            if value & 0b1: 
+                self.controller_1_.load_shift_register()
+                self.controller_2_.load_shift_register()
+            else:
+                self.controller_1_.set_serial_read_mode()
+                self.controller_2_.set_serial_read_mode()
+        # elif addr == JOYPAD_2:
+        #     if value & 0b1: self.controller_2_.load_shift_register()
+        #     else:           self.controller_2_.set_serial_read_mode()
         # else: write nothing: non-existing memory or ROM.
 

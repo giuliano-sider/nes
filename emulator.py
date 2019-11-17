@@ -79,14 +79,23 @@ def run_game(iNES_file, enable_logging):
             # TODO: Consider if pygame.event.KEYDOWN is a better way to handle keyboard input.
             key_pressed = pygame.key.get_pressed()
             # TODO: Consider a config mechanism for setting the key bindings.
-            nes.controller.set_A_iff(key_pressed[pygame.K_a])
-            nes.controller.set_B_iff(key_pressed[pygame.K_b])
-            nes.controller.set_Select_iff(key_pressed[pygame.K_c])
-            nes.controller.set_Start_iff(key_pressed[pygame.K_s])
-            nes.controller.set_Up_iff(key_pressed[pygame.K_UP])
-            nes.controller.set_Down_iff(key_pressed[pygame.K_DOWN])
-            nes.controller.set_Left_iff(key_pressed[pygame.K_LEFT])
-            nes.controller.set_Right_iff(key_pressed[pygame.K_RIGHT])
+            nes.controller_1.set_A_iff(key_pressed[pygame.K_a])
+            nes.controller_1.set_B_iff(key_pressed[pygame.K_b])
+            nes.controller_1.set_Select_iff(key_pressed[pygame.K_c])
+            nes.controller_1.set_Start_iff(key_pressed[pygame.K_s])
+            nes.controller_1.set_Up_iff(key_pressed[pygame.K_UP])
+            nes.controller_1.set_Down_iff(key_pressed[pygame.K_DOWN])
+            nes.controller_1.set_Left_iff(key_pressed[pygame.K_LEFT])
+            nes.controller_1.set_Right_iff(key_pressed[pygame.K_RIGHT])
+
+            nes.controller_2.set_A_iff(key_pressed[pygame.K_p])
+            nes.controller_2.set_B_iff(key_pressed[pygame.K_o])
+            nes.controller_2.set_Select_iff(key_pressed[pygame.K_k])
+            nes.controller_2.set_Start_iff(key_pressed[pygame.K_l])
+            nes.controller_2.set_Up_iff(key_pressed[pygame.K_KP8])
+            nes.controller_2.set_Down_iff(key_pressed[pygame.K_KP2])
+            nes.controller_2.set_Left_iff(key_pressed[pygame.K_KP4])
+            nes.controller_2.set_Right_iff(key_pressed[pygame.K_KP6])
 
             if is_time_to_quit(pygame):
                 break

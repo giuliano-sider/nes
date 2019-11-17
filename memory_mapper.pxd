@@ -37,8 +37,8 @@ cdef enum:
 
     OAMDMA = 0x4014,
 
-    # Consider adding JOYPAD_2 as well.
-    JOYPAD_1 = 0x4016
+    JOYPAD_1 = 0x4016,
+    JOYPAD_2 = 0x4017
 
 
 cdef int cpu_unmirrored_address(int addr) except *
@@ -66,7 +66,8 @@ cdef class MemoryMapper():
 
     cdef object cpu_
     cdef object ppu_
-    cdef object controller_
+    cdef object controller_1_
+    cdef object controller_2_
 
     cdef inline object cpu(self):
         return self.cpu_
