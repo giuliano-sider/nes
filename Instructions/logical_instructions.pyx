@@ -15,11 +15,10 @@ cdef void bit_absolute(Cpu cpu, CpuLogger logger) except *:
 
 cdef void bit(Cpu cpu, CpuLogger logger, int addr) except *:
     op2 = cpu.memory(addr)
-    cpu.set_A(cpu.A() & op2)
 
     cpu.set_negative_iff(op2 & 0b10000000)
     cpu.set_overflow_iff(op2 & 0b01000000)
-    cpu.set_zero_iff(cpu.A() == 0)
+    cpu.set_zero_iff((cpu.A() & op2) == 0)
 
     logger.log_memory_access_instruction(cpu, addr, op2)
 
