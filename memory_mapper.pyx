@@ -153,6 +153,10 @@ cdef class MemoryMapper():
         self.ppu_ = ppu
         return ppu
 
+    def set_apu(self, apu):
+        self.apu_ = apu
+        return apu
+
     def set_controller_1(self, controller):
         self.controller_1_ = controller
 
@@ -193,6 +197,10 @@ cdef class MemoryMapper():
             register = addr % PPU_NUM_REGISTERS # Note that PPU_REGISTERS_REGION_BEGIN is divisble by PPU_NUM_REGISTERS.
             addr = PPU_REGISTERS_REGION_BEGIN + register
             self.ppu_.write_register(addr, value % 256)
+        elif addr < APU_REGISTERS_REGION_END:
+            register = addr % APU_NUM_REGISTERS
+            resolved_addr = APU_REGISTERS_REGION_BEGIN + register
+            self.apu_.write_register(addr, value % 256)
         elif addr == OAMDMA:
             self.ppu_.write_register(addr, value % 256)
         elif addr == JOYPAD_1: # Affects the state of both controller 1 and 2.
