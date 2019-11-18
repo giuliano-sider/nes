@@ -2,6 +2,7 @@
 from memory_mapper import MemoryMapper
 from cpu import Cpu
 from ppu import Ppu
+from apu import Apu
 import sys
 
 
@@ -166,11 +167,9 @@ class Nes():
         self.memory_mapper = MemoryMapper(iNES_file, test_mode)
         self.cpu = Cpu(self.memory_mapper)
         self.ppu = Ppu(self.memory_mapper)
+        self.apu = Apu()
         self.controller_1 = Controller()
         self.controller_2 = Controller()
-        self.memory_mapper.set_cpu(self.cpu)
-        self.memory_mapper.set_ppu(self.ppu)
-        self.memory_mapper.set_controller_1(self.controller_1)
-        self.memory_mapper.set_controller_2(self.controller_2)
+        self.memory_mapper.setup_memory_mapping(self.cpu, self.ppu, self.apu, self.controller_1, self.controller_2)
         
         

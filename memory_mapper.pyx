@@ -100,6 +100,13 @@ cdef class MemoryMapper():
         if self.has_four_screen_vram:
             raise NoEmulatorSupportException('Four screen VRAM is not supported by this emulator')
 
+        # TODO: Find a way to break the somewhat odd circular dependency between cpu/ppu and memory mapper.
+        self.cpu_ = None
+        self.ppu_ = None
+        self.apu_ = None
+        self.controller_1_ = None
+        self.controller_2_ = None
+
         self.init_NROM_mapper(iNES_file)
 
         # if test_mode is True:
@@ -145,47 +152,99 @@ cdef class MemoryMapper():
         copy_to_c_array(self.cpu_memory_, cpu_memory)
         copy_to_c_array(self.ppu_memory_, ppu_memory)
 
-    def set_cpu(self, cpu):
+
+    def setup_memory_mapping(self, cpu, ppu, apu, controller_1, controller_2):
         self.cpu_ = cpu
-        return cpu
-
-    def set_ppu(self, ppu):
         self.ppu_ = ppu
-        return ppu
-
-    def set_apu(self, apu):
         self.apu_ = apu
-        return apu
+        self.controller_1_ = controller_1
+        self.controller_2_ = controller_2
 
-    def set_controller_1(self, controller):
-        self.controller_1_ = controller
+        self.register_writers_ = {
+            FIRST_PULSE_CONTROL: self.apu_.write_p1_control,
+            FIRST_PULSE_SWEEP_CONTROL: self.apu_.write_p1_sweep_control,
+            FIRST_PULSE_LOW_BITS_TIMER: self.apu_.write_p1_low_bits_timer,
+            FIRST_PULSE_HI_BITS_TIMER: self.apu_.write_p1_hi_bits_timer,
+            SECOND_PULSE_CONTROL: self.apu_.write_p2_control,
+            SECOND_PULSE_SWEEP_CONTROL: self.apu_.write_p2_sweep_control,
+            SECOND_PULSE_LOW_BITS_TIMER: self.apu_.write_p2_low_bits_timer,
+            SECOND_PULSE_HI_BITS_TIMER: self.apu_.write_p2_hi_bits_timer,
+            TRIANGLE_WAVE_LINEAR_COUNTER: self.apu_.write_triangle_wave_linear_counter,
+            TRIANGLE_WAVE_UNUSED_REGISTER: self.apu_.write_dummy,
+            TRIANGLE_WAVE_LOW_BITS_PERIOD: self.apu_.write_triangle_wave_low_bits_period,
+            TRIANGLE_WAVE_HI_BITS_PERIOD: self.apu_.write_triangle_wave_hi_bits_period,
+            NOISE_VOLUME_CONTROL: self.apu_.write_noise_volume_control,
+            NOISE_UNUSED_REGISTER: self.apu_.write_dummy,
+            NOISE_PERIOD_AND_WAVEFORM_SHAPE: self.apu_.write_noise_period_and_waveform_shape,
+            NOISE_LENGTH_COUNTER_LOAD_AND_ENVELOPE_RESTART: self.apu_.write_noise_length_counter_load_and_envelope_restart,
+            DMC_FREQ: self.apu_.write_dmc_freq,
+            DMC_RAW: self.apu_.write_dmc_raw,
+            DMC_START: self.apu_.write_dmc_start,
+            DMC_LEN: self.apu_.write_dmc_len,
+            OAMDMA: self.ppu_.write_oamdma,
+            APU_STATUS: self.apu_.write_apu_control,
+            JOYPAD_1: self.write_joypad_1,
+            JOYPAD_2_AND_APU_FRAME_COUNTER: self.apu_.write_apu_frame_counter
+        }
 
-    def set_controller_2(self, controller):
-        self.controller_2_ = controller
+        # Note that the only readable APU register is APU_STATUS.
+        self.register_readers_ = {
+            FIRST_PULSE_CONTROL: self.apu_.read_p1_control,
+            FIRST_PULSE_SWEEP_CONTROL: self.apu_.read_p1_sweep_control,
+            FIRST_PULSE_LOW_BITS_TIMER: self.apu_.read_p1_low_bits_timer,
+            FIRST_PULSE_HI_BITS_TIMER: self.apu_.read_p1_hi_bits_timer,
+            SECOND_PULSE_CONTROL: self.apu_.read_p1_control,
+            SECOND_PULSE_SWEEP_CONTROL: self.apu_.read_p2_sweep_control,
+            SECOND_PULSE_LOW_BITS_TIMER: self.apu_.read_p2_low_bits_timer,
+            SECOND_PULSE_HI_BITS_TIMER: self.apu_.read_p2_hi_bits_timer,
+            TRIANGLE_WAVE_LINEAR_COUNTER: self.apu_.read_triangle_wave_linear_counter,
+            TRIANGLE_WAVE_UNUSED_REGISTER: self.apu_.read_dummy,
+            TRIANGLE_WAVE_LOW_BITS_PERIOD: self.apu_.read_triangle_wave_low_bits_period,
+            TRIANGLE_WAVE_HI_BITS_PERIOD: self.apu_.read_triangle_wave_hi_bits_period,
+            NOISE_VOLUME_CONTROL: self.apu_.read_noise_volume_control,
+            NOISE_UNUSED_REGISTER: self.apu_.read_dummy,
+            NOISE_PERIOD_AND_WAVEFORM_SHAPE: self.apu_.read_noise_period_and_waveform_shape,
+            NOISE_LENGTH_COUNTER_LOAD_AND_ENVELOPE_RESTART: self.apu_.read_noise_length_counter_load_and_envelope_restart,
+            DMC_FREQ: self.apu_.read_dmc_freq,
+            DMC_RAW: self.apu_.read_dmc_raw,
+            DMC_START: self.apu_.read_dmc_start,
+            DMC_LEN: self.apu_.read_dmc_len,
+            OAMDMA: self.ppu_.read_oamdma,
+            APU_STATUS: self.apu_.read_apu_status,
+            JOYPAD_1: self.read_joypad_1,
+            JOYPAD_2_AND_APU_FRAME_COUNTER: self.read_joypad_2
+        }
     
+    def write_joypad_1(self, value):
+        """Write a value to the JOYPAD_1 I/O port, which affects the state of both controller 1 and 2."""
+        if value & 0b1: 
+            self.controller_1_.load_shift_register()
+            self.controller_2_.load_shift_register()
+        else:
+            self.controller_1_.set_serial_read_mode()
+            self.controller_2_.set_serial_read_mode()
 
+    def read_joypad_1(self):
+        return self.controller_1_.read_shift_register()
+
+    def read_joypad_2(self):
+        return self.controller_2_.read_shift_register()
 
     cdef int cpu_read_byte(self, int addr) except *:
-        # print(addr)
         cdef int register
         addr %= MEMORY_SIZE
-        if addr < RAM_REGION_END:
+        if addr >= APU_REGISTERS_REGION_END: # ROM or non-existing memory which returns 0.
+            return self.cpu_memory_[addr]
+        elif addr < RAM_REGION_END:
             addr %= RAM_SIZE
             return self.cpu_memory_[addr]
         elif addr < PPU_REGISTERS_REGION_END:
             register = addr % PPU_NUM_REGISTERS # Note that PPU_REGISTERS_REGION_BEGIN is divisble by PPU_NUM_REGISTERS.
             addr = PPU_REGISTERS_REGION_BEGIN + register
             return self.ppu_.read_register(addr)
-        elif addr == OAMDMA:
-            return self.ppu_.read_register(addr)
-        elif addr == JOYPAD_1:
-            return self.controller_1_.read_shift_register()
-        elif addr == JOYPAD_2:
-            return self.controller_2_.read_shift_register()
-        else:
-            return self.cpu_memory_[addr]
+        else: # Only case left is: addr < APU_REGISTERS_REGION_END:
+            return self.register_readers_[addr]()
 
-    # cdef void cpu_write_byte_to_mapped_memory(self, int addr, int value):
     cdef void cpu_write_byte(self, int addr, int value) except *:
         """Write a byte to memory taking into account the proper regions of the CPU address space."""
         cdef int register
@@ -198,20 +257,6 @@ cdef class MemoryMapper():
             addr = PPU_REGISTERS_REGION_BEGIN + register
             self.ppu_.write_register(addr, value % 256)
         elif addr < APU_REGISTERS_REGION_END:
-            register = addr % APU_NUM_REGISTERS
-            resolved_addr = APU_REGISTERS_REGION_BEGIN + register
-            self.apu_.write_register(addr, value % 256)
-        elif addr == OAMDMA:
-            self.ppu_.write_register(addr, value % 256)
-        elif addr == JOYPAD_1: # Affects the state of both controller 1 and 2.
-            if value & 0b1: 
-                self.controller_1_.load_shift_register()
-                self.controller_2_.load_shift_register()
-            else:
-                self.controller_1_.set_serial_read_mode()
-                self.controller_2_.set_serial_read_mode()
-        # elif addr == JOYPAD_2:
-        #     if value & 0b1: self.controller_2_.load_shift_register()
-        #     else:           self.controller_2_.set_serial_read_mode()
+            self.register_writers_[addr](value % 256)
         # else: write nothing: non-existing memory or ROM.
 

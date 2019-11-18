@@ -20,6 +20,7 @@ setup(
         "instructions.pyx", "Instructions/*.pyx",
         "cpu.pyx", "nes_cpu_utils.pyx",
         "ppu.pyx", "nes_ppu_utils.pyx",
+        "apu.pyx",
         "memory_mapper.pyx",
         "log.pyx",
         # Tests:

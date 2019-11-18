@@ -36,14 +36,44 @@ cdef enum:
     PPU_IMAGE_PALETTE_BACKGROUND_OFFSET = 0x4,
     PPU_IMAGE_PALETTE_GENERAL_OFFSET = 0x20,
 
-    # APU
-    APU_REGISTERS_REGION_BEGIN = 0x4000
-    APU_REGISTERS_REGION_END = 0x4010
-
     OAMDMA = 0x4014,
 
+    # APU and peripherals:
+    
+    APU_REGISTERS_REGION_BEGIN = 0x4000
+    APU_REGISTERS_REGION_END = 0x4018
+
+    FIRST_PULSE_CONTROL = 0x4000,
+    FIRST_PULSE_SWEEP_CONTROL = 0x4001,
+    FIRST_PULSE_LOW_BITS_TIMER = 0x4002,
+    FIRST_PULSE_HI_BITS_TIMER = 0x4003,
+
+    SECOND_PULSE_CONTROL = 0x4004,
+    SECOND_PULSE_SWEEP_CONTROL = 0x4005,
+    SECOND_PULSE_LOW_BITS_TIMER = 0x4006,
+    SECOND_PULSE_HI_BITS_TIMER = 0x4007,
+
+    TRIANGLE_WAVE_LINEAR_COUNTER = 0x4008,
+    TRIANGLE_WAVE_UNUSED_REGISTER = 0x4009,
+    TRIANGLE_WAVE_LOW_BITS_PERIOD = 0x400A,
+    TRIANGLE_WAVE_HI_BITS_PERIOD = 0x400B,
+
+    NOISE_VOLUME_CONTROL = 0x400C,
+    NOISE_UNUSED_REGISTER = 0x400D,
+    NOISE_PERIOD_AND_WAVEFORM_SHAPE = 0x400E,
+    NOISE_LENGTH_COUNTER_LOAD_AND_ENVELOPE_RESTART = 0x400F,
+
+    DMC_FREQ = 0x4010,
+    DMC_RAW = 0x4011,
+    DMC_START = 0x4012,
+    DMC_LEN = 0x4013,
+
+    # OAMDMA
+    APU_STATUS = 0x4015,
     JOYPAD_1 = 0x4016,
-    JOYPAD_2 = 0x4017
+    JOYPAD_2_AND_APU_FRAME_COUNTER = 0x4017
+
+
 
 
 cdef int cpu_unmirrored_address(int addr) except *
@@ -71,8 +101,12 @@ cdef class MemoryMapper():
 
     cdef object cpu_
     cdef object ppu_
+    cdef object apu_
     cdef object controller_1_
     cdef object controller_2_
+
+    cdef dict register_writers_
+    cdef dict register_readers_
 
     cdef inline object cpu(self):
         return self.cpu_
