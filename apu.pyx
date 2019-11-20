@@ -28,6 +28,7 @@ class Pulse:
 class Apu:
 
     duty_values = [12.5, 25, 50, 75]
+    length_counter_translate = [True, False]
 
     def __init__(self):
         self.pulse_1 = Pulse()
@@ -36,7 +37,10 @@ class Apu:
 
     def write_p1_control(self, value):
         duty_bin = ( value & 0b11000000 ) >> 6
+        length_counter_halt = ( value & 0b00100000) >> 5
+        print('length_counter_halt', length_counter_halt)
         self.pulse_1.duty_cycle = self.duty_values[duty_bin]
+        self.pulse_1.enable_length_counter = self.length_counter_translate[length_counter_halt]
 
     def write_p1_sweep_control(self, value):
         print('Warning: not implemented yet', file=sys.stderr)

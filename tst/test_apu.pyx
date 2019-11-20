@@ -43,5 +43,19 @@ class TestArithmetic(unittest.TestCase):
 
 		self.assertEqual(apu.pulse_1.duty_cycle, 75)
 
+	def test_if_length_counter_is_enabled_when_value_has_bit_set(self):
+		apu = Apu()
+		value = 0b00111111
+		apu.write_p1_control(value)
+
+		self.assertFalse(apu.pulse_1.enable_length_counter)
+
+	def test_if_length_counter_is_enabled_when_value_has_bit_unset(self):
+		apu = Apu()
+		value = 0b00011111
+		apu.write_p1_control(value)
+
+		self.assertTrue(apu.pulse_1.enable_length_counter)
+
 if __name__ == '__main__':
 	unittest.main()
