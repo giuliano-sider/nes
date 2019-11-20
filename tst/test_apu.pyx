@@ -57,5 +57,26 @@ class TestArithmetic(unittest.TestCase):
 
 		self.assertTrue(apu.pulse_1.enable_length_counter)
 
+	def test_if_volume_is_set_to_be_constant_when_bit_is_set(self):
+		apu = Apu()
+		value = 0b00111111
+		apu.write_p1_control(value)
+
+		self.assertTrue(apu.pulse_1.is_volume_constant)
+
+	def test_if_volume_is_set_to_be_constant_when_bit_is_unset(self):
+		apu = Apu()
+		value = 0b00101111
+		apu.write_p1_control(value)
+
+		self.assertFalse(apu.pulse_1.is_volume_constant)
+
+	def test_if_volume_value_is_set_correctly(self):
+		apu = Apu()
+		value = 0b00101110
+		apu.write_p1_control(value)
+
+		self.assertEqual(apu.pulse_1.volume, 14)
+
 if __name__ == '__main__':
 	unittest.main()

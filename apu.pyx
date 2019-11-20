@@ -9,6 +9,11 @@ with contextlib.redirect_stdout(None):
     from pygame.mixer import Sound, get_init, pre_init
 
 
+DUTY_MASK = 0b11000000
+LENGTH_COUNTER_HALT_MASK = 0b00100000
+CONSTANT_VOLUME_FLAG_MASK = 0b00010000
+VOLUME_MASK = 0b00001111
+
 class Pulse:
 
     def __init__(self):
@@ -28,7 +33,8 @@ class Pulse:
 class Apu:
 
     duty_values = [12.5, 25, 50, 75]
-    length_counter_translate = [True, False]
+    length_counter_translation = [True, False]
+    volume_constant_translation = [False, True]
 
     def __init__(self):
         self.pulse_1 = Pulse()
@@ -36,11 +42,15 @@ class Apu:
 
 
     def write_p1_control(self, value):
-        duty_bin = ( value & 0b11000000 ) >> 6
-        length_counter_halt = ( value & 0b00100000) >> 5
-        print('length_counter_halt', length_counter_halt)
+        duty_bin = ( value & DUTY_MASK ) >> 6
+        length_counter_halt_flag = ( value & LENGTH_COUNTER_HALT_MASK) >> 5
+        is_volume_constant_flag = (value & CONSTANT_VOLUME_FLAG_MASK) >> 4
+        volume = (value & VOLUME_MASK)
+
         self.pulse_1.duty_cycle = self.duty_values[duty_bin]
-        self.pulse_1.enable_length_counter = self.length_counter_translate[length_counter_halt]
+        self.pulse_1.enable_length_counter = self.length_counter_translation[length_counter_halt_flag]
+        self.pulse_1.is_volume_constant = self.volume_constant_translation[is_volume_constant_flag]
+        self.pulse_1.volume = volume
 
     def write_p1_sweep_control(self, value):
         print('Warning: not implemented yet', file=sys.stderr)
