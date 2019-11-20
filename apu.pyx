@@ -29,8 +29,26 @@ class Pulse:
         self.high_3_bits_timer = 0
         self.length_counter = 0
 
+class SquareNote(Sound):
 
-class Apu:
+    def __init__(self, frequency, duty=0.5, volume=.1, duration=.1):
+        self.frequency = frequency
+        self.duty = duty
+        self.duration = duration
+        Sound.__init__(self, self.build_samples())
+        self.set_volume(volume)
+
+    def build_samples(self):
+        init_frequency = get_init()[0]
+        init_size = get_init()[1]
+        period = int(round(init_frequency / self.frequency))
+        t = np.linspace(0, 1, period, endpoint=False)
+        amplitude = 2 ** (abs(init_size) - 1) - 1
+        samples = amplitude * signal.square(2 * np.pi * t, duty=self.duty)
+        return np.tile(np.array(samples, dtype='int16'), round(self.duration * self.frequency))
+
+
+class Apu(SquareNoteGenerator):
 
     duty_values = [12.5, 25, 50, 75]
     length_counter_translation = [True, False]
@@ -51,6 +69,11 @@ class Apu:
         self.pulse_1.enable_length_counter = self.length_counter_translation[length_counter_halt_flag]
         self.pulse_1.is_volume_constant = self.volume_constant_translation[is_volume_constant_flag]
         self.pulse_1.volume = volume
+        self.generate_square_note(self.pulse_1)
+    
+
+    def generate_square_note(self, pulse):
+        print('Warning: generate_square_note not working yet')
 
     def write_p1_sweep_control(self, value):
         print('Warning: not implemented yet', file=sys.stderr)
