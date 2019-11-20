@@ -1,4 +1,13 @@
 import sys
+from scipy import signal
+import numpy as np
+# from pygame.mixer import Sound, get_init, pre_init
+
+import contextlib
+with contextlib.redirect_stdout(None):
+    import pygame
+    from pygame.mixer import Sound, get_init, pre_init
+
 
 class Pulse:
 
@@ -18,13 +27,16 @@ class Pulse:
 
 class Apu:
 
+    duty_values = [12.5, 25, 50, 75]
+
     def __init__(self):
         self.pulse_1 = Pulse()
         self.pulse_2 = Pulse()
 
 
     def write_p1_control(self, value):
-        print('Warning: not implemented yet', file=sys.stderr)
+        duty_bin = ( value & 0b11000000 ) >> 6
+        self.pulse_1.duty_cycle = self.duty_values[duty_bin]
 
     def write_p1_sweep_control(self, value):
         print('Warning: not implemented yet', file=sys.stderr)
