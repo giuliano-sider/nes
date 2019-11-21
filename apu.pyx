@@ -40,6 +40,12 @@ class Pulse:
 
     def generate_square_note(self):
         print('Warning: generate_square_note not working yet')
+        # generate frequency 
+        # f_CPU = 1.789773 MHz (NTSC) <<<< acho que usaremos esse, correto? 
+        # f_CPU = 1.662607 MHz (PAL)
+        # f_pulse = f_CPU/(16*(t+1)), sendo t = periodo do timer = (high_3_bits_timer << 8 +  low_8_bits_timer)
+        # recomendo dar uma olhada aqui tbm: https://safiire.github.io/blog/2015/03/29/creating-sound-on-the-nes/
+        # de resto, tem um exemplo de como tocar a nota em sound_test.py
 
 
 class TriangleWave:
