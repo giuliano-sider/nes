@@ -48,7 +48,7 @@ class SquareNote(Sound):
         return np.tile(np.array(samples, dtype='int16'), round(self.duration * self.frequency))
 
 
-class Apu(SquareNoteGenerator):
+class Apu():
 
     duty_values = [12.5, 25, 50, 75]
     length_counter_translation = [True, False]
@@ -86,7 +86,16 @@ class Apu(SquareNoteGenerator):
 
 
     def write_p2_control(self, value):
-        print('Warning: not implemented yet', file=sys.stderr)
+        duty_bin = ( value & DUTY_MASK ) >> 6
+        length_counter_halt_flag = ( value & LENGTH_COUNTER_HALT_MASK) >> 5
+        is_volume_constant_flag = (value & CONSTANT_VOLUME_FLAG_MASK) >> 4
+        volume = (value & VOLUME_MASK)
+
+        self.pulse_2.duty_cycle = self.duty_values[duty_bin]
+        self.pulse_2.enable_length_counter = self.length_counter_translation[length_counter_halt_flag]
+        self.pulse_2.is_volume_constant = self.volume_constant_translation[is_volume_constant_flag]
+        self.pulse_2.volume = volume
+        self.generate_square_note(self.pulse_2)
 
     def write_p2_sweep_control(self, value):
         print('Warning: not implemented yet', file=sys.stderr)
