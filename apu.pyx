@@ -13,17 +13,22 @@ DUTY_MASK = 0b11000000
 LENGTH_COUNTER_HALT_MASK = 0b00100000
 CONSTANT_VOLUME_FLAG_MASK = 0b00010000
 VOLUME_MASK = 0b00001111
+HIGHER_BITS_PERIOD_MASK = 0b00000111
+PULSE_SWEEP_FLAG_MASK = 0b10000000
+DIVIDER_PERIOD_MASK = 0b01110000
+NEGATE_SWEEP_FLAG_MASK = 0b00001000
+SWEEP_SHIFT_COUNT_MASK = 0b00000111
 
 class Pulse:
 
     def __init__(self):
         self.duty_cycle = 0
-        self.enable_length_counter = 0
-        self.is_volume_constant = 0
+        self.enable_length_counter = False
+        self.is_volume_constant = False
         self.volume = 0
-        self.is_ramp_control_flag_enabled = 0
+        self.is_sweep_control_flag_enabled = False
         self.sweep_divider_period = 0
-        self.negate_ramp_flag = 0
+        self.negate_sweep_flag = False
         self.shift_count = 0
         self.low_8_bits_timer = 0
         self.high_3_bits_timer = 0
@@ -53,11 +58,14 @@ class Apu():
     duty_values = [12.5, 25, 50, 75]
     length_counter_translation = [True, False]
     volume_constant_translation = [False, True]
+    sweep_flag_translation = [False, True]
 
     def __init__(self):
         self.pulse_1 = Pulse()
         self.pulse_2 = Pulse()
 
+    def generate_square_note(self, pulse):
+        print('Warning: generate_square_note not working yet')
 
     def write_p1_control(self, value):
         duty_bin = ( value & DUTY_MASK ) >> 6
@@ -72,17 +80,15 @@ class Apu():
         self.generate_square_note(self.pulse_1)
     
 
-    def generate_square_note(self, pulse):
-        print('Warning: generate_square_note not working yet')
-
     def write_p1_sweep_control(self, value):
-        print('Warning: not implemented yet', file=sys.stderr)
+        sweep_flag_bit = (value & PULSE_SWEEP_FLAG_MASK) >> 7
+        self.pulse_1.is_sweep_control_flag_enabled = self.sweep_flag_translation[sweep_flag_bit]
 
     def write_p1_low_bits_timer(self, value):
-        print('Warning: not implemented yet', file=sys.stderr)
+        self.pulse_1.low_8_bits_timer = value
 
     def write_p1_hi_bits_timer(self, value):
-        print('Warning: not implemented yet', file=sys.stderr)
+        self.pulse_1.high_3_bits_timer = value & HIGHER_BITS_PERIOD_MASK
 
 
     def write_p2_control(self, value):
@@ -98,13 +104,15 @@ class Apu():
         self.generate_square_note(self.pulse_2)
 
     def write_p2_sweep_control(self, value):
-        print('Warning: not implemented yet', file=sys.stderr)
+        sweep_flag_bit = (value & PULSE_SWEEP_FLAG_MASK) >> 7
+        self.pulse_2.is_sweep_control_flag_enabled = self.sweep_flag_translation[sweep_flag_bit]
+
 
     def write_p2_low_bits_timer(self, value):
-        print('Warning: not implemented yet', file=sys.stderr)
+        self.pulse_2.low_8_bits_timer = value
 
     def write_p2_hi_bits_timer(self, value):
-        print('Warning: not implemented yet', file=sys.stderr)
+        self.pulse_2.high_3_bits_timer = value & HIGHER_BITS_PERIOD_MASK
 
 
     def write_triangle_wave_linear_counter(self, value):

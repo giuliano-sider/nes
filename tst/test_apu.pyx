@@ -95,6 +95,41 @@ class TestArithmetic(unittest.TestCase):
 		self.assertEqual(apu.pulse_1.volume, 14)
 		self.assertEqual(apu.pulse_2.volume, 14)
 
+	def test_if_low_bits_for_period_are_being_store_in_pulse_object(self):
+		apu = Apu()
+		value = 0b00101110
+		apu.write_p1_low_bits_timer(value)
+		apu.write_p2_low_bits_timer(value)
+
+		self.assertEqual(apu.pulse_1.low_8_bits_timer, 46)
+		self.assertEqual(apu.pulse_2.low_8_bits_timer, 46)
+
+	def test_if_low_bits_for_period_are_being_store_in_pulse_object(self):
+		apu = Apu()
+		value = 0b00101110
+		apu.write_p1_hi_bits_timer(value)
+		apu.write_p2_hi_bits_timer(value)
+
+		self.assertEqual(apu.pulse_1.high_3_bits_timer, 6)
+		self.assertEqual(apu.pulse_2.high_3_bits_timer, 6)
+
+	def test_if_sweep_control_is_enabled_when_first_bit_is_set(self):
+		apu = Apu()
+		value = 0b10101110
+		apu.write_p1_sweep_control(value)
+		apu.write_p2_sweep_control(value)
+
+		self.assertTrue(apu.pulse_1.is_sweep_control_flag_enabled)
+		self.assertTrue(apu.pulse_2.is_sweep_control_flag_enabled)
+
+	def test_if_sweep_control_is_enabled_when_first_bit_is_set(self):
+		apu = Apu()
+		value = 0b00101110
+		apu.write_p1_sweep_control(value)
+		apu.write_p2_sweep_control(value)
+
+		self.assertFalse(apu.pulse_1.is_sweep_control_flag_enabled)
+		self.assertFalse(apu.pulse_2.is_sweep_control_flag_enabled)
 
 
 
