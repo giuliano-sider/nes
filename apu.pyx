@@ -25,6 +25,7 @@ TRIANGLE_HI_3_BIT_TIMER_MASL = 0b00000111
 class Pulse:
 
     def __init__(self):
+        self.raw_control_value = 0
         self.duty_cycle = 0
         self.enable_length_counter = False
         self.is_volume_constant = False
@@ -36,6 +37,10 @@ class Pulse:
         self.low_8_bits_timer = 0
         self.high_3_bits_timer = 0
         self.length_counter = 0
+
+    def generate_square_note(self):
+        print('Warning: generate_square_note not working yet')
+
 
 class TriangleWave:
 
@@ -83,20 +88,18 @@ class Apu():
         self.pulse_2 = Pulse()
         self.triangle_wave = TriangleWave()
 
-    def generate_square_note(self, pulse):
-        print('Warning: generate_square_note not working yet')
-
     def write_p1_control(self, value):
         duty_bin = ( value & DUTY_MASK ) >> 6
         length_counter_halt_flag = ( value & LENGTH_COUNTER_HALT_MASK) >> 5
         is_volume_constant_flag = (value & CONSTANT_VOLUME_FLAG_MASK) >> 4
         volume = (value & VOLUME_MASK)
 
+        self.pulse_1.raw_control_value = value
         self.pulse_1.duty_cycle = self.duty_values[duty_bin]
         self.pulse_1.enable_length_counter = self.length_counter_translation[length_counter_halt_flag]
         self.pulse_1.is_volume_constant = self.volume_constant_translation[is_volume_constant_flag]
         self.pulse_1.volume = volume
-        self.generate_square_note(self.pulse_1)
+        self.pulse_1.generate_square_note()
     
 
     def write_p1_sweep_control(self, value):
@@ -104,6 +107,7 @@ class Apu():
         negate_sweep_flag_bit = (value & NEGATE_SWEEP_FLAG_MASK) >> 3
         divider_value = ( value & DIVIDER_PERIOD_MASK ) >> 4
         shift_count = value & SWEEP_SHIFT_COUNT_MASK
+
         self.pulse_1.is_sweep_control_flag_enabled = self.sweep_flag_translation[sweep_flag_bit]
         self.pulse_1.negate_sweep_flag = self.negate_sweep_flag_translation[negate_sweep_flag_bit]
         self.pulse_1.sweep_divider_period = divider_value
@@ -122,11 +126,12 @@ class Apu():
         is_volume_constant_flag = (value & CONSTANT_VOLUME_FLAG_MASK) >> 4
         volume = (value & VOLUME_MASK)
 
+        self.pulse_2.raw_control_value = value
         self.pulse_2.duty_cycle = self.duty_values[duty_bin]
         self.pulse_2.enable_length_counter = self.length_counter_translation[length_counter_halt_flag]
         self.pulse_2.is_volume_constant = self.volume_constant_translation[is_volume_constant_flag]
         self.pulse_2.volume = volume
-        self.generate_square_note(self.pulse_2)
+        self.pulse_2.generate_square_note()
 
     def write_p2_sweep_control(self, value):
         sweep_flag_bit = (value & PULSE_SWEEP_FLAG_MASK) >> 7
@@ -196,8 +201,7 @@ class Apu():
 
 
     def read_p1_control(self):
-        print('Warning: not implemented yet', file=sys.stderr)
-        return 0
+        return self.pulse_1.raw_control_value
 
     def read_p1_sweep_control(self):
         print('Warning: not implemented yet', file=sys.stderr)
@@ -213,8 +217,7 @@ class Apu():
 
 
     def read_p2_control(self):
-        print('Warning: not implemented yet', file=sys.stderr)
-        return 0
+        return self.pulse_2.raw_control_value
 
     def read_p2_sweep_control(self):
         print('Warning: not implemented yet', file=sys.stderr)
