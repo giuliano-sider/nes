@@ -6,7 +6,8 @@ sys.path += os.pardir
 from nes_cpu_test_utils import CreateTestCpu, execute_instruction
 from Instructions.arithmetics_instructions import *
 from cpu cimport Cpu
-from apu import Apu, Pulse
+from apu import Apu, Pulse, createPyGameForTesting
+from unittest.mock import MagicMock, Mock
 
 class TestArithmetic(unittest.TestCase):
 
@@ -16,6 +17,7 @@ class TestArithmetic(unittest.TestCase):
 		self.assertIs(type(apu.pulse_1), Pulse)
 
 	def test_if_duty_is_set_to_12p5_when_value_starts_with_0b00(self):
+		createPyGameForTesting()
 		apu = Apu()
 		value = 0b00111111
 		apu.write_p1_control(value)
@@ -25,6 +27,7 @@ class TestArithmetic(unittest.TestCase):
 		self.assertEqual(apu.pulse_2.duty_cycle, 12.5)
 
 	def test_if_duty_is_set_to_25_when_value_starts_with_0b01(self):
+		createPyGameForTesting()
 		apu = Apu()
 		value = 0b01111111
 		apu.write_p1_control(value)
@@ -33,6 +36,8 @@ class TestArithmetic(unittest.TestCase):
 		self.assertEqual(apu.pulse_2.duty_cycle, 25)
 
 	def test_if_duty_is_set_to_25_when_value_starts_with_0b10(self):
+		createPyGameForTesting()
+
 		apu = Apu()
 		value = 0b10111111
 		apu.write_p1_control(value)
@@ -42,6 +47,8 @@ class TestArithmetic(unittest.TestCase):
 		self.assertEqual(apu.pulse_2.duty_cycle, 50)
 
 	def test_if_duty_is_set_to_25_when_value_starts_with_0b11(self):
+		createPyGameForTesting()
+
 		apu = Apu()
 		value = 0b11111111
 		apu.write_p1_control(value)
@@ -51,6 +58,8 @@ class TestArithmetic(unittest.TestCase):
 		self.assertEqual(apu.pulse_2.duty_cycle, 75)
 
 	def test_reading_pulse_control(self):
+		createPyGameForTesting()
+
 		apu = Apu()
 		value = 0b00111111
 		apu.write_p1_control(value)
@@ -171,6 +180,24 @@ class TestArithmetic(unittest.TestCase):
 
 		self.assertTrue(apu.triangle_wave.enable_length_counter)
 		self.assertEqual(apu.triangle_wave.counter_reload_value, 0b0100110)
+
+	def test_if_it_creates_a_sound(self):
+		squareNoteClassMock = Mock()
+		apu = Apu(squareNoteClassMock)
+		pygame = createPyGameForTesting()
+		control_value = 0b10011111
+		low_8_bit_timer_value = 0b11111101
+		hi_bit_timer_value = 0b11111000
+
+		apu.write_p1_control(control_value)
+		apu.write_p1_low_bits_timer(low_8_bit_timer_value)
+		apu.write_p1_hi_bits_timer(hi_bit_timer_value)
+
+		print('low ', apu.pulse_1.low_8_bits_timer)
+		print('hi ', apu.pulse_1.high_3_bits_timer)
+		print('low ', (apu.pulse_1.high_3_bits_timer << 8) + apu.pulse_1.low_8_bits_timer)
+		squareNoteClassMock.assert_called_with(440)
+
 
 
 

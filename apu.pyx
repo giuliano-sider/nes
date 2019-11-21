@@ -22,9 +22,21 @@ TRIANGLE_LENGTH_COUNTER_FLAG_MASK = 0b10000000
 TRIANGLE_COUNTER_RELOAD_MASK = 0b01111111
 TRIANGLE_HI_3_BIT_TIMER_MASL = 0b00000111
 
+NTSC_CPU_FREQUENCY = 1789773.0
+
+def createPyGameForTesting():
+    frequency = 44100
+    size = -16
+    channels = 1
+    buffer = 1024
+
+    pre_init(frequency, size, channels, buffer)
+    pygame.init()
+    return pygame
+
 class Pulse:
 
-    def __init__(self):
+    def __init__(self, squareNote):
         self.raw_control_value = 0
         self.duty_cycle = 0
         self.enable_length_counter = False
@@ -37,15 +49,14 @@ class Pulse:
         self.low_8_bits_timer = 0
         self.high_3_bits_timer = 0
         self.length_counter = 0
+        self._SquareNote = squareNote
 
     def generate_square_note(self):
-        print('Warning: generate_square_note not working yet')
         # generate frequency 
-        # f_CPU = 1.789773 MHz (NTSC) <<<< acho que usaremos esse, correto? 
-        # f_CPU = 1.662607 MHz (PAL)
-        # f_pulse = f_CPU/(16*(t+1)), sendo t = periodo do timer = (high_3_bits_timer << 8 +  low_8_bits_timer)
-        # recomendo dar uma olhada aqui tbm: https://safiire.github.io/blog/2015/03/29/creating-sound-on-the-nes/
-        # de resto, tem um exemplo de como tocar a nota em sound_test.py
+        period = (self.high_3_bits_timer << 7) + self.low_8_bits_timer
+        frequency_pulse = round(NTSC_CPU_FREQUENCY / (16 * (period + 1) ))
+        note = self._SquareNote(frequency_pulse)
+        note.play()
 
 
 class TriangleWave:
@@ -89,9 +100,9 @@ class Apu():
     negate_sweep_flag_translation = natural_boolean_order
     triangle_length_counter_translation = natural_boolean_order
 
-    def __init__(self):
-        self.pulse_1 = Pulse()
-        self.pulse_2 = Pulse()
+    def __init__(self, squareNote=SquareNote):
+        self.pulse_1 = Pulse(squareNote)
+        self.pulse_2 = Pulse(squareNote)
         self.triangle_wave = TriangleWave()
 
     def write_p1_control(self, value):
@@ -105,7 +116,6 @@ class Apu():
         self.pulse_1.enable_length_counter = self.length_counter_translation[length_counter_halt_flag]
         self.pulse_1.is_volume_constant = self.volume_constant_translation[is_volume_constant_flag]
         self.pulse_1.volume = volume
-        self.pulse_1.generate_square_note()
     
 
     def write_p1_sweep_control(self, value):
@@ -124,6 +134,7 @@ class Apu():
 
     def write_p1_hi_bits_timer(self, value):
         self.pulse_1.high_3_bits_timer = value & HIGHER_BITS_PERIOD_MASK
+        self.pulse_1.generate_square_note()
 
 
     def write_p2_control(self, value):
