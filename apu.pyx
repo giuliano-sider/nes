@@ -18,6 +18,9 @@ PULSE_SWEEP_FLAG_MASK = 0b10000000
 DIVIDER_PERIOD_MASK = 0b01110000
 NEGATE_SWEEP_FLAG_MASK = 0b00001000
 SWEEP_SHIFT_COUNT_MASK = 0b00000111
+TRIANGLE_LENGTH_COUNTER_FLAG_MASK = 0b10000000
+TRIANGLE_COUNTER_RELOAD_MASK = 0b01111111
+TRIANGLE_HI_3_BIT_TIMER_MASL = 0b00000111
 
 class Pulse:
 
@@ -33,6 +36,15 @@ class Pulse:
         self.low_8_bits_timer = 0
         self.high_3_bits_timer = 0
         self.length_counter = 0
+
+class TriangleWave:
+
+    def __init__(self):
+        self.enable_length_counter = False
+        self.counter_reload_value = 0
+        self.timer_low_8_bits = 0
+        self.timer_hi_3_bits = 0
+
 
 class SquareNote(Sound):
 
@@ -55,15 +67,21 @@ class SquareNote(Sound):
 
 class Apu():
 
+    natural_boolean_order = [False, True]
+    inverted_boolean_order = [True, False]
+
     duty_values = [12.5, 25, 50, 75]
-    length_counter_translation = [True, False]
-    volume_constant_translation = [False, True]
-    sweep_flag_translation = [False, True]
-    negate_sweep_flag_translation = [False, True]
+
+    length_counter_translation = inverted_boolean_order
+    volume_constant_translation = natural_boolean_order
+    sweep_flag_translation = natural_boolean_order
+    negate_sweep_flag_translation = natural_boolean_order
+    triangle_length_counter_translation = natural_boolean_order
 
     def __init__(self):
         self.pulse_1 = Pulse()
         self.pulse_2 = Pulse()
+        self.triangle_wave = TriangleWave()
 
     def generate_square_note(self, pulse):
         print('Warning: generate_square_note not working yet')
@@ -129,7 +147,9 @@ class Apu():
 
 
     def write_triangle_wave_linear_counter(self, value):
-        print('Warning: not implemented yet', file=sys.stderr)
+        enable_length_counter_bit = ( value & TRIANGLE_LENGTH_COUNTER_FLAG_MASK ) >> 7
+        self.triangle_wave.enable_length_counter = self.triangle_length_counter_translation[enable_length_counter_bit]
+        self.triangle_wave.counter_reload_value = value & TRIANGLE_COUNTER_RELOAD_MASK
 
     def write_dummy(self, value):
         print('Warning: not implemented yet', file=sys.stderr)

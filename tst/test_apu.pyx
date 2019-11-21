@@ -155,6 +155,14 @@ class TestArithmetic(unittest.TestCase):
 		self.assertFalse(apu.pulse_1.negate_sweep_flag)
 		self.assertFalse(apu.pulse_2.negate_sweep_flag)
 
+	def test_if_triangle_control_flag_is_true_when_bit_is_set(self):
+		apu = Apu()
+		value = 0b10100110
+		apu.write_triangle_wave_linear_counter(value)
+
+		self.assertTrue(apu.triangle_wave.enable_length_counter)
+		self.assertEqual(apu.triangle_wave.counter_reload_value, 0b0100110)
+
 
 
 if __name__ == '__main__':
