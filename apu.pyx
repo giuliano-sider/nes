@@ -59,6 +59,7 @@ class Apu():
     length_counter_translation = [True, False]
     volume_constant_translation = [False, True]
     sweep_flag_translation = [False, True]
+    negate_sweep_flag_translation = [False, True]
 
     def __init__(self):
         self.pulse_1 = Pulse()
@@ -82,7 +83,13 @@ class Apu():
 
     def write_p1_sweep_control(self, value):
         sweep_flag_bit = (value & PULSE_SWEEP_FLAG_MASK) >> 7
+        negate_sweep_flag_bit = (value & NEGATE_SWEEP_FLAG_MASK) >> 3
+        divider_value = ( value & DIVIDER_PERIOD_MASK ) >> 4
+        shift_count = value & SWEEP_SHIFT_COUNT_MASK
         self.pulse_1.is_sweep_control_flag_enabled = self.sweep_flag_translation[sweep_flag_bit]
+        self.pulse_1.negate_sweep_flag = self.negate_sweep_flag_translation[negate_sweep_flag_bit]
+        self.pulse_1.sweep_divider_period = divider_value
+        self.pulse_1.shift_count = shift_count
 
     def write_p1_low_bits_timer(self, value):
         self.pulse_1.low_8_bits_timer = value
@@ -105,7 +112,13 @@ class Apu():
 
     def write_p2_sweep_control(self, value):
         sweep_flag_bit = (value & PULSE_SWEEP_FLAG_MASK) >> 7
+        negate_sweep_flag_bit = (value & NEGATE_SWEEP_FLAG_MASK) >> 3
+        divider_value = ( value & DIVIDER_PERIOD_MASK ) >> 4
+        shift_count = value & SWEEP_SHIFT_COUNT_MASK
         self.pulse_2.is_sweep_control_flag_enabled = self.sweep_flag_translation[sweep_flag_bit]
+        self.pulse_2.negate_sweep_flag = self.negate_sweep_flag_translation[negate_sweep_flag_bit]
+        self.pulse_2.sweep_divider_period = divider_value
+        self.pulse_2.shift_count = shift_count
 
 
     def write_p2_low_bits_timer(self, value):

@@ -120,9 +120,15 @@ class TestArithmetic(unittest.TestCase):
 		apu.write_p2_sweep_control(value)
 
 		self.assertTrue(apu.pulse_1.is_sweep_control_flag_enabled)
-		self.assertTrue(apu.pulse_2.is_sweep_control_flag_enabled)
+		self.assertEqual(apu.pulse_1.sweep_divider_period, 0b010)
+		self.assertEqual(apu.pulse_1.shift_count, 0b110)
 
-	def test_if_sweep_control_is_enabled_when_first_bit_is_set(self):
+		self.assertTrue(apu.pulse_2.is_sweep_control_flag_enabled)
+		self.assertEqual(apu.pulse_2.sweep_divider_period, 0b010)
+		self.assertEqual(apu.pulse_1.shift_count, 0b110)
+
+
+	def test_if_sweep_control_is_not_enabled_when_first_bit_is_unset(self):
 		apu = Apu()
 		value = 0b00101110
 		apu.write_p1_sweep_control(value)
@@ -130,6 +136,24 @@ class TestArithmetic(unittest.TestCase):
 
 		self.assertFalse(apu.pulse_1.is_sweep_control_flag_enabled)
 		self.assertFalse(apu.pulse_2.is_sweep_control_flag_enabled)
+
+	def test_if_negate_sweep_is_enabled_when_bit_is_set(self):
+		apu = Apu()
+		value = 0b10101110
+		apu.write_p1_sweep_control(value)
+		apu.write_p2_sweep_control(value)
+
+		self.assertTrue(apu.pulse_1.negate_sweep_flag)
+		self.assertTrue(apu.pulse_2.negate_sweep_flag)
+
+	def test_if_negate_sweep_is_not_enabled_when_bit_is_unset(self):
+		apu = Apu()
+		value = 0b00100110
+		apu.write_p1_sweep_control(value)
+		apu.write_p2_sweep_control(value)
+
+		self.assertFalse(apu.pulse_1.negate_sweep_flag)
+		self.assertFalse(apu.pulse_2.negate_sweep_flag)
 
 
 
