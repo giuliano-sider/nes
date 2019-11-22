@@ -29,6 +29,12 @@ NOISE_MODE_FLAG_MASK = 0b10000000
 NOISE_PERIOD_MASK = 0b00001111
 NOISE_LENGTH_COUNTER_LOAD_MASK = 0b11111000
 
+APU_CONTROL_PULSE_1_MASK = 0b00000001
+APU_CONTROL_PULSE_2_MASK = 0b00000010
+APU_CONTROL_TRIANGLE_MASK = 0b00000100
+APU_CONTROL_NOISE_MASK = 0b00001000
+APU_CONTROL_DMC_MASK = 0b00010000
+
 NTSC_CPU_FREQUENCY = 1789773.0
 
 def createPyGameForTesting():
@@ -106,6 +112,15 @@ class SquareNote(Sound):
         return np.tile(np.array(samples, dtype='int16'), round(self.duration * self.frequency))
 
 
+class ApuControlRegister():
+
+    def __init__(self):
+        self.is_pulse_1_enabled = False
+        self.is_pulse_2_enabled = False
+        self.is_triangle_notes_enabled = False
+        self.is_noise_enabled = False
+
+
 class Apu():
 
     natural_boolean_order = [False, True]
@@ -118,8 +133,10 @@ class Apu():
     sweep_flag_translation = natural_boolean_order
     negate_sweep_flag_translation = natural_boolean_order
     triangle_length_counter_translation = natural_boolean_order
+    apu_control_enable_translation = natural_boolean_order
 
     def __init__(self, squareNote=SquareNote):
+        self.control = ApuControlRegister()
         self.pulse_1 = Pulse(squareNote)
         self.pulse_2 = Pulse(squareNote)
         self.triangle_wave = TriangleWave()
@@ -240,7 +257,17 @@ class Apu():
 
 
     def write_apu_control(self, value):
-        print('Warning: not implemented yet', file=sys.stderr)
+        is_pulse_1_enabled_bit = value & APU_CONTROL_PULSE_1_MASK
+        is_pulse_2_enabled_bit = value & APU_CONTROL_PULSE_2_MASK >> 1
+        is_triangle_notes_enabled_bit = value & APU_CONTROL_TRIANGLE_MASK >> 2
+        is_noise_enabled_bit = value & APU_CONTROL_NOISE_MASK >> 3
+        is_dmc_enabled_bit = value & APU_CONTROL_DMC_MASK >> 4
+
+        self.control.is_pulse_1_enabled = self.apu_control_enable_translation[is_pulse_1_enabled_bit]
+        self.control.is_pulse_2_enabled = self.apu_control_enable_translation[is_pulse_2_enabled_bit]
+        self.control.is_triangle_notes_enabled = self.apu_control_enable_translation[is_triangle_notes_enabled_bit]
+        self.control.is_noise_enabled = self.apu_control_enable_translation[is_noise_enabled_bit]
+        self.control.is_dmc_enabled = self.apu_control_enable_translation[is_dmc_enabled_bit]
 
 
     def write_apu_frame_counter(self, value):

@@ -224,6 +224,55 @@ class TestArithmetic(unittest.TestCase):
 		self.assertEqual(apu.noise_wave.period, 0b0110)
 		self.assertEqual(apu.noise_wave.length_counter_load, 0b10100)
 
+	def test_apu_status_settings(self):
+		apu = Apu()
+		control = 0b10011111
+
+		apu.write_apu_control(control)
+
+		self.assertTrue(apu.control.is_pulse_1_enabled)
+		self.assertTrue(apu.control.is_pulse_2_enabled)
+		self.assertTrue(apu.control.is_triangle_notes_enabled)
+		self.assertTrue(apu.control.is_noise_enabled)
+
+
+	def test_desabling_pulse_via_apu_control(self):
+		#Writing a zero to any of the channel enable bits will silence that channel and immediately set its length counter to 0.
+		pass
+
+	def test_desabling_dmc(self):
+		#If the DMC bit is clear, the DMC bytes remaining will be set to 0 and the DMC will silence when it empties.
+		pass
+
+	def test_enabling_dmc(self):
+		#If the DMC bit is set, the DMC sample will be restarted only if its bytes remaining is 0. If there are bits remaining in the 1-byte sample buffer, these will finish playing before the next sample is fetched.
+		pass
+
+	def test_testing_if_clean_dmc_interrupt_flag_when_writting(self):
+		#Writing to this register clears the DMC interrupt flag.
+		pass
+
+	def test_power_reset_and_dmc(self):
+		#Power-up and reset have the effect of writing $00, silencing all channels.
+		pass
+
+	def test_read_apu_legnth_counter_statuses(self):
+		#N/T/2/1 will read as 1 if the corresponding length counter is greater than 0. For the triangle channel, the status of the linear counter is irrelevant.
+		pass
+
+	def test_read_apu_D_flag(self):
+		#N/T/2/1 will read as 1 if the corresponding length counter is greater than 0. For the triangle channel, the status of the linear counter is irrelevant.
+		pass
+
+	def test_read_apu_D_flag(self):
+		#N/T/2/1 will read as 1 if the corresponding length counter is greater than 0. For the triangle channel, the status of the linear counter is irrelevant.
+		pass
+
+	def test_if_frame_input_flag_is_cleared_when_reading_apu_register(self):
+		#Reading this register clears the frame interrupt flag (but not the DMC interrupt flag).
+		pass
+
+
 	def test_if_it_creates_a_sound(self):
 		squareNoteClassMock = Mock()
 		apu = Apu(squareNoteClassMock)
