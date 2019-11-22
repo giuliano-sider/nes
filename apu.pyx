@@ -38,6 +38,8 @@ class Pulse:
 
     def __init__(self, squareNote):
         self.raw_control_value = 0
+        self.raw_sweep_control = 0
+
         self.duty_cycle = 0
         self.enable_length_counter = False
         self.is_volume_constant = False
@@ -124,6 +126,7 @@ class Apu():
         divider_value = ( value & DIVIDER_PERIOD_MASK ) >> 4
         shift_count = value & SWEEP_SHIFT_COUNT_MASK
 
+        self.pulse_1.raw_sweep_control = value
         self.pulse_1.is_sweep_control_flag_enabled = self.sweep_flag_translation[sweep_flag_bit]
         self.pulse_1.negate_sweep_flag = self.negate_sweep_flag_translation[negate_sweep_flag_bit]
         self.pulse_1.sweep_divider_period = divider_value
@@ -155,6 +158,8 @@ class Apu():
         negate_sweep_flag_bit = (value & NEGATE_SWEEP_FLAG_MASK) >> 3
         divider_value = ( value & DIVIDER_PERIOD_MASK ) >> 4
         shift_count = value & SWEEP_SHIFT_COUNT_MASK
+
+        self.pulse_2.raw_sweep_control = value
         self.pulse_2.is_sweep_control_flag_enabled = self.sweep_flag_translation[sweep_flag_bit]
         self.pulse_2.negate_sweep_flag = self.negate_sweep_flag_translation[negate_sweep_flag_bit]
         self.pulse_2.sweep_divider_period = divider_value
@@ -221,8 +226,7 @@ class Apu():
         return self.pulse_1.raw_control_value
 
     def read_p1_sweep_control(self):
-        print('Warning: not implemented yet', file=sys.stderr)
-        return 0
+        return self.pulse_1.raw_sweep_control
 
     def read_p1_low_bits_timer(self):
         print('Warning: not implemented yet', file=sys.stderr)
@@ -237,8 +241,7 @@ class Apu():
         return self.pulse_2.raw_control_value
 
     def read_p2_sweep_control(self):
-        print('Warning: not implemented yet', file=sys.stderr)
-        return 0
+        return self.pulse_2.raw_sweep_control
 
     def read_p2_low_bits_timer(self):
         print('Warning: not implemented yet', file=sys.stderr)

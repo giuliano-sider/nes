@@ -68,6 +68,17 @@ class TestArithmetic(unittest.TestCase):
 		self.assertEqual(apu.read_p1_control(), value)
 		self.assertEqual(apu.read_p2_control(), value)
 
+	def test_reading_psweep_control(self):
+		createPyGameForTesting()
+
+		apu = Apu()
+		value = 0b00111111
+		apu.write_p1_sweep_control(value)
+		apu.write_p2_sweep_control(value)
+
+		self.assertEqual(apu.read_p1_sweep_control(), value)
+		self.assertEqual(apu.read_p2_sweep_control(), value)
+
 	def test_if_length_counter_is_enabled_when_value_has_bit_set(self):
 		apu = Apu()
 		value = 0b00111111
