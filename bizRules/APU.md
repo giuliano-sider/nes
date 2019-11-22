@@ -37,13 +37,22 @@ THEN a bit is played with duty cycle of 25%, counter is used, the volume is cons
 ```
 WHEN address $4000 is written with $(10)(0)(1)(1111)
 THEN a bit is played with duty cycle of 50%, counter is used, the volume is constant throughout the note and the volume is the loudest possible
-
 ```
 
 ```
 WHEN address $4000 is written with $(11)(0)(1)(1111)
 THEN a bit is played with duty cycle of 75%, counter is used, the volume is constant throughout the note and the volume is the loudest possible
 
+```
+
+```
+WHEN address $4000 is written with length counter halt set to 0
+THEN sound duration is controlled by length counter
+```
+
+```
+WHEN address $4000 is written with length counter halt set to 0
+THEN sound duration is not controlled by length counter
 ```
 
 ## APU Ramp Control ##
