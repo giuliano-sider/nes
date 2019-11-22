@@ -20,7 +20,14 @@ NEGATE_SWEEP_FLAG_MASK = 0b00001000
 SWEEP_SHIFT_COUNT_MASK = 0b00000111
 TRIANGLE_LENGTH_COUNTER_FLAG_MASK = 0b10000000
 TRIANGLE_COUNTER_RELOAD_MASK = 0b01111111
-TRIANGLE_HI_3_BIT_TIMER_MASL = 0b00000111
+TRIANGLE_HI_3_BIT_TIMER_MASK = 0b00000111
+TRIANGLE_LENGTH_COUNTER_VALUE_MASK = 0b11111000
+NOISE_LENGTH_COUNTER_HALT_FLAG_MASK = 0b00100000
+NOISE_CONSTANT_VOLUME_FLAG_MASK = 0b00010000
+NOISE_VOLUME_MASK = 0b00001111
+NOISE_MODE_FLAG_MASK = 0b10000000
+NOISE_PERIOD_MASK = 0b00001111
+NOISE_LENGTH_COUNTER_LOAD_MASK = 0b11111000
 
 NTSC_CPU_FREQUENCY = 1789773.0
 
@@ -68,6 +75,16 @@ class TriangleWave:
         self.counter_reload_value = 0
         self.timer_low_8_bits = 0
         self.timer_hi_3_bits = 0
+        self.length_counter_load = 0
+
+class NoiseWave:
+
+    def __init__(self):
+        self.enable_length_counter = False
+        self.is_volume_constant = False
+        self.volume = 0
+
+        self.mode_flag = 0
 
 
 class SquareNote(Sound):
@@ -106,6 +123,7 @@ class Apu():
         self.pulse_1 = Pulse(squareNote)
         self.pulse_2 = Pulse(squareNote)
         self.triangle_wave = TriangleWave()
+        self.noise_wave = NoiseWave()
 
     def write_p1_control(self, value):
         duty_bin = ( value & DUTY_MASK ) >> 6
@@ -179,25 +197,33 @@ class Apu():
         self.triangle_wave.counter_reload_value = value & TRIANGLE_COUNTER_RELOAD_MASK
 
     def write_dummy(self, value):
-        print('Warning: not implemented yet', file=sys.stderr)
+        pass
 
     def write_triangle_wave_low_bits_period(self, value):
-        print('Warning: not implemented yet', file=sys.stderr)
+        self.triangle_wave.timer_low_8_bits = value
 
     def write_triangle_wave_hi_bits_period(self, value):
-        print('Warning: not implemented yet', file=sys.stderr)
+        self.triangle_wave.timer_hi_3_bits = value & TRIANGLE_HI_3_BIT_TIMER_MASK
+        self.triangle_wave.length_counter_load = ( value & TRIANGLE_LENGTH_COUNTER_VALUE_MASK ) >> 3
 
 
     def write_noise_volume_control(self, value):
-        print('Warning: not implemented yet', file=sys.stderr)
+        enable_length_counter_bit = (value & NOISE_LENGTH_COUNTER_HALT_FLAG_MASK) >> 5
+        constant_volume_bit = (value & NOISE_CONSTANT_VOLUME_FLAG_MASK) >> 4
+        volume = value & NOISE_VOLUME_MASK
+
+        self.noise_wave.enable_length_counter = self.length_counter_translation[enable_length_counter_bit]
+        self.noise_wave.is_volume_constant = self.volume_constant_translation[constant_volume_bit]
+        self.noise_wave.volume = volume
 
     # write_dummy
 
     def write_noise_period_and_waveform_shape(self, value):
-        print('Warning: not implemented yet', file=sys.stderr)
+        self.noise_wave.mode_flag = ( value & NOISE_MODE_FLAG_MASK ) >> 7
+        self.noise_wave.period = ( value & NOISE_PERIOD_MASK )
 
     def write_noise_length_counter_load_and_envelope_restart(self, value):
-        print('Warning: not implemented yet', file=sys.stderr)
+        self.noise_wave.length_counter_load = (value & NOISE_LENGTH_COUNTER_LOAD_MASK) >> 3
 
 
     def write_dmc_freq(self, value):

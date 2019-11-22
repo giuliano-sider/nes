@@ -192,6 +192,38 @@ class TestArithmetic(unittest.TestCase):
 		self.assertTrue(apu.triangle_wave.enable_length_counter)
 		self.assertEqual(apu.triangle_wave.counter_reload_value, 0b0100110)
 
+	def test_triangle_low_timer_bit_writting(self):
+		apu = Apu()
+		value = 0b10100110
+		apu.write_triangle_wave_low_bits_period(value)
+
+		self.assertEqual(apu.triangle_wave.timer_low_8_bits, value)
+
+	def test_triangle_low_timer_bit_writting(self):
+		apu = Apu()
+		value = 0b10100110
+		apu.write_triangle_wave_hi_bits_period(value)
+
+		self.assertEqual(apu.triangle_wave.timer_hi_3_bits, 0b110)
+		self.assertEqual(apu.triangle_wave.length_counter_load, 0b10100)
+
+	def test_noise_settings(self):
+		apu = Apu()
+		volume_control = 0b10010110
+		period_wave_shape_control = 0b10100110
+		length_counter_load_control = 0b10100110
+
+		apu.write_noise_volume_control(volume_control)
+		apu.write_noise_period_and_waveform_shape(period_wave_shape_control)
+		apu.write_noise_length_counter_load_and_envelope_restart(length_counter_load_control)
+
+		self.assertTrue(apu.noise_wave.enable_length_counter)
+		self.assertTrue(apu.noise_wave.is_volume_constant)
+		self.assertEqual(apu.noise_wave.volume, 0b0110)
+		self.assertEqual(apu.noise_wave.mode_flag, 1)
+		self.assertEqual(apu.noise_wave.period, 0b0110)
+		self.assertEqual(apu.noise_wave.length_counter_load, 0b10100)
+
 	def test_if_it_creates_a_sound(self):
 		squareNoteClassMock = Mock()
 		apu = Apu(squareNoteClassMock)
